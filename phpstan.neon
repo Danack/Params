@@ -1,0 +1,9 @@
+parameters:
+  bootstrap: null
+  autoload_files:
+    - lib/factories.php
+    - lib/functions.php
+    - lib/functions_test.php
+    - site_api/api_functions.php
+  excludes_analyse:
+    - *lib/birke/*

@@ -1,0 +1,23 @@
+{
+    "timeout": 10,
+    "source": {
+        "directories": [
+            "lib"
+        ],
+        "excludes": [
+            "*birke*",
+            "lib/Foobar/CLIRequest.php",
+            "lib/Foobar/CLIFunction.php",
+            "*Middleware*",
+            "Swagger.php",
+            "*lib/Foobar/ApiController/Swagger.php",
+            "lib/Scredible*"
+        ]
+    },
+    "phpUnit": {
+        "configDir": ".\/test"
+    },
+    "logs": {
+        "text": "infection-log.txt"
+    }
+}

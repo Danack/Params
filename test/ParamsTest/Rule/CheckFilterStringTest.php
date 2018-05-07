@@ -1,0 +1,54 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ParamsTest\Api\Params\Validator;
+
+use Params\Value\MultipleEnums;
+use Varmap\VariableMap;
+use Varmap\VariableMap\ArrayVariableMap;
+use ParamsTest\BaseTestCase;
+use Params\Rule\MultipleKnownEnum;
+
+
+class CheckFilterSetTest extends BaseTestCase
+{
+    public function providesKnownFilterCorrect()
+    {
+        return [
+            ['foo', ['foo']],
+            ['bar,foo', ['bar', 'foo']],
+        ];
+    }
+
+    /**
+     * @dataProvider providesKnownFilterCorrect
+     * @covers \Params\Rule\MultipleKnownEnum
+     */
+    public function testKnownFilterCorrect($inputString, $expectedResult)
+    {
+        $validator = new MultipleKnownEnum(['foo', 'bar']);
+        $validationResult = $validator('someFilter', $inputString);
+        $this->assertNull($validationResult->getProblemMessage());
+
+        $validationValue = $validationResult->getValue();
+
+        $this->assertInstanceOf(MultipleEnums::class, $validationValue);
+        /** @var $validationValue \Params\Value\MultipleEnums */
+
+        $this->assertEquals($expectedResult, $validationValue->getValues());
+    }
+
+
+
+    /**
+     * @covers \Params\Rule\MultipleKnownEnum
+     */
+    public function testUnknownFilterErrors()
+    {
+        $expectedValue = 'zot';
+        $validator = new MultipleKnownEnum(['foo', 'bar']);
+        $validationResult = $validator('someFilter', $expectedValue);
+        $this->assertNotNull($validationResult->getProblemMessage());
+    }
+}
