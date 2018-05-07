@@ -1,0 +1,39 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Params\Rule;
+
+use Params\Rule;
+use Params\ValidationResult;
+
+class IntegerInput implements Rule
+{
+    public function __invoke(string $name, $value) : ValidationResult
+    {
+        $match = preg_match("/[^0-9]+/", $value);
+
+        if ($match !== 0) {
+            $message = sprintf(
+                "Value for %s must contain only digits.",
+                $name
+            );
+
+            return ValidationResult::errorResult($message);
+        }
+
+        $maxSaneLength = strlen((string)1000000000000000);
+
+        if (strlen($value) > $maxSaneLength) {
+            $message = sprintf(
+                "Value for %s too long, max %s digits",
+                $name,
+                $maxSaneLength
+            );
+
+            return ValidationResult::errorResult($message);
+        }
+
+        return ValidationResult::valueResult(intval($value));
+    }
+}
