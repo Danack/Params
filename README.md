@@ -2,16 +2,13 @@
 
 Framework agnostic conversion of variables into types objects.
 
+[![Build Status](https://travis-ci.org/Danack/Params.svg?branch=master)](https://travis-ci.org/Danack/Params)
+
 
 # Types
 
 
 ## Ordering
-
-
-
-
-
 
 
 
