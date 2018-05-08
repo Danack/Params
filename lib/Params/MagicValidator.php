@@ -28,4 +28,3 @@ class MagicValidator
         return $this->validationProblems;
     }
 }
-

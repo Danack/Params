@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use ParamsExample\ArticleGetIndexParams;
-use Varmap\VariableMap\ArrayVariableMap;
+use VarMap\ArrayVarMap;
 
 require __DIR__ . "/../../vendor/autoload.php";
 
-$varmap = new ArrayVariableMap([]);
+$varmap = new ArrayVarMap([]);
 
 [$articleGetIndexParams, $errors] = ArticleGetIndexParams::fromMagic($varmap);
 
@@ -16,9 +16,8 @@ echo "Limit:    " . $articleGetIndexParams->getLimit() . PHP_EOL;
 echo "Ordering: " . var_export($articleGetIndexParams->getOrdering()->toOrderArray(), true) . PHP_EOL;
 
 
-
 // Handle errors
-$varmap = new ArrayVariableMap(['order' => 'error']);
+$varmap = new ArrayVarMap(['order' => 'error']);
 [$articleGetIndexParams, $errors] = ArticleGetIndexParams::fromMagic($varmap);
 
 if (count($errors) !== 0) {

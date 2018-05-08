@@ -28,7 +28,6 @@ try {
         echo "Limit:    " . $articleGetIndexParams->getLimit() . PHP_EOL;
         echo "Ordering: " . var_export($articleGetIndexParams->getOrdering()->toOrderArray(), true) . PHP_EOL;
     }
-
 }
 catch (ValidationException $ve) {
     echo "There were validation problems parsing the input:\n  ";
