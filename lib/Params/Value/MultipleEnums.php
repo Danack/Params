@@ -14,7 +14,7 @@ class MultipleEnums
 
     /**
      * Order constructor.
-     * @param $values string[]
+     * @param string[] $values
      */
     public function __construct(array $values)
     {

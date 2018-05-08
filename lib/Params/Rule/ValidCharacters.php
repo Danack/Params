@@ -15,7 +15,7 @@ use Params\ValidationResult;
  */
 class ValidCharacters implements Rule
 {
-    /** @var  */
+    /** @var string */
     private $patternValidCharacters;
 
     const INVALID_CHAR_MESSAGE = "Invalid character at position %d. Allowed characters are %s";

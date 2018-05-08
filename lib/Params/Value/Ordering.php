@@ -27,7 +27,7 @@ class Ordering
 
     /**
      * Order constructor.
-     * @param $orderElements \Params\Value\OrderElement[]
+     * @param \Params\Value\OrderElement[] $orderElements
      */
     public function __construct(array $orderElements)
     {

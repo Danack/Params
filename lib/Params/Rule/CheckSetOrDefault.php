@@ -6,7 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
-use Varmap\VarMap;
+use VarMap\VarMap;
 
 class CheckSetOrDefault implements Rule
 {
@@ -17,7 +17,7 @@ class CheckSetOrDefault implements Rule
 
     /**
      * setOrDefaultValidator constructor.
-     * @param $default
+     * @param mixed $default
      */
     public function __construct($default, VarMap $variableMap)
     {

@@ -10,7 +10,7 @@ interface Rule
 {
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      * @return ValidationResult
      * @throws \Params\Exception\ParamMissingException
      */

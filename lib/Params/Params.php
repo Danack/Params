@@ -10,7 +10,7 @@ use Params\Exception\ParamsException;
 class Params
 {
     /**
-     * @param $namedRules
+     * @param array $namedRules
      * @return array
      * @throws ValidationException
      * @throws ParamsException

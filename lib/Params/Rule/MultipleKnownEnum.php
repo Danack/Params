@@ -25,7 +25,7 @@ class MultipleKnownEnum implements Rule
     private $allowedValues;
 
     /**
-     * @param string[]
+     * @param string[] $allowedValues
      */
     public function __construct(array $allowedValues)
     {

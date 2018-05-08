@@ -20,8 +20,8 @@ class ParamsValidator
     }
 
     /**
-     * @param $name string
-     * @param $rules \Params\Rule[]
+     * @param string $name
+     * @param \Params\Rule[] $rules
      * @return mixed
      * @throws ValidationException
      * @throws ParamsException

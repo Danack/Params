@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use ParamsExample\ArticleGetIndexParams;
-use Varmap\ArrayVarMap;
+use VarMap\ArrayVarMap;
 
 require __DIR__ . "/../../vendor/autoload.php";
 

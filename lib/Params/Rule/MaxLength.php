@@ -13,9 +13,9 @@ class MaxLength implements Rule
 
     /**
      * MaxLengthValidator constructor.
-     * @param $maxLength
+     * @param int $maxLength
      */
-    public function __construct($maxLength)
+    public function __construct(int $maxLength)
     {
         $this->maxLength = $maxLength;
     }

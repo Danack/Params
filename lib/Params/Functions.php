@@ -11,10 +11,10 @@ class Functions
     /**
      * Separates an order parameter such as "+name", into the 'name' and
      * 'ordering' parts.
-     * @param $part
+     * @param string $part
      * @return array
      */
-    public static function normalise_order_parameter($part)
+    public static function normalise_order_parameter(string $part)
     {
         if (substr($part, 0, 1) === "+") {
             return [substr($part, 1), Ordering::ASC];
@@ -28,8 +28,8 @@ class Functions
     }
 
     /**
-     * @param $name string The name of the variable
-     * @param $value mixed The value of the variable
+     * @param string $name string The name of the variable
+     * @param mixed $value  The value of the variable
      * @return null|string returns an error string, when there is an error
      */
     public static function check_only_digits(string $name, $value)

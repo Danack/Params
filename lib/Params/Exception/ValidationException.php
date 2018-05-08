@@ -33,11 +33,11 @@ class ValidationException extends \Params\Exception\ParamsException
     }
 
     /**
-     * @param $message
+     * @param string $message
      * @param string[] $validationProblems
      * @throws ValidationException
      */
-    public static function throwIfProblems($message, array $validationProblems)
+    public static function throwIfProblems(string $message, array $validationProblems)
     {
         if (count($validationProblems) > 0) {
             throw new ValidationException($message, $validationProblems);

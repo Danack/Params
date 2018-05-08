@@ -11,7 +11,7 @@ use Params\Rule\MinIntValue;
 use Params\Rule\MaxLength;
 use Params\Rule\SkipIfNull;
 use Params\SafeAccess;
-use Varmap\VarMap;
+use VarMap\VarMap;
 use Params\Rule\Order;
 use Params\Rule\IntegerInput;
 use Params\Value\Ordering;

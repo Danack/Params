@@ -6,7 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
-use Varmap\VarMap;
+use VarMap\VarMap;
 
 class CheckSet implements Rule
 {

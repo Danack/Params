@@ -17,8 +17,8 @@ class ValidationResult
 
     /**
      * ValidationResult constructor.
-     * @param $value
-     * @param string $problemMessage
+     * @param mixed $value
+     * @param ?string $problemMessage
      * @param bool $isFinalResult
      */
     private function __construct($value, ?string $problemMessage, bool $isFinalResult)
@@ -29,16 +29,16 @@ class ValidationResult
     }
 
     /**
-     * @param $message
+     * @param string $message
      * @return ValidationResult
      */
-    public static function errorResult($message)
+    public static function errorResult(string $message)
     {
         return new self(null, $message, true);
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return ValidationResult
      */
     public static function valueResult($value)
@@ -47,7 +47,7 @@ class ValidationResult
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return ValidationResult
      */
     public static function finalValueResult($value)
