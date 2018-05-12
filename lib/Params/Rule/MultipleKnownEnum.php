@@ -7,6 +7,7 @@ namespace Params\Rule;
 use Params\Rule;
 use Params\ValidationResult;
 use Params\Value\MultipleEnums;
+use Params\Functions;
 
 /**
  * Class MultipleKnownEnum
@@ -38,7 +39,7 @@ class MultipleKnownEnum implements Rule
         $filterStringParts = explode(',', $value);
         $filterElements = [];
         foreach ($filterStringParts as $filterStringPart) {
-            if (in_array($filterStringPart, $this->allowedValues, true) !== true) {
+            if (Functions::array_value_exists($this->allowedValues, $filterStringPart) !== true) {
                 $message = sprintf(
                     "Cannot filter by [%s] for [%s], as not known for this operation. Known are [%s]",
                     $filterStringPart,

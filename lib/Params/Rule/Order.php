@@ -39,7 +39,7 @@ class Order implements Rule
 
         foreach ($parts as $part) {
             list($partName, $partOrder) = Functions::normalise_order_parameter($part);
-            if (in_array($partName, $this->knownOrderNames, true) !== true) {
+            if (Functions::array_value_exists($this->knownOrderNames, $partName) !== true) {
                 $message = sprintf(
                     "Cannot order by [%s] for [%s], as not known for this operation. Known are [%s]",
                     $partName,

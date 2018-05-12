@@ -95,7 +95,8 @@ class ArticleGetIndexParams
 
     /**
      * @param VarMap $variableMap
-     * @return [ArticleGetIndexParams, array $errors]
+     * Actually returns [ArticleGetIndexParams, array]
+     * @return mixed
      */
     public static function fromMagic(VarMap $variableMap)
     {
@@ -133,7 +134,8 @@ class ArticleGetIndexParams
 
     /**
      * @param VarMap $variableMap
-     * @return [ArticleGetIndexParams, array $errors]
+     * Actually returns [ArticleGetIndexParams, array]
+     * @return mixed
      */
     public static function fromLessMagic(VarMap $variableMap)
     {

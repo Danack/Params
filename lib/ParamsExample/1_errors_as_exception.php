@@ -18,7 +18,7 @@ echo "Ordering: " . var_export($articleGetIndexParams->getOrdering()->toOrderArr
 
 try {
     $varMap = new ArrayVarMap(['order' => 'error']);
-    [$articleGetIndexParams, $errors] = ArticleGetIndexParams::fromMagic($varMap);
+    [$articleGetIndexParams, $errors] = ArticleGetIndexParams::fromVarMap($varMap);
 
     if (count($errors) !== 0) {
         echo "There were errors creating ArticleGetIndexParams from input\n  " . implode('\n  ', $errors);
@@ -28,8 +28,13 @@ try {
         echo "Limit:    " . $articleGetIndexParams->getLimit() . PHP_EOL;
         echo "Ordering: " . var_export($articleGetIndexParams->getOrdering()->toOrderArray(), true) . PHP_EOL;
     }
+
+    echo "shouldn't reach here.";
+    exit(-1);
 }
 catch (ValidationException $ve) {
     echo "There were validation problems parsing the input:\n  ";
     echo implode("\n  ", $ve->getValidationProblems());
+
+    exit(0);
 }

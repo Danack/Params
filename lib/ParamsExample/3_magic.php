@@ -22,9 +22,9 @@ $varmap = new ArrayVarMap(['order' => 'error']);
 
 if (count($errors) !== 0) {
     echo "There were errors creating ArticleGetIndexParams from input\n  " . implode('\n  ', $errors);
+
+    exit(0);
 }
-else {
-    echo "After Id: " . $articleGetIndexParams->getAfterId() . PHP_EOL;
-    echo "Limit:    " . $articleGetIndexParams->getLimit() . PHP_EOL;
-    echo "Ordering: " . var_export($articleGetIndexParams->getOrdering()->toOrderArray(), true) . PHP_EOL;
-}
+
+echo "shouldn't reach here.";
+exit(-1);

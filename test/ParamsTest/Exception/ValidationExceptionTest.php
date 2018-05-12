@@ -31,6 +31,7 @@ class ValidationExceptionTest extends BaseTestCase
         $problem = "Houston, we have a problem";
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage($problem);
+        $this->expectExceptionCode(0);
         ValidationException::throwIfProblems(
             "Validation problems",
             [$problem]

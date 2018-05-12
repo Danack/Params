@@ -10,29 +10,59 @@ use Params\Rule\ValidDatetime;
 class DatetimeValidatorTest extends BaseTestCase
 {
 
-    public function provideTestCases()
+    public function provideTestWorksCases()
     {
         return [
-            ['Mon, 15 Aug 05 15:52:01', false, \Datetime::createFromFormat('Y-m-d H:i:s', '2005-08-15 15:52:01')],
-            ['Banana', true, null],
+            [
+                '2002-10-02T10:00:00-05:00',
+                \DateTime::createFromFormat(\DateTime::RFC3339, '2002-10-02T10:00:00-05:00')
+            ],
+            [
+                '2002-10-02T15:00:00Z',
+                \DateTime::createFromFormat(\DateTime::RFC3339, '2002-10-02T15:00:00Z')
+            ],
+
+            // This should work - but currently doesn't
+//            [
+//                '2002-10-02T15:00:00.05Z',
+//                \DateTime::createFromFormat(\DateTime::RFC3339_EXTENDED, '2002-10-02T15:00:00.05Z')
+//            ],
+        ];
+    }
+
+
+
+
+    /**
+     * @dataProvider provideTestWorksCases
+     * @covers \Params\Rule\ValidDatetime
+     */
+    public function testValidationWorks($input, $expectedTime)
+    {
+        $validator = new ValidDatetime();
+        $validationResult = $validator('foo', $input);
+
+        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEquals($validationResult->getValue(), $expectedTime);
+    }
+
+    public function provideTestErrorsCases()
+    {
+        return [
+            ['2pm on Tuesday'],
+            ['Banana'],
         ];
     }
 
     /**
-     * @dataProvider provideTestCases
+     * @dataProvider provideTestErrorsCases
      * @covers \Params\Rule\ValidDatetime
      */
-    public function testValidation($datetime, $expectError, $expectedTime)
+    public function testValidationErrors($input)
     {
         $validator = new ValidDatetime();
-        $validationResult = $validator('foo', $datetime);
+        $validationResult = $validator('foo', $input);
 
-        if ($expectError) {
-            $this->assertNotNull($validationResult->getProblemMessage());
-            return;
-        }
-
-        $this->assertNull($validationResult->getProblemMessage());
-        $this->assertEquals($validationResult->getValue(), $expectedTime);
+        $this->assertNotNull($validationResult->getProblemMessage());
     }
 }

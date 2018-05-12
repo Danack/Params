@@ -51,4 +51,9 @@ class Functions
 
         return null;
     }
+
+    public static function array_value_exists(array $array, $value)
+    {
+        return in_array($value, $array, true);
+    }
 }

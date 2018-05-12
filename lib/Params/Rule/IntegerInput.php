@@ -9,6 +9,8 @@ use Params\ValidationResult;
 
 class IntegerInput implements Rule
 {
+    const MAX_SANE_VALUE = 999999999999999;
+
     public function __invoke(string $name, $value) : ValidationResult
     {
         $match = preg_match("/[^0-9]+/", $value);
@@ -22,7 +24,7 @@ class IntegerInput implements Rule
             return ValidationResult::errorResult($message);
         }
 
-        $maxSaneLength = strlen((string)1000000000000000);
+        $maxSaneLength = strlen((string)(self::MAX_SANE_VALUE));
 
         if (strlen($value) > $maxSaneLength) {
             $message = sprintf(

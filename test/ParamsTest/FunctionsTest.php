@@ -47,4 +47,19 @@ class FunctionsTest extends BaseTestCase
         $this->assertStringMatchesFormat("%sposition 3%s", $errorMsg);
         $this->assertStringMatchesFormat("%sFoo%s", $errorMsg);
     }
+
+    public function testArrayValueExists()
+    {
+        $values = [
+            '1',
+            '2',
+            '3'
+        ];
+
+        $foundExactType = Functions::array_value_exists($values, '2');
+        $this->assertTrue($foundExactType);
+
+        $foundJuggledType = Functions::array_value_exists($values, 2);
+        $this->assertFalse($foundJuggledType);
+    }
 }

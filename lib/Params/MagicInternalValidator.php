@@ -25,7 +25,7 @@ class MagicInternalValidator
     {
         $fn = null;
 
-        $fn = function () use (&$fn, &$validationProblems) {
+        $fn = function () use (&$validationProblems) {
             $value = null;
             foreach ($this->rules as $rule) {
                 $validationResult = $rule($this->name, $value);
