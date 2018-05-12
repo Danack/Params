@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace Params;
 
+
+/**
+ * Class MagicValidator
+ *
+ * This is basically an experiment in trolling.
+ *
+ */
 class MagicValidator
 {
     public $generators = [];

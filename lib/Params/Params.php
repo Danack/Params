@@ -7,6 +7,15 @@ namespace Params;
 use Params\Exception\ValidationException;
 use Params\Exception\ParamsException;
 
+/**
+ * Class Params
+ *
+ * Validates multiple parameters at once, each according to their
+ * own set of rules.
+ *
+ * Any validation problem will cause a ValidationException to be thrown.
+ *
+ */
 class Params
 {
     /**

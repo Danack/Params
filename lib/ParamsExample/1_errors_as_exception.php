@@ -36,5 +36,6 @@ catch (ValidationException $ve) {
     echo "There were validation problems parsing the input:\n  ";
     echo implode("\n  ", $ve->getValidationProblems());
 
+    echo "\nExample behaved as expected.\n";
     exit(0);
 }

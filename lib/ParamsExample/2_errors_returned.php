@@ -22,6 +22,7 @@ $varmap = new ArrayVarMap(['order' => 'error']);
 
 if (count($errors) !== 0) {
     echo "There were errors creating ArticleGetIndexParams from input\n  " . implode('\n  ', $errors);
+    echo "\nExample behaved as expected.\n";
     exit(0);
 }
 

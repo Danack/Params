@@ -11,28 +11,11 @@
         </testsuite>
     </testsuites>
 
-    <!--
-    <groups>
-        <include>debugging</include>
-        <exclude>
-            <group>integration</group>
-            <group>db</group>
-        </exclude>
-    </groups> -->
-
-
     <filter>
         <whitelist>
             <directory>../lib</directory>
-            <!-- <exclude>
-                <directory>../lib/foo</directory>
-            </exclude>-->
         </whitelist>
     </filter>
-
-    <listeners>
-        <!-- <listener class="Mockery\Adapter\Phpunit\TestListener"/> -->
-    </listeners>
 
     <logging>
         <log type="coverage-php" target="../tmp/coverage/unittest.cov"/>

@@ -7,6 +7,13 @@ namespace Params;
 use Params\Exception\ValidationException;
 use Params\Exception\ParamsException;
 
+/**
+ * Class ParamsValidator
+ *
+ * Validates an input parameter according to a set of rules.
+ * If there are any errors, they will be stored in this object,
+ * and can be retrieved via the method ParamsValidator::getValidationProblems
+ */
 class ParamsValidator
 {
     /**

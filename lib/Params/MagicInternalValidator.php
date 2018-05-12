@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Params;
 
+/**
+ * Class MagicInternalValidator
+ *
+ * This is basically an experiment in trolling.
+ */
 class MagicInternalValidator
 {
     /** @var \Params\Rule[] */
