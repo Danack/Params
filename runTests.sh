@@ -24,3 +24,4 @@ php lib/ParamsExample/2_errors_returned.php
 php lib/ParamsExample/3_magic.php
 
 
+echo "Tests completed without problem"
