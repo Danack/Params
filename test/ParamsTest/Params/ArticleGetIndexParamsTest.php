@@ -8,7 +8,7 @@ use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 //use ParamsTest\Params\ArticleGetIndexParams;
 //use Foobar\Api\Ordering;
-use ParamsExample\ArticleGetIndexParams;
+use ParamsExample\GetArticlesParams;
 
 /**
  * @coversNothing

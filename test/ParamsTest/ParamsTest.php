@@ -10,8 +10,10 @@ use Params\Rule\SkipIfNull;
 use ParamsTest\BaseTestCase;
 use VarMap\ArrayVarMap;
 use Params\Params;
+use Params\Rule\AlwaysEndsRule;
+use Params\Rule\MaxIntValue;
 
-class ParamsExceptionTest extends BaseTestCase
+class ParamsTest extends BaseTestCase
 {
     public function testMissingRuleThrows()
     {
@@ -19,7 +21,7 @@ class ParamsExceptionTest extends BaseTestCase
             'foo' => []
         ];
 
-        $this->expectException(\Params\Exception\ParamsException::class);
+        $this->expectException(\Params\Exception\RulesEmptyException::class);
         \Params\Params::validate($rules);
     }
 
@@ -38,6 +40,29 @@ class ParamsExceptionTest extends BaseTestCase
         Params::validate($rules);
     }
 
+
+    public function testFinalResultStopsProcessing()
+    {
+        $finalValue = 123;
+
+        $arrayVarMap = new ArrayVarMap(['foo' => 5]);
+        $rules = [
+            'foo' => [
+                new CheckSet($arrayVarMap),
+                // This rule will stop processing
+                new AlwaysEndsRule($finalValue),
+                // this rule would give an error if processing was not stopped.
+                new MaxIntValue($finalValue - 5)
+            ]
+        ];
+
+        $values = Params::validate($rules);
+        $this->assertEquals($finalValue, $values[0]);
+    }
+
+
+
+
     public function testSkipOrNullCoverage()
     {
         $arrayVarMap = new ArrayVarMap([]);
@@ -51,4 +76,5 @@ class ParamsExceptionTest extends BaseTestCase
         list($foo) = Params::validate($rules);
         $this->assertNull($foo);
     }
+
 }

@@ -13,16 +13,15 @@ class ValidDatetime implements Rule
 
     public function __invoke(string $name, $value): ValidationResult
     {
-        try {
-            $dateTime = \DateTime::createFromFormat(\DateTime::RFC3339, $value);
-            if ($dateTime instanceof \DateTime) {
-                return ValidationResult::valueResult($dateTime);
-            }
+        $dateTime = \DateTime::createFromFormat(\DateTime::RFC3339, $value);
+        if ($dateTime instanceof \DateTime) {
+            return ValidationResult::valueResult($dateTime);
+        }
 
-            $dateTime = \DateTime::createFromFormat(\DateTime::RFC3339_EXTENDED, $value);
-            if ($dateTime instanceof \DateTime) {
-                return ValidationResult::valueResult($dateTime);
-            }
+//        $dateTime = \DateTime::createFromFormat(\DateTime::RFC3339_EXTENDED, $value);
+//        if ($dateTime instanceof \DateTime) {
+//            return ValidationResult::valueResult($dateTime);
+//        }
 
 // todo - is there any value in returning these errors?
 //            if (count($lastErrors['warnings']) !== 0 || count($lastErrors['errors']) !== 0) {
@@ -32,10 +31,6 @@ class ValidDatetime implements Rule
 //                );
 //            }
 
-            return ValidationResult::errorResult(self::ERROR_INVALID_DATETIME);
-        }
-        catch (\Exception $e) {
-            return ValidationResult::errorResult(self::ERROR_INVALID_DATETIME);
-        }
+        return ValidationResult::errorResult(self::ERROR_INVALID_DATETIME);
     }
 }

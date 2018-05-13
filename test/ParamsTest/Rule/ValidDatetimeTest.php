@@ -7,7 +7,7 @@ namespace ParamsTest\Api\Params\Validator;
 use ParamsTest\BaseTestCase;
 use Params\Rule\ValidDatetime;
 
-class DatetimeValidatorTest extends BaseTestCase
+class ValidDatetimeTest extends BaseTestCase
 {
 
     public function provideTestWorksCases()
@@ -22,15 +22,20 @@ class DatetimeValidatorTest extends BaseTestCase
                 \DateTime::createFromFormat(\DateTime::RFC3339, '2002-10-02T15:00:00Z')
             ],
 
-            // This should work - but currently doesn't
+// This should work - but currently doesn't due to https://bugs.php.net/bug.php?id=75577
 //            [
-//                '2002-10-02T15:00:00.05Z',
-//                \DateTime::createFromFormat(\DateTime::RFC3339_EXTENDED, '2002-10-02T15:00:00.05Z')
+//                '2017-07-25T13:47:12.000+00:00',
+//                \DateTime::createFromFormat(\DateTime::RFC3339_EXTENDED, '2017-07-25T13:47:12.000+00:00')
 //            ],
+
+
+            // TODO - this should be an allowed string - I think
+            // '2002-10-02T15:00:00.05Z'
+
+            // TODO - add support for 6 digit microseconds e.g. formatted by Golang
+            // "Y-m-d\TH:i:s.uP", "2017-07-25T15:25:16.123456+02:00"
         ];
     }
-
-
 
 
     /**

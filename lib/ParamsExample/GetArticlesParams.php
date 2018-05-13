@@ -18,7 +18,7 @@ use Params\Value\Ordering;
 use Params\Params;
 use Params\MagicValidator;
 
-class ArticleGetIndexParams
+class GetArticlesParams
 {
     use SafeAccess;
 
@@ -39,8 +39,8 @@ class ArticleGetIndexParams
     public static function getKnownOrderNames()
     {
         return [
-            ArticleGetIndexParams::ARTICLE_ID_NAME,
-            ArticleGetIndexParams::ARTICLE_DATE_NAME
+            GetArticlesParams::ARTICLE_ID_NAME,
+            GetArticlesParams::ARTICLE_DATE_NAME
         ];
     }
 
@@ -62,11 +62,11 @@ class ArticleGetIndexParams
 
     /**
      * @param VarMap $variableMap
-     * @return ArticleGetIndexParams
+     * @return GetArticlesParams
      * @throws \Params\Exception\ValidationException
-     * @throws \Params\Exception\ParamsException
+     * @throws \Params\Exception\RulesEmptyException
      */
-    public static function fromVarMap(VarMap $variableMap) : ArticleGetIndexParams
+    public static function fromVarMap(VarMap $variableMap) : GetArticlesParams
     {
         $params = [
             'order' => [
@@ -90,45 +90,7 @@ class ArticleGetIndexParams
 
         list($order, $limit, $offset) = Params::validate($params);
 
-        return new ArticleGetIndexParams($order, $limit, $offset);
-    }
-
-    /**
-     * @param VarMap $variableMap
-     * Actually returns [ArticleGetIndexParams, array]
-     * @return mixed
-     */
-    public static function fromMagic(VarMap $variableMap)
-    {
-        $validator = new MagicValidator();
-
-        $order = &$validator->addRule('order', [
-            new CheckSetOrDefault('-date', $variableMap),
-            new MaxLength(1024),
-            new Order(self::getKnownOrderNames()),
-        ]);
-
-        $limit = &$validator->addRule('limit', [
-            new CheckSetOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
-            new IntegerInput(),
-            new MinIntValue(self::LIMIT_MIN),
-            new MaxIntValue(self::LIMIT_MAX),
-        ]);
-
-        $offset = &$validator->addRule('offset', [
-            new CheckSetOrDefault(null, $variableMap),
-            new SkipIfNull(),
-            new MinIntValue(0),
-            new MaxIntValue(self::OFFSET_MAX),
-        ]);
-
-        $errors = $validator->validate();
-
-        if (count($errors) !== 0) {
-            return [null, $errors];
-        }
-
-        return [new ArticleGetIndexParams($order, $limit, $offset), null];
+        return new GetArticlesParams($order, $limit, $offset);
     }
 
 
@@ -137,7 +99,7 @@ class ArticleGetIndexParams
      * Actually returns [ArticleGetIndexParams, array]
      * @return mixed
      */
-    public static function fromLessMagic(VarMap $variableMap)
+    public static function fromVarMapWithErrorReturned(VarMap $variableMap)
     {
         $validator = new ParamsValidator();
 
@@ -167,7 +129,7 @@ class ArticleGetIndexParams
             return [null, $errors];
         }
 
-        return [new ArticleGetIndexParams($order, $limit, $offset), null];
+        return [new GetArticlesParams($order, $limit, $offset), null];
     }
 
 

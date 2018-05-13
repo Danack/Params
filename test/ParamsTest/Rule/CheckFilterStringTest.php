@@ -2,14 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Api\Params\Validator;
+namespace ParamsTest\Rule;
 
 use Params\Value\MultipleEnums;
-use Varmap\VariableMap;
-use Varmap\VariableMap\ArrayVariableMap;
 use ParamsTest\BaseTestCase;
 use Params\Rule\MultipleKnownEnum;
-
 
 class CheckFilterSetTest extends BaseTestCase
 {
@@ -38,8 +35,6 @@ class CheckFilterSetTest extends BaseTestCase
 
         $this->assertEquals($expectedResult, $validationValue->getValues());
     }
-
-
 
     /**
      * @covers \Params\Rule\MultipleKnownEnum

@@ -8,17 +8,12 @@ use Params\KnownOrderNames;
 
 class ArticlesOrderNames implements KnownOrderNames
 {
-    public static $knownOrders = [
-        'articleId',
-        'date'
-    ];
-
     /** @return string[] */
     public function getKnownOrderNames()
     {
         return [
-            ArticleGetIndexParams::ARTICLE_ID_NAME,
-            ArticleGetIndexParams::ARTICLE_DATE_NAME
+            'articleId',
+            'date'
         ];
     }
 }

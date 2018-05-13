@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use ParamsExample\ArticleGetIndexParams;
+use ParamsExample\GetArticlesParams;
 use VarMap\ArrayVarMap;
 use Params\Exception\ValidationException;
 
@@ -10,7 +10,7 @@ require __DIR__ . "/../../vendor/autoload.php";
 
 $varMap = new ArrayVarMap([]);
 
-$articleGetIndexParams = ArticleGetIndexParams::fromVarMap($varMap);
+$articleGetIndexParams = GetArticlesParams::fromVarMap($varMap);
 
 echo "After Id: " . $articleGetIndexParams->getAfterId() . PHP_EOL;
 echo "Limit:    " . $articleGetIndexParams->getLimit() . PHP_EOL;
@@ -18,7 +18,7 @@ echo "Ordering: " . var_export($articleGetIndexParams->getOrdering()->toOrderArr
 
 try {
     $varMap = new ArrayVarMap(['order' => 'error']);
-    [$articleGetIndexParams, $errors] = ArticleGetIndexParams::fromVarMap($varMap);
+    [$articleGetIndexParams, $errors] = GetArticlesParams::fromVarMap($varMap);
 
     if (count($errors) !== 0) {
         echo "There were errors creating ArticleGetIndexParams from input\n  " . implode('\n  ', $errors);

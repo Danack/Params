@@ -9,7 +9,7 @@ class ValidationResult
     /** @var string */
     private $value;
 
-    /** @var string */
+    /** @var string|null */
     private $problemMessage;
 
     /** @var bool */

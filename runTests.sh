@@ -7,7 +7,7 @@ php vendor/bin/phpcs --standard=./test/codesniffer.xml --encoding=utf-8 --extens
 
 php vendor/bin/phpunit -c test/phpunit.xml
 
-php phpstan.phar analyze -c ./phpstan.neon -l 4 lib
+php phpstan.phar analyze -c ./phpstan.neon -l 7 lib
 
 set +e
 
@@ -21,7 +21,8 @@ if [ "$infection_exit_code" -ne "0" ]; then echo "Infection failed"; cat infecti
 
 php lib/ParamsExample/1_errors_as_exception.php
 php lib/ParamsExample/2_errors_returned.php
-php lib/ParamsExample/3_magic.php
-
 
 echo "Tests completed without problem"
+
+# rerun unit tests to get the stats again, to save scrolling...
+php vendor/bin/phpunit -c test/phpunit.xml
