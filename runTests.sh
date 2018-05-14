@@ -19,8 +19,11 @@ set -e
 
 if [ "$infection_exit_code" -ne "0" ]; then echo "Infection failed"; cat infection-log.txt;  exit "$infection_exit_code"; fi
 
-php lib/ParamsExample/1_errors_as_exception.php
-php lib/ParamsExample/2_errors_returned.php
+php lib/ParamsExample/1_basic_usage_acceptable_input.php
+php lib/ParamsExample/2_basic_usage_bad_input.php
+php lib/ParamsExample/3_errors_returned_acceptable_input.php
+php lib/ParamsExample/4_errors_returned_bad_input.php
+php lib/ParamsExample/5_basic_usage_inline.php
 
 echo "Tests completed without problem"
 
