@@ -25,7 +25,7 @@ class ParamsTest extends BaseTestCase
             'foo' => []
         ];
 
-        $this->expectException(\Params\Exception\RulesEmptyException::class);
+        $this->expectException(\Params\Exception\ParamsException::class);
         \Params\Params::validate($rules);
     }
 

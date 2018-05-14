@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Params\Exception;
 
-class ParamMissingException extends \Params\Exception\RulesEmptyException
+class ParamMissingException extends ParamsException
 {
 
 }

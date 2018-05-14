@@ -16,7 +16,7 @@ class ParamsValidatorTest extends BaseTestCase
     public function testMissingRuleThrows()
     {
         $validator = new ParamsValidator();
-        $this->expectException(\Params\Exception\RulesEmptyException::class);
+        $this->expectException(\Params\Exception\ParamsException::class);
         $validator->validate('foobar', []);
     }
 

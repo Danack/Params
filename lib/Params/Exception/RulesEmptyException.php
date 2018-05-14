@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Params\Exception;
 
 /**
- * Root class for all exceptions for this library
+ * Thrown when there are no rules for validation an input parameter.
  */
-class RulesEmptyException extends \Exception
+class RulesEmptyException extends ParamsException
 {
 
 }

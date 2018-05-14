@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\Exception;
 
-class ValidationException extends \Params\Exception\RulesEmptyException
+class ValidationException extends \Params\Exception\ParamsException
 {
     private $validationProblems;
 

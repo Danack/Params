@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Params;
 
 use Params\Exception\ValidationException;
-use Params\Exception\RulesEmptyException;
+use Params\Exception\ParamsException;
 
 /**
  * Class ParamsValidator
@@ -31,12 +31,12 @@ class ParamsValidator
      * @param \Params\Rule[] $rules
      * @return mixed
      * @throws ValidationException
-     * @throws RulesEmptyException
+     * @throws ParamsException
      */
     public function validate(string $name, array $rules)
     {
         if (count($rules) === 0) {
-            throw new RulesEmptyException('Rules for validating ' . $name . ' are not set.');
+            throw new ParamsException('Rules for validating ' . $name . ' are not set.');
         }
 
         $value = null;

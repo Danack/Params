@@ -1,41 +1,88 @@
 # Params
 
-Framework agnostic conversion of variables into types objects.
+A framework agnostic library for validating input parameters.
 
 [![Build Status](https://travis-ci.org/Danack/Params.svg?branch=master)](https://travis-ci.org/Danack/Params)
 
+# Basic usage
 
-# Types
+Given a set of rules, the library will extract the appropriate values from a 'variable map' and validate that the values meet the defined rules:
 
 
-## Ordering
+```php
+$params = [
+  'limit' => [
+    new CheckSetOrDefault(10, $variableMap),
+    new IntegerInput(),
+    new MinIntValue(0),
+    new MaxIntValue(100),
+  ],
+  'offset' => [
+    new CheckSetOrDefault(null, $variableMap),
+    new SkipIfNull(),
+    new MinIntValue(0),
+    new MaxIntValue(1000000),
+  ],
+];
 
+list($limit, $offset) = Params::validate($params);
+
+```
+
+That code will extract the 'limit' and 'offset values from the variable map and check that the limit is an integer between 0 and 100, and that offset is either not set, or must be an integer between 0 and 1,000,000.
+
+If there are any validation problems a ValidationException will be thrown. The validation problems can be retrieved from ValidationException::getValidationProblems.
+
+# Basic usage without exceptions
+
+Alternatively, you can avoid using exceptions for flow control:
+
+```php
+
+$validator = new ParamsValidator();
+
+$limit = $validator->validate('limit', [
+    new CheckSetOrDefault(10, $variableMap),
+    new IntegerInput(),
+    new MinIntValue(0),
+    new MaxIntValue(100),
+]);
+
+$offset = $validator->validate('offset', [
+    new CheckSetOrDefault(null, $variableMap),
+    new SkipIfNull(),
+    new MinIntValue(0),
+    new MaxIntValue(1000000),
+]);
+
+$errors = $validator->getValidationProblems();
+
+if (count($errors) !== 0) {
+    // return an error
+    return [null, $errors];
+}
+
+// return an object with null 
+return [new GetArticlesParams($order, $limit, $offset), null];
+```
+
+## So......what is a 'variable map'?
+
+A variable map is a simple interface to allow input parameters to be represented in various ways. For web applications, the most common implementation to use will likely be the Psr7InputMap that allows reading of input variables from a PSR 7 request object.
 
 
 ## Tests
 
-We have several tools that are run to improve code quality.
+We have several tools that are run to improve code quality. Please run `sh runTests.sh` to run them all. 
 
-Standard unit tests:
+Pull requests should have full unit test coverage. Preferably also full mutation coverage through infection.
 
-```
-php vendor/bin/phpunit -c test/phpunit.xml
-```
+# Future work
 
+## Parameter location
 
-Code sniffer for code styling.
+Some people care whether a parameter is in the query string or body. This library currently doesn't support differentiating them. 
 
-```
-php vendor/bin/phpcs --standard=./test/codesniffer.xml --encoding=utf-8 --extensions=php -p -s lib
+## PHP could be nicer
 
-```
-
-Copy and paste detector.
-```
-php phpcpd-4.0.0.phar --regexps-exclude="#.*vendor.*#" --min-lines=3 --min-tokens=30 LegacyScredible/api
-```
-
-In the FoobarServer directory
-```
-php phpstan.phar analyze -c ./phpstan.neon -l 4 lib
-```
+It would be very convenient to be able to pass a callable to have it called to instantiate an object. I miss you https://wiki.php.net/rfc/callableconstructors

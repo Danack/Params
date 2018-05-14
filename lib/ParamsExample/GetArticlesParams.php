@@ -16,7 +16,6 @@ use Params\Rule\Order;
 use Params\Rule\IntegerInput;
 use Params\Value\Ordering;
 use Params\Params;
-use Params\MagicValidator;
 
 class GetArticlesParams
 {
@@ -64,7 +63,7 @@ class GetArticlesParams
      * @param VarMap $variableMap
      * @return GetArticlesParams
      * @throws \Params\Exception\ValidationException
-     * @throws \Params\Exception\RulesEmptyException
+     * @throws \Params\Exception\ParamsException
      */
     public static function fromVarMap(VarMap $variableMap) : GetArticlesParams
     {
