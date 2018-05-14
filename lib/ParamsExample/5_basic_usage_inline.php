@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 use ParamsExample\GetArticlesParams;
 use VarMap\ArrayVarMap;
+use Params\Exception\ValidationException;
 
 require __DIR__ . "/../../vendor/autoload.php";
 
-$varmap = new ArrayVarMap(['limit' => 5]);
+$varMap = new ArrayVarMap([]);
 
-[$articleGetIndexParams, $errors] = GetArticlesParams::fromVarMapWithErrorReturned($varmap);
+$articleGetIndexParams = GetArticlesParams::fromVarMapAsObject($varMap);
 
 echo "After Id: " . $articleGetIndexParams->getAfterId() . PHP_EOL;
 echo "Limit:    " . $articleGetIndexParams->getLimit() . PHP_EOL;

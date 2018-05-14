@@ -54,4 +54,18 @@ class Params
 
         return $values;
     }
+
+    /**
+     * @param string $classname
+     * @param array $namedRules
+     * @return object
+     * @throws RulesEmptyException
+     * @throws ValidationException
+     */
+    public static function create($classname, $namedRules)
+    {
+        $params = self::validate($namedRules);
+        $reflection_class = new \ReflectionClass($classname);
+        return $reflection_class->newInstanceArgs($params);
+    }
 }

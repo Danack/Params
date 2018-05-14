@@ -18,4 +18,3 @@ echo "Ordering: " . var_export($articleGetIndexParams->getOrdering()->toOrderArr
 
 echo "\nExample behaved as expected.\n";
 exit(0);
-

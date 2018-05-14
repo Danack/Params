@@ -86,3 +86,31 @@ Some people care whether a parameter is in the query string or body. This librar
 ## PHP could be nicer
 
 It would be very convenient to be able to pass a callable to have it called to instantiate an object. I miss you https://wiki.php.net/rfc/callableconstructors
+
+## I dislike using arrays with keys that have meaning
+
+
+Rather than passing the rules around as an array, where the keys have meaning, the library could encapsulate that into an object. However that would make the functionality harder to write, and not give that much extra safety.
+
+```
+class ParamRules
+{
+    /** @var string */
+    private $inputName;
+
+    /** @var \Params\Rule */
+    private $rules;
+
+    /**
+     * ParamRules constructor.
+     * @param string $inputName
+     * @param Rule $rules
+     */
+    public function __construct(string $inputName, Rule $rules)
+    {
+        $this->inputName = $inputName;
+        $this->rules = $rules;
+    }
+}
+```
+

@@ -95,6 +95,39 @@ class GetArticlesParams
 
     /**
      * @param VarMap $variableMap
+     * @return GetArticlesParams
+     * @throws \Params\Exception\ValidationException
+     * @throws \Params\Exception\ParamsException
+     */
+    public static function fromVarMapAsObject(VarMap $variableMap) : GetArticlesParams
+    {
+        $params = [
+            'order' => [
+                new CheckSetOrDefault('-date', $variableMap),
+                new MaxLength(1024),
+                new Order(self::getKnownOrderNames()),
+            ],
+            'limit' => [
+                new CheckSetOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
+                new IntegerInput(),
+                new MinIntValue(self::LIMIT_MIN),
+                new MaxIntValue(self::LIMIT_MAX),
+            ],
+            'after' => [
+                new CheckSetOrDefault(null, $variableMap),
+                new SkipIfNull(),
+                new MinIntValue(0),
+                new MaxIntValue(self::OFFSET_MAX),
+            ],
+        ];
+
+        $object = Params::create(self::class, $params);
+
+        return $object;
+    }
+
+    /**
+     * @param VarMap $variableMap
      * Actually returns [ArticleGetIndexParams, array]
      * @return mixed
      */
