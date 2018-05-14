@@ -7,7 +7,7 @@ use VarMap\ArrayVarMap;
 
 require __DIR__ . "/../../vendor/autoload.php";
 
-$varmap = new ArrayVarMap(['limit' => 5]);
+$varmap = new ArrayVarMap(['limit' => '5']);
 
 [$articleGetIndexParams, $errors] = GetArticlesParams::fromVarMapWithErrorReturned($varmap);
 
