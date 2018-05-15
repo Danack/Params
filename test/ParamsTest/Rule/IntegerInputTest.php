@@ -39,6 +39,7 @@ class IntegerInputValidatorTest extends BaseTestCase
             ['-5'],
             ['5.5'],
             ['banana'],
+            [''],
             [(string)(IntegerInput::MAX_SANE_VALUE + 1)]
         ];
     }

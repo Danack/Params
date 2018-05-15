@@ -119,4 +119,20 @@ class ParamsTest extends BaseTestCase
         $this->assertNull($foo);
     }
 
+
+    public function testException()
+    {
+        $arrayVarMap = new ArrayVarMap([]);
+        $rules = \ParamsTest\FooParams::getRules($arrayVarMap);
+        $this->expectException(\Params\Exception\ParamsException::class);
+        \Params\Params::create(\ParamsTest\FooParams::class, $rules);
+    }
+
+    public function testWorks()
+    {
+        $arrayVarMap = new ArrayVarMap(['limit' => 5]);
+        $rules = \ParamsTest\FooParams::getRules($arrayVarMap);
+        $fooParams = \Params\Params::create(\ParamsTest\FooParams::class, $rules);
+        $this->assertEquals(5, $fooParams->getLimit());
+    }
 }

@@ -8,6 +8,7 @@ use Params\Rule;
 use Params\ValidationResult;
 use VarMap\VarMap;
 
+// todo - change to int or null?
 class GetIntOrDefault implements Rule
 {
     private $default;
@@ -34,7 +35,7 @@ class GetIntOrDefault implements Rule
             $value = $this->variableMap->get($name);
         }
         else {
-            $value = $this->default;
+            return ValidationResult::valueResult($this->default);
         }
 
         $intRule = new IntegerInput();

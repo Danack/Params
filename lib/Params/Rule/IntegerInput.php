@@ -13,8 +13,19 @@ class IntegerInput implements Rule
 
     public function __invoke(string $name, $value) : ValidationResult
     {
+        // TODO - check is null
         if (is_int($value) !== true) {
             $value = (string)$value;
+            if (strlen($value) === 0) {
+                $message = sprintf(
+                    "Value for %s is an empty string - should be an integer.",
+                    $name
+                );
+
+                return ValidationResult::errorResult($message);
+            }
+
+            // check string length is not zero length.
             $match = preg_match("/[^0-9]+/", $value);
 
             if ($match !== 0) {
