@@ -4,7 +4,7 @@
   "description": "Converts user input into correctly typed parameters",
   "license": "MIT",
   "require": {
-    "danack/var-map": "0.6.0"
+    "danack/var-map": "^0.6.0"
   },
   "require-dev": {
     "infection/infection": "^0.8.2",
