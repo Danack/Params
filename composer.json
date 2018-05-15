@@ -2,6 +2,7 @@
 
   "name": "danack/params",
   "description": "Converts user input into correctly typed parameters",
+  "license": "MIT",
   "require-dev": {
     "danack/var-map": "0.6.0",
     "infection/infection": "^0.8.2",
