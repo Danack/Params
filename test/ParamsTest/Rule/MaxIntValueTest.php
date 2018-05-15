@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Api\Params\Validator;
+namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\Rule\MaxIntValue;

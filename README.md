@@ -4,6 +4,11 @@ A framework agnostic library for validating input parameters.
 
 [![Build Status](https://travis-ci.org/Danack/Params.svg?branch=master)](https://travis-ci.org/Danack/Params)
 
+# Installation
+
+```composer require danack/params```
+
+
 # Basic usage
 
 Given a set of rules, the library will extract the appropriate values from a 'variable map' and validate that the values meet the defined rules:

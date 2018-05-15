@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use Params\Exception\ValidationException;
-use Params\Rule\CheckSet;
-use Params\Rule\CheckSetOrDefault;
+use Params\Rule\GetInt;
+use Params\Rule\GetStringOrDefault;
 use Params\Rule\SkipIfNull;
 use ParamsTest\BaseTestCase;
 use VarMap\ArrayVarMap;
@@ -35,7 +35,7 @@ class ParamsTest extends BaseTestCase
 
         $rules = [
             'foo' => [
-                new CheckSet($arrayVarMap)
+                new GetInt($arrayVarMap)
             ]
         ];
 
@@ -52,7 +52,7 @@ class ParamsTest extends BaseTestCase
         $arrayVarMap = new ArrayVarMap(['foo' => 5]);
         $rules = [
             'foo' => [
-                new CheckSet($arrayVarMap),
+                new GetInt($arrayVarMap),
                 // This rule will stop processing
                 new AlwaysEndsRule($finalValue),
                 // this rule would give an error if processing was not stopped.
@@ -86,7 +86,7 @@ class ParamsTest extends BaseTestCase
         $arrayVarMap = new ArrayVarMap(['foo' => 100]);
         $rules = [
             'foo' => [
-                new CheckSet($arrayVarMap),
+                new GetInt($arrayVarMap),
                 // This rule will stop processing
                 new AlwaysErrorsRule($errorMessage),
                 // this rule would give an error if processing was not stopped.
@@ -110,7 +110,7 @@ class ParamsTest extends BaseTestCase
         $arrayVarMap = new ArrayVarMap([]);
         $rules = [
             'foo' => [
-                new CheckSetOrDefault(null, $arrayVarMap),
+                new GetStringOrDefault(null, $arrayVarMap),
                 new SkipIfNull()
             ]
         ];

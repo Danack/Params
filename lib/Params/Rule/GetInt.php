@@ -8,7 +8,7 @@ use Params\Rule;
 use Params\ValidationResult;
 use VarMap\VarMap;
 
-class CheckSet implements Rule
+class GetInt implements Rule
 {
     /** @var VarMap */
     private $variableMap;
@@ -30,6 +30,7 @@ class CheckSet implements Rule
             return ValidationResult::errorResult($message);
         }
 
-        return ValidationResult::valueResult($this->variableMap->get($variableName));
+        $intRule = new IntegerInput();
+        return $intRule($variableName, $this->variableMap->get($variableName));
     }
 }

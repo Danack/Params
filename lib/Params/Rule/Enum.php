@@ -10,9 +10,9 @@ use Params\ValidationResult;
 /**
  * Class KnownEnum
  *
- * Checks that the value is one of a known
+ * Checks that the value is one of a known set of values
  */
-class KnownEnum implements Rule
+class Enum implements Rule
 {
     /** @var array  */
     private $allowedValues;

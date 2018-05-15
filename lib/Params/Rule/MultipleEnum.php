@@ -10,17 +10,14 @@ use Params\Value\MultipleEnums;
 use Params\Functions;
 
 /**
- * Class MultipleKnownEnum
- *
  * Checks whether a string represent a valid multiple enum string e.g.
  *
  * Say we have an endpoint for downloading information about content. The users can select
  * from video, audio, pdf, excel
  *
  * The string "video,audio" would indicate the user wanted to see content of type video or audio
- *
  */
-class MultipleKnownEnum implements Rule
+class MultipleEnum implements Rule
 {
     /** @var string[] */
     private $allowedValues;

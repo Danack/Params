@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Api\Params\Validator;
+namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\MultipleKnownEnum;
+use Params\Rule\MultipleEnum;
 
 /**
  * @coversNothing
@@ -25,7 +25,7 @@ class FilterTest extends BaseTestCase
      */
     public function testValidation($testValue, $expectedFilters, $expectError)
     {
-        $validator = new MultipleKnownEnum(['time', 'distance']);
+        $validator = new MultipleEnum(['time', 'distance']);
         $validationResult = $validator('foo', $testValue);
 
         if ($expectError === true) {

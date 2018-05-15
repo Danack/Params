@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception\Validator;
 
-use Params\Rule\CheckSet;
+use Params\Rule\GetInt;
 use Params\Rule\MaxIntValue;
 use ParamsTest\BaseTestCase;
 use VarMap\ArrayVarMap;
@@ -25,7 +25,7 @@ class ParamsValidatorTest extends BaseTestCase
         $arrayVarMap = new ArrayVarMap([]);
 
         $rules = [
-            new CheckSet($arrayVarMap)
+            new GetInt($arrayVarMap)
 
 
 
@@ -39,7 +39,7 @@ class ParamsValidatorTest extends BaseTestCase
         $validationProblems = $validator->getValidationProblems();
         $this->assertEquals(1, count($validationProblems));
 
-        $this->assertStringMatchesFormat(CheckSet::ERROR_MESSAGE, $validationProblems[0]);
+        $this->assertStringMatchesFormat(GetInt::ERROR_MESSAGE, $validationProblems[0]);
     }
 
 
@@ -49,7 +49,7 @@ class ParamsValidatorTest extends BaseTestCase
 
         $arrayVarMap = new ArrayVarMap(['foo' => 5]);
         $rules = [
-            new CheckSet($arrayVarMap),
+            new GetInt($arrayVarMap),
             // This rule will stop processing
             new AlwaysEndsRule($finalValue),
             // this rule would give an error if processing was not stopped.

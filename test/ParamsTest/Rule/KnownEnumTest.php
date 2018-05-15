@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Api\Params\Validator;
+namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\KnownEnum;
+use Params\Rule\Enum;
 
 class KnownEnumValidatorTest extends BaseTestCase
 {
@@ -21,13 +21,13 @@ class KnownEnumValidatorTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\Rule\KnownEnum
+     * @covers \Params\Rule\Enum
      */
     public function testValidation($testValue, $expectError, $expectedValue)
     {
         $knowValues = ['zoq', 'fot', 'pik', '12345'];
 
-        $validator = new KnownEnum($knowValues);
+        $validator = new Enum($knowValues);
         $validationResult = $validator('foo', $testValue);
 
         if ($expectError) {

@@ -3,7 +3,7 @@
   "name": "danack/params",
   "description": "Converts user input into correctly typed parameters",
   "require-dev": {
-    "danack/var-map": "dev-master",
+    "danack/var-map": "0.6.0",
     "infection/infection": "^0.8.2",
     "phpunit/phpunit": "^6.5.8",
     "psr/http-message": "^1.0",
@@ -21,7 +21,6 @@
       "ParamsTest\\": "test/"
     }
   },
-  "minimum-stability": "beta",
   "config": {
     "preferred-install": {
       "*": "dist"

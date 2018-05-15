@@ -8,7 +8,7 @@ use Params\Rule;
 use Params\ValidationResult;
 use VarMap\VarMap;
 
-class CheckSetOrDefault implements Rule
+class GetIntOrDefault implements Rule
 {
     private $default;
 
@@ -28,12 +28,16 @@ class CheckSetOrDefault implements Rule
     /**
      * @inheritdoc
      */
-    public function __invoke(string $name, $value) : ValidationResult
+    public function __invoke(string $name, $_) : ValidationResult
     {
-        if ($this->variableMap->has($name) !== true) {
-            return ValidationResult::valueResult($this->default);
+        if ($this->variableMap->has($name) === true) {
+            $value = $this->variableMap->get($name);
+        }
+        else {
+            $value = $this->default;
         }
 
-        return ValidationResult::valueResult($this->variableMap->get($name));
+        $intRule = new IntegerInput();
+        return $intRule($name, $value);
     }
 }

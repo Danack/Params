@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsExample;
 
 use Params\ParamsValidator;
-use Params\Rule\CheckSetOrDefault;
+use Params\Rule\GetStringOrDefault;
 use Params\Rule\MaxIntValue;
 use Params\Rule\MinIntValue;
 use Params\Rule\MaxLength;
@@ -69,18 +69,18 @@ class GetArticlesParams
     {
         $params = [
             'order' => [
-                new CheckSetOrDefault('-date', $variableMap),
+                new GetStringOrDefault('-date', $variableMap),
                 new MaxLength(1024),
                 new Order(self::getKnownOrderNames()),
             ],
             'limit' => [
-                new CheckSetOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
+                new GetStringOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
                 new IntegerInput(),
                 new MinIntValue(self::LIMIT_MIN),
                 new MaxIntValue(self::LIMIT_MAX),
             ],
             'after' => [
-                new CheckSetOrDefault(null, $variableMap),
+                new GetStringOrDefault(null, $variableMap),
                 new SkipIfNull(),
                 new MinIntValue(0),
                 new MaxIntValue(self::OFFSET_MAX),
@@ -103,18 +103,18 @@ class GetArticlesParams
     {
         $params = [
             'order' => [
-                new CheckSetOrDefault('-date', $variableMap),
+                new GetStringOrDefault('-date', $variableMap),
                 new MaxLength(1024),
                 new Order(self::getKnownOrderNames()),
             ],
             'limit' => [
-                new CheckSetOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
+                new GetStringOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
                 new IntegerInput(),
                 new MinIntValue(self::LIMIT_MIN),
                 new MaxIntValue(self::LIMIT_MAX),
             ],
             'after' => [
-                new CheckSetOrDefault(null, $variableMap),
+                new GetStringOrDefault(null, $variableMap),
                 new SkipIfNull(),
                 new MinIntValue(0),
                 new MaxIntValue(self::OFFSET_MAX),
@@ -136,20 +136,20 @@ class GetArticlesParams
         $validator = new ParamsValidator();
 
         $order = $validator->validate('order', [
-            new CheckSetOrDefault('-date', $variableMap),
+            new GetStringOrDefault('-date', $variableMap),
             new MaxLength(1024),
             new Order(self::getKnownOrderNames()),
         ]);
 
         $limit = $validator->validate('limit', [
-            new CheckSetOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
+            new GetStringOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
             new IntegerInput(),
             new MinIntValue(self::LIMIT_MIN),
             new MaxIntValue(self::LIMIT_MAX),
         ]);
 
         $offset = $validator->validate('offset', [
-            new CheckSetOrDefault(null, $variableMap),
+            new GetStringOrDefault(null, $variableMap),
             new SkipIfNull(),
             new MinIntValue(0),
             new MaxIntValue(self::OFFSET_MAX),

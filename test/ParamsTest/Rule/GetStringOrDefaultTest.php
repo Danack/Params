@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Api\Params\Validator;
+namespace ParamsTest\Rule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\Rule\CheckSetOrDefault;
+use Params\Rule\GetStringOrDefault;
 
-class CheckSetOrDefaultTest extends BaseTestCase
+class GetStringOrDefaultTest extends BaseTestCase
 {
     public function provideTestCases()
     {
@@ -21,11 +21,11 @@ class CheckSetOrDefaultTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\Rule\CheckSetOrDefault
+     * @covers \Params\Rule\GetStringOrDefault
      */
     public function testValidation(ArrayVarMap $varMap, $default, $expectedValue)
     {
-        $validator = new CheckSetOrDefault($default, $varMap);
+        $validator = new GetStringOrDefault($default, $varMap);
         $validationResult = $validator('foo', null);
 
         $this->assertNull($validationResult->getProblemMessage());

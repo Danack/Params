@@ -13,20 +13,23 @@ class IntegerInput implements Rule
 
     public function __invoke(string $name, $value) : ValidationResult
     {
-        $match = preg_match("/[^0-9]+/", $value);
+        if (is_int($value) !== true) {
+            $value = (string)$value;
+            $match = preg_match("/[^0-9]+/", $value);
 
-        if ($match !== 0) {
-            $message = sprintf(
-                "Value for %s must contain only digits.",
-                $name
-            );
+            if ($match !== 0) {
+                $message = sprintf(
+                    "Value for %s must contain only digits.",
+                    $name
+                );
 
-            return ValidationResult::errorResult($message);
+                return ValidationResult::errorResult($message);
+            }
         }
 
         $maxSaneLength = strlen((string)(self::MAX_SANE_VALUE));
 
-        if (strlen($value) > $maxSaneLength) {
+        if (strlen((string)$value) > $maxSaneLength) {
             $message = sprintf(
                 "Value for %s too long, max %s digits",
                 $name,
