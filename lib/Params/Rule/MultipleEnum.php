@@ -8,6 +8,7 @@ use Params\Rule;
 use Params\ValidationResult;
 use Params\Value\MultipleEnums;
 use Params\Functions;
+use Params\OpenApi\ParamDescription;
 
 /**
  * Checks whether a string represent a valid multiple enum string e.g.
@@ -50,5 +51,12 @@ class MultipleEnum implements Rule
         }
 
         return ValidationResult::valueResult(new MultipleEnums($filterElements));
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setType(ParamDescription::TYPE_ARRAY);
+        $paramDescription->setCollectionFormat(ParamDescription::COLLECTION_CSV);
+        $paramDescription->setEnum($this->allowedValues);
     }
 }

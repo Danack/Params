@@ -6,6 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 class MinIntValue implements Rule
 {
@@ -25,5 +26,11 @@ class MinIntValue implements Rule
         }
 
         return ValidationResult::valueResult($value);
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setMaximum($this->minValue);
+        $paramDescription->setExclusiveMinimum(false);
     }
 }

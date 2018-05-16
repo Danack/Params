@@ -16,6 +16,7 @@ use Params\Rule\MaxIntValue;
 use Params\Rule\AlwaysErrorsRule;
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 class ParamsTest extends BaseTestCase
 {
@@ -78,6 +79,11 @@ class ParamsTest extends BaseTestCase
                 $this->test->fail("This shouldn't be reached.");
                 //this code won't be executed.
                 return ValidationResult::errorResult("Shouldn't be called");
+            }
+
+            public function updateParamDescription(ParamDescription $paramDescription)
+            {
+                // does nothing
             }
         };
 

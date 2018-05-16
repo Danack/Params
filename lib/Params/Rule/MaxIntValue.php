@@ -6,6 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 class MaxIntValue implements Rule
 {
@@ -25,5 +26,11 @@ class MaxIntValue implements Rule
         }
 
         return ValidationResult::valueResult($value);
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setMaximum($this->maxValue);
+        $paramDescription->setExclusiveMaximum(false);
     }
 }

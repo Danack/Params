@@ -7,6 +7,7 @@ namespace Params\Rule;
 use Params\Functions;
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 /**
  * Class PositiveIntValidator
@@ -33,5 +34,12 @@ class PositiveInt implements Rule
         }
 
         return ValidationResult::valueResult($value);
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setType(ParamDescription::TYPE_INTEGER);
+        $paramDescription->setMinimum(0);
+        $paramDescription->setExclusiveMinimum(false);
     }
 }

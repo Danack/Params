@@ -6,6 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 class MaxLength implements Rule
 {
@@ -27,5 +28,10 @@ class MaxLength implements Rule
         }
 
         return ValidationResult::valueResult($value);
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setMaxLength($this->maxLength);
     }
 }

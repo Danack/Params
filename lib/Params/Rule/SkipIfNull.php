@@ -6,6 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 class SkipIfNull implements Rule
 {
@@ -16,5 +17,10 @@ class SkipIfNull implements Rule
         }
 
         return ValidationResult::valueResult($value);
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        // Does nothing?
     }
 }

@@ -6,6 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 class ValidDatetime implements Rule
 {
@@ -32,5 +33,11 @@ class ValidDatetime implements Rule
 //            }
 
         return ValidationResult::errorResult(self::ERROR_INVALID_DATETIME);
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setType(ParamDescription::TYPE_STRING);
+        $paramDescription->setFormat(ParamDescription::FORMAT_DATETIME);
     }
 }

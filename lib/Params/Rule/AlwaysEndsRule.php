@@ -6,6 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 class AlwaysEndsRule implements Rule
 {
@@ -19,5 +20,10 @@ class AlwaysEndsRule implements Rule
     public function __invoke(string $name, $value): ValidationResult
     {
         return ValidationResult::finalValueResult($this->finalResult);
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        // Does nothing.
     }
 }

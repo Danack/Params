@@ -6,6 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 class AlwaysErrorsRule implements Rule
 {
@@ -20,5 +21,10 @@ class AlwaysErrorsRule implements Rule
     public function __invoke(string $name, $value): ValidationResult
     {
         return ValidationResult::errorResult($this->message);
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        // Does nothing.
     }
 }

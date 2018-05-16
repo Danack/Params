@@ -7,6 +7,7 @@ namespace Params\Rule;
 use Params\Rule;
 use Params\ValidationResult;
 use VarMap\VarMap;
+use Params\OpenApi\ParamDescription;
 
 class GetStringOrDefault implements Rule
 {
@@ -37,5 +38,12 @@ class GetStringOrDefault implements Rule
         $value = (string)$this->variableMap->get($name);
 
         return ValidationResult::valueResult($value);
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setType(ParamDescription::TYPE_STRING);
+        $paramDescription->setDefault($this->default);
+        $paramDescription->setRequired(false);
     }
 }

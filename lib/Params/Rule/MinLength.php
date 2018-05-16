@@ -6,6 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 class MinLength implements Rule
 {
@@ -23,5 +24,11 @@ class MinLength implements Rule
             return ValidationResult::errorResult("string for '$name' too short, min chars is " . $this->minLength);
         }
         return ValidationResult::valueResult($value);
+    }
+
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setMinLength($this->minLength);
     }
 }

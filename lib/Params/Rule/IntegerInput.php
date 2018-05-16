@@ -6,6 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 class IntegerInput implements Rule
 {
@@ -51,5 +52,10 @@ class IntegerInput implements Rule
         }
 
         return ValidationResult::valueResult(intval($value));
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        // todo - this seems like a not needed rule.
     }
 }

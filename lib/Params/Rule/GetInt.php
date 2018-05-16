@@ -7,6 +7,7 @@ namespace Params\Rule;
 use Params\Rule;
 use Params\ValidationResult;
 use VarMap\VarMap;
+use Params\OpenApi\ParamDescription;
 
 class GetInt implements Rule
 {
@@ -32,5 +33,11 @@ class GetInt implements Rule
 
         $intRule = new IntegerInput();
         return $intRule($variableName, $this->variableMap->get($variableName));
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setType(ParamDescription::TYPE_INTEGER);
+        $paramDescription->setRequired(true);
     }
 }

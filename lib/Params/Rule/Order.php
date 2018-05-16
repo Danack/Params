@@ -7,9 +7,9 @@ namespace Params\Rule;
 use Params\Rule;
 use Params\ValidationResult;
 use Params\Value\OrderElement;
-use Params\Value\OrderParam;
 use Params\Functions;
 use Params\Value\Ordering;
+use Params\OpenApi\ParamDescription;
 
 /**
  * Class Order
@@ -53,5 +53,11 @@ class Order implements Rule
         }
 
         return ValidationResult::valueResult(new Ordering($orderElements));
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setType(ParamDescription::TYPE_ARRAY);
+        $paramDescription->setCollectionFormat(ParamDescription::COLLECTION_CSV);
     }
 }

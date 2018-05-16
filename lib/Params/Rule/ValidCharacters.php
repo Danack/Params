@@ -6,6 +6,7 @@ namespace Params\Rule;
 
 use Params\Rule;
 use Params\ValidationResult;
+use Params\OpenApi\ParamDescription;
 
 /**
  * Class ValidCharacters
@@ -41,5 +42,10 @@ class ValidCharacters implements Rule
             return ValidationResult::errorResult($message);
         }
         return ValidationResult::valueResult($value);
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setPattern($this->patternValidCharacters);
     }
 }

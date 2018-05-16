@@ -7,8 +7,8 @@ namespace Params\Rule;
 use Params\Rule;
 use Params\ValidationResult;
 use VarMap\VarMap;
+use Params\OpenApi\ParamDescription;
 
-// todo - change to int or null?
 class GetIntOrDefault implements Rule
 {
     private $default;
@@ -40,5 +40,12 @@ class GetIntOrDefault implements Rule
 
         $intRule = new IntegerInput();
         return $intRule($name, $value);
+    }
+
+    public function updateParamDescription(ParamDescription $paramDescription)
+    {
+        $paramDescription->setType(ParamDescription::TYPE_INTEGER);
+        $paramDescription->setDefault($this->default);
+        $paramDescription->setRequired(false);
     }
 }
