@@ -70,8 +70,8 @@ class Params
     }
 
     /**
-     * @param $classname
-     * @param $namedRules
+     * @param string $classname
+     * @param array $namedRules
      * @return mixed
      * @throws Exception\ParamsException
      * @throws ValidationException

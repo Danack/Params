@@ -25,7 +25,7 @@ class ExtractPatchPathValue implements Rule
 
     public function __invoke(string $name, $value): ValidationResult
     {
-        /** @var $value PatchEntries */
+        /** @var PatchEntries $value */
         foreach ($value->getPatchEntries() as $patchEntry) {
             if ($patchEntry->getOp() == $this->opType) {
                 if ($patchEntry->getPath() === $this->path) {
