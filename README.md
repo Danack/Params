@@ -11,7 +11,7 @@ A framework agnostic library for validating input parameters.
 
 # TL:DR - Using in an application
 
-This library allows you to define a [set of rules](https://github.com/Danack/Params/blob/063ccd92281f134aad79888e00c2f12fdb99dd27/lib/ParamsExample/GetArticlesParams.php#L134) that define the expected input parameters, and then validate them.
+This library allows you to define a [set of rules](https://github.com/Danack/Params/blob/1121bda4f5e6a04fcdb4f82a21da0ed83fe79d2f/lib/ParamsExample/GetArticlesParams.php#L71-L92) that define the expected input parameters, and then validate them.
 
 As an example, this is what the code looks like in a controller for retrieving a list of articles:
 
