@@ -170,6 +170,6 @@ class Patch
             return ValidationResult::errorResult($message);
         }
 
-        return ValidationResult::finalValueResult(new PatchEntries(...$patchEntries));
+        return ValidationResult::valueResult(new PatchEntries(...$patchEntries));
     }
 }

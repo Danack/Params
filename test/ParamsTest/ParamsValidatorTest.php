@@ -26,9 +26,6 @@ class ParamsValidatorTest extends BaseTestCase
 
         $rules = [
             new GetInt($arrayVarMap)
-
-
-
         ];
 
         $validator = new ParamsValidator();
