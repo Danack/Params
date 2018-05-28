@@ -6,7 +6,7 @@ namespace Params;
 
 use VarMap\VarMap;
 
-trait CreateFromVarMap
+trait CreateOrErrorFromVarMap
 {
     /**
      * @param VarMap $variableMap
@@ -14,9 +14,10 @@ trait CreateFromVarMap
      * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
-    public static function createFromVarMap(VarMap $variableMap)
+    public static function createOrErrorFromVarMap(VarMap $variableMap)
     {
-        $rules = static::getRules($variableMap);
-        return Params::create(static::class, $rules);
+        $namedRules = static::getRules($variableMap);
+
+        return Params::createOrError(static::class, $namedRules);
     }
 }

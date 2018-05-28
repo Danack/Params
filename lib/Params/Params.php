@@ -68,4 +68,28 @@ class Params
         $reflection_class = new \ReflectionClass($classname);
         return $reflection_class->newInstanceArgs($params);
     }
+
+    /**
+     * @param $classname
+     * @param $namedRules
+     * @return mixed
+     * @throws Exception\ParamsException
+     * @throws ValidationException
+     */
+    public static function createOrError($classname, $namedRules)
+    {
+        $validator = new ParamsValidator();
+        $params = [];
+        foreach ($namedRules as $name => $rules) {
+            $params[] = $validator->validate($name, $rules);
+        }
+
+        $errors = $validator->getValidationProblems();
+        if (count($errors) !== 0) {
+            return [null, $errors];
+        }
+
+        $reflection_class = new \ReflectionClass($classname);
+        return [$reflection_class->newInstanceArgs($params), null];
+    }
 }

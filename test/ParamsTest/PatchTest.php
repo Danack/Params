@@ -16,7 +16,7 @@ class PatchTest extends BaseTestCase
 ]
 JSON;
         $input = new ValueInput(json_decode($json, true));
-        $updateWatchlistParams = PatchNameParams::create($input);
+        $updateWatchlistParams = PatchNameParams::createFromInput($input);
         $name = $updateWatchlistParams->getName();
 
         $this->assertEquals("some updated name", $name);

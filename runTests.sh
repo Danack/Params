@@ -23,7 +23,6 @@ php lib/ParamsExample/1_basic_usage_acceptable_input.php
 php lib/ParamsExample/2_basic_usage_bad_input.php
 php lib/ParamsExample/3_errors_returned_acceptable_input.php
 php lib/ParamsExample/4_errors_returned_bad_input.php
-php lib/ParamsExample/5_basic_usage_inline.php
 
 echo "Tests completed without problem"
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ParamsExample;
 
+use Params\CreateFromVarMap;
+use Params\CreateOrErrorFromVarMap;
 use Params\ParamsValidator;
 use Params\Rule\GetStringOrDefault;
 use Params\Rule\MaxIntValue;
@@ -20,6 +22,8 @@ use Params\Params;
 class GetArticlesParams
 {
     use SafeAccess;
+    use CreateFromVarMap;
+    use CreateOrErrorFromVarMap;
 
     const LIMIT_DEFAULT = 10;
 
@@ -61,13 +65,12 @@ class GetArticlesParams
 
     /**
      * @param VarMap $variableMap
-     * @return GetArticlesParams
      * @throws \Params\Exception\ValidationException
      * @throws \Params\Exception\ParamsException
      */
-    public static function fromVarMap(VarMap $variableMap) : GetArticlesParams
+    public static function getRules(VarMap $variableMap)
     {
-        $params = [
+        return [
             'order' => [
                 new GetStringOrDefault('-date', $variableMap),
                 new MaxLength(1024),
@@ -86,83 +89,8 @@ class GetArticlesParams
                 new MaxIntValue(self::OFFSET_MAX),
             ],
         ];
-
-        list($order, $limit, $offset) = Params::validate($params);
-
-        return new GetArticlesParams($order, $limit, $offset);
     }
 
-
-    /**
-     * @param VarMap $variableMap
-     * @return GetArticlesParams
-     * @throws \Params\Exception\ValidationException
-     * @throws \Params\Exception\ParamsException
-     */
-    public static function fromVarMapAsObject(VarMap $variableMap) : GetArticlesParams
-    {
-        $params = [
-            'order' => [
-                new GetStringOrDefault('-date', $variableMap),
-                new MaxLength(1024),
-                new Order(self::getKnownOrderNames()),
-            ],
-            'limit' => [
-                new GetStringOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
-                new IntegerInput(),
-                new MinIntValue(self::LIMIT_MIN),
-                new MaxIntValue(self::LIMIT_MAX),
-            ],
-            'after' => [
-                new GetStringOrDefault(null, $variableMap),
-                new SkipIfNull(),
-                new MinIntValue(0),
-                new MaxIntValue(self::OFFSET_MAX),
-            ],
-        ];
-
-        $object = Params::create(self::class, $params);
-
-        return $object;
-    }
-
-    /**
-     * @param VarMap $variableMap
-     * Actually returns [ArticleGetIndexParams, array]
-     * @return mixed
-     */
-    public static function fromVarMapWithErrorReturned(VarMap $variableMap)
-    {
-        $validator = new ParamsValidator();
-
-        $order = $validator->validate('order', [
-            new GetStringOrDefault('-date', $variableMap),
-            new MaxLength(1024),
-            new Order(self::getKnownOrderNames()),
-        ]);
-
-        $limit = $validator->validate('limit', [
-            new GetStringOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
-            new IntegerInput(),
-            new MinIntValue(self::LIMIT_MIN),
-            new MaxIntValue(self::LIMIT_MAX),
-        ]);
-
-        $offset = $validator->validate('offset', [
-            new GetStringOrDefault(null, $variableMap),
-            new SkipIfNull(),
-            new MinIntValue(0),
-            new MaxIntValue(self::OFFSET_MAX),
-        ]);
-
-        $errors = $validator->getValidationProblems();
-
-        if (count($errors) !== 0) {
-            return [null, $errors];
-        }
-
-        return [new GetArticlesParams($order, $limit, $offset), null];
-    }
 
 
     /**

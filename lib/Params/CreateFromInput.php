@@ -15,7 +15,7 @@ trait CreateFromInput
      * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
-    public static function create(Input $input)
+    public static function createFromInput(Input $input)
     {
         $rules = static::getRules($input);
 

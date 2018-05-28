@@ -9,7 +9,7 @@ require __DIR__ . "/../../vendor/autoload.php";
 
 $varMap = new ArrayVarMap([]);
 
-$articleGetIndexParams = GetArticlesParams::fromVarMap($varMap);
+$articleGetIndexParams = GetArticlesParams::createFromVarMap($varMap);
 
 echo "After Id: " . $articleGetIndexParams->getAfterId() . PHP_EOL;
 echo "Limit:    " . $articleGetIndexParams->getLimit() . PHP_EOL;

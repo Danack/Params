@@ -9,13 +9,47 @@ A framework agnostic library for validating input parameters.
 ```composer require danack/params```
 
 
-# Basic usage
+# TL:DR - Using in an application
+
+This library allows you to define a [set of rules](https://github.com/Danack/Params/blob/063ccd92281f134aad79888e00c2f12fdb99dd27/lib/ParamsExample/GetArticlesParams.php#L134) that define the expected input parameters, and then validate them.
+
+As an example, this is what the code looks like in a controller for retrieving a list of articles:
+
+```
+function getArticles(VarMap $varMap)
+{
+    $getArticlesParams = GetArticlesParams::createFromVarMap($varMap);
+
+    echo "After Id: " . $articleGetIndexParams->getAfterId() . PHP_EOL;
+    echo "Limit:    " . $articleGetIndexParams->getLimit() . PHP_EOL;
+}
+```
+
+The above example will throw a `ValidationException` with a list of all the validation problems if there are any.
+
+Alternatively you can have the parameters and list of errors returned as tuple.
+
+```
+function getArticles(VarMap $varMap)
+{
+    [$getArticlesParams, $errors] = GetArticlesParams::createOrErrorFromVarMap($varMap);
+    
+    if ($errors !== null) {
+        // do something about those errors.
+    }
+
+    echo "After Id: " . $articleGetIndexParams->getAfterId() . PHP_EOL;
+    echo "Limit:    " . $articleGetIndexParams->getLimit() . PHP_EOL;
+}
+```
+
+# Under the hood, basic usage
 
 Given a set of rules, the library will extract the appropriate values from a 'variable map' and validate that the values meet the defined rules:
 
 
 ```php
-$params = [
+$rules = [
   'limit' => [
     new CheckSetOrDefault(10, $variableMap),
     new IntegerInput(),
@@ -38,7 +72,7 @@ That code will extract the 'limit' and 'offset values from the variable map and 
 
 If there are any validation problems a ValidationException will be thrown. The validation problems can be retrieved from ValidationException::getValidationProblems.
 
-# Basic usage without exceptions
+# Under the hood, basic usage without exceptions
 
 Alternatively, you can avoid using exceptions for flow control:
 
@@ -71,6 +105,16 @@ if (count($errors) !== 0) {
 return [new GetArticlesParams($order, $limit, $offset), null];
 ```
 
+# Avoiding patching like an idiot
+
+This library supports [RFC6902 aka JavaScript Object Notation (JSON) Patch](https://tools.ietf.org/html/rfc6902)
+
+
+https://williamdurand.fr/2014/02/14/please-do-not-patch-like-an-idiot/
+
+Someone needs to write more words here.
+
+
 ## So......what is a 'variable map'?
 
 A variable map is a simple interface to allow input parameters to be represented in various ways. For web applications, the most common implementation to use will likely be the Psr7InputMap that allows reading of input variables from a PSR 7 request object.
@@ -83,6 +127,8 @@ We have several tools that are run to improve code quality. Please run `sh runTe
 Pull requests should have full unit test coverage. Preferably also full mutation coverage through infection.
 
 # Future work
+
+
 
 ## Parameter location
 

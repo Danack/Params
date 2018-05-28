@@ -9,7 +9,7 @@ require __DIR__ . "/../../vendor/autoload.php";
 
 $varmap = new ArrayVarMap(['limit' => 5]);
 
-[$articleGetIndexParams, $errors] = GetArticlesParams::fromVarMapWithErrorReturned($varmap);
+[$articleGetIndexParams, $errors] = GetArticlesParams::createOrErrorFromVarMap($varmap);
 
 echo "After Id: " . $articleGetIndexParams->getAfterId() . PHP_EOL;
 echo "Limit:    " . $articleGetIndexParams->getLimit() . PHP_EOL;

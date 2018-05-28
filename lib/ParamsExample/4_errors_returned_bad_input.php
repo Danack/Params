@@ -9,7 +9,7 @@ require __DIR__ . "/../../vendor/autoload.php";
 
 // Handle errors
 $varmap = new ArrayVarMap(['order' => 'error']);
-[$articleGetIndexParams, $errors] = GetArticlesParams::fromVarMapWithErrorReturned($varmap);
+[$articleGetIndexParams, $errors] = GetArticlesParams::createOrErrorFromVarMap($varmap);
 
 if (count($errors) !== 0) {
     echo "There were errors creating ArticleGetIndexParams from input\n  " . implode('\n  ', $errors);
