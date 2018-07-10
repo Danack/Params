@@ -130,6 +130,8 @@ interface ParamDescription
     // integer	See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.3.
     public function setMinItems(int $minItems);
 
+    public function setNotNull();
+
     // boolean	See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.4.
     public function setUniqueItems(bool $uniqueItems);
 
