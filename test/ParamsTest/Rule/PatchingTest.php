@@ -20,7 +20,6 @@ use Params\Value\PatchEntries;
 
 class PatchingTest extends BaseTestCase
 {
-
     private function getPatchEntries($json) : PatchEntries
     {
         $data = json_decode($json, true);
@@ -176,11 +175,29 @@ JSON;
 JSON;
 
         $data = json_decode($json, true);
+        $input = new ValueInput($data);
+        $patchRule = new Patch($input, PatchEntry::ALL_OPS);
+        $validationResult = $patchRule('foo', null);
+
+        $this->assertNull($validationResult->getProblemMessage());
+    }
+
+
+    /**
+     * @covers \Params\Rule\ValidDatetime
+     */
+    public function testReplaceMissingValue()
+    {
+        $data = [[
+            "op" => "replace",
+            "path" => "/a/b/c",
+            "name" => 42 // should be 'value' not 'name'
+        ]];
 
         $input = new ValueInput($data);
+        $patchRule = new Patch($input, [PatchEntry::REPLACE]);
+        $validationResult = $patchRule('foo', null);
 
-        $patchRule = new Patch($input, PatchEntry::ALL_OPS);
-
-        $result = $patchRule('foo', null);
+        $this->assertNotNull($validationResult->getProblemMessage());
     }
 }

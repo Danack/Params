@@ -29,7 +29,7 @@ class Patch
         $this->allowedOps = $allowedOps;
     }
 
-    private function createPatchEntry($op, $path, $from, $value)
+    private function createPatchEntryForObject($op, $path, $patchEntryInput)
     {
         if (in_array($op, $this->allowedOps, true) !== true) {
             $message = sprintf(
@@ -40,52 +40,105 @@ class Patch
         }
 
         if ($op === PatchEntry::TEST) {
-            return [null, new TestPatchEntry($path, $value)];
+            if (property_exists($patchEntryInput, 'value') !== true) {
+                return ["Test operation must contain an entry for 'value'", null];
+            }
+            return [null, new TestPatchEntry($path, $patchEntryInput->value)];
         }
         else if ($op === PatchEntry::REMOVE) {
             return [null, new RemovePatchEntry($path)];
         }
         else if ($op === PatchEntry::ADD) {
-            return [null, new AddPatchEntry($path, $value)];
+            if (property_exists($patchEntryInput, 'value') !== true) {
+                return ["Add operation must contain an entry for 'value'", null];
+            }
+            return [null, new AddPatchEntry($path, $patchEntryInput->value)];
         }
         else if ($op === PatchEntry::REPLACE) {
-            return [null, new ReplacePatchEntry($path, $value)];
+            if (property_exists($patchEntryInput, 'value') !== true) {
+                return ["Replace operation must contain an entry for 'value'", null];
+            }
+            return [null, new ReplacePatchEntry($path, $patchEntryInput->value)];
         }
         else if ($op === PatchEntry::MOVE) {
-            return [null, new MovePatchEntry($path, $from)];
+            if (property_exists($patchEntryInput, 'from') !== true) {
+                return ["Move operation must contain an entry for 'from'", null];
+            }
+            return [null, new MovePatchEntry($path, $patchEntryInput->from)];
         }
         else if ($op === PatchEntry::COPY) {
-            return [null, new CopyPatchEntry($path, $from)];
+            if (property_exists($patchEntryInput, 'from') !== true) {
+                return ["Copy operation must contain an entry for 'from'", null];
+            }
+            return [null, new CopyPatchEntry($path, $patchEntryInput->from)];
         }
         else {
             return ["Unknown operation '$op'", null];
         }
     }
 
-    private function checkObjectEntryForValidity($patchEntry)
+    private function createPatchEntryForArray($op, $path, $patchEntryInput)
     {
-        if (property_exists($patchEntry, 'op') === false) {
+        if (in_array($op, $this->allowedOps, true) !== true) {
+            $message = sprintf(
+                "Op '%s' is not supported for this endpoint.",
+                $op
+            );
+            return [$message, null];
+        }
+
+        if ($op === PatchEntry::TEST) {
+            if (array_key_exists('value', $patchEntryInput) !== true) {
+                return ["Test operation must contain an entry for 'value'", null];
+            }
+            return [null, new TestPatchEntry($path, $patchEntryInput['value'])];
+        }
+        else if ($op === PatchEntry::REMOVE) {
+            return [null, new RemovePatchEntry($path)];
+        }
+        else if ($op === PatchEntry::ADD) {
+            if (array_key_exists('value', $patchEntryInput) !== true) {
+                return ["Add operation must contain an entry for 'value'", null];
+            }
+            return [null, new AddPatchEntry($path, $patchEntryInput['value'])];
+        }
+        else if ($op === PatchEntry::REPLACE) {
+            if (array_key_exists('value', $patchEntryInput) !== true) {
+                return ["Replace operation must contain an entry for 'value'", null];
+            }
+            return [null, new ReplacePatchEntry($path, $patchEntryInput['value'])];
+        }
+        else if ($op === PatchEntry::MOVE) {
+            if (array_key_exists('from', $patchEntryInput) !== true) {
+                return ["Move operation must contain an entry for 'from'", null];
+            }
+            return [null, new MovePatchEntry($path, $patchEntryInput['from'])];
+        }
+        else if ($op === PatchEntry::COPY) {
+            if (array_key_exists('from', $patchEntryInput) !== true) {
+                return ["Copy operation must contain an entry for 'from'", null];
+            }
+            return [null, new CopyPatchEntry($path, $patchEntryInput['from'])];
+        }
+        else {
+            return ["Unknown operation '$op'", null];
+        }
+    }
+
+
+    private function checkObjectEntryForValidity($patchEntryInput)
+    {
+        if (property_exists($patchEntryInput, 'op') === false) {
             return ["missing 'op'", null];
         }
-        if (property_exists($patchEntry, 'path') === false) {
+        if (property_exists($patchEntryInput, 'path') === false) {
             return ["missing 'path'", null];
         }
 
-        $fromValue = null;
-        if (property_exists($patchEntry, 'from') === true) {
-            $fromValue = $patchEntry->from;
-        }
-
-        $valueValue = null;
-        if (property_exists($patchEntry, 'value') === true) {
-            $valueValue = $patchEntry->value;
-        }
-
-        return $this->createPatchEntry(
-            $patchEntry->op,
-            $patchEntry->path,
-            $fromValue,
-            $valueValue
+        return $this->createPatchEntryForObject(
+            $patchEntryInput->op,
+            $patchEntryInput->path,
+            $patchEntryInput
         );
     }
 
@@ -98,21 +151,10 @@ class Patch
             return ["missing 'path'", null];
         }
 
-        $fromValue = null;
-        if (array_key_exists('from', $patchEntry) === true) {
-            $fromValue = $patchEntry['from'];
-        }
-
-        $valueValue = null;
-        if (array_key_exists('value', $patchEntry) === true) {
-            $valueValue = $patchEntry['value'];
-        }
-
-        return $this->createPatchEntry(
+        return $this->createPatchEntryForArray(
             $patchEntry['op'],
             $patchEntry['path'],
-            $fromValue,
-            $valueValue
+            $patchEntry
         );
     }
 
