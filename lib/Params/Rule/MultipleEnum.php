@@ -37,6 +37,13 @@ class MultipleEnum implements Rule
         $filterStringParts = explode(',', $value);
         $filterElements = [];
         foreach ($filterStringParts as $filterStringPart) {
+            $filterStringPart = trim($filterStringPart);
+            if (strlen($filterStringPart) === 0) {
+                // TODO - needs unit test.
+                // treat empty segments as no value
+                continue;
+            }
+
             if (Functions::array_value_exists($this->allowedValues, $filterStringPart) !== true) {
                 $message = sprintf(
                     "Cannot filter by [%s] for [%s], as not known for this operation. Known are [%s]",
