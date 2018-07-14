@@ -16,6 +16,7 @@ use Params\Value\RemovePatchEntry;
 use Params\Value\ReplacePatchEntry;
 use Params\Value\TestPatchEntry;
 use Params\Rule;
+use Params\Functions;
 
 class Patch implements Rule
 {
@@ -81,7 +82,7 @@ class Patch implements Rule
 
     private function createPatchEntryForArray($op, $path, $patchEntryInput)
     {
-        if (in_array($op, $this->allowedOps, true) !== true) {
+        if (Functions::array_value_exists($this->allowedOps, $op) !== true) {
             $message = sprintf(
                 "Op '%s' is not supported for this endpoint.",
                 $op

@@ -157,9 +157,21 @@ JSON;
     }
 
     /**
-     * @covers \Params\Rule\ValidDatetime
+     *
      */
-    public function testValidationWorks()
+    public function provideAsBothObjAndArray()
+    {
+        return [
+            [true],
+            [false]
+        ];
+    }
+
+    /**
+     * @covers \Params\Rule\ValidDatetime
+     * @dataProvider provideAsBothObjAndArray
+     */
+    public function testValidationWorks($asArray)
     {
 
         $json = <<< JSON
@@ -174,7 +186,7 @@ JSON;
 
 JSON;
 
-        $data = json_decode($json, true);
+        $data = json_decode($json, $asArray);
         $input = new ValueInput($data);
         $patchRule = new Patch($input, PatchEntry::ALL_OPS);
         $validationResult = $patchRule('foo', null);
@@ -199,5 +211,21 @@ JSON;
         $validationResult = $patchRule('foo', null);
 
         $this->assertNotNull($validationResult->getProblemMessage());
+    }
+
+    /**
+     * @group wip
+     */
+    public function testCorrectEntryHasError()
+    {
+        $data = [
+            ["op" => "replace", "path" => "/a/b/c", "value" => 42], // correct
+            'foobar' // not valid path entry
+        ];
+        $input = new ValueInput($data);
+        $patchRule = new Patch($input, PatchEntry::ALL_OPS);
+
+        $validationResult = $patchRule('foo', null);
+        $this->assertContains('Error for entry 1', $validationResult->getProblemMessage());
     }
 }
