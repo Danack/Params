@@ -141,4 +141,24 @@ class ParamsTest extends BaseTestCase
         $fooParams = \Params\Params::create(\ParamsTest\FooParams::class, $rules);
         $this->assertEquals(5, $fooParams->getLimit());
     }
+
+    public function testCreateOrError_ErrorIsReturned()
+    {
+        $arrayVarMap = new ArrayVarMap([]);
+        $rules = \ParamsTest\FooParams::getRules($arrayVarMap);
+        [$params, $errors] = \Params\Params::createOrError(\ParamsTest\FooParams::class, $rules);
+        $this->assertNull($params);
+        $this->assertCount(1, $errors);
+        $this->assertStringMatchesFormat('Value not set for %s.', $errors[0]);
+    }
+
+    public function testcreateOrError_Works()
+    {
+        $arrayVarMap = new ArrayVarMap(['limit' => 5]);
+        $rules = \ParamsTest\FooParams::getRules($arrayVarMap);
+        [$fooParams, $errors] = \Params\Params::createOrError(\ParamsTest\FooParams::class, $rules);
+        $this->assertNull($errors);
+        /** @var $fooParams \ParamsTest\FooParams */
+        $this->assertEquals(5, $fooParams->getLimit());
+    }
 }

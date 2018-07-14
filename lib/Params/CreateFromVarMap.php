@@ -6,6 +6,10 @@ namespace Params;
 
 use VarMap\VarMap;
 
+/**
+ * Use this trait when the parameters arrive as named parameters e.g
+ * either as query string parameters, form elements, or other form body.
+ */
 trait CreateFromVarMap
 {
     /**
