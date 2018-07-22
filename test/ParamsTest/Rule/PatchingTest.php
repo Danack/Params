@@ -213,9 +213,6 @@ JSON;
         $this->assertNotNull($validationResult->getProblemMessage());
     }
 
-    /**
-     * @group wip
-     */
     public function testCorrectEntryHasError()
     {
         $data = [

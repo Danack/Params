@@ -10,7 +10,6 @@ use Params\Value\MultipleEnums;
 
 class MultipleEnumTest extends BaseTestCase
 {
-
     public function provideMultipleEnumCases()
     {
         return [
@@ -19,9 +18,7 @@ class MultipleEnumTest extends BaseTestCase
         ];
     }
 
-
     /**
-     * @group wip
      * @dataProvider provideMultipleEnumCases
      */
     public function testMultipleEnum_emptySegments($input, $expectedOutput)
