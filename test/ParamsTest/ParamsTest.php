@@ -18,8 +18,14 @@ use Params\Rule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 
+/**
+ * @coversNothing
+ */
 class ParamsTest extends BaseTestCase
 {
+    /**
+     * @covers \Params\Params::validate
+     */
     public function testMissingRuleThrows()
     {
         $rules = [
@@ -30,6 +36,9 @@ class ParamsTest extends BaseTestCase
         \Params\Params::validate($rules);
     }
 
+    /**
+     * @covers \Params\Params::validate
+     */
     public function testInvalidInputThrows()
     {
         $arrayVarMap = new ArrayVarMap([]);
@@ -45,7 +54,9 @@ class ParamsTest extends BaseTestCase
         Params::validate($rules);
     }
 
-
+    /**
+     * @covers \Params\Params::validate
+     */
     public function testFinalResultStopsProcessing()
     {
         $finalValue = 123;
@@ -65,6 +76,9 @@ class ParamsTest extends BaseTestCase
         $this->assertEquals($finalValue, $values[0]);
     }
 
+    /**
+     * @covers \Params\Params::validate
+     */
     public function testErrorResultStopsProcessing()
     {
         $shouldntBeInvoked = new class($this)  implements Rule {
@@ -111,6 +125,9 @@ class ParamsTest extends BaseTestCase
         }
     }
 
+    /**
+     * @covers \Params\Params::validate
+     */
     public function testSkipOrNullCoverage()
     {
         $arrayVarMap = new ArrayVarMap([]);
@@ -125,7 +142,9 @@ class ParamsTest extends BaseTestCase
         $this->assertNull($foo);
     }
 
-
+    /**
+     * @covers \Params\Params::create
+     */
     public function testException()
     {
         $arrayVarMap = new ArrayVarMap([]);
@@ -134,6 +153,9 @@ class ParamsTest extends BaseTestCase
         \Params\Params::create(\ParamsTest\FooParams::class, $rules);
     }
 
+    /**
+     * @covers \Params\Params::create
+     */
     public function testWorks()
     {
         $arrayVarMap = new ArrayVarMap(['limit' => 5]);
@@ -142,6 +164,9 @@ class ParamsTest extends BaseTestCase
         $this->assertEquals(5, $fooParams->getLimit());
     }
 
+    /**
+     * @covers \Params\Params::createOrError
+     */
     public function testCreateOrError_ErrorIsReturned()
     {
         $arrayVarMap = new ArrayVarMap([]);
@@ -152,6 +177,9 @@ class ParamsTest extends BaseTestCase
         $this->assertStringMatchesFormat('Value not set for %s.', $errors[0]);
     }
 
+    /**
+     * @covers \Params\Params::createOrError
+     */
     public function testcreateOrError_Works()
     {
         $arrayVarMap = new ArrayVarMap(['limit' => 5]);

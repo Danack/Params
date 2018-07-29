@@ -7,6 +7,9 @@ namespace ParamsTest\Exception\Validator;
 use ParamsTest\BaseTestCase;
 use Params\ValidationResult;
 
+/**
+ * @covers \Params\ValidationResult
+ */
 class ValidationResultTest extends BaseTestCase
 {
     public function testValueResult()

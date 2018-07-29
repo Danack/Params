@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Params\OpenApi;
 
 use Params\Exception\ParamsException;
+use Params\Functions;
 use Params\OpenApi\ItemsObject;
 use Params\OpenApi\ParamDescription;
 use Params\Exception\OpenApiException;
@@ -43,6 +44,9 @@ class StandardParamDescription implements ParamDescription
     /** @var bool */
     private $exclusiveMinimum;
 
+    /** @var null|bool */
+    private $nullAllowed = null;
+
 
     public function toArray()
     {
@@ -80,9 +84,6 @@ class StandardParamDescription implements ParamDescription
         if ($this->default !== null) {
             $schema['default'] = $this->default;
         }
-        if ($this->required !== null) {
-            $schema['required'] = $this->required;
-        }
         if ($this->type !== null) {
             $schema['type'] = $this->type;
         }
@@ -104,6 +105,9 @@ class StandardParamDescription implements ParamDescription
         }
         if ($this->exclusiveMinimum !== null) {
             $schema['exclusiveMinimum'] = $this->exclusiveMinimum;
+        }
+        if ($this->nullAllowed !== null) {
+            $schema['nullable'] = $this->nullAllowed;
         }
 
         // done
@@ -188,7 +192,7 @@ class StandardParamDescription implements ParamDescription
            'object',
         ];
 
-        if (in_array($type, $knownTypes, true) === false) {
+        if (Functions::array_value_exists($knownTypes, $type) === false) {
             throw new OpenApiException("Type [$type] is not known for the OpenApi spec.");
         }
 
@@ -203,7 +207,7 @@ class StandardParamDescription implements ParamDescription
                 'double', // floating-point numbers with double precision.
             ];
 
-            if (in_array($format, $knownFormats, true) === false) {
+            if (Functions::array_value_exists($knownFormats, $format) === false) {
                 throw new OpenApiException("Format [$format] is not known for type 'number' the OpenApi spec.");
             }
         }
@@ -213,7 +217,7 @@ class StandardParamDescription implements ParamDescription
                 'int64', // Signed 64-bit integers (long type).
             ];
 
-            if (in_array($format, $knownFormats, true) === false) {
+            if (Functions::array_value_exists($knownFormats, $format) === false) {
                 throw new OpenApiException("Format [$format] is not known for type 'integer' the OpenApi spec.");
             }
         }
@@ -248,8 +252,7 @@ class StandardParamDescription implements ParamDescription
 
     public function setDefault($default)
     {
-        // TODO: Implement setDefault() method.
-        throw new \Exception("setDefault not implemented yet.");
+        $this->default = $default;
     }
 
     public function setMaximum($maximum)
@@ -308,10 +311,9 @@ class StandardParamDescription implements ParamDescription
         throw new \Exception("setMinItems not implemented yet.");
     }
 
-    public function setNotNull()
+    public function setNullAllowed()
     {
-        // TODO: Implement setNotNull() method.
-        throw new \Exception("setNotNull not implemented yet.");
+        $this->nullAllowed = true;
     }
 
     public function setUniqueItems(bool $uniqueItems)

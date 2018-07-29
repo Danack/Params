@@ -7,6 +7,9 @@ namespace ParamsTest\Rule;
 use ParamsTest\BaseTestCase;
 use Params\Rule\ValidCharacters;
 
+/**
+ * @coversNothing
+ */
 class ValidCharactersTest extends BaseTestCase
 {
     public function provideTestCases()
