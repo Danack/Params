@@ -17,6 +17,9 @@ use Params\Value\RemovePatchEntry;
 use Params\Value\ReplacePatchEntry;
 use Params\Value\TestPatchEntry;
 
+/**
+ * Used for testing
+ */
 class CompleteInput implements Rule
 {
     /** @var Input  */
