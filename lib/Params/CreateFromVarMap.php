@@ -21,6 +21,9 @@ trait CreateFromVarMap
     public static function createFromVarMap(VarMap $variableMap)
     {
         $rules = static::getRules($variableMap);
-        return Params::create(static::class, $rules);
+
+        $object = Params::create(static::class, $rules);
+        /** @var self $object */
+        return $object;
     }
 }
