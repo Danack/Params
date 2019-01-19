@@ -23,7 +23,7 @@ trait CreateFromVarMap
         $rules = static::getRules($variableMap);
 
         $object = Params::create(static::class, $rules);
-        /** @var self $object */
+        /** @var $object self */
         return $object;
     }
 }
