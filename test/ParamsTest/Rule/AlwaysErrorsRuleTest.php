@@ -6,6 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\Rule\AlwaysErrorsRule;
+use Params\OpenApi\StandardParamDescription;
 
 /**
  * @coversNothing
@@ -25,5 +26,16 @@ class AlwaysErrorsRuleTest extends BaseTestCase
         $this->assertEquals($message, $result->getProblemMessage());
         $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());
+    }
+
+
+    public function testCoverage()
+    {
+        $message = 'test message';
+        $rule = new AlwaysErrorsRule($message);
+
+        $paramDescription = new StandardParamDescription();
+
+        $rule->updateParamDescription($paramDescription);
     }
 }

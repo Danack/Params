@@ -17,6 +17,7 @@ use Params\Rule\AlwaysErrorsRule;
 use Params\Rule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
+use Params\ValidationErrors;
 
 /**
  * @coversNothing
@@ -171,8 +172,10 @@ class ParamsTest extends BaseTestCase
     {
         $arrayVarMap = new ArrayVarMap([]);
         $rules = \ParamsTest\FooParams::getRules($arrayVarMap);
-        [$params, $errors] = \Params\Params::createOrError(\ParamsTest\FooParams::class, $rules);
+        [$params, $validationErrors] = \Params\Params::createOrError(\ParamsTest\FooParams::class, $rules);
         $this->assertNull($params);
+        $this->assertInstanceOf(ValidationErrors::class, $validationErrors);
+        $errors = $validationErrors->getValidationProblems();
         $this->assertCount(1, $errors);
         $this->assertStringMatchesFormat('Value not set for %s.', $errors[0]);
     }

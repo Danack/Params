@@ -14,7 +14,7 @@ trait CreateFromVarMap
 {
     /**
      * @param VarMap $variableMap
-     * @return object|static
+     * @return self
      * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
