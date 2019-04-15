@@ -4,6 +4,7 @@
   "description": "Converts user input into correctly typed parameters",
   "license": "MIT",
   "require": {
+    "php": "^7.2",
     "danack/var-map": "^0.6.0"
   },
   "repositories": [
