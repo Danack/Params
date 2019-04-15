@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params;
 
+use Params\Exception\LogicException;
 use Params\Value\Ordering;
 
 class Functions
@@ -40,7 +41,11 @@ class Functions
 
         $count = preg_match("/[^0-9]+/", $value, $matches, PREG_OFFSET_CAPTURE);
 
-        if ($count) {
+        if ($count === false) {
+            throw new LogicException("preg_match failed");
+        }
+
+        if ($count !== 0) {
             $badCharPosition = $matches[0][1];
             $message = sprintf(
                 "Value for [$name] must contain only digits. Non-digit found at position %d.",

@@ -26,8 +26,10 @@ class StandardParamDescription implements ParamDescription
     /** @var null|bool  */
     private $required = null;
 
+    /** @var int|float */
     private $minimum = null;
 
+    /** @var int|float */
     private $maximum = null;
 
     /** @var int */

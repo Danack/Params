@@ -1,0 +1,8 @@
+version: "3"
+services:
+  php_test:
+    build: docker/php_test
+    image: params_php_test
+    volumes:
+      - .:/var/app
+

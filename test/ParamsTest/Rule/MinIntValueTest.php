@@ -20,9 +20,9 @@ class MinIntValueTest extends BaseTestCase
         $overValue = $minValue + 1;
 
         return [
-            [$minValue, $underValue, true],
-            [$minValue, $exactValue, false],
-            [$minValue, $overValue, false],
+            [$minValue, (string)$underValue, true],
+            [$minValue, (string)$exactValue, false],
+            [$minValue, (string)$overValue, false],
 
             // TODO - think about these cases.
             [$minValue, 'banana', true]

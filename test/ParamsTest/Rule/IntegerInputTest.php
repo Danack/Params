@@ -17,7 +17,7 @@ class IntegerInputValidatorTest extends BaseTestCase
         return [
             ['5', 5],
             ['555555', 555555],
-            [IntegerInput::MAX_SANE_VALUE, IntegerInput::MAX_SANE_VALUE]
+            [(string)IntegerInput::MAX_SANE_VALUE, IntegerInput::MAX_SANE_VALUE]
         ];
     }
 

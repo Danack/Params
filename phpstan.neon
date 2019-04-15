@@ -4,3 +4,10 @@ parameters:
   excludes_analyse:
     - *GetArticlesParams*
     - *CreateFromVarMap*
+  ignoreErrors:
+    - '#Method .* has no return typehint specified.#'
+    - '#Method .* has parameter .* with no typehint specified.#'
+    - '#Property .* has no typehint specified.#'
+    - '#.* should be covariant with return type.*#'
+includes:
+  - vendor/phpstan/phpstan-strict-rules/rules.neon

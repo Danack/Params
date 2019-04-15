@@ -231,6 +231,9 @@ JSON;
         $patchRule = new Patch($input, PatchEntry::ALL_OPS);
 
         $validationResult = $patchRule('foo', null);
-        $this->assertContains('Error for entry 1', $validationResult->getProblemMessage());
+        $this->assertStringContainsString(
+            'Error for entry 1',
+            $validationResult->getProblemMessage()
+        );
     }
 }

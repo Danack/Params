@@ -16,12 +16,12 @@ RUN  apt-get update -qq \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y php7.2 php7.2-common php7.2-cli php7.2-fpm \
     php7.2-mysql  php7.2-curl php7.2-xml php7.2-mbstring \
     php7.2-intl php7.2-redis php7.2-zip tidy \
-    php7.2-imagick
+    php7.2-imagick php7.2-xdebug
 
 # Make the default directory you
-WORKDIR /var/www
+WORKDIR /var/app
 
 # Run the process that this container will serve
-CMD ["/usr/sbin/php-fpm7.2", "--nodaemonize", "--fpm-config=/var/www/docker/php_fpm/config/fpm.conf", "-c", "/var/www/docker/php_fpm/config/php.ini"]
+# CMD ["/usr/sbin/php-fpm7.2", "--nodaemonize", "--fpm-config=/var/www/docker/php_fpm/config/fpm.conf", "-c", "/var/www/docker/php_fpm/config/php.ini"]
 
-#CMD tail -f README.md
+CMD tail -f README.md

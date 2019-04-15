@@ -20,9 +20,9 @@ class MaxIntValueValidatorTest extends BaseTestCase
         $overValue = $maxValue + 1;
 
         return [
-            [$maxValue, $underValue, false],
-            [$maxValue, $exactValue, false],
-            [$maxValue, $overValue, true],
+            [$maxValue, (string)$underValue, false],
+            [$maxValue, (string)$exactValue, false],
+            [$maxValue, (string)$overValue, true],
 
             // TODO - think about these cases.
 //            [$maxValue, 125.5, true],
@@ -34,10 +34,10 @@ class MaxIntValueValidatorTest extends BaseTestCase
      * @dataProvider provideMaxLengthCases
      * @covers \Params\Rule\MaxIntValue
      */
-    public function testValidation(int $maxValue, string $string, bool $expectError)
+    public function testValidation(int $maxValue, string $inputValue, bool $expectError)
     {
         $validator = new MaxIntValue($maxValue);
-        $validationResult = $validator('foo', $string);
+        $validationResult = $validator('foo', $inputValue);
 
         if ($expectError === false) {
             $this->assertNull($validationResult->getProblemMessage());

@@ -35,8 +35,14 @@ class ValidCharactersTest extends BaseTestCase
         $validationResult = $validator('foo', $testValue);
         if ($expectedErrorPosition !== null) {
             $this->assertNotNull($validationResult->getProblemMessage(), "Failed to detect invalid char at $expectedErrorPosition");
-            $this->assertContains((string)$expectedErrorPosition, $validationResult->getProblemMessage());
-            $this->assertContains($validCharactersPattern, $validationResult->getProblemMessage());
+            $this->assertStringContainsString(
+                (string)$expectedErrorPosition,
+                $validationResult->getProblemMessage()
+            );
+            $this->assertStringContainsString(
+                $validCharactersPattern,
+                $validationResult->getProblemMessage()
+            );
         }
         else {
             $this->assertNull($validationResult->getProblemMessage());

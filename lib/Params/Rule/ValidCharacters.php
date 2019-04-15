@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Rule;
 
+use Params\Exception\LogicException;
 use Params\Rule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
@@ -34,7 +35,11 @@ class ValidCharacters implements Rule
         $matches = [];
         $count = preg_match($patternInvalidCharacters, $value, $matches, PREG_OFFSET_CAPTURE);
 
-        if ($count) {
+        if ($count === false) {
+            throw new LogicException("preg_match failed");
+        }
+
+        if ($count !== 0) {
             $badCharPosition = $matches[0][1];
             $message = sprintf(
                 self::INVALID_CHAR_MESSAGE,

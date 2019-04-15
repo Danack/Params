@@ -8,6 +8,8 @@ use Params\Rule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 
+use Params\SafeAccess;
+
 /**
  * Used for testing.
  */

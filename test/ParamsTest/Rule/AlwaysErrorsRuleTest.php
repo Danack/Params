@@ -28,7 +28,9 @@ class AlwaysErrorsRuleTest extends BaseTestCase
         $this->assertNull($result->getValue());
     }
 
-
+    /**
+     * @covers \Params\Rule\AlwaysErrorsRule
+     */
     public function testCoverage()
     {
         $message = 'test message';

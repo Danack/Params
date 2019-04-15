@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Rule;
 
+use Params\Exception\LogicException;
 use Params\OpenApi\ParamDescription;
 use Params\Rule;
 use Params\ValidationResult;
@@ -23,7 +24,7 @@ class SaneCharacters implements Rule
         // Symbol
         "\p{S}",
 
-//        M	Mark
+//        M Mark
 //            Mc    Spacing mark
 //            Me    Enclosing mark
 //            Mn    Non-spacing mark
@@ -90,8 +91,11 @@ class SaneCharacters implements Rule
         $matches = [];
         $count = preg_match($disallowedPattern, $value, $matches, PREG_OFFSET_CAPTURE);
 
+        if ($count === false) {
+            throw new LogicException("preg_match failed");
+        }
 
-        if ($count) {
+        if ($count !== 0) {
             $badCharPosition = $matches[0][1];
             $message = sprintf(
                 "Invalid combining characters found at position %s",
