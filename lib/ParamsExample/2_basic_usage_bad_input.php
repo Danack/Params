@@ -12,7 +12,7 @@ $varMap = new ArrayVarMap([]);
 
 try {
     $varMap = new ArrayVarMap(['order' => 'not a valid value']);
-    [$articleGetIndexParams, $errors] = GetArticlesParams::createFromVarMap($varMap);
+    $articleGetIndexParams = GetArticlesParams::createFromVarMap($varMap);
 
     echo "shouldn't reach here.";
     exit(-1);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsExample;
 
+use Params\CreateFromRequest;
 use Params\CreateFromVarMap;
 use Params\CreateOrErrorFromVarMap;
 use Params\ParamsValidator;
@@ -22,6 +23,7 @@ use Params\Params;
 class GetArticlesParams
 {
     use SafeAccess;
+    use CreateFromRequest;
     use CreateFromVarMap;
     use CreateOrErrorFromVarMap;
 
@@ -65,8 +67,7 @@ class GetArticlesParams
 
     /**
      * @param VarMap $variableMap
-     * @throws \Params\Exception\ValidationException
-     * @throws \Params\Exception\ParamsException
+     * @return array
      */
     public static function getRules(VarMap $variableMap)
     {

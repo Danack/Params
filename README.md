@@ -16,9 +16,9 @@ This library allows you to define a [set of rules](https://github.com/Danack/Par
 As an example, this is what the code looks like in a controller for retrieving a list of articles:
 
 ```
-function getArticles(VarMap $varMap)
+function getArticles(Request $request)
 {
-    $getArticlesParams = GetArticlesParams::createFromVarMap($varMap);
+    $getArticlesParams = GetArticlesParams::createFromRequest($request);
 
     echo "After Id: " . $articleGetIndexParams->getAfterId() . PHP_EOL;
     echo "Limit:    " . $articleGetIndexParams->getLimit() . PHP_EOL;
@@ -30,9 +30,9 @@ The above example will throw a `ValidationException` with a list of all the vali
 Alternatively you can have the parameters and list of errors returned as tuple.
 
 ```
-function getArticles(VarMap $varMap)
+function getArticles(Request $request)
 {
-    [$getArticlesParams, $errors] = GetArticlesParams::createOrErrorFromVarMap($varMap);
+    [$getArticlesParams, $errors] = GetArticlesParams::createOrErrorFromVarMap($request);
     
     if ($errors !== null) {
         // do something about those errors.
@@ -105,19 +105,8 @@ if (count($errors) !== 0) {
 return [new GetArticlesParams($order, $limit, $offset), null];
 ```
 
-# Avoiding patching like an idiot
-
-This library supports [RFC6902 aka JavaScript Object Notation (JSON) Patch](https://tools.ietf.org/html/rfc6902)
 
 
-https://williamdurand.fr/2014/02/14/please-do-not-patch-like-an-idiot/
-
-Someone needs to write more words here.
-
-
-## So......what is a 'variable map'?
-
-A variable map is a simple interface to allow input parameters to be represented in various ways. For web applications, the most common implementation to use will likely be the Psr7InputMap that allows reading of input variables from a PSR 7 request object.
 
 
 ## Tests
@@ -129,39 +118,7 @@ Pull requests should have full unit test coverage. Preferably also full mutation
 # Future work
 
 
-
 ## Parameter location
 
-Some people care whether a parameter is in the query string or body. This library currently doesn't support differentiating them. 
-
-## PHP could be nicer
-
-It would be very convenient to be able to pass a callable to have it called to instantiate an object. I miss you https://wiki.php.net/rfc/callableconstructors
-
-## I dislike using arrays with keys that have meaning
-
-
-Rather than passing the rules around as an array, where the keys have meaning, the library could encapsulate that into an object. However that would make the functionality harder to write, and not give that much extra safety.
-
-```
-class ParamRules
-{
-    /** @var string */
-    private $inputName;
-
-    /** @var \Params\Rule */
-    private $rules;
-
-    /**
-     * ParamRules constructor.
-     * @param string $inputName
-     * @param Rule $rules
-     */
-    public function __construct(string $inputName, Rule $rules)
-    {
-        $this->inputName = $inputName;
-        $this->rules = $rules;
-    }
-}
-```
+Some people care whether a parameter is in the query string or body. This library currently doesn't support differentiating them.
 

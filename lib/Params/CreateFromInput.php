@@ -9,7 +9,8 @@ use VarMap\VarMap;
 
 /**
  * Use this trait when the parameters arrive as a the complete data
- * of a request, without names for individual parameters.
+ * of a request, without names for individual parameters. e.g. a
+ * PATCH request
  */
 trait CreateFromInput
 {
