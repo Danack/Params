@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Params\OpenApi;
 
-use Params\Exception\ParamsException;
 use Params\Functions;
-use Params\OpenApi\ItemsObject;
-use Params\OpenApi\ParamDescription;
 use Params\Exception\OpenApiException;
 
-class StandardParamDescription implements ParamDescription
+class OpenApiV300ParamDescription implements ParamDescription
 {
     /** @var string */
     private $name;
@@ -49,6 +46,34 @@ class StandardParamDescription implements ParamDescription
     /** @var null|bool */
     private $nullAllowed = null;
 
+    /**
+     * Creates a set of Parameter descriptions according to the
+     * OpenApi 3.0.0 spec
+     *
+     * https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md
+     * @param \Params\Rule[][] $allRules
+     * @return self[]
+     * @throws OpenApiException
+     */
+    public static function createFromRules($allRules)
+    {
+        $ruleDescriptions = [];
+
+        foreach ($allRules as $name => $rules) {
+            $description = new self();
+
+            $description->setName($name);
+
+            foreach ($rules as $rule) {
+                /** @var $rule \Params\Rule */
+                $rule->updateParamDescription($description);
+            }
+
+            $ruleDescriptions[] = $description->toArray();
+        }
+
+        return $ruleDescriptions;
+    }
 
     public function toArray()
     {
@@ -248,8 +273,12 @@ class StandardParamDescription implements ParamDescription
 
     public function setCollectionFormat(string $collectionFormat)
     {
-        // TODO: Implement setCollectionFormat() method.
-        throw new \Exception("setCollectionFormat not implemented yet.");
+//        simple
+        // CSV
+
+        // TODO - version 3, replaces collectionFormat
+        // with style = simple
+//        throw new \Exception("setCollectionFormat not implemented yet.");
     }
 
     public function setDefault($default)

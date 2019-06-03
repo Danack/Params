@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\Rule\AlwaysErrorsRule;
-use Params\OpenApi\StandardParamDescription;
+use Params\OpenApi\OpenApiV300ParamDescription;
 
 /**
  * @coversNothing
@@ -36,7 +36,7 @@ class AlwaysErrorsRuleTest extends BaseTestCase
         $message = 'test message';
         $rule = new AlwaysErrorsRule($message);
 
-        $paramDescription = new StandardParamDescription();
+        $paramDescription = new OpenApiV300ParamDescription();
 
         $rule->updateParamDescription($paramDescription);
     }

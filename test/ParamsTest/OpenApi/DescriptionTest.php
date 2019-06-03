@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\OpenApi;
 
 use Params\OpenApi\ShouldNeverBeCalledParamDescription;
-use Params\OpenApi\StandardParamDescription;
+use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\Rule\Enum;
 use Params\Rule\GetInt;
 use Params\Rule\GetIntOrDefault;
@@ -29,27 +29,6 @@ use VarMap\ArrayVarMap;
 use Params\Rule\AlwaysEndsRule;
 use Params\Exception\OpenApiException;
 
-// OpenApi 3 spec
-// https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md
-function getParamDescriptionFromRules($allRules)
-{
-    $ruleDescriptions = [];
-
-    foreach ($allRules as $name => $rules) {
-        $description = new StandardParamDescription();
-
-        $description->setName($name);
-
-        foreach ($rules as $rule) {
-            /** @var $rule \Params\Rule */
-            $rule->updateParamDescription($description);
-        }
-
-        $ruleDescriptions[] = $description->toArray();
-    }
-
-    return $ruleDescriptions;
-}
 
 class DescriptionTest extends BaseTestCase
 {
@@ -93,10 +72,6 @@ class DescriptionTest extends BaseTestCase
         $rules = RequiredStringExample::getRules($varMap);
         $this->performSchemaTest($schemaExpectations, $rules);
     }
-
-
-
-
 
     public function testMaxLength()
     {
@@ -290,7 +265,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $this->expectException(OpenApiException::class);
-        getParamDescriptionFromRules($rules);
+        OpenApiV300ParamDescription::createFromRules($rules);
     }
 
 
@@ -314,7 +289,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $this->expectException(OpenApiException::class);
-        getParamDescriptionFromRules($rules);
+        OpenApiV300ParamDescription::createFromRules($rules);
     }
 
     public function providesValidMaximumLength()
@@ -345,7 +320,7 @@ class DescriptionTest extends BaseTestCase
 
     public function testEmptySchema()
     {
-        $description = new StandardParamDescription();
+        $description = new OpenApiV300ParamDescription();
         $description->setName('testing');
         $result = $description->toArray();
         $this->assertEquals(['name' => 'testing'], $result);
@@ -434,7 +409,7 @@ class DescriptionTest extends BaseTestCase
 
     private function performSchemaTest($schemaExpectations, $rules)
     {
-        $paramDescription = getParamDescriptionFromRules($rules);
+        $paramDescription = OpenApiV300ParamDescription::createFromRules($rules);
 
         $this->assertCount(1, $paramDescription);
         $statusDescription = $paramDescription[0];
@@ -451,7 +426,7 @@ class DescriptionTest extends BaseTestCase
 
     private function performFullTest($schemaExpectations, $paramExpectations, $rules)
     {
-        $paramDescription = getParamDescriptionFromRules($rules);
+        $paramDescription = OpenApiV300ParamDescription::createFromRules($rules);
 
         $this->assertCount(1, $paramDescription);
         $openApiDescription = $paramDescription[0];
@@ -472,7 +447,7 @@ class DescriptionTest extends BaseTestCase
 
     public function testNonStringEnumThrows()
     {
-        $description = new StandardParamDescription();
+        $description = new OpenApiV300ParamDescription();
         $this->expectException(OpenApiException::class);
         $description->setEnum(['foo', 5]);
     }

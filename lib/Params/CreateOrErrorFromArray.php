@@ -10,7 +10,7 @@ use VarMap\VarMap;
 trait CreateOrErrorFromArray
 {
     /**
-     * @param VarMap $variableMap
+     * @param array $data
      * @return array{0:self|null, 1:\Params\ValidationErrors|null}
      * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
