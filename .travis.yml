@@ -10,5 +10,5 @@ before_script:
   - composer install
 
 script:
-  - sh runTests.sh
+  - bash runTests.sh
 
