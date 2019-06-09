@@ -16,9 +16,8 @@ use Params\Rule\SkipIfNull;
 use Params\SafeAccess;
 use VarMap\VarMap;
 use Params\Rule\Order;
-use Params\Rule\IntegerInput;
 use Params\Value\Ordering;
-use Params\Params;
+use Params\Rule\GetIntOrDefault;
 
 class GetArticlesParams
 {
@@ -78,8 +77,7 @@ class GetArticlesParams
                 new Order(self::getKnownOrderNames()),
             ],
             'limit' => [
-                new GetStringOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
-                new IntegerInput(),
+                new GetIntOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
                 new MinIntValue(self::LIMIT_MIN),
                 new MaxIntValue(self::LIMIT_MAX),
             ],

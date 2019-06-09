@@ -8,6 +8,9 @@ use Params\Rule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 
+/**
+ * Checks a value is an integer that has a sane value
+ */
 class IntegerInput implements Rule
 {
     const MAX_SANE_VALUE = 999999999999999;
