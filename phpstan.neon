@@ -1,3 +1,5 @@
+includes:
+  - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
   bootstrap: null
   autoload_files: null
@@ -9,5 +11,6 @@ parameters:
     - '#Method .* has parameter .* with no typehint specified.#'
     - '#Property .* has no typehint specified.#'
     - '#.* should be covariant with return type.*#'
-includes:
-  - vendor/phpstan/phpstan-strict-rules/rules.neon
+    -
+      message: '#Parameter \#1 \$function of function call_user_func expects callable.*#'
+      path: *GetArrayOfType.php

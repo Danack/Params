@@ -18,7 +18,7 @@ use Params\ValidationErrors;
 class ParamsValidator
 {
     /**
-     * @var array
+     * @var string[]
      */
     private $validationProblems = [];
 
