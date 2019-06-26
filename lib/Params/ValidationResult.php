@@ -69,6 +69,10 @@ class ValidationResult
     }
 
     /**
+     * Return true if there should not be any more processing of the
+     * rules for this parameter. e.g. both errors and null results stop
+     * the processing.
+     *
      * @return bool
      */
     public function isFinalResult(): bool
