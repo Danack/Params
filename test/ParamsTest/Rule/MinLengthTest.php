@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\MinLength;
+use Params\SubsequentRule\MinLength;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -28,12 +29,13 @@ class MinLengthTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxLengthCases
-     * @covers \Params\Rule\MinLength
+     * @covers \Params\SubsequentRule\MinLength
      */
     public function testValidation(int $minLength, string $string, bool $expectError)
     {
-        $validator = new MinLength($minLength);
-        $validationResult = $validator('foo', $string);
+        $rule = new MinLength($minLength);
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $string, $validator);
 
         if ($expectError === false) {
             $this->assertNull($validationResult->getProblemMessage());

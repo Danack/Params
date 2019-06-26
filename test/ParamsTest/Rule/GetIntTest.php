@@ -6,7 +6,8 @@ namespace ParamsTest\Rule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\Rule\GetInt;
+use Params\FirstRule\GetInt;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -14,12 +15,13 @@ use Params\Rule\GetInt;
 class GetIntTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Rule\GetString
+     * @covers \Params\FirstRule\GetString
      */
     public function testMissingGivesError()
     {
-        $validator = new GetInt(new ArrayVarMap([]));
-        $validationResult = $validator('foo', 'not_used');
+        $rule = new GetInt();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
         $this->assertNotNull($validationResult->getProblemMessage());
     }
 
@@ -32,15 +34,19 @@ class GetIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\GetInt
+     * @covers \Params\FirstRule\GetInt
      * @dataProvider provideTestWorksCases
      */
     public function testWorks($input, $expectedValue)
     {
         $variableName = 'foo';
-
-        $validator = new GetInt(new ArrayVarMap([$variableName => $input]));
-        $validationResult = $validator($variableName, 'not_used');
+        $validator = new ParamsValidator();
+        $rule = new GetInt();
+        $validationResult = $rule->process(
+            $variableName,
+            new ArrayVarMap([$variableName => $input]),
+            $validator
+        );
 
         $this->assertNull($validationResult->getProblemMessage());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
@@ -58,15 +64,20 @@ class GetIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\GetInt
+     * @covers \Params\FirstRule\GetInt
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($variables)
     {
         $variableName = 'foo';
 
-        $validator = new GetInt(new ArrayVarMap($variables));
-        $validationResult = $validator($variableName, 'not_used');
+        $rule = new GetInt();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process(
+            $variableName,
+            new ArrayVarMap($variables),
+            $validator
+        );
 
         $this->assertNotNull($validationResult->getProblemMessage());
     }

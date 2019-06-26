@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\SkipIfNull;
+use Params\SubsequentRule\SkipIfNull;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -26,12 +27,13 @@ class SkipIfNullTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\Rule\SkipIfNull
+     * @covers \Params\SubsequentRule\SkipIfNull
      */
     public function testValidation($testValue, $expectIsFinalResult)
     {
-        $validator = new SkipIfNull();
-        $validationResult = $validator('foo', $testValue);
+        $rule = new SkipIfNull();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $testValue, $validator);
         $this->assertEquals($validationResult->isFinalResult(), $expectIsFinalResult);
     }
 }

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
-use Params\Rule\GetArrayOfTypeOrNull;
+use Params\FirstRule\GetArrayOfTypeOrNull;
 use ParamsTest\BaseTestCase;
-use Params\Rule\GetArrayOfType;
+use Params\FirstRule\GetArrayOfType;
 use ParamsTest\ItemParams;
 use VarMap\ArrayVarMap;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -18,7 +19,7 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
 {
 
     /**
-     * @covers \Params\Rule\GetArrayOfType
+     * @covers \Params\FirstRule\GetArrayOfType
      */
     public function testWorks()
     {
@@ -28,8 +29,9 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
             ],
         ];
 
-        $rule = new GetArrayOfTypeOrNull(new ArrayVarMap($data), ItemParams::class);
-        $result = $rule('items', 5);
+        $rule = new GetArrayOfTypeOrNull(ItemParams::class);
+        $validator = new ParamsValidator();
+        $result = $rule->process('items', new ArrayVarMap($data), $validator);
 
         $this->assertFalse($result->isFinalResult());
 
@@ -44,14 +46,15 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\GetArrayOfType
+     * @covers \Params\FirstRule\GetArrayOfType
      */
     public function testWorksWhenNotSet()
     {
         $data = [];
 
-        $rule = new GetArrayOfTypeOrNull(new ArrayVarMap($data), ItemParams::class);
-        $result = $rule('items', 5);
+        $rule = new GetArrayOfTypeOrNull(ItemParams::class);
+        $validator = new ParamsValidator();
+        $result = $rule->process('items', new ArrayVarMap($data), $validator);
 
         $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());

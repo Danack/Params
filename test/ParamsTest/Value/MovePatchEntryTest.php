@@ -11,6 +11,7 @@ use Params\Exception\LogicException;
 
 /**
  * @coversNothing
+ * @group patch
  */
 class MovePatchEntryTest extends BaseTestCase
 {

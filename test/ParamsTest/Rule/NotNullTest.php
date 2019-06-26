@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\NotNull;
+use Params\SubsequentRule\NotNull;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -13,16 +14,18 @@ use Params\Rule\NotNull;
 class NotNullTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Rule\NotNull
+     * @covers \Params\SubsequentRule\NotNull
      */
     public function testValidation()
     {
-        $validator = new NotNull();
-        $validationResult = $validator('foo', null);
+        $rule1 = new NotNull();
+        $validator = new ParamsValidator();
+        $validationResult = $rule1->process('foo', null, $validator);
         $this->assertNotNull($validationResult->getProblemMessage());
 
-        $validator = new NotNull();
-        $validationResult = $validator('foo', 5);
+        $rule2 = new NotNull();
+        $validator = new ParamsValidator();
+        $validationResult = $rule2->process('foo', 5, $validator);
         $this->assertNull($validationResult->getProblemMessage());
     }
 }

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\NullIfEmpty;
+use Params\SubsequentRule\NullIfEmpty;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -25,13 +26,13 @@ class NullIfEmptyTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorksCases
-     * @covers \Params\Rule\StartsWithString
+     * @covers \Params\SubsequentRule\StartsWithString
      */
     public function testValidationWorks($testValue, $shouldBeNull)
     {
-        $validator = new NullIfEmpty();
-
-        $validationResult = $validator('foo', $testValue);
+        $rule = new NullIfEmpty();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $testValue, $validator);
         $this->assertNull($validationResult->getProblemMessage());
 
 

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\OpenApi;
 
-use Params\Rule\MaxLength;
-use Params\Rule\MinLength;
+use Params\SubsequentRule\MaxLength;
+use Params\SubsequentRule\MinLength;
 use VarMap\VarMap;
-use Params\Rule\GetStringOrDefault;
-use Params\Rule\GetString;
-use Params\Rule\Enum;
+use Params\FirstRule\GetStringOrDefault;
+use Params\FirstRule\GetString;
+use Params\SubsequentRule\Enum;
 use Params\SafeAccess;
-use Params\CreateFromVarMap;
+use Params\Create\CreateFromVarMap;
 
 class RequiredStringExample
 {

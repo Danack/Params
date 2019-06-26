@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use Params\OpenApi\ShouldNeverBeCalledParamDescription;
-use Params\Rule\CompleteInput;
+use Params\SubsequentRule\CompleteInput;
 use Params\ValueInput;
 use ParamsTest\BaseTestCase;
 
 /**
- * @covers \Params\Rule\CompleteInput
+ * @covers \Params\SubsequentRule\CompleteInput
+ * @group patch
  */
 class CompleteInputTest extends BaseTestCase
 {

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\Trim;
+use Params\SubsequentRule\Trim;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -13,12 +14,13 @@ use Params\Rule\Trim;
 class TrimTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Rule\Trim
+     * @covers \Params\SubsequentRule\Trim
      */
     public function testValidation()
     {
-        $validator = new Trim();
-        $validationResult = $validator('foo', ' bar ');
+        $rule = new Trim();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', ' bar ', $validator);
         $this->assertNull($validationResult->getProblemMessage());
         $this->assertEquals($validationResult->getValue(), 'bar');
     }

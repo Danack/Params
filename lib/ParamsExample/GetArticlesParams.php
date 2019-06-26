@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace ParamsExample;
 
-use Params\CreateFromRequest;
-use Params\CreateFromVarMap;
-use Params\CreateOrErrorFromVarMap;
+use Params\Create\CreateFromRequest;
+use Params\Create\CreateFromVarMap;
+use Params\Create\CreateOrErrorFromVarMap;
 use Params\ParamsValidator;
-use Params\Rule\GetStringOrDefault;
-use Params\Rule\MaxIntValue;
-use Params\Rule\MinIntValue;
-use Params\Rule\MaxLength;
-use Params\Rule\SkipIfNull;
+use Params\FirstRule\GetStringOrDefault;
+use Params\SubsequentRule\MaxIntValue;
+use Params\SubsequentRule\MinIntValue;
+use Params\SubsequentRule\MaxLength;
+use Params\SubsequentRule\SkipIfNull;
 use Params\SafeAccess;
 use VarMap\VarMap;
-use Params\Rule\Order;
+use Params\SubsequentRule\Order;
 use Params\Value\Ordering;
-use Params\Rule\GetIntOrDefault;
+use Params\FirstRule\GetIntOrDefault;
 
 class GetArticlesParams
 {

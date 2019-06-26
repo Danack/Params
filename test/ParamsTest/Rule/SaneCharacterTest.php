@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\SaneCharacters;
+use Params\SubsequentRule\SaneCharacters;
+use Params\ParamsValidator;
 
 function getRawCharacters($string) {
     $resultInHex = bin2hex($string);
@@ -49,23 +50,25 @@ class SaneCharacterTest extends BaseTestCase
 
     /**
      * @dataProvider provideSuccessCases
-     * @covers \Params\Rule\SaneCharacters
+     * @covers \Params\SubsequentRule\SaneCharacters
      */
     public function testValidationSuccess($testValue)
     {
-        $validator = new SaneCharacters();
-        $validationResult = $validator('foo', $testValue);
+        $rule = new SaneCharacters();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $testValue, $validator);
         $this->assertNull($validationResult->getProblemMessage());
     }
 
     /**
      * @dataProvider provideFailureCases
-     * @covers \Params\Rule\SaneCharacters
+     * @covers \Params\SubsequentRule\SaneCharacters
      */
     public function testValidationErrors($testValue)
     {
-        $validator = new SaneCharacters();
-        $validationResult = $validator('foo', $testValue);
+        $rule = new SaneCharacters();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $testValue, $validator);
 
         $bytesString = "Bytes were[" . getRawCharacters($testValue) . "]";
 
@@ -79,8 +82,9 @@ class SaneCharacterTest extends BaseTestCase
     public function testPositionIsCorrect()
     {
         $testValue = "danack_a̧͈͖r͒͑_more_a̧͈͖r͒͑";
-        $validator = new SaneCharacters();
-        $validationResult = $validator('foo', $testValue);
+        $rule = new SaneCharacters();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $testValue, $validator);
         $message = $validationResult->getProblemMessage();
 
         $this->assertEquals("Invalid combining characters found at position 8", $message);

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\MaximumCount;
+use Params\SubsequentRule\MaximumCount;
 use Params\Exception\LogicException;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -25,12 +26,13 @@ class MaximumCountTest extends BaseTestCase
 
     /**
      * @dataProvider provideWorksCases
-     * @covers \Params\Rule\MaximumCount
+     * @covers \Params\SubsequentRule\MaximumCount
      */
     public function testWorks(int $maximumCount, $values)
     {
-        $validator = new MaximumCount($maximumCount);
-        $validationResult = $validator('foo', $values);
+        $rule = new MaximumCount($maximumCount);
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $values, $validator);
         $this->assertNull($validationResult->getProblemMessage());
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertSame($values, $validationResult->getValue());
@@ -46,12 +48,13 @@ class MaximumCountTest extends BaseTestCase
 
     /**
      * @dataProvider provideFailsCases
-     * @covers \Params\Rule\MaximumCount
+     * @covers \Params\SubsequentRule\MaximumCount
      */
     public function testFails(int $maximumCount, $values)
     {
-        $validator = new MaximumCount($maximumCount);
-        $validationResult = $validator('foo', $values);
+        $rule = new MaximumCount($maximumCount);
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $values, $validator);
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
 
@@ -65,7 +68,7 @@ class MaximumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\MaximumCount
+     * @covers \Params\SubsequentRule\MaximumCount
      */
     public function testMinimimCountZero()
     {
@@ -75,17 +78,18 @@ class MaximumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\MaximumCount
+     * @covers \Params\SubsequentRule\MaximumCount
      */
     public function testInvalidOperand()
     {
-        $validator = new MaximumCount(3);
+        $rule = new MaximumCount(3);
         $this->expectException(LogicException::class);
 
+        $validator = new ParamsValidator();
         $this->expectExceptionMessageRegExp(
             stringToRegexp(MaximumCount::ERROR_WRONG_TYPE)
         );
 
-        $validator('foo', 'a banana');
+        $rule->process('foo', 'a banana', $validator);
     }
 }

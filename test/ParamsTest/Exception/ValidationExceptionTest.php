@@ -6,17 +6,13 @@ namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
 use Params\Exception\ValidationException;
+use Params\ValidationErrors;
 
 /**
  * @covers \Params\Exception\ValidationException
  */
 class ValidationExceptionTest extends BaseTestCase
 {
-    public function testDoesNotThrow()
-    {
-        ValidationException::throwIfProblems("Validation problems", []);
-    }
-
     public function testGetting()
     {
         $validationMessages = [
@@ -24,19 +20,14 @@ class ValidationExceptionTest extends BaseTestCase
             'bar'
         ];
 
-        $exception = new ValidationException('unit test', $validationMessages);
-        $this->assertEquals($validationMessages, $exception->getValidationProblems());
-    }
+        $exception = new ValidationException(
+            'unit test',
+            new ValidationErrors($validationMessages)
+        );
 
-    public function testThrows()
-    {
-        $problem = "Houston, we have a problem";
-        $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage($problem);
-        $this->expectExceptionCode(0);
-        ValidationException::throwIfProblems(
-            "Validation problems",
-            [$problem]
+        $this->assertEquals(
+            $validationMessages,
+            $exception->getValidationProblems()->getValidationProblems()
         );
     }
 }

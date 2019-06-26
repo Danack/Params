@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
-use Params\Rule\GetIntOrDefault;
+use Params\FirstRule\GetIntOrDefault;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\Rule\GetStringOrDefault;
+use Params\FirstRule\GetStringOrDefault;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -35,13 +36,14 @@ class GetIntOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\GetIntOrDefault
+     * @covers \Params\FirstRule\GetIntOrDefault
      * @dataProvider provideTestCases
      */
     public function testValidation(ArrayVarMap $varMap, $default, $expectedValue)
     {
-        $validator = new GetIntOrDefault($default, $varMap);
-        $validationResult = $validator('foo', null);
+        $rule = new GetIntOrDefault($default);
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $varMap, $validator);
 
         $this->assertNull($validationResult->getProblemMessage());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
@@ -59,7 +61,7 @@ class GetIntOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\GetIntOrDefault
+     * @covers \Params\FirstRule\GetIntOrDefault
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($inputValue)
@@ -70,9 +72,9 @@ class GetIntOrDefaultTest extends BaseTestCase
 
         $variables = [$variableName => $inputValue];
 
-
-        $validator = new GetIntOrDefault($default, new ArrayVarMap($variables));
-        $validationResult = $validator($variableName, 'not_used');
+        $validator = new ParamsValidator();
+        $rule = new GetIntOrDefault($default);
+        $validationResult = $rule->process($variableName, new ArrayVarMap($variables), $validator);
 
         $this->assertNotNull($validationResult->getProblemMessage());
     }

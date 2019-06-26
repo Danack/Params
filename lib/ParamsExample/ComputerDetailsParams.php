@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsExample;
 
-use Params\CreateOrErrorFromArray;
-use Params\Rule\GetString;
-use Params\Rule\MinLength;
-use Params\Rule\MaxLength;
+use Params\Create\CreateOrErrorFromArray;
+use Params\FirstRule\GetString;
+use Params\SubsequentRule\MinLength;
+use Params\SubsequentRule\MaxLength;
 use Params\SafeAccess;
 use VarMap\VarMap;
 

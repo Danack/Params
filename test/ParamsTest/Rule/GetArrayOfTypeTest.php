@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\GetArrayOfType;
+use Params\FirstRule\GetArrayOfType;
 use ParamsTest\ItemParams;
 use VarMap\ArrayVarMap;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -17,7 +18,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 {
 
     /**
-     * @covers \Params\Rule\GetArrayOfType
+     * @covers \Params\FirstRule\GetArrayOfType
      */
     public function testWorks()
     {
@@ -27,8 +28,9 @@ class GetArrayOfTypeTest extends BaseTestCase
             ],
         ];
 
-        $rule = new GetArrayOfType(new ArrayVarMap($data), ItemParams::class);
-        $result = $rule('items', 5);
+        $rule = new GetArrayOfType(ItemParams::class);
+        $validator = new ParamsValidator();
+        $result = $rule->process('items', new ArrayVarMap($data), $validator);
 
         $this->assertFalse($result->isFinalResult());
 //        $this->assertEquals("Value not set for 'items'.", $result->getProblemMessage());
@@ -46,14 +48,15 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\Rule\GetArrayOfType
+     * @covers \Params\FirstRule\GetArrayOfType
      */
     public function testMissingArrayErrors()
     {
         $data = [];
 
-        $rule = new GetArrayOfType(new ArrayVarMap($data), ItemParams::class);
-        $result = $rule('items', 5);
+        $rule = new GetArrayOfType(ItemParams::class);
+        $validator = new ParamsValidator();
+        $result = $rule->process('items', new ArrayVarMap($data), $validator);
         $this->assertTrue($result->isFinalResult());
         $this->assertEquals("Value not set for 'items'.", $result->getProblemMessage());
         $this->assertNull($result->getValue());
@@ -61,7 +64,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\Rule\GetArrayOfType
+     * @covers \Params\FirstRule\GetArrayOfType
      */
     public function testScalarInsteadOfArrayErrors()
     {
@@ -69,8 +72,9 @@ class GetArrayOfTypeTest extends BaseTestCase
             'items' => 'a banana'
         ];
 
-        $rule = new GetArrayOfType(new ArrayVarMap($data), ItemParams::class);
-        $result = $rule('items', 5);
+        $rule = new GetArrayOfType(ItemParams::class);
+        $validator = new ParamsValidator();
+        $result = $rule->process('items', new ArrayVarMap($data), $validator);
         $this->assertTrue($result->isFinalResult());
         $this->assertEquals(
             "Value set for 'items' must be an array.",
@@ -82,7 +86,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\Rule\GetArrayOfType
+     * @covers \Params\FirstRule\GetArrayOfType
      */
     public function testSingleError()
     {
@@ -92,8 +96,9 @@ class GetArrayOfTypeTest extends BaseTestCase
             ],
         ];
 
-        $rule = new GetArrayOfType(new ArrayVarMap($data), ItemParams::class);
-        $result = $rule('items', 5);
+        $rule = new GetArrayOfType(ItemParams::class);
+        $validator = new ParamsValidator();
+        $result = $rule->process('items', new ArrayVarMap($data), $validator);
 
         $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());
@@ -106,7 +111,7 @@ class GetArrayOfTypeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\GetArrayOfType
+     * @covers \Params\FirstRule\GetArrayOfType
      */
     public function testMultipleErrors()
     {
@@ -117,8 +122,9 @@ class GetArrayOfTypeTest extends BaseTestCase
             ],
         ];
 
-        $rule = new GetArrayOfType(new ArrayVarMap($data), ItemParams::class);
-        $result = $rule('items', 5);
+        $validator = new ParamsValidator();
+        $rule = new GetArrayOfType(ItemParams::class);
+        $result = $rule->process('items', new ArrayVarMap($data), $validator);
 
         $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());

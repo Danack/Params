@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsExample;
 
 use Respect\Validation\Validator as v;
-use Params\Rule;
+use Params\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 

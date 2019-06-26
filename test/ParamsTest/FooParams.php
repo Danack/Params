@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\Rule\GetInt;
-use Params\Rule\MaxIntValue;
-use Params\Rule\MinIntValue;
+use Params\FirstRule\GetInt;
+use Params\SubsequentRule\MaxIntValue;
+use Params\SubsequentRule\MinIntValue;
 use Params\SafeAccess;
 use VarMap\VarMap;
 
-use Params\Rule\IntegerInput;
+use Params\SubsequentRule\IntegerInput;
 
 class FooParams
 {
@@ -24,11 +24,11 @@ class FooParams
         $this->limit = $limit;
     }
 
-    public static function getRules(VarMap $variableMap)
+    public static function getRules()
     {
         return [
             'limit' => [
-                new GetInt($variableMap),
+                new GetInt(),
                 new IntegerInput(),
                 new MinIntValue(0),
                 new MaxIntValue(100)

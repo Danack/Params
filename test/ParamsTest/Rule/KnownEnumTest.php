@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\Enum;
+use Params\SubsequentRule\Enum;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -24,14 +25,15 @@ class KnownEnumValidatorTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\Rule\Enum
+     * @covers \Params\SubsequentRule\Enum
      */
     public function testValidation($testValue, $expectError, $expectedValue)
     {
         $knowValues = ['zoq', 'fot', 'pik', '12345'];
 
-        $validator = new Enum($knowValues);
-        $validationResult = $validator('foo', $testValue);
+        $rule = new Enum($knowValues);
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $testValue, $validator);
 
         if ($expectError) {
             $this->assertNotNull($validationResult->getProblemMessage());

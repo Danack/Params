@@ -13,11 +13,12 @@ use ParamsTest\BarParamsCreateFromInput;
 
 /**
  * @coversNothing
+ * @group patch
  */
 class TraitsTest extends BaseTestCase
 {
     /**
-     * @covers \Params\CreateFromVarMap
+     * @covers \Params\Create\CreateFromVarMap
      */
     public function testCreateFromVarMap()
     {
@@ -29,7 +30,7 @@ class TraitsTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\CreateOrErrorFromVarMap
+     * @covers \Params\Create\CreateOrErrorFromVarMap
      */
     public function testCreateOrErrorFromVarMap()
     {
@@ -43,7 +44,7 @@ class TraitsTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\CreateFromInput
+     * @covers \Params\Create\CreateFromInput
      */
     public function testCreateFromInput()
     {
@@ -55,7 +56,7 @@ class TraitsTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\CreateOrErrorFromInput
+     * @covers \Params\Create\CreateOrErrorFromInput
      */
     public function testCreateOrErrorFromInput()
     {

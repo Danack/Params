@@ -10,6 +10,7 @@ use Params\Exception\LogicException;
 
 /**
  * @coversNothing
+ * @group patch
  */
 class TestPatchEntryTest extends BaseTestCase
 {

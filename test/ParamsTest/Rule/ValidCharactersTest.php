@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\ValidCharacters;
-use Params\Rule\SaneCharacters;
+use Params\SubsequentRule\ValidCharacters;
+use Params\SubsequentRule\SaneCharacters;
+use Params\ParamsValidator;
 
 /**
  * @group wip
@@ -27,12 +28,14 @@ class ValidCharactersTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\Rule\ValidCharacters
+     * @covers \Params\SubsequentRule\ValidCharacters
      */
     public function testValidation($validCharactersPattern, $testValue, $expectedErrorPosition)
     {
-        $validator = new ValidCharacters($validCharactersPattern);
-        $validationResult = $validator('foo', $testValue);
+        $rule = new ValidCharacters($validCharactersPattern);
+        $validator = new ParamsValidator();
+
+        $validationResult = $rule->process('foo', $testValue, $validator);
         if ($expectedErrorPosition !== null) {
             $this->assertNotNull($validationResult->getProblemMessage(), "Failed to detect invalid char at $expectedErrorPosition");
             $this->assertStringContainsString(
@@ -48,8 +51,4 @@ class ValidCharactersTest extends BaseTestCase
             $this->assertNull($validationResult->getProblemMessage());
         }
     }
-
-
-
-
 }

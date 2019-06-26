@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
-use Params\Rule\IntegerInput;
+use Params\SubsequentRule\IntegerInput;
 use ParamsTest\BaseTestCase;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -23,12 +24,13 @@ class IntegerInputValidatorTest extends BaseTestCase
 
     /**
      * @dataProvider provideIntValueWorksCases
-     * @covers \Params\Rule\IntegerInput
+     * @covers \Params\SubsequentRule\IntegerInput
      */
     public function testValidationWorks(string $inputValue, int $expectedValue)
     {
-        $validator = new IntegerInput();
-        $validationResult = $validator('foo', $inputValue);
+        $rule = new IntegerInput();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $inputValue, $validator);
 
         $this->assertNull($validationResult->getProblemMessage());
         $this->assertEquals($expectedValue, $validationResult->getValue());
@@ -48,12 +50,13 @@ class IntegerInputValidatorTest extends BaseTestCase
 
     /**
      * @dataProvider provideMinIntValueErrorsCases
-     * @covers \Params\Rule\IntegerInput
+     * @covers \Params\SubsequentRule\IntegerInput
      */
     public function testValidationErrors(string $inputValue)
     {
-        $validator = new IntegerInput();
-        $validationResult = $validator('foo', $inputValue);
+        $rule = new IntegerInput();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $inputValue, $validator);
         $this->assertNotNull($validationResult->getProblemMessage());
     }
 }

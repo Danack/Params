@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\MultipleEnum;
+use Params\SubsequentRule\MultipleEnum;
 use Params\Value\MultipleEnums;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -23,12 +24,13 @@ class MultipleEnumTest extends BaseTestCase
 
     /**
      * @dataProvider provideMultipleEnumCases
-     * @covers \Params\Rule\MultipleEnum
+     * @covers \Params\SubsequentRule\MultipleEnum
      */
     public function testMultipleEnum_emptySegments($input, $expectedOutput)
     {
         $enumRule = new MultipleEnum(['foo', 'bar']);
-        $result = $enumRule('unused', $input);
+        $validator = new ParamsValidator();
+        $result = $enumRule->process('unused', $input, $validator);
 
         $this->assertNull($result->getProblemMessage());
         $value = $result->getValue();
@@ -47,12 +49,13 @@ class MultipleEnumTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\Rule\MultipleEnum
+     * @covers \Params\SubsequentRule\MultipleEnum
      */
     public function testValidation($testValue, $expectedFilters, $expectError)
     {
-        $validator = new MultipleEnum(['time', 'distance']);
-        $validationResult = $validator('foo', $testValue);
+        $rule = new MultipleEnum(['time', 'distance']);
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $testValue, $validator);
 
         if ($expectError === true) {
             $this->assertNotNull($validationResult->getProblemMessage());

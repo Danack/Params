@@ -9,6 +9,7 @@ use Params\Value\MultipleEnums;
 
 /**
  * @coversNothing
+ * @group patch
  */
 class MultipleEnumsTest extends BaseTestCase
 {

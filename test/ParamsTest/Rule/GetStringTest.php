@@ -6,7 +6,8 @@ namespace ParamsTest\Rule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\Rule\GetString;
+use Params\FirstRule\GetString;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -14,25 +15,31 @@ use Params\Rule\GetString;
 class GetStringTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Rule\GetString
+     * @covers \Params\FirstRule\GetString
      */
     public function testMissingGivesError()
     {
-        $validator = new GetString(new ArrayVarMap([]));
-        $validationResult = $validator('foo', 'not_used');
+        $rule = new GetString();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
         $this->assertNotNull($validationResult->getProblemMessage());
     }
 
     /**
-     * @covers \Params\Rule\GetString
+     * @covers \Params\FirstRule\GetString
      */
     public function testValidation()
     {
         $variableName = 'foo';
         $expectedValue = 'bar';
 
-        $validator = new GetString(new ArrayVarMap([$variableName => $expectedValue]));
-        $validationResult = $validator($variableName, 'not_used');
+        $rule = new GetString();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process(
+            $variableName,
+            new ArrayVarMap([$variableName => $expectedValue]),
+            $validator
+        );
 
         $this->assertNull($validationResult->getProblemMessage());
         $this->assertEquals($validationResult->getValue(), $expectedValue);

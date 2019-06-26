@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\PositiveInt;
+use Params\SubsequentRule\PositiveInt;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -27,12 +28,13 @@ class PositiveIntTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\Rule\PositiveInt
+     * @covers \Params\SubsequentRule\PositiveInt
      */
     public function testValidation($testValue, $expectedResult, $expectError)
     {
-        $validator = new PositiveInt();
-        $validationResult = $validator('foo', $testValue);
+        $rule = new PositiveInt();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $testValue, $validator);
         if ($expectError == true) {
             $this->assertNotNull($validationResult->getProblemMessage());
         }

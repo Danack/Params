@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\Patch;
+use Params\SubsequentRule\Patch;
 use Params\ValueInput;
 use Params\Value\PatchEntry;
 
@@ -20,6 +20,7 @@ use Params\Value\PatchEntries;
 
 /**
  * @coversNothing
+ * @group patch
  */
 class PatchingTest extends BaseTestCase
 {

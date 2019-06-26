@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\Rule\GetInt;
-use Params\Rule\GetString;
-use Params\Rule\MaxIntValue;
-use Params\Rule\MinIntValue;
-use Params\Rule\MinLength;
+use Params\FirstRule\GetInt;
+use Params\FirstRule\GetString;
+use Params\SubsequentRule\MaxIntValue;
+use Params\SubsequentRule\MinIntValue;
+use Params\SubsequentRule\MinLength;
 use Params\SafeAccess;
 use VarMap\VarMap;
 
-use Params\Rule\IntegerInput;
+use Params\SubsequentRule\IntegerInput;
 
 class ItemParams
 {
@@ -35,15 +35,15 @@ class ItemParams
         $this->bar = $bar;
     }
 
-    public static function getRules(VarMap $variableMap)
+    public static function getRules()
     {
         return [
             'foo' => [
-                new GetInt($variableMap),
+                new GetInt(),
                 new MaxIntValue(100)
             ],
             'bar' => [
-                new GetString($variableMap),
+                new GetString(),
                 new MinLength(4),
             ],
         ];

@@ -6,12 +6,13 @@ namespace ParamsTest\Rule;
 
 use Params\Value\MultipleEnums;
 use ParamsTest\BaseTestCase;
-use Params\Rule\MultipleEnum;
+use Params\SubsequentRule\MultipleEnum;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
  */
-class CheckFilterSetTest extends BaseTestCase
+class CheckFilterStringTest extends BaseTestCase
 {
     public function providesKnownFilterCorrect()
     {
@@ -23,12 +24,13 @@ class CheckFilterSetTest extends BaseTestCase
 
     /**
      * @dataProvider providesKnownFilterCorrect
-     * @covers \Params\Rule\MultipleEnum
+     * @covers \Params\SubsequentRule\MultipleEnum
      */
     public function testKnownFilterCorrect($inputString, $expectedResult)
     {
-        $validator = new MultipleEnum(['foo', 'bar']);
-        $validationResult = $validator('someFilter', $inputString);
+        $rule = new MultipleEnum(['foo', 'bar']);
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('someFilter', $inputString, $validator);
         $this->assertNull($validationResult->getProblemMessage());
 
         $validationValue = $validationResult->getValue();
@@ -40,13 +42,14 @@ class CheckFilterSetTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\MultipleEnum
+     * @covers \Params\SubsequentRule\MultipleEnum
      */
     public function testUnknownFilterErrors()
     {
         $expectedValue = 'zot';
-        $validator = new MultipleEnum(['foo', 'bar']);
-        $validationResult = $validator('someFilter', $expectedValue);
+        $rule = new MultipleEnum(['foo', 'bar']);
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('someFilter', $expectedValue, $validator);
         $this->assertNotNull($validationResult->getProblemMessage());
     }
 }

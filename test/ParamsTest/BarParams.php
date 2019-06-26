@@ -6,7 +6,7 @@ namespace ParamsTest;
 
 use Params\Input;
 use Params\SafeAccess;
-use Params\Rule\CompleteInput;
+use Params\SubsequentRule\CompleteInput;
 
 class BarParams
 {

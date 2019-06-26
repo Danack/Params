@@ -6,7 +6,8 @@ namespace ParamsTest\Rule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\Rule\GetOptionalString;
+use Params\FirstRule\GetOptionalString;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -14,26 +15,30 @@ use Params\Rule\GetOptionalString;
 class GetOptionalStringTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Rule\GetOptionalString
+     * @covers \Params\FirstRule\GetOptionalString
      */
     public function testMissingGivesNull()
     {
-        $validator = new GetOptionalString(new ArrayVarMap([]));
-        $validationResult = $validator('foo', 'not_used');
+        $rule = new GetOptionalString();
+        $validator = new ParamsValidator();
+
+        $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
         $this->assertNull($validationResult->getProblemMessage());
         $this->assertNull($validationResult->getValue());
     }
 
     /**
-     * @covers \Params\Rule\GetOptionalString
+     * @covers \Params\FirstRule\GetOptionalString
      */
     public function testValidation()
     {
         $variableName = 'foo';
         $expectedValue = 'bar';
 
-        $validator = new GetOptionalString(new ArrayVarMap([$variableName => $expectedValue]));
-        $validationResult = $validator($variableName, 'not_used');
+        $varMap = new ArrayVarMap([$variableName => $expectedValue]);
+        $rule = new GetOptionalString();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process($variableName, $varMap, $validator);
 
         $this->assertNull($validationResult->getProblemMessage());
         $this->assertEquals($validationResult->getValue(), $expectedValue);

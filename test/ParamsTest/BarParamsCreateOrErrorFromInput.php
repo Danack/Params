@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\CreateOrErrorFromInput;
+use Params\Create\CreateOrErrorFromInput;
 
 class BarParamsCreateOrErrorFromInput extends BarParams
 {

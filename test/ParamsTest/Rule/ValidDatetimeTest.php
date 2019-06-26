@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\ValidDatetime;
+use Params\SubsequentRule\ValidDatetime;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -42,12 +43,13 @@ class ValidDatetimeTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorksCases
-     * @covers \Params\Rule\ValidDatetime
+     * @covers \Params\SubsequentRule\ValidDatetime
      */
     public function testValidationWorks($input, $expectedTime)
     {
-        $validator = new ValidDatetime();
-        $validationResult = $validator('foo', $input);
+        $rule = new ValidDatetime();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $input, $validator);
 
         $this->assertNull($validationResult->getProblemMessage());
         $this->assertEquals($validationResult->getValue(), $expectedTime);
@@ -63,12 +65,13 @@ class ValidDatetimeTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrorsCases
-     * @covers \Params\Rule\ValidDatetime
+     * @covers \Params\SubsequentRule\ValidDatetime
      */
     public function testValidationErrors($input)
     {
-        $validator = new ValidDatetime();
-        $validationResult = $validator('foo', $input);
+        $rule = new ValidDatetime();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $input, $validator);
 
         $this->assertNotNull($validationResult->getProblemMessage());
     }

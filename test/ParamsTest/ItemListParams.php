@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\Rule\GetString;
+use Params\FirstRule\GetString;
 
-use Params\Rule\MaxLength;
+use Params\SubsequentRule\MaxLength;
 use Params\SafeAccess;
 use VarMap\VarMap;
-use Params\CreateOrErrorFromVarMap;
-use Params\Rule\GetArrayOfType;
+use Params\Create\CreateOrErrorFromVarMap;
+use Params\FirstRule\GetArrayOfType;
 
 class ItemListParams
 {
@@ -33,14 +33,14 @@ class ItemListParams
         $this->description = $description;
     }
 
-    public static function getRules(VarMap $variableMap)
+    public static function getRules()
     {
         return [
             'items' => [
-                new GetArrayOfType($variableMap, ItemParams::class),
+                new GetArrayOfType(ItemParams::class),
             ],
             'description' => [
-                new GetString($variableMap),
+                new GetString(),
                 new MaxLength(120)
             ],
         ];

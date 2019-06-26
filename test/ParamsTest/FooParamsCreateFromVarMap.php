@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\CreateFromVarMap;
+use Params\Create\CreateFromVarMap;
 
 class FooParamsCreateFromVarMap extends FooParams
 {

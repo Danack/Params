@@ -4,43 +4,31 @@ declare(strict_types = 1);
 
 namespace Params\Exception;
 
+use Params\ValidationErrors;
+
 class ValidationException extends \Params\Exception\ParamsException
 {
+    /** @var ValidationErrors  */
     private $validationProblems;
 
     /**
      * ValidationException constructor.
      * @param string $message
-     * @param array $validationProblems
+     * @param ValidationErrors $validationProblems
      * @param \Exception|null $previous
      */
-    public function __construct($message, array $validationProblems, \Exception $previous = null)
+    public function __construct($message, ValidationErrors $validationProblems, \Exception $previous = null)
     {
         $actualMessage = $message . " ";
-        $actualMessage .= implode(", ", $validationProblems);
+        $actualMessage .= implode(", ", $validationProblems->getValidationProblems());
 
         $this->validationProblems = $validationProblems;
 
         parent::__construct($actualMessage, $code = 0, $previous);
     }
 
-    /**
-     * @return array
-     */
-    public function getValidationProblems(): array
+    public function getValidationProblems(): ValidationErrors
     {
         return $this->validationProblems;
-    }
-
-    /**
-     * @param string $message
-     * @param string[] $validationProblems
-     * @throws ValidationException
-     */
-    public static function throwIfProblems(string $message, array $validationProblems)
-    {
-        if (count($validationProblems) > 0) {
-            throw new ValidationException($message, $validationProblems);
-        }
     }
 }

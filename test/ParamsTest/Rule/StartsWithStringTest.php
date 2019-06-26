@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\StartsWithString;
+use Params\SubsequentRule\StartsWithString;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -22,13 +23,13 @@ class StartsWithStringTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorksCases
-     * @covers \Params\Rule\StartsWithString
+     * @covers \Params\SubsequentRule\StartsWithString
      */
     public function testValidationWorks(string $prefix, $testValue)
     {
-        $validator = new StartsWithString($prefix);
-
-        $validationResult = $validator('foo', $testValue);
+        $rule = new StartsWithString($prefix);
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $testValue, $validator);
         $this->assertNull($validationResult->getProblemMessage());
         $this->assertSame($validationResult->getValue(), $testValue);
     }
@@ -43,13 +44,13 @@ class StartsWithStringTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestFailsCases
-     * @covers \Params\Rule\StartsWithString
+     * @covers \Params\SubsequentRule\StartsWithString
      */
     public function testValidationErrors(string $prefix, $testValue)
     {
-        $validator = new StartsWithString($prefix);
-
-        $validationResult = $validator('foo', $testValue);
+        $rule = new StartsWithString($prefix);
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $testValue, $validator);
         $this->assertNotNull($validationResult->getProblemMessage());
     }
 }

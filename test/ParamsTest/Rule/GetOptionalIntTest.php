@@ -6,7 +6,8 @@ namespace ParamsTest\Rule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\Rule\GetOptionalInt;
+use Params\FirstRule\GetOptionalInt;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -27,13 +28,14 @@ class GetOptionalIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\GetOptionalInt
+     * @covers \Params\FirstRule\GetOptionalInt
      * @dataProvider provideTestCases
      */
     public function testValidation(ArrayVarMap $varMap, $expectedValue)
     {
-        $validator = new GetOptionalInt($varMap);
-        $validationResult = $validator('foo', null);
+        $rule = new GetOptionalInt();
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $varMap, $validator);
 
         $this->assertNull($validationResult->getProblemMessage());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
@@ -50,15 +52,17 @@ class GetOptionalIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\GetOptionalInt
+     * @covers \Params\FirstRule\GetOptionalInt
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($inputValue)
     {
         $variableName = 'foo';
         $variables = [$variableName => $inputValue];
-        $validator = new GetOptionalInt(new ArrayVarMap($variables));
-        $validationResult = $validator($variableName, 'not_used');
+
+        $validator = new ParamsValidator();
+        $rule = new GetOptionalInt();
+        $validationResult = $rule->process($variableName, new ArrayVarMap($variables), $validator);
 
         $this->assertNotNull($validationResult->getProblemMessage());
         $this->assertNull($validationResult->getValue());

@@ -8,6 +8,7 @@ use Params\ValueInput;
 
 /**
  * @coversNothing
+ * @group patch
  */
 class PatchTest extends BaseTestCase
 {

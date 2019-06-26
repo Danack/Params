@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\Rule\Order;
+use Params\SubsequentRule\Order;
 use Params\Value\Ordering;
+use Params\ParamsValidator;
 
 /**
  * @coversNothing
@@ -23,14 +24,15 @@ class OrderTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\Rule\Order
+     * @covers \Params\SubsequentRule\Order
      */
     public function testValidation($testValue, $expectedOrdering, $expectError)
     {
         $orderParams = ['time', 'distance'];
 
-        $validator = new Order($orderParams);
-        $validationResult = $validator('foo', $testValue);
+        $rule = new Order($orderParams);
+        $validator = new ParamsValidator();
+        $validationResult = $rule->process('foo', $testValue, $validator);
 
         if ($expectError === true) {
             $this->assertNotNull($validationResult->getProblemMessage());

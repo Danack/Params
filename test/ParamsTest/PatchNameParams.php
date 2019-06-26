@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\CreateFromInput;
+use Params\Create\CreateFromInput;
 use Params\Input;
 use Params\Value\PatchEntry;
-use Params\Rule\Patch;
-use Params\Rule\ExtractPatchPathValue;
-use Params\Rule\Trim;
-use Params\Rule\MaxLength;
-use Params\Rule\MinLength;
-use Params\Rule\ValidCharacters;
+use Params\SubsequentRule\Patch;
+use Params\SubsequentRule\ExtractPatchPathValue;
+use Params\SubsequentRule\Trim;
+use Params\SubsequentRule\MaxLength;
+use Params\SubsequentRule\MinLength;
+use Params\SubsequentRule\ValidCharacters;
 
 class PatchNameParams
 {

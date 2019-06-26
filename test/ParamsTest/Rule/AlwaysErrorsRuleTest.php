@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
+use Params\ParamsValidator;
 use ParamsTest\BaseTestCase;
-use Params\Rule\AlwaysErrorsRule;
+use Params\SubsequentRule\AlwaysErrorsRule;
 use Params\OpenApi\OpenApiV300ParamDescription;
 
 /**
@@ -14,14 +15,15 @@ use Params\OpenApi\OpenApiV300ParamDescription;
 class AlwaysErrorsRuleTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Rule\AlwaysErrorsRule
+     * @covers \Params\SubsequentRule\AlwaysErrorsRule
      */
     public function testUnknownFilterErrors()
     {
         $message = 'test message';
         $rule = new AlwaysErrorsRule($message);
+        $validator = new ParamsValidator();
 
-        $result = $rule('foo', 5);
+        $result = $rule->process('foo', 5, $validator);
 
         $this->assertEquals($message, $result->getProblemMessage());
         $this->assertTrue($result->isFinalResult());
@@ -29,7 +31,7 @@ class AlwaysErrorsRuleTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Rule\AlwaysErrorsRule
+     * @covers \Params\SubsequentRule\AlwaysErrorsRule
      */
     public function testCoverage()
     {
