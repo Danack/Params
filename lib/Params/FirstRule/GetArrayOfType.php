@@ -22,6 +22,8 @@ class GetArrayOfType implements FirstRule
 
     const ERROR_MESSAGE_NOT_ARRAY = "Value set for '%s' must be an array.";
 
+    const ERROR_MESSAGE_ITEM_NOT_ARRAY = "Error for '%s'. Values for type '%s' must be an array, but got '%s'. Use GetArrayOfInt|String for single values.";
+
     public function __construct(string $className)
     {
         $this->className = $className;
@@ -49,6 +51,17 @@ class GetArrayOfType implements FirstRule
         $index = 0;
 
         foreach ($itemData as $itemDatum) {
+            if (is_array($itemDatum) !== true) {
+                $message = sprintf(
+                    self::ERROR_MESSAGE_ITEM_NOT_ARRAY,
+                    $variableName,
+                    $this->className,
+                    gettype($itemDatum)
+                );
+
+                return ValidationResult::errorResult($message);
+            }
+
             $dataVarMap = new ArrayVarMap($itemDatum);
             $rules = call_user_func([$this->className, 'getRules'], $dataVarMap);
 
