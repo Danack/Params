@@ -28,12 +28,12 @@ class CopyPatchEntryTest extends BaseTestCase
         $this->assertEquals($path, $patch->getPath());
         $this->assertEquals($from, $patch->getFrom());
 
-        $this->assertEquals(PatchEntry::COPY, $patch->getOp());
+        $this->assertEquals(PatchEntry::COPY, $patch->getOpType());
 
         $this->expectException(LogicException::class);
         $patch->getValue();
 
-        $this->assertEquals('copy', $patch->getOp());
+        $this->assertEquals('copy', $patch->getOpType());
     }
 
 

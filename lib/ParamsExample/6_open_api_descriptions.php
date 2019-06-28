@@ -10,7 +10,7 @@ use VarMap\ArrayVarMap;
 require __DIR__ . "/../../vendor/autoload.php";
 
 
-$rules = GetArticlesParams::getRules(new ArrayVarMap([]));
+$rules = GetArticlesParams::getRules();
 
 $descriptions = OpenApiV300ParamDescription::createFromRules($rules);
 

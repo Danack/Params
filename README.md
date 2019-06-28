@@ -115,8 +115,32 @@ We have several tools that are run to improve code quality. Please run `sh runTe
 
 Pull requests should have full unit test coverage. Preferably also full mutation coverage through infection.
 
+# Related info
+
+https://tools.ietf.org/html/rfc6901
+https://tools.ietf.org/html/rfc6902
+
+
+
 # Future work
 
+
+## Support Uri fragment encoding on paths
+
+```
+    #            // the whole document
+    #/foo        ["bar", "baz"]
+    #/foo/0      "bar"
+    #/           0
+    #/a~1b       1
+    #/c%25d      2
+    #/e%5Ef      3
+    #/g%7Ch      4
+    #/i%5Cj      5
+    #/k%22l      6
+    #/%20        7
+    #/m~0n       8
+```
 
 ## Parameter location
 

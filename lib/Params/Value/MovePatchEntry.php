@@ -27,7 +27,7 @@ class MovePatchEntry implements PatchEntry
         $this->from = $from;
     }
 
-    public function getOp()
+    public function getOpType()
     {
         return "move";
     }

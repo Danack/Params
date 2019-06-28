@@ -16,23 +16,31 @@ class MinimumCount implements SubsequentRule
 
     public const ERROR_TOO_FEW_ELEMENTS = "Number of elements in %s is too small. Min allowed is %d but only got %d.";
 
+    public const ERROR_MINIMUM_COUNT_MINIMUM = "Minimum count must be zero or above.";
+
+    public const ERROR_WRONG_TYPE = "Minimum count can only be applied to an array but tried to operate on %s.";
+
     /**
      * @param int $minimumCount the minimum number (inclusive) of elements.
      */
     public function __construct(int $minimumCount)
     {
+        if ($minimumCount < 0) {
+            throw new LogicException(self::ERROR_MINIMUM_COUNT_MINIMUM);
+        }
+
         $this->minimumCount = $minimumCount;
     }
 
     public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
     {
         if (is_array($value) !== true) {
-            sprintf(
-                "Minimum count can only be applied to an array but tried to operate on %s ",
+            $message = sprintf(
+                self::ERROR_WRONG_TYPE,
                 gettype($value)
             );
 
-            throw new LogicException();
+            throw new LogicException($message);
         }
 
         $actualCount = count($value);

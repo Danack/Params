@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace ParamsExample;
 
 use Respect\Validation\Validator as v;
-use Params\SubsequentRule;
+use Params\SubsequentRule\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
+use Params\ParamsValidator;
 
 /**
  * This is an example of using a validator from the Respect/Validation library
  *
  *
  */
-class RespectMacRule implements Rule
+class RespectMacRule implements SubsequentRule
 {
-    public function __invoke(string $name, $value): ValidationResult
+    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
     {
         if (v::macAddress()->validate($value) === true) {
             return ValidationResult::valueResult($value);

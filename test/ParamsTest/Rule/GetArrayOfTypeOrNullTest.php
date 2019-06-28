@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use Params\FirstRule\GetArrayOfTypeOrNull;
 use ParamsTest\BaseTestCase;
 use Params\FirstRule\GetArrayOfType;
-use ParamsTest\ItemParams;
+use ParamsTest\Integration\ItemParams;
 use VarMap\ArrayVarMap;
 use Params\ParamsValidator;
 

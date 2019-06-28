@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest;
+namespace ParamsTest\Integration;
 
 use Params\FirstRule\GetString;
 
@@ -17,14 +17,14 @@ class ItemListParams
     use SafeAccess;
     use CreateOrErrorFromVarMap;
 
-    /** @var \ParamsTest\ItemParams[]  */
+    /** @var \ParamsTest\Integration\ItemParams[]  */
     private $items;
 
     /** @var string */
     private $description;
 
     /**
-     * @param \ParamsTest\ItemParams[] $items
+     * @param \ParamsTest\Integration\ItemParams[] $items
      * @param string $description
      */
     public function __construct(array $items, string $description)

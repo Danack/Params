@@ -369,6 +369,113 @@ class OpenApiV300ParamDescription implements ParamDescription
         // TODO: Implement setMultipleOf() method.
         throw new \Exception("setMultipleOf not implemented yet.");
     }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormat(): string
+    {
+        return $this->format;
+    }
+
+    /**
+     * @return null
+     */
+    public function getEnumValues()
+    {
+        return $this->enumValues;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getRequired(): ?bool
+    {
+        return $this->required;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getMinimum()
+    {
+        return $this->minimum;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getMaximum()
+    {
+        return $this->maximum;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxLength(): int
+    {
+        return $this->maxLength;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMinLength(): int
+    {
+        return $this->minLength;
+    }
+
+    /**
+     * @return null
+     */
+    public function getDefault()
+    {
+        return $this->default;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExclusiveMaximum(): bool
+    {
+        return $this->exclusiveMaximum;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExclusiveMinimum(): bool
+    {
+        return $this->exclusiveMinimum;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getNullAllowed(): ?bool
+    {
+        return $this->nullAllowed;
+    }
+
+
+
 // examples:
 //  oneId:
 //    summary: Example of a single ID

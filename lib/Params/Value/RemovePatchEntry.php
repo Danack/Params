@@ -23,7 +23,7 @@ class RemovePatchEntry implements PatchEntry
         $this->path = $path;
     }
 
-    public function getOp()
+    public function getOpType()
     {
         return "remove";
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest;
+namespace ParamsTest\Integration;
 
 use Params\FirstRule\GetInt;
 use Params\SubsequentRule\MaxIntValue;

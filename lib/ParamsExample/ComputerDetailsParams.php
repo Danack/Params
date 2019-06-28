@@ -33,20 +33,16 @@ class ComputerDetailsParams
         $this->macAddress = $macAddress;
     }
 
-    /**
-     * @param VarMap $variableMap
-     * @return array
-     */
-    public static function getRules(VarMap $variableMap)
+    public static function getRules()
     {
         return [
             'name' => [
-                new GetString($variableMap),
+                new GetString(),
                 new MinLength(2),
                 new MaxLength(1024)
             ],
             'mac_address' => [
-                new GetString($variableMap),
+                new GetString(),
                 new RespectMacRule(),
             ],
         ];

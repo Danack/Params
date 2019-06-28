@@ -6,10 +6,8 @@ namespace ParamsTest;
 
 use ParamsTest\BaseTestCase;
 use VarMap\ArrayVarMap;
-use ParamsTest\FooParamsCreateFromVarMap;
-use Params\Input;
-use Params\ValueInput;
-use ParamsTest\BarParamsCreateFromInput;
+use ParamsTest\Integration\FooParamsCreateFromVarMap;
+use ParamsTest\Integration\FooParamsCreateOrErrorFromVarMap;
 
 /**
  * @coversNothing
@@ -43,28 +41,5 @@ class TraitsTest extends BaseTestCase
         $this->assertEquals($limitValue, $fooParams->getLimit());
     }
 
-    /**
-     * @covers \Params\Create\CreateFromInput
-     */
-    public function testCreateFromInput()
-    {
-        $inputValues = [1, 2, 3];
-        $varMap = new ValueInput($inputValues);
-        $fooParams = BarParamsCreateFromInput::createFromInput($varMap);
-        $this->assertInstanceOf(BarParamsCreateFromInput::class, $fooParams);
-        $this->assertEquals($inputValues, $fooParams->getValues());
-    }
 
-    /**
-     * @covers \Params\Create\CreateOrErrorFromInput
-     */
-    public function testCreateOrErrorFromInput()
-    {
-        $inputValues = [1, 2, 3];
-        $varMap = new ValueInput($inputValues);
-        [$fooParams, $errors] = BarParamsCreateOrErrorFromInput::createFromInput($varMap);
-        $this->assertNull($errors);
-        $this->assertInstanceOf(BarParamsCreateOrErrorFromInput::class, $fooParams);
-        $this->assertEquals($inputValues, $fooParams->getValues());
-    }
 }

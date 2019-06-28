@@ -25,9 +25,10 @@ use Params\SubsequentRule\Trim;
 use Params\SubsequentRule\ValidDate;
 use Params\SubsequentRule\ValidDatetime;
 use ParamsTest\BaseTestCase;
-use VarMap\ArrayVarMap;
 use Params\SubsequentRule\AlwaysEndsRule;
 use Params\Exception\OpenApiException;
+use Params\SubsequentRule\NullIfEmpty;
+use VarMap\ArrayVarMap;
 
 
 class DescriptionTest extends BaseTestCase
@@ -45,7 +46,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules =  [
             'value' => [
-                new GetString($varMap),
+                new GetString(),
                 new Enum($values),
             ],
         ];
@@ -97,7 +98,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetInt($varMap)
+                new GetInt()
             ],
         ];
 
@@ -117,7 +118,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetIntOrDefault($default, $varMap)
+                new GetIntOrDefault($default)
             ],
         ];
 
@@ -138,7 +139,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetStringOrDefault($default, $varMap)
+                new GetStringOrDefault($default)
             ],
         ];
 
@@ -157,7 +158,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetOptionalInt($varMap)
+                new GetOptionalInt()
             ],
         ];
 
@@ -176,7 +177,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetOptionalString($varMap)
+                new GetOptionalString()
             ],
         ];
 
@@ -194,7 +195,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetInt($varMap),
+                new GetInt(),
                 new MinIntValue($maxValue)
             ],
         ];
@@ -212,7 +213,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetString($varMap),
+                new GetString(),
                 new MaxLength($maxLength)
             ],
         ];
@@ -237,7 +238,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetString($varMap),
+                new GetString(),
                 new MinLength($minLength)
             ],
         ];
@@ -259,7 +260,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetString($varMap),
+                new GetString(),
                 new MinLength($minLength)
             ],
         ];
@@ -283,7 +284,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetString($varMap),
+                new GetString(),
                 new MaxLength($maxLength)
             ],
         ];
@@ -306,7 +307,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetString($varMap),
+                new GetString(),
                 new MaxLength($maxLength)
             ],
         ];
@@ -337,7 +338,7 @@ class DescriptionTest extends BaseTestCase
         $varMap = new ArrayVarMap([]);
         $rules = [
             'value' => [
-                new GetInt($varMap),
+                new GetInt(),
                 new MaxIntValue($maxValue)
             ],
         ];
@@ -466,5 +467,17 @@ class DescriptionTest extends BaseTestCase
 
         $alwaysEndsRule = new AlwaysEndsRule(5);
         $alwaysEndsRule->updateParamDescription($description);
+    }
+
+    /**
+     * @covers \Params\SubsequentRule\NullIfEmpty
+     */
+    public function testNullIfEmpty()
+    {
+        $rule = new NullIfEmpty();
+
+        $description = new OpenApiV300ParamDescription();
+        $rule->updateParamDescription($description);
+        $this->assertTrue($description->getNullAllowed());
     }
 }

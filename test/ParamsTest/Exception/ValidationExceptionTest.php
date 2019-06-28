@@ -27,7 +27,7 @@ class ValidationExceptionTest extends BaseTestCase
 
         $this->assertEquals(
             $validationMessages,
-            $exception->getValidationProblems()->getValidationProblems()
+            $exception->getValidationProblems()
         );
     }
 }

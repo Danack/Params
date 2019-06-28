@@ -27,7 +27,7 @@ class TestPatchEntry implements PatchEntry
         $this->value = $value;
     }
 
-    public function getOp()
+    public function getOpType()
     {
         return "test";
     }

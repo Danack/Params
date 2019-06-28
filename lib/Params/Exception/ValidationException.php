@@ -8,7 +8,7 @@ use Params\ValidationErrors;
 
 class ValidationException extends \Params\Exception\ParamsException
 {
-    /** @var ValidationErrors  */
+    /** @var array */
     private $validationProblems;
 
     /**
@@ -22,12 +22,12 @@ class ValidationException extends \Params\Exception\ParamsException
         $actualMessage = $message . " ";
         $actualMessage .= implode(", ", $validationProblems->getValidationProblems());
 
-        $this->validationProblems = $validationProblems;
+        $this->validationProblems = $validationProblems->getValidationProblems();
 
         parent::__construct($actualMessage, $code = 0, $previous);
     }
 
-    public function getValidationProblems(): ValidationErrors
+    public function getValidationProblems(): array
     {
         return $this->validationProblems;
     }

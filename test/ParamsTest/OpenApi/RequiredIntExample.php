@@ -6,13 +6,7 @@ namespace ParamsTest\OpenApi;
 
 use Params\FirstRule\GetInt;
 use Params\SubsequentRule\MaxIntValue;
-use Params\SubsequentRule\MaxLength;
 use Params\SubsequentRule\MinIntValue;
-use Params\SubsequentRule\MinLength;
-use VarMap\VarMap;
-use Params\FirstRule\GetStringOrDefault;
-use Params\FirstRule\GetString;
-use Params\SubsequentRule\Enum;
 use Params\SafeAccess;
 use Params\Create\CreateFromVarMap;
 
@@ -27,11 +21,11 @@ class RequiredIntExample
 
     const MAX = 100;
 
-    public static function getRules(VarMap $variableMap)
+    public static function getRules()
     {
         return [
             self::NAME => [
-                new GetInt($variableMap),
+                new GetInt(),
                 new MinIntValue(self::MIN),
                 new MaxIntValue(self::MAX)
             ],

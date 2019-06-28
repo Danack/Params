@@ -2,45 +2,38 @@
 
 declare(strict_types=1);
 
-namespace Params\SubsequentRule;
+namespace Params;
 
-use Params\Input;
-use Params\OpenApi\ParamDescription;
 use Params\ValidationResult;
 use Params\Value\AddPatchEntry;
 use Params\Value\CopyPatchEntry;
 use Params\Value\MovePatchEntry;
 use Params\Value\PatchEntry;
-use Params\Value\PatchEntries;
 use Params\Value\RemovePatchEntry;
 use Params\Value\ReplacePatchEntry;
 use Params\Value\TestPatchEntry;
-use Params\Functions;
-use Params\ParamsValidator;
 
-class Patch implements SubsequentRule
+class PatchFactory
 {
-    /** @var Input  */
-    private $input;
 
-    /** @var string[] */
-    private $allowedOps;
+//    /** @var string[] */
+//    private $allowedOps;
+//
+//    public function __construct(Input $input, $allowedOps)
+//    {
+//        $this->input = $input;
+//        $this->allowedOps = $allowedOps;
+//    }
 
-    public function __construct(Input $input, $allowedOps)
+    private static function createPatchEntryForObject($op, $path, $patchEntryInput)
     {
-        $this->input = $input;
-        $this->allowedOps = $allowedOps;
-    }
-
-    private function createPatchEntryForObject($op, $path, $patchEntryInput)
-    {
-        if (in_array($op, $this->allowedOps, true) !== true) {
-            $message = sprintf(
-                "Op '%s' is not supported for this endpoint.",
-                $op
-            );
-            return [$message, null];
-        }
+//        if (in_array($op, $this->allowedOps, true) !== true) {
+//            $message = sprintf(
+//                "Op '%s' is not supported for this endpoint.",
+//                $op
+//            );
+//            return [$message, null];
+//        }
 
         if ($op === PatchEntry::TEST) {
             if (property_exists($patchEntryInput, 'value') !== true) {
@@ -80,15 +73,15 @@ class Patch implements SubsequentRule
         }
     }
 
-    private function createPatchEntryForArray($op, $path, $patchEntryInput)
+    private static function createPatchEntryForArray($op, $path, $patchEntryInput)
     {
-        if (Functions::array_value_exists($this->allowedOps, $op) !== true) {
-            $message = sprintf(
-                "Op '%s' is not supported for this endpoint.",
-                $op
-            );
-            return [$message, null];
-        }
+//        if (Functions::array_value_exists($this->allowedOps, $op) !== true) {
+//            $message = sprintf(
+//                "Op '%s' is not supported for this endpoint.",
+//                $op
+//            );
+//            return [$message, null];
+//        }
 
         if ($op === PatchEntry::TEST) {
             if (array_key_exists('value', $patchEntryInput) !== true) {
@@ -129,7 +122,7 @@ class Patch implements SubsequentRule
     }
 
 
-    private function checkObjectEntryForValidity($patchEntryInput)
+    private static function checkObjectEntryForValidity($patchEntryInput)
     {
         if (property_exists($patchEntryInput, 'op') === false) {
             return ["missing 'op'", null];
@@ -138,14 +131,14 @@ class Patch implements SubsequentRule
             return ["missing 'path'", null];
         }
 
-        return $this->createPatchEntryForObject(
+        return self::createPatchEntryForObject(
             $patchEntryInput->op,
             $patchEntryInput->path,
             $patchEntryInput
         );
     }
 
-    private function checkArrayEntryForValidity($patchEntry)
+    private static function checkArrayEntryForValidity($patchEntry)
     {
         if (array_key_exists('op', $patchEntry) === false) {
             return ["missing 'op'", null];
@@ -154,26 +147,27 @@ class Patch implements SubsequentRule
             return ["missing 'path'", null];
         }
 
-        return $this->createPatchEntryForArray(
+        return self::createPatchEntryForArray(
             $patchEntry['op'],
             $patchEntry['path'],
             $patchEntry
         );
     }
 
-    public function __invoke(string $name, $_): ValidationResult
+//    public function __invoke(string $name, $_): ValidationResult
+    public static function convertInputToPatchObjects($value)
     {
-        // TODO - could check $_ is not null here, to prevent Patch being
-        // used as anything other than first in list.
-        $value = $this->input->get();
-        if (is_array($value) !== true) {
-            $message = sprintf(
-                "Patch '%s' must be an array of values, each with op, path and value set",
-                $name
-            );
-
-            return ValidationResult::errorResult($message);
-        }
+//        // TODO - could check $_ is not null here, to prevent Patch being
+//        // used as anything other than first in list.
+//        $value = $this->input->get();
+//        if (is_array($value) !== true) {
+//            $message = sprintf(
+//                "Patch '%s' must be an array of values, each with op, path and value set",
+//                $name
+//            );
+//
+//            return ValidationResult::errorResult($message);
+//        }
 
         $errorMessages = [];
         $patchEntries = [];
@@ -186,10 +180,10 @@ class Patch implements SubsequentRule
             // todo - do we want to support both array and object decoded patches?
             // for now we will.
             if (is_array($patchEntryInput) === true) {
-                [$error, $patchEntry] = $this->checkArrayEntryForValidity($patchEntryInput);
+                [$error, $patchEntry] = self::checkArrayEntryForValidity($patchEntryInput);
             }
             else if (is_object($patchEntryInput) === true) {
-                [$error, $patchEntry] = $this->checkObjectEntryForValidity($patchEntryInput);
+                [$error, $patchEntry] = self::checkObjectEntryForValidity($patchEntryInput);
             }
             else {
                 $error = "Patch entry $count is neither an object or an array.";
@@ -207,19 +201,18 @@ class Patch implements SubsequentRule
 
         if (count($errorMessages) > 0) {
             $message = sprintf(
-                'Data for %s is invalid: %s',
-                $name,
+                'Data for patching is invalid: %s',
                 implode(', ', $errorMessages)
             );
 
             return ValidationResult::errorResult($message);
         }
 
-        return ValidationResult::valueResult(new PatchEntries(...$patchEntries));
+        return ValidationResult::valueResult($patchEntries);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
-    {
-        // TODO: Implement updateParamDescription() method.
-    }
+//    public function updateParamDescription(ParamDescription $paramDescription)
+//    {
+//        // TODO: Implement updateParamDescription() method.
+//    }
 }

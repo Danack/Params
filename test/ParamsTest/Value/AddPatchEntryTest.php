@@ -28,7 +28,7 @@ class AddPatchEntryTest extends BaseTestCase
         $this->assertEquals($path, $addPatch->getPath());
         $this->assertEquals($value, $addPatch->getValue());
 
-        $this->assertEquals(AddPatchEntry::ADD, $addPatch->getOp());
+        $this->assertEquals(AddPatchEntry::ADD, $addPatch->getOpType());
 
         $this->expectException(LogicException::class);
         $addPatch->getFrom();

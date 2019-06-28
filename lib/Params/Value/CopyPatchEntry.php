@@ -27,7 +27,7 @@ class CopyPatchEntry implements PatchEntry
         $this->from = $from;
     }
 
-    public function getOp()
+    public function getOpType()
     {
         return "copy";
     }

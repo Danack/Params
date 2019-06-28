@@ -142,8 +142,8 @@ class ParamsTest extends BaseTestCase
         }
         catch (ValidationException $validationException) {
             $validationProblems = $validationException->getValidationProblems();
-            $this->assertEquals(1, count($validationProblems->getValidationProblems()));
-            $this->assertEquals($errorMessage, ($validationProblems->getValidationProblems())[0]);
+            $this->assertEquals(1, count($validationProblems));
+            $this->assertEquals($errorMessage, $validationProblems[0]);
         }
     }
 
@@ -170,9 +170,9 @@ class ParamsTest extends BaseTestCase
     public function testException()
     {
         $arrayVarMap = new ArrayVarMap([]);
-        $rules = \ParamsTest\FooParams::getRules();
+        $rules = \ParamsTest\Integration\FooParams::getRules();
         $this->expectException(\Params\Exception\ParamsException::class);
-        \Params\Params::create(\ParamsTest\FooParams::class, $rules, $arrayVarMap);
+        \Params\Params::create(\ParamsTest\Integration\FooParams::class, $rules, $arrayVarMap);
     }
 
     /**
@@ -181,8 +181,12 @@ class ParamsTest extends BaseTestCase
     public function testWorks()
     {
         $arrayVarMap = new ArrayVarMap(['limit' => 5]);
-        $rules = \ParamsTest\FooParams::getRules();
-        $fooParams = \Params\Params::create(\ParamsTest\FooParams::class, $rules, $arrayVarMap);
+        $rules = \ParamsTest\Integration\FooParams::getRules();
+        $fooParams = \Params\Params::create(
+            \ParamsTest\Integration\FooParams::class,
+            $rules,
+            $arrayVarMap
+        );
         $this->assertEquals(5, $fooParams->getLimit());
     }
 
@@ -192,8 +196,12 @@ class ParamsTest extends BaseTestCase
     public function testCreateOrError_ErrorIsReturned()
     {
         $arrayVarMap = new ArrayVarMap([]);
-        $rules = \ParamsTest\FooParams::getRules();
-        [$params, $validationErrors] = \Params\Params::createOrError(\ParamsTest\FooParams::class, $rules, $arrayVarMap);
+        $rules = \ParamsTest\Integration\FooParams::getRules();
+        [$params, $validationErrors] = \Params\Params::createOrError(
+            \ParamsTest\Integration\FooParams::class,
+            $rules,
+            $arrayVarMap
+        );
         $this->assertNull($params);
         /** @var ValidationErrors $validationErrors */
         $this->assertInstanceOf(ValidationErrors::class, $validationErrors);
@@ -208,14 +216,14 @@ class ParamsTest extends BaseTestCase
     public function testcreateOrError_Works()
     {
         $arrayVarMap = new ArrayVarMap(['limit' => 5]);
-        $rules = \ParamsTest\FooParams::getRules();
+        $rules = \ParamsTest\Integration\FooParams::getRules();
         [$fooParams, $errors] = \Params\Params::createOrError(
-            \ParamsTest\FooParams::class,
+            \ParamsTest\Integration\FooParams::class,
             $rules,
             $arrayVarMap
         );
         $this->assertNull($errors);
-        /** @var $fooParams \ParamsTest\FooParams */
+        /** @var $fooParams \ParamsTest\Integration\FooParams */
         $this->assertEquals(5, $fooParams->getLimit());
     }
 }

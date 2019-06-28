@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Params\Value;
 
+/**
+ * Common interface for objects that represent the raw unparsed
+ * Patch operations.
+ * @package Params\Value
+ */
 interface PatchEntry
 {
     const TEST      = "test";
@@ -22,7 +27,7 @@ interface PatchEntry
         self::COPY
     ];
 
-    public function getOp();
+    public function getOpType();
 
     public function getPath();
 

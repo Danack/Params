@@ -10,11 +10,11 @@
             <directory>../test/</directory>
         </testsuite>
     </testsuites>
-    <groups>
-        <exclude>
-            <group>patch</group>
-        </exclude>
-    </groups>
+    <!--<groups>-->
+        <!--<exclude>-->
+            <!--<group>patch</group>-->
+        <!--</exclude>-->
+    <!--</groups>-->
 
     <filter>
         <whitelist>

@@ -21,13 +21,13 @@ class AddPatchEntry implements PatchEntry
      * @param string $path
      * @param mixed $value
      */
-    public function __construct(string $path, $value)
+    public function __construct(string $path, $value /*, this needs a type */)
     {
         $this->path = $path;
         $this->value = $value;
     }
 
-    public function getOp()
+    public function getOpType()
     {
         return "add";
     }

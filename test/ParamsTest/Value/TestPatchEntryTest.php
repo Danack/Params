@@ -27,12 +27,12 @@ class TestPatchEntryTest extends BaseTestCase
         $this->assertEquals($path, $patch->getPath());
         $this->assertEquals($value, $patch->getValue());
 
-        $this->assertEquals(TestPatchEntry::TEST, $patch->getOp());
+        $this->assertEquals(TestPatchEntry::TEST, $patch->getOpType());
 
         $this->expectException(LogicException::class);
         $patch->getFrom();
 
-        $this->assertEquals('test', $patch->getOp());
+        $this->assertEquals('test', $patch->getOpType());
     }
 
 

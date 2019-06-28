@@ -28,7 +28,7 @@ class MovePatchEntryTest extends BaseTestCase
         $this->assertEquals($path, $addPatch->getPath());
         $this->assertEquals($from, $addPatch->getFrom());
 
-        $this->assertEquals(PatchEntry::MOVE, $addPatch->getOp());
+        $this->assertEquals(PatchEntry::MOVE, $addPatch->getOpType());
 
         $this->expectException(LogicException::class);
         $addPatch->getValue();

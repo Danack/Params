@@ -20,12 +20,13 @@ class DuplicatesParam implements SubsequentRule
     public const ERROR_DIFFERENT_VALUE = "Parameter named '%s' is different to parameter '%s'.";
 
     /**
-     * @param string $paramName The name of the param this one should be the same as
+     * @param string $paramToDuplicate The name of the param this one should be the same as.
      */
     public function __construct(string $paramToDuplicate)
     {
         $this->paramToDuplicate = $paramToDuplicate;
     }
+
     public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
     {
         if ($validator->hasParam($this->paramToDuplicate) !== true) {

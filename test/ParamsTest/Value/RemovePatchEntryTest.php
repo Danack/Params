@@ -24,7 +24,7 @@ class RemovePatchEntryTest extends BaseTestCase
         $removePatch = new RemovePatchEntry($path);
 
         $this->assertEquals($path, $removePatch->getPath());
-        $this->assertEquals(PatchEntry::REMOVE, $removePatch->getOp());
+        $this->assertEquals(PatchEntry::REMOVE, $removePatch->getOpType());
 
         try {
             $removePatch->getFrom();
@@ -37,7 +37,7 @@ class RemovePatchEntryTest extends BaseTestCase
         $this->expectException(LogicException::class);
         $removePatch->getValue();
 
-        $this->assertEquals("remove", $removePatch->getOp());
+        $this->assertEquals("remove", $removePatch->getOpType());
     }
 
     /**

@@ -28,11 +28,11 @@ class ReplacePatchEntryTest extends BaseTestCase
         $this->assertEquals($path, $replacePatch->getPath());
         $this->assertEquals($value, $replacePatch->getValue());
 
-        $this->assertEquals(ReplacePatchEntry::REPLACE, $replacePatch->getOp());
+        $this->assertEquals(ReplacePatchEntry::REPLACE, $replacePatch->getOpType());
 
         $this->expectException(LogicException::class);
         $replacePatch->getFrom();
-        $this->assertEquals('replace', $replacePatch->getOp());
+        $this->assertEquals('replace', $replacePatch->getOpType());
     }
 
 

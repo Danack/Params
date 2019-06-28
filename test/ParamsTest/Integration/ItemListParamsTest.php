@@ -2,10 +2,11 @@
 
 declare(strict_types = 1);
 
-namespace ParamsTest;
+namespace ParamsTest\Integration;
 
 use VarMap\ArrayVarMap;
 use Params\ValidationErrors;
+use ParamsTest\BaseTestCase;
 
 /**
  * @group wip
@@ -14,7 +15,7 @@ use Params\ValidationErrors;
 class ItemListParamsTest extends BaseTestCase
 {
     /**
-     * @covers \ParamsTest\ItemListParams
+     * @covers \Params\FirstRule\GetArrayOfType
      */
     public function testWorks()
     {
@@ -52,7 +53,7 @@ class ItemListParamsTest extends BaseTestCase
 
 
     /**
-     * @covers \ParamsTest\ItemListParams
+     * @covers \Params\FirstRule\GetArrayOfType
      */
     public function testItemsMissing()
     {
@@ -60,7 +61,6 @@ class ItemListParamsTest extends BaseTestCase
 
         $data = [
             'description' => $description,
-
         ];
 
         /** @var ItemListParams $itemListParams */

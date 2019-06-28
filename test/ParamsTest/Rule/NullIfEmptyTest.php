@@ -19,6 +19,7 @@ class NullIfEmptyTest extends BaseTestCase
             ['pk_foobar', false],
             ['   .   ',   false],
 
+            [null, true],
             ['', true],
             ['                    ', true],
         ];
@@ -26,7 +27,7 @@ class NullIfEmptyTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorksCases
-     * @covers \Params\SubsequentRule\StartsWithString
+     * @covers \Params\SubsequentRule\NullIfEmpty
      */
     public function testValidationWorks($testValue, $shouldBeNull)
     {

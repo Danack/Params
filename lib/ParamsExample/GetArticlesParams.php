@@ -68,29 +68,27 @@ class GetArticlesParams
      * @param VarMap $variableMap
      * @return array
      */
-    public static function getRules(VarMap $variableMap)
+    public static function getRules()
     {
         return [
             'order' => [
-                new GetStringOrDefault('-date', $variableMap),
+                new GetStringOrDefault('-date'),
                 new MaxLength(1024),
                 new Order(self::getKnownOrderNames()),
             ],
             'limit' => [
-                new GetIntOrDefault((string)self::LIMIT_DEFAULT, $variableMap),
+                new GetIntOrDefault((string)self::LIMIT_DEFAULT),
                 new MinIntValue(self::LIMIT_MIN),
                 new MaxIntValue(self::LIMIT_MAX),
             ],
             'after' => [
-                new GetStringOrDefault(null, $variableMap),
+                new GetStringOrDefault(null),
                 new SkipIfNull(),
                 new MinIntValue(0),
                 new MaxIntValue(self::OFFSET_MAX),
             ],
         ];
     }
-
-
 
     /**
      * @return Ordering

@@ -24,11 +24,11 @@ class RequiredStringExample
 
     const MAX_LENGTH = 100;
 
-    public static function getRules(VarMap $variableMap)
+    public static function getRules()
     {
         return [
             self::NAME => [
-                new GetString($variableMap),
+                new GetString(),
                 new MaxLength(self::MAX_LENGTH),
                 new MinLength(self::MIN_LENGTH)
             ],

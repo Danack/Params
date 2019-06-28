@@ -4,32 +4,33 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
+use Params\SubsequentRule\MinimumCount;
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\MaximumCount;
 use Params\Exception\LogicException;
 use Params\ParamsValidator;
 
 /**
  * @coversNothing
  */
-class MaximumCountTest extends BaseTestCase
+class MinimumCountTest extends BaseTestCase
 {
     public function provideWorksCases()
     {
         return [
-            [3, []], // 3 <= 3
-            [3, [1, 2, 3]], // 3 <= 3
-            [4, [1, 2, 3]], // 3 <= 4
+            [0, [1]], // 0 <= 1
+            [1, [1]], // 1 <= 1
+            [2, [1, 2]], // 2 <= 2
+            [2, [1, 2, 3, 4, 5]], // 2 <= 5
         ];
     }
 
     /**
      * @dataProvider provideWorksCases
-     * @covers \Params\SubsequentRule\MaximumCount
+     * @covers \Params\SubsequentRule\MinimumCount
      */
-    public function testWorks(int $maximumCount, $values)
+    public function testWorks(int $minimumCount, $values)
     {
-        $rule = new MaximumCount($maximumCount);
+        $rule = new MinimumCount($minimumCount);
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $values, $validator);
         $this->assertNull($validationResult->getProblemMessage());
@@ -40,53 +41,51 @@ class MaximumCountTest extends BaseTestCase
     public function provideFailsCases()
     {
         return [
-            [0, [1, 2, 3]], // 3 > 0
-            [3, [1, 2, 3, 4]], // 4 > 3
+            [1, []], // 3 > 0
+            [3, [1, 2]], // 4 > 3
+            [50, [1, 2]], // 4 > 3
         ];
     }
 
     /**
      * @dataProvider provideFailsCases
-     * @covers \Params\SubsequentRule\MaximumCount
+     * @covers \Params\SubsequentRule\MinimumCount
      */
-    public function testFails(int $maximumCount, $values)
+    public function testFails(int $minimumCount, $values)
     {
-        $rule = new MaximumCount($maximumCount);
+        $rule = new MinimumCount($minimumCount);
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $values, $validator);
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
 
-//        'Number of elements in foo is too large. Max allowed is 0 but got 3.'
-
         $this->assertRegExp(
-            stringToRegexp(MaximumCount::ERROR_TOO_MANY_ELEMENTS),
+            stringToRegexp(MinimumCount::ERROR_TOO_FEW_ELEMENTS),
             $validationResult->getProblemMessage()
         );
-
     }
 
     /**
-     * @covers \Params\SubsequentRule\MaximumCount
+     * @covers \Params\SubsequentRule\MinimumCount
      */
     public function testMinimimCountZero()
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(MaximumCount::ERROR_MAXIMUM_COUNT_MINIMUM);
-        new MaximumCount(-2);
+        $this->expectExceptionMessage(MinimumCount::ERROR_MINIMUM_COUNT_MINIMUM);
+        new MinimumCount(-2);
     }
 
     /**
-     * @covers \Params\SubsequentRule\MaximumCount
+     * @covers \Params\SubsequentRule\MinimumCount
      */
     public function testInvalidOperand()
     {
-        $rule = new MaximumCount(3);
+        $rule = new MinimumCount(3);
         $this->expectException(LogicException::class);
 
         $validator = new ParamsValidator();
         $this->expectExceptionMessageRegExp(
-            stringToRegexp(MaximumCount::ERROR_WRONG_TYPE)
+            stringToRegexp(MinimumCount::ERROR_WRONG_TYPE)
         );
 
         $rule->process('foo', 'a banana', $validator);

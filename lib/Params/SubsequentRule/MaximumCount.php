@@ -18,7 +18,7 @@ class MaximumCount implements SubsequentRule
 
     public const ERROR_MAXIMUM_COUNT_MINIMUM = "Maximum count must be zero or above.";
 
-    public const ERROR_WRONG_TYPE = "Minimum count can only be applied to an array but tried to operate on %s.";
+    public const ERROR_WRONG_TYPE = "Maximum count can only be applied to an array but tried to operate on %s.";
 
     /**
      *

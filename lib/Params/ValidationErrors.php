@@ -33,4 +33,9 @@ class ValidationErrors implements \IteratorAggregate
     {
         return new \ArrayObject($this->validationProblems);
     }
+
+    public function __toString()
+    {
+        return implode(',', $this->validationProblems);
+    }
 }
