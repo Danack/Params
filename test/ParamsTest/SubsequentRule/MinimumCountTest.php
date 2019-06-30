@@ -33,7 +33,7 @@ class MinimumCountTest extends BaseTestCase
         $rule = new MinimumCount($minimumCount);
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $values, $validator);
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertSame($values, $validationResult->getValue());
     }
@@ -61,7 +61,7 @@ class MinimumCountTest extends BaseTestCase
 
         $this->assertRegExp(
             stringToRegexp(MinimumCount::ERROR_TOO_FEW_ELEMENTS),
-            $validationResult->getProblemMessage()
+            $validationResult->getProblemMessages()[0]
         );
     }
 

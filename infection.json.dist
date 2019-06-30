@@ -14,7 +14,7 @@
     "mutators": {
         "OneZeroInteger": {
             "ignore": [
-                "Params\\Rule\\SaneCharacters::__invoke"
+                "Params\\SubsequentRule\\SaneCharacters::process"
             ]
         }
     }

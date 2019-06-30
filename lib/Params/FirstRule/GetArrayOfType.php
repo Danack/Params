@@ -12,6 +12,7 @@ use Params\OpenApi\ParamDescription;
 use Params\Params;
 use Params\ValidationErrors;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 class GetArrayOfType implements FirstRule
 {
@@ -30,19 +31,19 @@ class GetArrayOfType implements FirstRule
     }
 
     public function process(
-        string $variableName,
+        string $name,
         VarMap $varMap,
-        ParamsValidator $validator
+        ParamValues $validator
     ): ValidationResult {
-        if ($varMap->has($variableName) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE_NOT_SET, $variableName);
+        if ($varMap->has($name) !== true) {
+            $message = sprintf(self::ERROR_MESSAGE_NOT_SET, $name);
             return ValidationResult::errorResult($message);
         }
 
-        $itemData = $varMap->get($variableName);
+        $itemData = $varMap->get($name);
 
         if (is_array($itemData) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE_NOT_ARRAY, $variableName);
+            $message = sprintf(self::ERROR_MESSAGE_NOT_ARRAY, $name);
             return ValidationResult::errorResult($message);
         }
 
@@ -54,7 +55,7 @@ class GetArrayOfType implements FirstRule
             if (is_array($itemDatum) !== true) {
                 $message = sprintf(
                     self::ERROR_MESSAGE_ITEM_NOT_ARRAY,
-                    $variableName,
+                    $name,
                     $this->className,
                     gettype($itemDatum)
                 );
@@ -65,12 +66,11 @@ class GetArrayOfType implements FirstRule
             $dataVarMap = new ArrayVarMap($itemDatum);
             $rules = call_user_func([$this->className, 'getRules'], $dataVarMap);
 
-            [$item, $error] = Params::createOrError($this->className, $rules, $dataVarMap);
+            [$item, $errors] = Params::createOrError($this->className, $rules, $dataVarMap);
 
-            if ($error !== null) {
-                /** @var ValidationErrors $error */
-                foreach ($error->getValidationProblems() as $validationProblem) {
-                    $errorsMessages[] = '[' . $index . '] ' . $validationProblem;
+            if ($errors !== null) {
+                foreach ($errors as $error) {
+                    $errorsMessages[] = 'Error [' . $index . '] ' . $error;
                 }
             }
 
@@ -80,19 +80,19 @@ class GetArrayOfType implements FirstRule
         }
 
         if (count($errorsMessages) !== 0) {
-            $errorStr = 'Error';
-            if (count($errorsMessages) > 1) {
-                $errorStr = 'Errors';
-            }
+//            $errorStr = 'Error';
+//            if (count($errorsMessages) > 1) {
+//                $errorStr = 'Errors';
+//            }
+//
+//            $message = sprintf(
+//                "%s in %s. %s",
+//                $errorStr,
+//                $name,
+//                implode('. ', $errorsMessages)
+//            );
 
-            $message = sprintf(
-                "%s in %s. %s",
-                $errorStr,
-                $variableName,
-                implode('. ', $errorsMessages)
-            );
-
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorsResult($errorsMessages);
         }
 
         return ValidationResult::valueResult($items);

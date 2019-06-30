@@ -37,7 +37,7 @@ class GetOptionalIntTest extends BaseTestCase
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $varMap, $validator);
 
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -64,7 +64,7 @@ class GetOptionalIntTest extends BaseTestCase
         $rule = new GetOptionalInt();
         $validationResult = $rule->process($variableName, new ArrayVarMap($variables), $validator);
 
-        $this->assertNotNull($validationResult->getProblemMessage());
+        $this->assertNotNull($validationResult->getProblemMessages());
         $this->assertNull($validationResult->getValue());
     }
 }

@@ -36,10 +36,8 @@ class ParamsValidatorTest extends BaseTestCase
         );
 
         $this->assertNull($value);
-        $validationProblems = $validator->getValidationProblems();
-        $this->assertNotNull($validationProblems);
+        $errors = $validator->getValidationProblems();
 
-        $errors = $validationProblems->getValidationProblems();
         $this->assertEquals(1, count($errors));
         $this->assertStringMatchesFormat(GetInt::ERROR_MESSAGE, $errors[0]);
     }

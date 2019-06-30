@@ -11,24 +11,25 @@ use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 class GetInt implements FirstRule
 {
     const ERROR_MESSAGE = 'Value not set for %s.';
 
     public function process(
-        string $variableName,
+        string $name,
         VarMap $varMap,
-        ParamsValidator $validator
+        ParamValues $validator
     ) : ValidationResult {
-        if ($varMap->has($variableName) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE, $variableName);
+        if ($varMap->has($name) !== true) {
+            $message = sprintf(self::ERROR_MESSAGE, $name);
             return ValidationResult::errorResult($message);
         }
 
         $intRule = new IntegerInput();
 
-        return $intRule->process($variableName, $varMap->get($variableName), $validator);
+        return $intRule->process($name, $varMap->get($name), $validator);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription)

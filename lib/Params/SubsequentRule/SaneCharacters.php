@@ -8,6 +8,7 @@ use Params\Exception\LogicException;
 use Params\OpenApi\ParamDescription;
 use Params\ValidationResult;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 class SaneCharacters implements SubsequentRule
 {
@@ -76,12 +77,12 @@ class SaneCharacters implements SubsequentRule
         $this->validCharacters = new ValidCharacters($pattern);
     }
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         $validationResult = $this->validCharacters->process($name, $value, $validator);
 
         // If validation has already failed, return it.
-        if ($validationResult->getProblemMessage() !== null) {
+        if (count($validationResult->getProblemMessages()) !== 0) {
             return $validationResult;
         }
 

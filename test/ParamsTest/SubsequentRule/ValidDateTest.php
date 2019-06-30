@@ -38,7 +38,7 @@ class ValidDateTest extends BaseTestCase
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $input, $validator);
 
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertEquals($validationResult->getValue(), $expectedTime);
     }
 
@@ -60,6 +60,6 @@ class ValidDateTest extends BaseTestCase
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $input, $validator);
 
-        $this->assertNotNull($validationResult->getProblemMessage());
+        $this->assertNotNull($validationResult->getProblemMessages());
     }
 }

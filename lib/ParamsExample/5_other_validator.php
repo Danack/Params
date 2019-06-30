@@ -31,7 +31,7 @@ $badData = [
 [$computerDetails, $validationErrors] =
     ComputerDetailsParams::createOrErrorFromArray($badData);
 
-if ($validationErrors === null) {
+if (count($validationErrors) === 0) {
     echo "";
     echo "shouldn't reach here.";
     exit(-1);
@@ -39,7 +39,7 @@ if ($validationErrors === null) {
 
 printf(
     "Bad data\n\tErrors correctly detected [%s]\n",
-    implode($validationErrors->getValidationProblems())
+    implode(', ', $validationErrors)
 );
 
 echo "\nExample behaved as expected.\n";

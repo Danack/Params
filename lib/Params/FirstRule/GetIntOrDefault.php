@@ -9,6 +9,7 @@ use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 class GetIntOrDefault implements FirstRule
 {
@@ -24,19 +25,19 @@ class GetIntOrDefault implements FirstRule
     }
 
     public function process(
-        string $variableName,
+        string $name,
         VarMap $varMap,
-        ParamsValidator $validator
+        ParamValues $validator
     ): ValidationResult {
-        if ($varMap->has($variableName) === true) {
-            $value = $varMap->get($variableName);
+        if ($varMap->has($name) === true) {
+            $value = $varMap->get($name);
         }
         else {
             return ValidationResult::valueResult($this->default);
         }
 
         $intRule = new IntegerInput();
-        return $intRule->process($variableName, $value, $validator);
+        return $intRule->process($name, $value, $validator);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription)

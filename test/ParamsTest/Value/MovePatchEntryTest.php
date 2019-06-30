@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
-use Params\Value\PatchEntry;
-use Params\Value\MovePatchEntry;
+use Params\PatchOperation\PatchOperation;
+use Params\PatchOperation\MovePatchOperation;
 use Params\Exception\LogicException;
 
 /**
@@ -16,19 +16,19 @@ use Params\Exception\LogicException;
 class MovePatchEntryTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Value\MovePatchEntry
+     * @covers \Params\PatchOperation\MovePatchOperation
      */
     public function testFoo()
     {
         $path = '/a/b/c';
         $from = '/d/e/c';
 
-        $addPatch = new MovePatchEntry($path, $from);
+        $addPatch = new MovePatchOperation($path, $from);
 
         $this->assertEquals($path, $addPatch->getPath());
         $this->assertEquals($from, $addPatch->getFrom());
 
-        $this->assertEquals(PatchEntry::MOVE, $addPatch->getOpType());
+        $this->assertEquals(PatchOperation::MOVE, $addPatch->getOpType());
 
         $this->expectException(LogicException::class);
         $addPatch->getValue();

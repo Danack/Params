@@ -36,11 +36,11 @@ class KnownEnumValidatorTest extends BaseTestCase
         $validationResult = $rule->process('foo', $testValue, $validator);
 
         if ($expectError) {
-            $this->assertNotNull($validationResult->getProblemMessage());
+            $this->assertNotNull($validationResult->getProblemMessages());
             return;
         }
 
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 }

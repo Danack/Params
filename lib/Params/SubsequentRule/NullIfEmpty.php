@@ -7,6 +7,7 @@ namespace Params\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
  * Convert the value to null if the string is empty, and provides
@@ -14,7 +15,7 @@ use Params\ParamsValidator;
  */
 class NullIfEmpty implements SubsequentRule
 {
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         if ($value === null) {
             return ValidationResult::finalValueResult(null);

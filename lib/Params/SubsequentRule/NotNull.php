@@ -7,13 +7,14 @@ namespace Params\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
  * @TODO - is there any point to this rule?
  */
 class NotNull implements SubsequentRule
 {
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         if ($value === null) {
             return ValidationResult::errorResult("null is not allowed for '$name'.");

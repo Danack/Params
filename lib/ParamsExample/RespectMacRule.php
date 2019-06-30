@@ -9,15 +9,15 @@ use Params\SubsequentRule\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
- * This is an example of using a validator from the Respect/Validation library
- *
- *
+ * This is an example of using a validator from
+ * the Respect/Validation library
  */
 class RespectMacRule implements SubsequentRule
 {
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         if (v::macAddress()->validate($value) === true) {
             return ValidationResult::valueResult($value);

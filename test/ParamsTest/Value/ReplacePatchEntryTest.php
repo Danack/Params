@@ -6,7 +6,7 @@ namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
 use Params\Value\MultipleEnums;
-use Params\Value\ReplacePatchEntry;
+use Params\PatchOperation\ReplacePatchOperation;
 use Params\Exception\LogicException;
 
 /**
@@ -16,19 +16,19 @@ use Params\Exception\LogicException;
 class ReplacePatchEntryTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Value\ReplacePatchEntry
+     * @covers \Params\PatchOperation\ReplacePatchOperation
      */
     public function testFoo()
     {
         $path = '/a/b/c';
         $value = 5;
 
-        $replacePatch = new ReplacePatchEntry($path, $value);
+        $replacePatch = new ReplacePatchOperation($path, $value);
 
         $this->assertEquals($path, $replacePatch->getPath());
         $this->assertEquals($value, $replacePatch->getValue());
 
-        $this->assertEquals(ReplacePatchEntry::REPLACE, $replacePatch->getOpType());
+        $this->assertEquals(ReplacePatchOperation::REPLACE, $replacePatch->getOpType());
 
         $this->expectException(LogicException::class);
         $replacePatch->getFrom();
@@ -37,11 +37,11 @@ class ReplacePatchEntryTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\Value\ReplacePatchEntry::getFrom
+     * @covers \Params\PatchOperation\ReplacePatchOperation::getFrom
      */
     public function testGetFromThrows()
     {
-        $patch = new ReplacePatchEntry('/a/b/c', 5);
+        $patch = new ReplacePatchOperation('/a/b/c', 5);
         $this->expectException(\Params\Exception\LogicException::class);
         $patch->getFrom();
     }

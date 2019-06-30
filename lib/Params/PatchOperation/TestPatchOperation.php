@@ -2,30 +2,35 @@
 
 declare(strict_types=1);
 
-namespace Params\Value;
+namespace Params\PatchOperation;
 
 use Params\Exception\LogicException;
+use Params\PatchOperation\PatchOperation;
 
-class RemovePatchEntry implements PatchEntry
+class TestPatchOperation implements PatchOperation
 {
-
-    // Example - { "op": "remove", "path": "/a/b/c" }
+    // Example - { "op": "test", "path": "/a/b/c", "value": "foo" }
 
     /** @var string */
     private $path;
 
+    /** @var mixed */
+    private $value;
+
     /**
-     * RemovePatchEntry constructor.
+     * TestPatchEntry constructor.
      * @param string $path
+     * @param mixed $value
      */
-    public function __construct(string $path)
+    public function __construct(string $path, $value)
     {
         $this->path = $path;
+        $this->value = $value;
     }
 
     public function getOpType()
     {
-        return "remove";
+        return "test";
     }
 
     public function getPath()
@@ -40,6 +45,6 @@ class RemovePatchEntry implements PatchEntry
 
     public function getValue()
     {
-        throw new LogicException("Calling 'getValue' on a RemovePatchEntry is meaningless.");
+        return $this->value;
     }
 }

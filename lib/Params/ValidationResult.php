@@ -9,8 +9,8 @@ class ValidationResult
     /** @var string */
     private $value;
 
-    /** @var string|null */
-    private $problemMessage;
+    /** @var string[] */
+    private $problemMessages;
 
     /** @var bool */
     private $isFinalResult;
@@ -18,13 +18,13 @@ class ValidationResult
     /**
      * ValidationResult constructor.
      * @param mixed $value
-     * @param ?string $problemMessage
+     * @param string[] $problemMessages
      * @param bool $isFinalResult
      */
-    private function __construct($value, ?string $problemMessage, bool $isFinalResult)
+    private function __construct($value, array $problemMessages, bool $isFinalResult)
     {
         $this->value = $value;
-        $this->problemMessage = $problemMessage;
+        $this->problemMessages = $problemMessages;
         $this->isFinalResult = $isFinalResult;
     }
 
@@ -34,7 +34,16 @@ class ValidationResult
      */
     public static function errorResult(string $message)
     {
-        return new self(null, $message, true);
+        return new self(null, [$message], true);
+    }
+
+    /**
+     * @param string[] $messages
+     * @return ValidationResult
+     */
+    public static function errorsResult(array $messages)
+    {
+        return new self(null, $messages, true);
     }
 
     /**
@@ -43,7 +52,7 @@ class ValidationResult
      */
     public static function valueResult($value)
     {
-        return new self($value, null, false);
+        return new self($value, [], false);
     }
 
     /**
@@ -52,7 +61,7 @@ class ValidationResult
      */
     public static function finalValueResult($value)
     {
-        return new self($value, null, true);
+        return new self($value, [], true);
     }
 
     public function getValue()
@@ -61,11 +70,11 @@ class ValidationResult
     }
 
     /**
-     * @return string
+     * @return string[]
      */
-    public function getProblemMessage(): ?string
+    public function getProblemMessages(): array
     {
-        return $this->problemMessage;
+        return $this->problemMessages;
     }
 
     /**

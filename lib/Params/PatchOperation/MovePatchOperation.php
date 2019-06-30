@@ -2,26 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Params\Value;
+namespace Params\PatchOperation;
 
 use Params\Exception\LogicException;
+use Params\PatchOperation\PatchOperation;
 
-class CopyPatchEntry implements PatchEntry
+class MovePatchOperation implements PatchOperation
 {
-    // Example - { "op": "copy", "from": "/a/b/c", "path": "/a/b/e" }
+    // Example - { "op": "move", "from": "/a/b/c", "path": "/a/b/d" }
 
     /** @var string */
     private $path;
 
-    /** @var string */
+    /** @var string|null */
     private $from;
 
     /**
-     * CopyPatchEntry constructor.
+     * MovePatchEntry constructor.
      * @param string $path
-     * @param string $from
+     * @param null|string $from
      */
-    public function __construct(string $path, string $from)
+    public function __construct(string $path, ?string $from)
     {
         $this->path = $path;
         $this->from = $from;
@@ -29,7 +30,7 @@ class CopyPatchEntry implements PatchEntry
 
     public function getOpType()
     {
-        return "copy";
+        return self::MOVE;
     }
 
     public function getPath()
@@ -44,6 +45,6 @@ class CopyPatchEntry implements PatchEntry
 
     public function getValue()
     {
-        throw new LogicException("Calling 'getValue' on a CopyPatchEntry is meaningless.");
+        throw new LogicException("Calling 'getValue' on a MovePatchEntry is meaningless.");
     }
 }

@@ -7,6 +7,7 @@ namespace Params\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
  * Convert the value to null if the string is empty, and provides
@@ -22,7 +23,7 @@ class StartsWithString implements SubsequentRule
         $this->prefix = $prefix;
     }
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         if (strpos((string)$value, $this->prefix) !== 0) {
             $message = sprintf(

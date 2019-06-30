@@ -13,7 +13,6 @@ use ParamsTest\Integration\SingleIntParams;
 
 /**
  * @coversNothing
- * @group wip
  */
 class GetArrayOfTypeTest extends BaseTestCase
 {
@@ -34,7 +33,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $result = $rule->process('items', new ArrayVarMap($data), $validator);
 
         $this->assertFalse($result->isFinalResult());
-//        $this->assertEquals("Value not set for 'items'.", $result->getProblemMessage());
+//        $this->assertEquals("Value not set for 'items'.", $result->getProblemMessages());
 
         $this->assertCount(1, $result->getValue());
         $item = ($result->getValue())[0];
@@ -43,7 +42,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $this->assertSame(5, $item->getFoo());
         $this->assertSame('Hello world', $item->getBar());
 
-        $this->assertNull($result->getProblemMessage());
+        $this->assertCount(0, $result->getProblemMessages());
     }
 
 
@@ -59,7 +58,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $validator = new ParamsValidator();
         $result = $rule->process('items', new ArrayVarMap($data), $validator);
         $this->assertTrue($result->isFinalResult());
-        $this->assertEquals("Value not set for 'items'.", $result->getProblemMessage());
+        $this->assertEquals("Value not set for 'items'.", $result->getProblemMessages()[0]);
         $this->assertNull($result->getValue());
     }
 
@@ -79,7 +78,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $this->assertTrue($result->isFinalResult());
         $this->assertEquals(
             "Value set for 'items' must be an array.",
-            $result->getProblemMessage()
+            $result->getProblemMessages()[0]
         );
         $this->assertNull($result->getValue());
     }
@@ -103,7 +102,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $this->assertTrue($result->isFinalResult());
         $this->assertRegExp(
             stringToRegexp(GetArrayOfType::ERROR_MESSAGE_ITEM_NOT_ARRAY),
-            $result->getProblemMessage()
+            $result->getProblemMessages()[0]
         );
         $this->assertNull($result->getValue());
     }
@@ -130,8 +129,8 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
         $this->assertSame(
-            "Error in items. [0] string for 'bar' too short, min chars is 4",
-            $result->getProblemMessage()
+            "Error [0] string for 'bar' too short, min chars is 4",
+            $result->getProblemMessages()[0]
         );
     }
 
@@ -154,10 +153,14 @@ class GetArrayOfTypeTest extends BaseTestCase
         $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());
 
+        $expectedErrors = [
+            "Error [0] string for 'bar' too short, min chars is 4",
+            "Error [1] Value too large. Max allowed is 100"
+        ];
 
         $this->assertSame(
-            "Errors in items. [0] string for 'bar' too short, min chars is 4. [1] Value too large. Max allowed is 100",
-            $result->getProblemMessage()
+            $expectedErrors,
+            $result->getProblemMessages()
         );
     }
 

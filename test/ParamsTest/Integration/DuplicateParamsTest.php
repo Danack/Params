@@ -33,7 +33,7 @@ class DuplicateParamsTest extends BaseTestCase
             new ArrayVarMap($data)
         );
 
-        $this->assertNull($error);
+        $this->assertEmpty($error);
 
         $this->assertInstanceOf(DuplicateParams::class, $duplicateParams);
         $this->assertSame($password, $duplicateParams->getPassword());
@@ -70,14 +70,12 @@ class DuplicateParamsTest extends BaseTestCase
         ];
 
         /** @var DuplicateParams $duplicateParams */
-        [$duplicateParams, $error] = DuplicateParams::createOrErrorFromVarMap(
+        [$duplicateParams, $validationProblems] = DuplicateParams::createOrErrorFromVarMap(
             new ArrayVarMap($data)
         );
 
         $this->assertNull($duplicateParams);
 
-        /** @var ValidationErrors $error */
-        $validationProblems = $error->getValidationProblems();
         $this->assertCount(1, $validationProblems);
 
         $this->assertSame(
@@ -96,14 +94,12 @@ class DuplicateParamsTest extends BaseTestCase
         ];
 
         /** @var DuplicateParams $duplicateParams */
-        [$duplicateParams, $error] = DuplicateParams::createOrErrorFromVarMap(
+        [$duplicateParams, $validationProblems] = DuplicateParams::createOrErrorFromVarMap(
             new ArrayVarMap($data)
         );
 
         $this->assertNull($duplicateParams);
 
-        /** @var ValidationErrors $error */
-        $validationProblems = $error->getValidationProblems();
         $this->assertCount(2, $validationProblems);
 
         $this->assertSame(
@@ -130,14 +126,11 @@ class DuplicateParamsTest extends BaseTestCase
         ];
 
         /** @var DuplicateParams $duplicateParams */
-        [$duplicateParams, $error] = DuplicateButWrongTypeParams::createOrErrorFromVarMap(
+        [$duplicateParams, $validationProblems] = DuplicateButWrongTypeParams::createOrErrorFromVarMap(
             new ArrayVarMap($data)
         );
 
         $this->assertNull($duplicateParams);
-
-        /** @var ValidationErrors $error */
-        $validationProblems = $error->getValidationProblems();
         $this->assertCount(1, $validationProblems);
 
         $this->assertRegExp(

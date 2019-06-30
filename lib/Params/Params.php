@@ -8,7 +8,7 @@ use Params\Exception\ValidationException;
 use Params\Exception\RulesEmptyException;
 use Params\Exception\ParamsException;
 use Params\FirstRule\FirstRule;
-use Params\Value\PatchEntry;
+use Params\PatchOperation\PatchOperation;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use Params\PatchFactory;
@@ -25,12 +25,11 @@ use Params\Exception\PatchFormatException;
  */
 class Params
 {
-    public static function executeRules(
+    public static function executeRulesWithValidator(
         $namedRules,
-        $sourceData
-    ): ParamsValidator {
-        $validator = new ParamsValidator();
-        $params = [];
+        VarMap $sourceData,
+        ParamsValidator $validator
+    ) {
         foreach ($namedRules as $parameterName => $rules) {
             // TODO - test for packed array?
 
@@ -44,13 +43,22 @@ class Params
             }
 
             $subsequentRules = array_splice($rules, 1);
-            $params[] = $validator->validateRulesForParam(
+            $validator->validateRulesForParam(
                 $parameterName,
                 $sourceData,
                 $firstRule,
                 ...$subsequentRules
             );
         }
+    }
+
+    public static function executeRules(
+        $namedRules,
+        $sourceData
+    ): ParamsValidator {
+        $validator = new ParamsValidator();
+
+        self::executeRulesWithValidator($namedRules, $sourceData, $validator);
 
         return $validator;
     }
@@ -69,12 +77,12 @@ class Params
     {
         $validator = self::executeRules($namedRules, $sourceData);
         $validationErrors = $validator->getValidationProblems();
-        if ($validationErrors !== null) {
+        if (count($validationErrors) !== 0) {
             return [null, $validationErrors];
         }
 
         $reflection_class = new \ReflectionClass($classname);
-        return [$reflection_class->newInstanceArgs($validator->getParamsValues()), null];
+        return [$reflection_class->newInstanceArgs($validator->getParamsValues()), []];
     }
 
     public static function create($classname, $namedRules, VarMap $sourceData)
@@ -82,7 +90,7 @@ class Params
         $validator = self::executeRules($namedRules, $sourceData);
         $validationProblems = $validator->getValidationProblems();
 
-        if ($validationProblems !== null) {
+        if (count($validationProblems) !== 0) {
             throw new ValidationException("Validation problems", $validationProblems);
         }
 
@@ -99,10 +107,10 @@ class Params
     {
         [$operations, $validationProblems] = self::processOperations($namedRules, $sourceData);
 
-        if ($validationProblems !== null) {
+        if (count($validationProblems) !== 0) {
             throw new ValidationException(
                 "Validation problems",
-                new ValidationErrors($validationProblems)
+                $validationProblems
             );
         }
 
@@ -116,7 +124,7 @@ class Params
     }
 
     public static function processPatchObject(
-        PatchEntry $patchObject,
+        PatchOperation $patchObject,
         $patchRules
     ) {
         foreach ($patchRules as $patchRule) {
@@ -148,7 +156,7 @@ class Params
             $patchObject->getOpType()
         );
 
-        return [null, $message];
+        return [null, [$message]];
     }
 
     public static function processOperations(
@@ -157,32 +165,32 @@ class Params
     ) {
         $validationResult = PatchFactory::convertInputToPatchObjects($sourceData);
 
-        if ($validationResult->getProblemMessage() !== null) {
+        if (count($validationResult->getProblemMessages()) !== 0) {
             throw new PatchFormatException(
-                "Patch format error: " . $validationResult->getProblemMessage()
+                "Patch format error: " . $validationResult->getProblemMessages()
             );
         }
 
         $patchObjects = $validationResult->getValue();
 
         $operationObjects = [];
-        $problems = [];
+        $allProblems = [];
 
         foreach ($patchObjects as $patchObject) {
-            [$operationObject, $problem] = self::processPatchObject($patchObject, $patchRules);
+            [$operationObject, $problems] = self::processPatchObject($patchObject, $patchRules);
 
             if ($operationObject !== null) {
                 $operationObjects[] = $operationObject;
             }
-            if ($problem !== null) {
-                $problems[] = $problem;
+            if (count($problems) !== 0) {
+                array_push($allProblems, ...$problems);
             }
         }
 
-        if (count($problems) !== 0) {
-            return [null, $problems];
+        if (count($allProblems) !== 0) {
+            return [null, $allProblems];
         }
 
-        return [$operationObjects, null];
+        return [$operationObjects, []];
     }
 }

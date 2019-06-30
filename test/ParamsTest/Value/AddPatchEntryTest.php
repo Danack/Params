@@ -6,7 +6,7 @@ namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
 use Params\Value\MultipleEnums;
-use Params\Value\AddPatchEntry;
+use Params\PatchOperation\AddPatchOperation;
 use Params\Exception\LogicException;
 
 /**
@@ -16,19 +16,19 @@ use Params\Exception\LogicException;
 class AddPatchEntryTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Value\AddPatchEntry
+     * @covers \Params\PatchOperation\AddPatchOperation
      */
     public function testFoo()
     {
         $path = '/a/b/c';
         $value = 5;
 
-        $addPatch = new AddPatchEntry($path, $value);
+        $addPatch = new AddPatchOperation($path, $value);
 
         $this->assertEquals($path, $addPatch->getPath());
         $this->assertEquals($value, $addPatch->getValue());
 
-        $this->assertEquals(AddPatchEntry::ADD, $addPatch->getOpType());
+        $this->assertEquals(AddPatchOperation::ADD, $addPatch->getOpType());
 
         $this->expectException(LogicException::class);
         $addPatch->getFrom();

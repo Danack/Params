@@ -21,11 +21,11 @@ class NotNullTest extends BaseTestCase
         $rule1 = new NotNull();
         $validator = new ParamsValidator();
         $validationResult = $rule1->process('foo', null, $validator);
-        $this->assertNotNull($validationResult->getProblemMessage());
+        $this->assertNotNull($validationResult->getProblemMessages());
 
         $rule2 = new NotNull();
         $validator = new ParamsValidator();
         $validationResult = $rule2->process('foo', 5, $validator);
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
     }
 }

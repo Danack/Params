@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Params\Value;
+namespace Params\PatchOperation;
 
 use Params\Exception\LogicException;
+use Params\PatchOperation\PatchOperation;
 
-class ReplacePatchEntry implements PatchEntry
+class ReplacePatchOperation implements PatchOperation
 {
     // Example - { "op": "replace", "path": "/a/b/c", "value": 42 }
 

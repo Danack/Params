@@ -11,9 +11,8 @@ require __DIR__ . "/../../vendor/autoload.php";
 $varmap = new ArrayVarMap(['order' => 'error']);
 [$articleGetIndexParams, $validationErrors] = GetArticlesParams::createOrErrorFromVarMap($varmap);
 
-if ($validationErrors !== null && count($validationErrors->getValidationProblems()) !== 0) {
-    $errors = $validationErrors->getValidationProblems();
-    echo "There were errors creating ArticleGetIndexParams from input\n  " . implode('\n  ', $errors);
+if (count($validationErrors) !== 0) {
+    echo "There were errors creating ArticleGetIndexParams from input\n  " . implode('\n  ', $validationErrors);
     echo "\nExample behaved as expected.\n";
     exit(0);
 }

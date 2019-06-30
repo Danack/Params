@@ -45,7 +45,7 @@ class GetIntOrDefaultTest extends BaseTestCase
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $varMap, $validator);
 
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -76,7 +76,7 @@ class GetIntOrDefaultTest extends BaseTestCase
         $rule = new GetIntOrDefault($default);
         $validationResult = $rule->process($variableName, new ArrayVarMap($variables), $validator);
 
-        $this->assertNotNull($validationResult->getProblemMessage());
+        $this->assertNotNull($validationResult->getProblemMessages());
     }
 }
 

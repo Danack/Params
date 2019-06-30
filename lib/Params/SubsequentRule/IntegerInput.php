@@ -7,6 +7,7 @@ namespace Params\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
  * Checks a value is an integer that has a sane value
@@ -15,7 +16,7 @@ class IntegerInput implements SubsequentRule
 {
     const MAX_SANE_VALUE = 999999999999999;
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         // TODO - check is null
         if (is_int($value) !== true) {
@@ -34,7 +35,7 @@ class IntegerInput implements SubsequentRule
 
             if ($match !== 0) {
                 $message = sprintf(
-                    "Value for %s must contain only digits.",
+                    "Value for '%s' must contain only digits.",
                     $name
                 );
 

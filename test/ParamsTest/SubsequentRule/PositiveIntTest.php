@@ -36,10 +36,10 @@ class PositiveIntTest extends BaseTestCase
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $testValue, $validator);
         if ($expectError == true) {
-            $this->assertNotNull($validationResult->getProblemMessage());
+            $this->assertNotNull($validationResult->getProblemMessages());
         }
         else {
-            $this->assertNull($validationResult->getProblemMessage());
+            $this->assertEmpty($validationResult->getProblemMessages());
             $this->assertEquals($validationResult->getValue(), $expectedResult);
         }
     }

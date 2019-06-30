@@ -7,6 +7,7 @@ namespace Params\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
  * Class KnownEnum
@@ -23,7 +24,7 @@ class Enum implements SubsequentRule
         $this->allowedValues = $allowedValues;
     }
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         if (in_array($value, $this->allowedValues, true) !== true) {
             return ValidationResult::errorResult(

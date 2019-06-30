@@ -34,7 +34,7 @@ class NullIfEmptyTest extends BaseTestCase
         $rule = new NullIfEmpty();
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $testValue, $validator);
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
 
 
         if ($shouldBeNull === true) {

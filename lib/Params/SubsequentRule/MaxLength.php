@@ -7,6 +7,7 @@ namespace Params\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 class MaxLength implements SubsequentRule
 {
@@ -20,7 +21,7 @@ class MaxLength implements SubsequentRule
     {
         $this->maxLength = $maxLength;
     }
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         if (strlen($value) > $this->maxLength) {
             $message = sprintf(

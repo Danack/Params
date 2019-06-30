@@ -35,7 +35,7 @@ class TraitsTest extends BaseTestCase
         $limitValue = 13;
         $varMap = new ArrayVarMap(['limit' => $limitValue]);
         [$fooParams, $errors] = FooParamsCreateOrErrorFromVarMap::createOrErrorFromVarMap($varMap);
-        $this->assertNull($errors);
+        $this->assertEmpty($errors);
         $this->assertInstanceOf(FooParamsCreateOrErrorFromVarMap::class, $fooParams);
         /** @var $fooParams FooParamsCreateOrErrorFromVarMap */
         $this->assertEquals($limitValue, $fooParams->getLimit());

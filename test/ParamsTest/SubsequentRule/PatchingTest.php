@@ -6,14 +6,14 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\ValueInput;
-use Params\Value\PatchEntry;
-use Params\Value\AddPatchEntry;
-use Params\Value\CopyPatchEntry;
-use Params\Value\MovePatchEntry;
-use Params\Value\RemovePatchEntry;
-use Params\Value\ReplacePatchEntry;
-use Params\Value\TestPatchEntry;
-use Params\Value\PatchEntries;
+use Params\PatchOperation\PatchOperation;
+use Params\PatchOperation\AddPatchOperation;
+use Params\PatchOperation\CopyPatchOperation;
+use Params\PatchOperation\MovePatchOperation;
+use Params\PatchOperation\RemovePatchOperation;
+use Params\PatchOperation\ReplacePatchOperation;
+use Params\PatchOperation\TestPatchOperation;
+use Params\Value\PatchOperations;
 
 /**
  * @coversNothing
@@ -34,7 +34,7 @@ class PatchingTest extends BaseTestCase
 //        $input = new ValueInput($data);
 //        $patchRule = new Patch($input, PatchEntry::ALL_OPS);
 //        $validationResult = $patchRule('foo', null);
-//        $this->assertNull($validationResult->getProblemMessage());
+//        $this->assertEmpty($validationResult->getProblemMessages());
 //        $patchEntries = $validationResult->getValue();
 //
 //        /** @var $patchEntries \Params\Value\PatchEntries */
@@ -203,7 +203,7 @@ class PatchingTest extends BaseTestCase
 //        $patchRule = new Patch($input, PatchEntry::ALL_OPS);
 //        $validationResult = $patchRule('foo', null);
 //
-//        $this->assertNull($validationResult->getProblemMessage());
+//        $this->assertEmpty($validationResult->getProblemMessages());
 //    }
 //
 //    public function testReplaceMissingValue()
@@ -218,7 +218,7 @@ class PatchingTest extends BaseTestCase
 //        $patchRule = new Patch($input, [PatchEntry::REPLACE]);
 //        $validationResult = $patchRule('foo', null);
 //
-//        $this->assertNotNull($validationResult->getProblemMessage());
+//        $this->assertNotNull($validationResult->getProblemMessages());
 //    }
 //
 //    public function testCorrectEntryHasError()
@@ -233,7 +233,7 @@ class PatchingTest extends BaseTestCase
 //        $validationResult = $patchRule('foo', null);
 //        $this->assertStringContainsString(
 //            'Error for entry 1',
-//            $validationResult->getProblemMessage()
+//            $validationResult->getProblemMessages()
 //        );
 //    }
 }

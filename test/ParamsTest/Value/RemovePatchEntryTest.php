@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
-use Params\Value\PatchEntry;
-use Params\Value\RemovePatchEntry;
+use Params\PatchOperation\PatchOperation;
+use Params\PatchOperation\RemovePatchOperation;
 use Params\Exception\LogicException;
 
 /**
@@ -16,15 +16,15 @@ use Params\Exception\LogicException;
 class RemovePatchEntryTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Value\RemovePatchEntry
+     * @covers \Params\PatchOperation\RemovePatchOperation
      */
     public function testBasic()
     {
         $path = '/a/b/c';
-        $removePatch = new RemovePatchEntry($path);
+        $removePatch = new RemovePatchOperation($path);
 
         $this->assertEquals($path, $removePatch->getPath());
-        $this->assertEquals(PatchEntry::REMOVE, $removePatch->getOpType());
+        $this->assertEquals(PatchOperation::REMOVE, $removePatch->getOpType());
 
         try {
             $removePatch->getFrom();
@@ -41,21 +41,21 @@ class RemovePatchEntryTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Value\RemovePatchEntry::getFrom
+     * @covers \Params\PatchOperation\RemovePatchOperation::getFrom
      */
     public function testGetFromThrows()
     {
-        $removePatch = new RemovePatchEntry('/a/b/c');
+        $removePatch = new RemovePatchOperation('/a/b/c');
         $this->expectException(\Params\Exception\LogicException::class);
         $removePatch->getFrom();
     }
 
     /**
-     * @covers \Params\Value\RemovePatchEntry::getValue
+     * @covers \Params\PatchOperation\RemovePatchOperation::getValue
      */
     public function testGetValueThrows()
     {
-        $removePatch = new RemovePatchEntry('/a/b/c');
+        $removePatch = new RemovePatchOperation('/a/b/c');
         $this->expectException(\Params\Exception\LogicException::class);
         $removePatch->getValue();
     }

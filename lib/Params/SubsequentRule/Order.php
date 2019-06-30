@@ -10,6 +10,7 @@ use Params\Functions;
 use Params\Value\Ordering;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
  * Class Order
@@ -32,7 +33,7 @@ class Order implements SubsequentRule
         $this->knownOrderNames = $knownOrderNames;
     }
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         $parts = explode(',', $value);
         $orderElements = [];

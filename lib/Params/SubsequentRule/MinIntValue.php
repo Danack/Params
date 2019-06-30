@@ -7,6 +7,7 @@ namespace Params\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 class MinIntValue implements SubsequentRule
 {
@@ -18,7 +19,7 @@ class MinIntValue implements SubsequentRule
         $this->minValue = $minValue;
     }
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         $value = intval($value);
         if ($value < $this->minValue) {

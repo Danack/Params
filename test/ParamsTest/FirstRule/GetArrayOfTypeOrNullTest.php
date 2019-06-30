@@ -13,13 +13,12 @@ use Params\ParamsValidator;
 
 /**
  * @coversNothing
- * @group wip
  */
 class GetArrayOfTypeOrNullTest extends BaseTestCase
 {
 
     /**
-     * @covers \Params\FirstRule\GetArrayOfType
+     * @covers \Params\FirstRule\GetArrayOfTypeOrNull
      */
     public function testWorks()
     {
@@ -42,11 +41,11 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
         $this->assertSame(5, $item->getFoo());
         $this->assertSame('Hello world', $item->getBar());
 
-        $this->assertNull($result->getProblemMessage());
+        $this->assertCount(0, $result->getProblemMessages());
     }
 
     /**
-     * @covers \Params\FirstRule\GetArrayOfType
+     * @covers \Params\FirstRule\GetArrayOfTypeOrNull
      */
     public function testWorksWhenNotSet()
     {
@@ -58,6 +57,6 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
 
         $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());
-        $this->assertNull($result->getProblemMessage());
+        $this->assertEmpty($result->getProblemMessages());
     }
 }

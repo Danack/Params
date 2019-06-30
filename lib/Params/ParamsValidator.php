@@ -4,11 +4,8 @@ declare(strict_types = 1);
 
 namespace Params;
 
-use Params\Exception\ValidationException;
-use Params\Exception\ParamsException;
 use Params\FirstRule\FirstRule;
 use Params\SubsequentRule\SubsequentRule;
-use Params\ValidationErrors;
 use VarMap\VarMap;
 
 /**
@@ -18,7 +15,7 @@ use VarMap\VarMap;
  * If there are any errors, they will be stored in this object,
  * and can be retrieved via the method ParamsValidator::getValidationProblems
  */
-class ParamsValidator
+class ParamsValidator implements ParamValues
 {
     /**
      * @var string[]
@@ -51,32 +48,23 @@ class ParamsValidator
         return $this->paramValues[$name];
     }
 
-
-    public function validateRulesForParam(
+    /**
+     * @param mixed $value
+     * @param string $name The name is used to store values, and to generate appropriate error messages.
+     * @param SubsequentRule ...$subsequentRules
+     * @throws Exception\ParamMissingException
+     */
+    public function validateSubsequentRules(
+        $value,
         string $name,
-        VarMap $varMap,
-        FirstRule $firstRule,
         SubsequentRule ...$subsequentRules
     ) {
-        $validationResult = $firstRule->process($name, $varMap, $this);
-
-        if (($validationProblem = $validationResult->getProblemMessage()) != null) {
-            $this->validationProblems[] = $validationProblem;
-            return null;
-        }
-
-        $value = $validationResult->getValue();
-        $this->paramValues[$name] = $value;
-        if ($validationResult->isFinalResult() === true) {
-            return $value;
-        }
-
         foreach ($subsequentRules as $rule) {
             $validationResult = $rule->process($name, $value, $this);
-            /** @var $validationResult \Params\ValidationResult */
-            if (($validationProblem = $validationResult->getProblemMessage()) != null) {
-                $this->validationProblems[] = $validationProblem;
-                return null;
+            $validationProblems = $validationResult->getProblemMessages();
+            if (count($validationProblems) != 0) {
+                array_push($this->validationProblems, ...$validationProblems);
+                return [null, $validationProblems];
             }
 
             $value = $validationResult->getValue();
@@ -86,16 +74,41 @@ class ParamsValidator
             }
         }
 
-        return $value;
+        return [$value, []];
     }
 
 
-    public function getValidationProblems(): ?ValidationErrors
-    {
-        if (count($this->validationProblems) !== 0) {
-            return new ValidationErrors($this->validationProblems);
+    public function validateRulesForParam(
+        string $name,
+        VarMap $varMap,
+        FirstRule $firstRule,
+        SubsequentRule ...$subsequentRules
+    ) {
+        $validationResult = $firstRule->process($name, $varMap, $this);
+        $validationProblems = $validationResult->getProblemMessages();
+        if (count($validationProblems) !== 0) {
+            array_push($this->validationProblems, ...$validationProblems);
+            return null;
         }
 
-        return null;
+        $value = $validationResult->getValue();
+        $this->paramValues[$name] = $value;
+        if ($validationResult->isFinalResult() === true) {
+            return $value;
+        }
+
+        return $this->validateSubsequentRules(
+            $value,
+            $name,
+            ...$subsequentRules
+        );
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getValidationProblems(): array
+    {
+        return $this->validationProblems;
     }
 }

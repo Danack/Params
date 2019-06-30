@@ -8,6 +8,7 @@ use Params\Exception\LogicException;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
  * Class ValidCharacters
@@ -28,7 +29,7 @@ class ValidCharacters implements SubsequentRule
         $this->patternValidCharacters = $patternValidCharacters;
     }
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         $patternInvalidCharacters = "/[^" . $this->patternValidCharacters . "]+/xu";
         $matches = [];

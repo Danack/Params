@@ -30,7 +30,7 @@ class StartsWithStringTest extends BaseTestCase
         $rule = new StartsWithString($prefix);
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $testValue, $validator);
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertSame($validationResult->getValue(), $testValue);
     }
 
@@ -51,6 +51,6 @@ class StartsWithStringTest extends BaseTestCase
         $rule = new StartsWithString($prefix);
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $testValue, $validator);
-        $this->assertNotNull($validationResult->getProblemMessage());
+        $this->assertNotNull($validationResult->getProblemMessages());
     }
 }

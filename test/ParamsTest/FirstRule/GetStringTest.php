@@ -22,7 +22,7 @@ class GetStringTest extends BaseTestCase
         $rule = new GetString();
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
-        $this->assertNotNull($validationResult->getProblemMessage());
+        $this->assertNotNull($validationResult->getProblemMessages());
     }
 
     /**
@@ -41,7 +41,7 @@ class GetStringTest extends BaseTestCase
             $validator
         );
 
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 }

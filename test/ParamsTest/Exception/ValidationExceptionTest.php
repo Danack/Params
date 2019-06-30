@@ -22,7 +22,7 @@ class ValidationExceptionTest extends BaseTestCase
 
         $exception = new ValidationException(
             'unit test',
-            new ValidationErrors($validationMessages)
+            $validationMessages
         );
 
         $this->assertEquals(

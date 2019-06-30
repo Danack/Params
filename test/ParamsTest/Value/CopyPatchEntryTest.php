@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
-use Params\Value\PatchEntry;
-use Params\Value\CopyPatchEntry;
+use Params\PatchOperation\PatchOperation;
+use Params\PatchOperation\CopyPatchOperation;
 use Params\Exception\LogicException;
 
 /**
@@ -16,19 +16,19 @@ use Params\Exception\LogicException;
 class CopyPatchEntryTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Value\CopyPatchEntry
+     * @covers \Params\PatchOperation\CopyPatchOperation
      */
     public function testFoo()
     {
         $path = '/a/b/c';
         $from = '/d/e/c';
 
-        $patch = new CopyPatchEntry($path, $from);
+        $patch = new CopyPatchOperation($path, $from);
 
         $this->assertEquals($path, $patch->getPath());
         $this->assertEquals($from, $patch->getFrom());
 
-        $this->assertEquals(PatchEntry::COPY, $patch->getOpType());
+        $this->assertEquals(PatchOperation::COPY, $patch->getOpType());
 
         $this->expectException(LogicException::class);
         $patch->getValue();
@@ -38,11 +38,11 @@ class CopyPatchEntryTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\Value\CopyPatchEntry::getValue
+     * @covers \Params\PatchOperation\CopyPatchOperation::getValue
      */
     public function testGetValueThrows()
     {
-        $patch = new CopyPatchEntry('/a/b/c', '/d/e/f');
+        $patch = new CopyPatchOperation('/a/b/c', '/d/e/f');
         $this->expectException(\Params\Exception\LogicException::class);
         $patch->getValue();
     }

@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
 use Params\SafeAccess;
+use Params\ParamValues;
 
 /**
  * Used for testing.
@@ -21,7 +22,7 @@ class AlwaysEndsRule implements SubsequentRule
         $this->finalResult = $finalResult;
     }
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         return ValidationResult::finalValueResult($this->finalResult);
     }

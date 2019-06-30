@@ -7,12 +7,13 @@ namespace Params\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 class ValidDate implements SubsequentRule
 {
     const ERROR_INVALID_DATETIME = 'Value was not a valid RFC3339 date apparently';
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d', $value);
         if ($dateTime instanceof \DateTimeImmutable) {

@@ -25,7 +25,7 @@ class AlwaysErrorsRuleTest extends BaseTestCase
 
         $result = $rule->process('foo', 5, $validator);
 
-        $this->assertEquals($message, $result->getProblemMessage());
+        $this->assertEquals($message, $result->getProblemMessages()[0]);
         $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());
     }

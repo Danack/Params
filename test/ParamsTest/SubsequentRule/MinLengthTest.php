@@ -38,10 +38,10 @@ class MinLengthTest extends BaseTestCase
         $validationResult = $rule->process('foo', $string, $validator);
 
         if ($expectError === false) {
-            $this->assertNull($validationResult->getProblemMessage());
+            $this->assertEmpty($validationResult->getProblemMessages());
         }
         else {
-            $this->assertNotNull($validationResult->getProblemMessage());
+            $this->assertNotNull($validationResult->getProblemMessages());
         }
     }
 }

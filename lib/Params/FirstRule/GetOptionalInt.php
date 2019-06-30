@@ -10,6 +10,7 @@ use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
  * Class GetOptionalInt
@@ -24,16 +25,16 @@ class GetOptionalInt implements FirstRule
 
 
     public function process(
-        string $variableName,
+        string $name,
         VarMap $varMap,
-        ParamsValidator $validator
+        ParamValues $validator
     ): ValidationResult {
-        if ($varMap->has($variableName) !== true) {
+        if ($varMap->has($name) !== true) {
             return ValidationResult::valueResult(null);
         }
 
         $intRule = new IntegerInput();
-        return $intRule->process($variableName, $varMap->get($variableName), $validator);
+        return $intRule->process($name, $varMap->get($name), $validator);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription)

@@ -22,7 +22,7 @@ class GetIntTest extends BaseTestCase
         $rule = new GetInt();
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
-        $this->assertNotNull($validationResult->getProblemMessage());
+        $this->assertNotNull($validationResult->getProblemMessages());
     }
 
     public function provideTestWorksCases()
@@ -48,7 +48,7 @@ class GetIntTest extends BaseTestCase
             $validator
         );
 
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -79,6 +79,6 @@ class GetIntTest extends BaseTestCase
             $validator
         );
 
-        $this->assertNotNull($validationResult->getProblemMessage());
+        $this->assertNotNull($validationResult->getProblemMessages());
     }
 }

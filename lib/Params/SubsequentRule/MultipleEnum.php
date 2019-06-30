@@ -9,6 +9,7 @@ use Params\Value\MultipleEnums;
 use Params\Functions;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
  * Checks whether a string represent a valid multiple enum string e.g.
@@ -31,7 +32,7 @@ class MultipleEnum implements SubsequentRule
         $this->allowedValues = $allowedValues;
     }
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         $value = trim($value);
         $filterStringParts = explode(',', $value);

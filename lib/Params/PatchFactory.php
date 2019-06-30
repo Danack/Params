@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Params;
 
 use Params\ValidationResult;
-use Params\Value\AddPatchEntry;
-use Params\Value\CopyPatchEntry;
-use Params\Value\MovePatchEntry;
-use Params\Value\PatchEntry;
-use Params\Value\RemovePatchEntry;
-use Params\Value\ReplacePatchEntry;
-use Params\Value\TestPatchEntry;
+use Params\PatchOperation\AddPatchOperation;
+use Params\PatchOperation\CopyPatchOperation;
+use Params\PatchOperation\MovePatchOperation;
+use Params\PatchOperation\PatchOperation;
+use Params\PatchOperation\RemovePatchOperation;
+use Params\PatchOperation\ReplacePatchOperation;
+use Params\PatchOperation\TestPatchOperation;
 
 class PatchFactory
 {
@@ -35,38 +35,38 @@ class PatchFactory
 //            return [$message, null];
 //        }
 
-        if ($op === PatchEntry::TEST) {
+        if ($op === PatchOperation::TEST) {
             if (property_exists($patchEntryInput, 'value') !== true) {
                 return ["Test operation must contain an entry for 'value'", null];
             }
-            return [null, new TestPatchEntry($path, $patchEntryInput->value)];
+            return [null, new TestPatchOperation($path, $patchEntryInput->value)];
         }
-        else if ($op === PatchEntry::REMOVE) {
-            return [null, new RemovePatchEntry($path)];
+        else if ($op === PatchOperation::REMOVE) {
+            return [null, new RemovePatchOperation($path)];
         }
-        else if ($op === PatchEntry::ADD) {
+        else if ($op === PatchOperation::ADD) {
             if (property_exists($patchEntryInput, 'value') !== true) {
                 return ["Add operation must contain an entry for 'value'", null];
             }
-            return [null, new AddPatchEntry($path, $patchEntryInput->value)];
+            return [null, new AddPatchOperation($path, $patchEntryInput->value)];
         }
-        else if ($op === PatchEntry::REPLACE) {
+        else if ($op === PatchOperation::REPLACE) {
             if (property_exists($patchEntryInput, 'value') !== true) {
                 return ["Replace operation must contain an entry for 'value'", null];
             }
-            return [null, new ReplacePatchEntry($path, $patchEntryInput->value)];
+            return [null, new ReplacePatchOperation($path, $patchEntryInput->value)];
         }
-        else if ($op === PatchEntry::MOVE) {
+        else if ($op === PatchOperation::MOVE) {
             if (property_exists($patchEntryInput, 'from') !== true) {
                 return ["Move operation must contain an entry for 'from'", null];
             }
-            return [null, new MovePatchEntry($path, $patchEntryInput->from)];
+            return [null, new MovePatchOperation($path, $patchEntryInput->from)];
         }
-        else if ($op === PatchEntry::COPY) {
+        else if ($op === PatchOperation::COPY) {
             if (property_exists($patchEntryInput, 'from') !== true) {
                 return ["Copy operation must contain an entry for 'from'", null];
             }
-            return [null, new CopyPatchEntry($path, $patchEntryInput->from)];
+            return [null, new CopyPatchOperation($path, $patchEntryInput->from)];
         }
         else {
             return ["Unknown operation '$op'", null];
@@ -83,38 +83,38 @@ class PatchFactory
 //            return [$message, null];
 //        }
 
-        if ($op === PatchEntry::TEST) {
+        if ($op === PatchOperation::TEST) {
             if (array_key_exists('value', $patchEntryInput) !== true) {
                 return ["Test operation must contain an entry for 'value'", null];
             }
-            return [null, new TestPatchEntry($path, $patchEntryInput['value'])];
+            return [null, new TestPatchOperation($path, $patchEntryInput['value'])];
         }
-        else if ($op === PatchEntry::REMOVE) {
-            return [null, new RemovePatchEntry($path)];
+        else if ($op === PatchOperation::REMOVE) {
+            return [null, new RemovePatchOperation($path)];
         }
-        else if ($op === PatchEntry::ADD) {
+        else if ($op === PatchOperation::ADD) {
             if (array_key_exists('value', $patchEntryInput) !== true) {
                 return ["Add operation must contain an entry for 'value'", null];
             }
-            return [null, new AddPatchEntry($path, $patchEntryInput['value'])];
+            return [null, new AddPatchOperation($path, $patchEntryInput['value'])];
         }
-        else if ($op === PatchEntry::REPLACE) {
+        else if ($op === PatchOperation::REPLACE) {
             if (array_key_exists('value', $patchEntryInput) !== true) {
                 return ["Replace operation must contain an entry for 'value'", null];
             }
-            return [null, new ReplacePatchEntry($path, $patchEntryInput['value'])];
+            return [null, new ReplacePatchOperation($path, $patchEntryInput['value'])];
         }
-        else if ($op === PatchEntry::MOVE) {
+        else if ($op === PatchOperation::MOVE) {
             if (array_key_exists('from', $patchEntryInput) !== true) {
                 return ["Move operation must contain an entry for 'from'", null];
             }
-            return [null, new MovePatchEntry($path, $patchEntryInput['from'])];
+            return [null, new MovePatchOperation($path, $patchEntryInput['from'])];
         }
-        else if ($op === PatchEntry::COPY) {
+        else if ($op === PatchOperation::COPY) {
             if (array_key_exists('from', $patchEntryInput) !== true) {
                 return ["Copy operation must contain an entry for 'from'", null];
             }
-            return [null, new CopyPatchEntry($path, $patchEntryInput['from'])];
+            return [null, new CopyPatchOperation($path, $patchEntryInput['from'])];
         }
         else {
             return ["Unknown operation '$op'", null];

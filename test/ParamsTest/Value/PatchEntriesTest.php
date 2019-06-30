@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
-use Params\Value\PatchEntries;
-use Params\Value\AddPatchEntry;
-use Params\Value\TestPatchEntry;
+use Params\Value\PatchOperations;
+use Params\PatchOperation\AddPatchOperation;
+use Params\PatchOperation\TestPatchOperation;
 use Params\Exception\LogicException;
 
 /**
@@ -17,24 +17,24 @@ use Params\Exception\LogicException;
 class PatchEntriesTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Value\PatchEntries
+     * @covers \Params\Value\PatchOperations
      */
     public function testBasic()
     {
         $path = '/a/b/c';
         $value = 5;
 
-        $addPatch = new AddPatchEntry($path, $value);
-        $testPatch = new TestPatchEntry('/a/b/c', 5);
+        $addPatch = new AddPatchOperation($path, $value);
+        $testPatch = new TestPatchOperation('/a/b/c', 5);
 
 
-        $patchEntries = new PatchEntries(...[
+        $patchEntries = new PatchOperations(...[
             $addPatch,
             $testPatch
         ]);
 
 
-        $patchEntries = $patchEntries->getPatchEntries();
+        $patchEntries = $patchEntries->getPatchOperations();
 
         $this->assertCount(2, $patchEntries);
         $this->assertEquals($addPatch, $patchEntries[0]);

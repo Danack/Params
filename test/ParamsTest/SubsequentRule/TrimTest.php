@@ -21,7 +21,7 @@ class TrimTest extends BaseTestCase
         $rule = new Trim();
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', ' bar ', $validator);
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertEquals($validationResult->getValue(), 'bar');
     }
 }

@@ -9,6 +9,7 @@ use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 class GetStringOrDefault implements FirstRule
 {
@@ -24,15 +25,15 @@ class GetStringOrDefault implements FirstRule
     }
 
     public function process(
-        string $variableName,
+        string $name,
         VarMap $varMap,
-        ParamsValidator $validator
+        ParamValues $validator
     ): ValidationResult {
-        if ($varMap->has($variableName) !== true) {
+        if ($varMap->has($name) !== true) {
             return ValidationResult::valueResult($this->default);
         }
 
-        $value = (string)$varMap->get($variableName);
+        $value = (string)$varMap->get($name);
 
         return ValidationResult::valueResult($value);
     }

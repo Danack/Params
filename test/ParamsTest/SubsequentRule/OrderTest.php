@@ -35,7 +35,7 @@ class OrderTest extends BaseTestCase
         $validationResult = $rule->process('foo', $testValue, $validator);
 
         if ($expectError === true) {
-            $this->assertNotNull($validationResult->getProblemMessage());
+            $this->assertNotNull($validationResult->getProblemMessages());
             return;
         }
 

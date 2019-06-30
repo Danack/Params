@@ -10,12 +10,9 @@ use Params\PatchRule\PatchRemove;
 
 class SkuPatchParams
 {
-
-    // Things to think about
-
     public static function getRules()
     {
-        // TODO - allow reges in paths
+        // TODO - allow regexes in paths
         // e.g. $pattern =  '#/projects/(?P<project_name>.+)#iux';
 
         $rules = [

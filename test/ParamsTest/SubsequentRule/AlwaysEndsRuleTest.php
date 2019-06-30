@@ -26,6 +26,6 @@ class AlwaysEndsRuleTest extends BaseTestCase
 
         $this->assertTrue($result->isFinalResult());
         $this->assertEquals($finalValue, $result->getValue());
-        $this->assertNull($result->getProblemMessage());
+        $this->assertCount(0, $result->getProblemMessages());
     }
 }

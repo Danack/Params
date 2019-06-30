@@ -9,7 +9,6 @@ use Params\ValidationErrors;
 use ParamsTest\BaseTestCase;
 
 /**
- * @group wip
  * @coversNothing
  */
 class ItemListParamsTest extends BaseTestCase
@@ -34,7 +33,7 @@ class ItemListParamsTest extends BaseTestCase
             new ArrayVarMap($data)
         );
 
-        $this->assertNull($error);
+        $this->assertEmpty($error);
 
         $this->assertInstanceOf(ItemListParams::class, $itemListParams);
         $this->assertSame($description, $itemListParams->getDescription());
@@ -64,16 +63,12 @@ class ItemListParamsTest extends BaseTestCase
         ];
 
         /** @var ItemListParams $itemListParams */
-        [$itemListParams, $error] = ItemListParams::createOrErrorFromVarMap(
+        [$itemListParams, $validationProblems] = ItemListParams::createOrErrorFromVarMap(
             new ArrayVarMap($data)
         );
 
         $this->assertNull($itemListParams);
-
-        /** @var ValidationErrors $error */
-        $validationProblems = $error->getValidationProblems();
         $this->assertCount(1, $validationProblems);
-
         $this->assertSame("Value not set for 'items'.", $validationProblems[0]);
     }
 }

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Params\Value;
+namespace Params\PatchOperation;
 
 /**
  * Common interface for objects that represent the raw unparsed
  * Patch operations.
  * @package Params\Value
  */
-interface PatchEntry
+interface PatchOperation
 {
     const TEST      = "test";
     const REMOVE    = "remove";

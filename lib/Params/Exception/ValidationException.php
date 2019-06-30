@@ -14,15 +14,22 @@ class ValidationException extends \Params\Exception\ParamsException
     /**
      * ValidationException constructor.
      * @param string $message
-     * @param ValidationErrors $validationProblems
+     * @param string[] $validationProblems
      * @param \Exception|null $previous
      */
-    public function __construct($message, ValidationErrors $validationProblems, \Exception $previous = null)
+    public function __construct(string $message, array $validationProblems, \Exception $previous = null)
     {
         $actualMessage = $message . " ";
-        $actualMessage .= implode(", ", $validationProblems->getValidationProblems());
 
-        $this->validationProblems = $validationProblems->getValidationProblems();
+//        foreach ($validationProblems as $problem) {
+//            if (is_string($problem) !== true) {
+//                throw new \Exception('All elements should be a string.');
+//            }
+//        }
+
+        $actualMessage .= implode(", ", $validationProblems);
+
+        $this->validationProblems = $validationProblems;
 
         parent::__construct($actualMessage, $code = 0, $previous);
     }

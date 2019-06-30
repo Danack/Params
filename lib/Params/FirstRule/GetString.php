@@ -10,23 +10,24 @@ use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 class GetString implements FirstRule
 {
     const ERROR_MESSAGE = 'Value not set for %s.';
 
     public function process(
-        string $variableName,
+        string $name,
         VarMap $varMap,
-        ParamsValidator $validator
+        ParamValues $validator
     ): ValidationResult {
-        if ($varMap->has($variableName) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE, $variableName);
+        if ($varMap->has($name) !== true) {
+            $message = sprintf(self::ERROR_MESSAGE, $name);
             return ValidationResult::errorResult($message);
         }
         // TODO - reject bools/ints?
 
-        $value = (string)$varMap->get($variableName);
+        $value = (string)$varMap->get($name);
 
         return ValidationResult::valueResult($value);
     }

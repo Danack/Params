@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\PatchRule;
 
-use Params\Value\PatchEntry;
+use Params\PatchOperation\PatchOperation;
 
 /**
  * An interface for objects that contain info on how to convert

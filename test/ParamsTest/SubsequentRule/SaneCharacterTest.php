@@ -57,7 +57,7 @@ class SaneCharacterTest extends BaseTestCase
         $rule = new SaneCharacters();
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $testValue, $validator);
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
     }
 
     /**
@@ -72,21 +72,21 @@ class SaneCharacterTest extends BaseTestCase
 
         $bytesString = "Bytes were[" . getRawCharacters($testValue) . "]";
 
-        $this->assertNotNull($validationResult->getProblemMessage(), "Should have been error: " . json_encode($testValue));
+        $this->assertNotNull($validationResult->getProblemMessages(), "Should have been error: " . json_encode($testValue));
     }
 
 
-    /**
-     * @group wip
-     */
     public function testPositionIsCorrect()
     {
         $testValue = "danack_a̧͈͖r͒͑_more_a̧͈͖r͒͑";
         $rule = new SaneCharacters();
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $testValue, $validator);
-        $message = $validationResult->getProblemMessage();
+        $messages = $validationResult->getProblemMessages();
 
-        $this->assertEquals("Invalid combining characters found at position 8", $message);
+        $this->assertEquals(
+            "Invalid combining characters found at position 8",
+            $messages[0]
+        );
     }
 }

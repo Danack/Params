@@ -8,6 +8,7 @@ use Params\Functions;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
  * Class PositiveIntValidator
@@ -18,7 +19,7 @@ class PositiveInt implements SubsequentRule
 {
     const MAX_SANE_VALUE = 1024 * 1024 * 1024 * 1024;
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         $matches = null;
 

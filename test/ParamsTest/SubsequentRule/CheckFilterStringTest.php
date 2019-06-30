@@ -31,7 +31,7 @@ class CheckFilterStringTest extends BaseTestCase
         $rule = new MultipleEnum(['foo', 'bar']);
         $validator = new ParamsValidator();
         $validationResult = $rule->process('someFilter', $inputString, $validator);
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
 
         $validationValue = $validationResult->getValue();
 
@@ -50,6 +50,6 @@ class CheckFilterStringTest extends BaseTestCase
         $rule = new MultipleEnum(['foo', 'bar']);
         $validator = new ParamsValidator();
         $validationResult = $rule->process('someFilter', $expectedValue, $validator);
-        $this->assertNotNull($validationResult->getProblemMessage());
+        $this->assertNotNull($validationResult->getProblemMessages());
     }
 }

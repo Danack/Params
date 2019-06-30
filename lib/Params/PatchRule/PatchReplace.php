@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\PatchRule;
 
-use Params\Value\PatchEntry;
+use Params\PatchOperation\PatchOperation;
 
 class PatchReplace implements PatchRule
 {
@@ -48,7 +48,7 @@ class PatchReplace implements PatchRule
 
     public function getOpType(): string
     {
-        return PatchEntry::REPLACE;
+        return PatchOperation::REPLACE;
     }
 
     /**

@@ -33,7 +33,7 @@ class GetStringOrDefaultTest extends BaseTestCase
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $varMap, $validator);
 
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 }

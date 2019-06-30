@@ -10,7 +10,6 @@ use Params\SubsequentRule\SaneCharacters;
 use Params\ParamsValidator;
 
 /**
- * @group wip
  * @coversNothing
  */
 class ValidCharactersTest extends BaseTestCase
@@ -37,18 +36,18 @@ class ValidCharactersTest extends BaseTestCase
 
         $validationResult = $rule->process('foo', $testValue, $validator);
         if ($expectedErrorPosition !== null) {
-            $this->assertNotNull($validationResult->getProblemMessage(), "Failed to detect invalid char at $expectedErrorPosition");
+            $this->assertNotNull($validationResult->getProblemMessages(), "Failed to detect invalid char at $expectedErrorPosition");
             $this->assertStringContainsString(
                 (string)$expectedErrorPosition,
-                $validationResult->getProblemMessage()
+                $validationResult->getProblemMessages()[0]
             );
             $this->assertStringContainsString(
                 $validCharactersPattern,
-                $validationResult->getProblemMessage()
+                $validationResult->getProblemMessages()[0]
             );
         }
         else {
-            $this->assertNull($validationResult->getProblemMessage());
+            $this->assertEmpty($validationResult->getProblemMessages());
         }
     }
 }

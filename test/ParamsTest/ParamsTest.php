@@ -22,6 +22,7 @@ use Params\ValidationErrors;
 use Params\ParamsValidator;
 use Params\Exception\ParamsException;
 use Params\Exception\RulesEmptyException;
+use Params\ParamValues;
 
 /**
  * @coversNothing
@@ -109,7 +110,7 @@ class ParamsTest extends BaseTestCase
                 $this->test = $test;
             }
 
-            public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+            public function process(string $name, $value, ParamValues $validator) : ValidationResult
             {
                 $this->test->fail("This shouldn't be reached.");
                 //this code won't be executed.
@@ -204,10 +205,10 @@ class ParamsTest extends BaseTestCase
         );
         $this->assertNull($params);
         /** @var ValidationErrors $validationErrors */
-        $this->assertInstanceOf(ValidationErrors::class, $validationErrors);
-        $errors = $validationErrors->getValidationProblems();
-        $this->assertCount(1, $errors);
-        $this->assertStringMatchesFormat('Value not set for %s.', $errors[0]);
+//        $this->assertInstanceOf(ValidationErrors::class, $validationErrors);
+//        $errors = $validationErrors->getValidationProblems();
+        $this->assertCount(1, $validationErrors);
+        $this->assertStringMatchesFormat('Value not set for %s.', $validationErrors[0]);
     }
 
     /**
@@ -222,7 +223,7 @@ class ParamsTest extends BaseTestCase
             $rules,
             $arrayVarMap
         );
-        $this->assertNull($errors);
+        $this->assertCount(0, $errors);
         /** @var $fooParams \ParamsTest\Integration\FooParams */
         $this->assertEquals(5, $fooParams->getLimit());
     }

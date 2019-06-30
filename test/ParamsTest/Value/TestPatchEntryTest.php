@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
-use Params\Value\TestPatchEntry;
+use Params\PatchOperation\TestPatchOperation;
 use Params\Exception\LogicException;
 
 /**
@@ -15,19 +15,19 @@ use Params\Exception\LogicException;
 class TestPatchEntryTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Value\TestPatchEntry
+     * @covers \Params\PatchOperation\TestPatchOperation
      */
     public function testFoo()
     {
         $path = '/a/b/c';
         $value = 5;
 
-        $patch = new TestPatchEntry($path, $value);
+        $patch = new TestPatchOperation($path, $value);
 
         $this->assertEquals($path, $patch->getPath());
         $this->assertEquals($value, $patch->getValue());
 
-        $this->assertEquals(TestPatchEntry::TEST, $patch->getOpType());
+        $this->assertEquals(TestPatchOperation::TEST, $patch->getOpType());
 
         $this->expectException(LogicException::class);
         $patch->getFrom();
@@ -37,11 +37,11 @@ class TestPatchEntryTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\Value\TestPatchEntry::getFrom
+     * @covers \Params\PatchOperation\TestPatchOperation::getFrom
      */
     public function testGetFromThrows()
     {
-        $patch = new TestPatchEntry('/a/b/c', 5);
+        $patch = new TestPatchOperation('/a/b/c', 5);
         $this->expectException(\Params\Exception\LogicException::class);
         $patch->getFrom();
     }

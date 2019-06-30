@@ -23,7 +23,7 @@ class GetOptionalStringTest extends BaseTestCase
         $validator = new ParamsValidator();
 
         $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertNull($validationResult->getValue());
     }
 
@@ -40,7 +40,7 @@ class GetOptionalStringTest extends BaseTestCase
         $validator = new ParamsValidator();
         $validationResult = $rule->process($variableName, $varMap, $validator);
 
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 }

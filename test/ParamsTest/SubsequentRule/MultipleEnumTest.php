@@ -32,7 +32,7 @@ class MultipleEnumTest extends BaseTestCase
         $validator = new ParamsValidator();
         $result = $enumRule->process('unused', $input, $validator);
 
-        $this->assertNull($result->getProblemMessage());
+        $this->assertEmpty($result->getProblemMessages());
         $value = $result->getValue();
         $this->assertInstanceOf(MultipleEnums::class, $value);
         $this->assertEquals($expectedOutput, $value->getValues());
@@ -58,7 +58,7 @@ class MultipleEnumTest extends BaseTestCase
         $validationResult = $rule->process('foo', $testValue, $validator);
 
         if ($expectError === true) {
-            $this->assertNotNull($validationResult->getProblemMessage());
+            $this->assertNotNull($validationResult->getProblemMessages());
             return;
         }
 

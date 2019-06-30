@@ -32,7 +32,7 @@ class IntegerInputValidatorTest extends BaseTestCase
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $inputValue, $validator);
 
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertEquals($expectedValue, $validationResult->getValue());
     }
 
@@ -57,6 +57,6 @@ class IntegerInputValidatorTest extends BaseTestCase
         $rule = new IntegerInput();
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $inputValue, $validator);
-        $this->assertNotNull($validationResult->getProblemMessage());
+        $this->assertNotNull($validationResult->getProblemMessages());
     }
 }

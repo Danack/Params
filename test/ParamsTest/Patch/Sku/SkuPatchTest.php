@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace ParamsTest;
 
-use Params\ValueInput;
 use ParamsTest\Patch\Sku\SkuPatchParams;
 use Params\Params;
 use ParamsTest\Patch\Sku\SkuPriceAdd;
@@ -17,6 +16,9 @@ use ParamsTest\Patch\Sku\SkuPriceRemove;
  */
 class SkuPatchTest extends BaseTestCase
 {
+    /**
+     * @group debug
+     */
     public function testVeryBasic()
     {
         $name = 'Prod name';

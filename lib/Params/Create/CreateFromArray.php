@@ -20,13 +20,12 @@ trait CreateFromArray
      * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
-    public static function createFromArray(array $data)
+    public static function createFromArray($data)
     {
+        $rules = static::getRules();
+
         $variableMap = new ArrayVarMap($data);
-
-        $rules = static::getRules($variableMap);
-
-        $object = Params::create(static::class, $rules);
+        $object = Params::create(static::class, $rules, $variableMap);
         /** @var $object self */
         return $object;
     }

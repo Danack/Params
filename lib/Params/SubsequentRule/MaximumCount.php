@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\Exception\LogicException;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 class MaximumCount implements SubsequentRule
 {
@@ -33,7 +34,7 @@ class MaximumCount implements SubsequentRule
         $this->maximumCount = $maximumCount;
     }
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         if (is_array($value) !== true) {
             $message = sprintf(

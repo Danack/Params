@@ -7,6 +7,7 @@ namespace Params\SubsequentRule;
 use Params\ValidationResult;
 use Params\ParamsValidator;
 use Params\OpenApi\ParamDescription;
+use Params\ParamValues;
 
 class DuplicatesParam implements SubsequentRule
 {
@@ -27,7 +28,7 @@ class DuplicatesParam implements SubsequentRule
         $this->paramToDuplicate = $paramToDuplicate;
     }
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         if ($validator->hasParam($this->paramToDuplicate) !== true) {
             $message = sprintf(

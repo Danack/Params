@@ -8,6 +8,7 @@ use Params\Rule;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 /**
  * The first rule for a parameter. It should extract the initial value
@@ -19,7 +20,8 @@ interface FirstRule extends Rule
     /**
      * @param string $name The input variable name
      * @param VarMap $varMap
+     * @param ParamValues $validator
      * @return ValidationResult
      */
-    public function process(string $name, VarMap $varMap, ParamsValidator $validator) : ValidationResult;
+    public function process(string $name, VarMap $varMap, ParamValues $validator) : ValidationResult;
 }

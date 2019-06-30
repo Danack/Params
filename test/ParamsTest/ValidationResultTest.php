@@ -18,7 +18,7 @@ class ValidationResultTest extends BaseTestCase
         $validationResult = ValidationResult::valueResult($value);
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertEquals($value, $validationResult->getValue());
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
     }
 
     public function testErrorResult()
@@ -28,7 +28,7 @@ class ValidationResultTest extends BaseTestCase
 
         $this->assertTrue($validationResult->isFinalResult());
         $this->assertNull($validationResult->getValue());
-        $this->assertEquals($validationMessage, $validationResult->getProblemMessage());
+        $this->assertEquals($validationMessage, $validationResult->getProblemMessages()[0]);
     }
 
     public function testFinalValueResult()
@@ -37,6 +37,6 @@ class ValidationResultTest extends BaseTestCase
         $validationResult = ValidationResult::finalValueResult($value);
         $this->assertTrue($validationResult->isFinalResult());
         $this->assertEquals($value, $validationResult->getValue());
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
     }
 }

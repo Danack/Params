@@ -48,7 +48,7 @@ class Functions
         if ($count !== 0) {
             $badCharPosition = $matches[0][1];
             $message = sprintf(
-                "Value for [$name] must contain only digits. Non-digit found at position %d.",
+                "Value for '$name' must contain only digits. Non-digit found at position %d.",
                 $badCharPosition
             );
             return $message;

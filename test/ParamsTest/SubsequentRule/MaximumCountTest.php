@@ -32,7 +32,7 @@ class MaximumCountTest extends BaseTestCase
         $rule = new MaximumCount($maximumCount);
         $validator = new ParamsValidator();
         $validationResult = $rule->process('foo', $values, $validator);
-        $this->assertNull($validationResult->getProblemMessage());
+        $this->assertEmpty($validationResult->getProblemMessages());
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertSame($values, $validationResult->getValue());
     }
@@ -61,7 +61,7 @@ class MaximumCountTest extends BaseTestCase
 
         $this->assertRegExp(
             stringToRegexp(MaximumCount::ERROR_TOO_MANY_ELEMENTS),
-            $validationResult->getProblemMessage()
+            $validationResult->getProblemMessages()[0]
         );
 
     }

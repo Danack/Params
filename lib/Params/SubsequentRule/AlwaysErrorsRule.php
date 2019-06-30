@@ -7,6 +7,7 @@ namespace Params\SubsequentRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValidator;
+use Params\ParamValues;
 
 class AlwaysErrorsRule implements SubsequentRule
 {
@@ -19,7 +20,7 @@ class AlwaysErrorsRule implements SubsequentRule
     }
 
 
-    public function process(string $name, $value, ParamsValidator $validator) : ValidationResult
+    public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         return ValidationResult::errorResult($this->message);
     }
