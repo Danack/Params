@@ -57,7 +57,6 @@ class GetArrayOfInt implements FirstRule
         $intRule = new IntegerInput();
 
         foreach ($itemData as $itemDatum) {
-
             $positionName = sprintf(
                 "%s[%d]",
                 $name,
