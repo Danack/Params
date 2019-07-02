@@ -21,11 +21,6 @@ class ValidationException extends \Params\Exception\ParamsException
     {
         $actualMessage = $message . " ";
 
-//        foreach ($validationProblems as $problem) {
-//            if (is_string($problem) !== true) {
-//                throw new \Exception('All elements should be a string.');
-//            }
-//        }
 
         $actualMessage .= implode(", ", $validationProblems);
 

@@ -57,7 +57,14 @@ class GetArrayOfInt implements FirstRule
         $intRule = new IntegerInput();
 
         foreach ($itemData as $itemDatum) {
-            $result = $intRule->process($name, $itemDatum, $validator);
+
+            $positionName = sprintf(
+                "%s[%d]",
+                $name,
+                $index
+            );
+
+            $result = $intRule->process($positionName, $itemDatum, $validator);
             $problems = $result->getProblemMessages();
             if (count($problems) !== 0) {
                 array_push($errorsMessages, ...$problems);

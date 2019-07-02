@@ -41,7 +41,7 @@ class IntArrayParamsTest extends BaseTestCase
 
         $this->assertCount(1, $errors);
         $this->assertSame(
-            "Value for 'counts' must contain only digits.",
+            "Value for 'counts[2]' must contain only digits.",
             $errors[0]
         );
     }

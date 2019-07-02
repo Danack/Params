@@ -6,6 +6,7 @@ namespace ParamsTest\Exception\Validator;
 
 use Params\Exception\ValidationException;
 use Params\FirstRule\GetInt;
+use Params\FirstRule\GetIntOrDefault;
 use Params\FirstRule\GetStringOrDefault;
 use Params\SubsequentRule\MaxLength;
 use Params\SubsequentRule\SkipIfNull;
@@ -29,6 +30,21 @@ use Params\ParamValues;
  */
 class ParamsTest extends BaseTestCase
 {
+    /**
+     * @covers \Params\Params::executeRules
+     */
+    public function testWorksBasic()
+    {
+        $rules = [
+            'foo' => [
+                new GetIntOrDefault(5)
+            ]
+        ];
+
+        $validator = \Params\Params::executeRules($rules, new ArrayVarMap([]));
+        $this->assertSame(['foo' => 5], $validator->getParamsValues());
+    }
+
     /**
      * @covers \Params\Params::executeRules
      */

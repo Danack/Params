@@ -5,4 +5,8 @@ services:
     image: params_php_test
     volumes:
       - .:/var/app
-
+  php_73_test:
+    build: docker/php_73_test
+    image: params_php_73_test
+    volumes:
+      - .:/var/app
