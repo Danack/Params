@@ -36,7 +36,7 @@ class DuplicatesParam implements SubsequentRule
                 $this->paramToDuplicate
             );
 
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, $message);
         }
 
         $previousValue = $validator->getParam($this->paramToDuplicate);
@@ -53,7 +53,7 @@ class DuplicatesParam implements SubsequentRule
                 $currentType
             );
 
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, $message);
         }
 
         if ($value !== $previousValue) {
@@ -62,7 +62,7 @@ class DuplicatesParam implements SubsequentRule
                 $name,
                 $this->paramToDuplicate
             );
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, $message);
         }
 
         return ValidationResult::valueResult($value);

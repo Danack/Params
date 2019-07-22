@@ -15,6 +15,7 @@ use Params\ValidationErrors;
 use Params\ParamsValidator;
 use Params\SubsequentRule\IntegerInput;
 use Params\ParamValues;
+use Params\Functions;
 
 class GetArrayOfInt implements FirstRule
 {
@@ -40,13 +41,13 @@ class GetArrayOfInt implements FirstRule
 
         if ($varMap->has($name) !== true) {
             $message = sprintf(self::ERROR_MESSAGE_NOT_SET, $name);
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, $message);
         }
 
         $itemData = $varMap->get($name);
         if (is_array($itemData) !== true) {
             $message = sprintf(self::ERROR_MESSAGE_NOT_ARRAY, $name);
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, $message);
         }
 
         $items = [];
@@ -57,16 +58,15 @@ class GetArrayOfInt implements FirstRule
         $intRule = new IntegerInput();
 
         foreach ($itemData as $itemDatum) {
-            $positionName = sprintf(
-                "%s[%d]",
-                $name,
-                $index
-            );
-
-            $result = $intRule->process($positionName, $itemDatum, $validator);
+            $result = $intRule->process((string)$index, $itemDatum, $validator);
             $problems = $result->getProblemMessages();
             if (count($problems) !== 0) {
-                array_push($errorsMessages, ...$problems);
+                $errorsMessages = Functions::addChildErrorMessagesForArray(
+                    $name,
+                    $index,
+                    $problems,
+                    $errorsMessages
+                );
                 continue;
             }
 
@@ -86,7 +86,9 @@ class GetArrayOfInt implements FirstRule
             );
 
             if (count($validationErrors) !== 0) {
-                array_push($errorsMessages, ...$validationErrors);
+                foreach ($validationErrors as $key => $error) {
+                    $errorsMessages['/' . $name . $key] = $error;
+                }
             }
 
             $index += 1;
@@ -94,16 +96,6 @@ class GetArrayOfInt implements FirstRule
         }
 
         if (count($errorsMessages) !== 0) {
-            // TODO - format these to look slightly nicer
-            //
-//            $message = sprintf(
-//                "%s in %s. %s",
-//                $errorStr,
-//                $variableName,
-//                implode('. ', $errorsMessages)
-//            );
-
-
             return ValidationResult::errorsResult($errorsMessages);
         }
 

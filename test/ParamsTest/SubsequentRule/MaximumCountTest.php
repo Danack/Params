@@ -61,9 +61,8 @@ class MaximumCountTest extends BaseTestCase
 
         $this->assertRegExp(
             stringToRegexp(MaximumCount::ERROR_TOO_MANY_ELEMENTS),
-            $validationResult->getProblemMessages()[0]
+            $validationResult->getProblemMessages()['/foo']
         );
-
     }
 
     /**

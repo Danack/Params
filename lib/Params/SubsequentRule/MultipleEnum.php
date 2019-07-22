@@ -53,7 +53,7 @@ class MultipleEnum implements SubsequentRule
                     implode(', ', $this->allowedValues)
                 );
 
-                return ValidationResult::errorResult($message);
+                return ValidationResult::errorResult($name, $message);
             }
             $filterElements[] = $filterStringPart;
         }

@@ -8,7 +8,8 @@ use ParamsTest\BaseTestCase;
 use Params\SubsequentRule\SaneCharacters;
 use Params\ParamsValidator;
 
-function getRawCharacters($string) {
+function getRawCharacters($string)
+{
     $resultInHex = bin2hex($string);
     $resultSeparated = implode(', ', str_split($resultInHex, 2)); //byte safe
 
@@ -86,7 +87,7 @@ class SaneCharacterTest extends BaseTestCase
 
         $this->assertEquals(
             "Invalid combining characters found at position 8",
-            $messages[0]
+            $messages['/foo']
         );
     }
 }

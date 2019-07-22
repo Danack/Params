@@ -7,8 +7,14 @@ namespace ParamsTest;
 use Params\ValidationErrors;
 use ParamsTest\BaseTestCase;
 
+/**
+ * @coversNothing
+ */
 class ValidationErrorsTest extends BaseTestCase
 {
+    /**
+     * @covers \Params\ValidationErrors
+     */
     public function testIteration()
     {
         $errorStrings = [

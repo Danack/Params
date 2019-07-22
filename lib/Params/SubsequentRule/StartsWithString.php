@@ -32,7 +32,7 @@ class StartsWithString implements SubsequentRule
                 $this->prefix
             );
 
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, $message);
         }
 
         // This rule does not modify the value

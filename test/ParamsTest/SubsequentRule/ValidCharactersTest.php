@@ -39,11 +39,11 @@ class ValidCharactersTest extends BaseTestCase
             $this->assertNotNull($validationResult->getProblemMessages(), "Failed to detect invalid char at $expectedErrorPosition");
             $this->assertStringContainsString(
                 (string)$expectedErrorPosition,
-                $validationResult->getProblemMessages()[0]
+                $validationResult->getProblemMessages()['/foo']
             );
             $this->assertStringContainsString(
                 $validCharactersPattern,
-                $validationResult->getProblemMessages()[0]
+                $validationResult->getProblemMessages()['/foo']
             );
         }
         else {

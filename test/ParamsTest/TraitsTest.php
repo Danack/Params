@@ -40,6 +40,4 @@ class TraitsTest extends BaseTestCase
         /** @var $fooParams FooParamsCreateOrErrorFromVarMap */
         $this->assertEquals($limitValue, $fooParams->getLimit());
     }
-
-
 }

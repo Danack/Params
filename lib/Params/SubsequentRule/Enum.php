@@ -28,6 +28,7 @@ class Enum implements SubsequentRule
     {
         if (in_array($value, $this->allowedValues, true) !== true) {
             return ValidationResult::errorResult(
+                $name,
                 "Value is not known. Please use one of " . implode(', ', $this->allowedValues)
             );
         }

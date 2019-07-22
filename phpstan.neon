@@ -14,6 +14,6 @@ parameters:
     -
       message: '#Parameter \#1 \$function of function call_user_func expects callable.*#'
       path: *GetArrayOfType.php
-    -
-      message: '#Parameter \#1 \$messages of static method.*#'
-      path: *GetArrayOfInt.php
+#    -
+#      message: '#Parameter \#1 \$messages of static method.*#'
+#      path: *GetArrayOfInt.php

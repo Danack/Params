@@ -34,7 +34,7 @@ class CheckAdminEmailMatches
 
     public static function getRules()
     {
-       return [
+        return [
             'email' => [
                 new GetString()
             ],

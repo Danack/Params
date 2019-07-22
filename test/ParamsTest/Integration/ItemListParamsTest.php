@@ -69,6 +69,9 @@ class ItemListParamsTest extends BaseTestCase
 
         $this->assertNull($itemListParams);
         $this->assertCount(1, $validationProblems);
-        $this->assertSame("Value not set for 'items'.", $validationProblems[0]);
+
+        $expectedKey = '/items';
+        $this->assertArrayHasKey($expectedKey, $validationProblems);
+        $this->assertSame("Value must be set.", $validationProblems[$expectedKey]);
     }
 }

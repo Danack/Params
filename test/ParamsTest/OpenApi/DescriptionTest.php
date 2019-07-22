@@ -30,7 +30,9 @@ use Params\Exception\OpenApiException;
 use Params\SubsequentRule\NullIfEmpty;
 use VarMap\ArrayVarMap;
 
-
+/**
+ * @coversNothing
+ */
 class DescriptionTest extends BaseTestCase
 {
     public function testEnum()

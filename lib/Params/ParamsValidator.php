@@ -7,6 +7,7 @@ namespace Params;
 use Params\FirstRule\FirstRule;
 use Params\SubsequentRule\SubsequentRule;
 use VarMap\VarMap;
+use Params\Functions;
 
 /**
  * Class ParamsValidator
@@ -63,8 +64,10 @@ class ParamsValidator implements ParamValues
             $validationResult = $rule->process($name, $value, $this);
             $validationProblems = $validationResult->getProblemMessages();
             if (count($validationProblems) != 0) {
-                array_push($this->validationProblems, ...$validationProblems);
-                return [null, $validationProblems];
+                foreach ($validationProblems as $path => $validationProblem) {
+                    $this->validationProblems[$path] = $validationProblem;
+                }
+                return [null, $this->validationProblems];
             }
 
             $value = $validationResult->getValue();
@@ -87,7 +90,17 @@ class ParamsValidator implements ParamValues
         $validationResult = $firstRule->process($name, $varMap, $this);
         $validationProblems = $validationResult->getProblemMessages();
         if (count($validationProblems) !== 0) {
-            array_push($this->validationProblems, ...$validationProblems);
+//            array_push($this->validationProblems, ...$validationProblems);
+//            $this->validationProblems = Functions::addChildErrorMessagesForParam(
+//                $name,
+//                $validationProblems,
+//                $this->validationProblems
+//            );
+
+            foreach ($validationProblems as $key => $value) {
+                $this->validationProblems[$key] = $value;
+            }
+
             return null;
         }
 

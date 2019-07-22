@@ -26,7 +26,7 @@ class CheckUserEmailMatches
 
     public static function getRules()
     {
-       return [
+        return [
             'email' => [
                 new GetString()
             ],

@@ -10,6 +10,7 @@ use Params\FirstRule\GetArrayOfInt;
 use Params\SubsequentRule\MaxIntValue;
 use Params\SubsequentRule\MinIntValue;
 use Params\SafeAccess;
+use Params\SubsequentRule\MinLength;
 use Params\SubsequentRule\MaxLength;
 use Params\FirstRule\GetString;
 
@@ -42,6 +43,7 @@ class IntArrayParams
         return [
             'name' => [
                 new GetString(),
+                new MinLength(4),
                 new MaxLength(16),
             ],
             'counts' => [

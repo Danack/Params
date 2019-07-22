@@ -23,7 +23,9 @@ class MaxIntValue implements SubsequentRule
     {
         $value = intval($value);
         if ($value > $this->maxValue) {
-            return ValidationResult::errorResult("Value too large. Max allowed is " . $this->maxValue);
+            return ValidationResult::errorResult(
+                $name, "Value too large. Max allowed is " . $this->maxValue
+            );
         }
 
         return ValidationResult::valueResult($value);

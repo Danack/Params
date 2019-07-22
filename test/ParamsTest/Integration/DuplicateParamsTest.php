@@ -75,12 +75,12 @@ class DuplicateParamsTest extends BaseTestCase
         );
 
         $this->assertNull($duplicateParams);
-
         $this->assertCount(1, $validationProblems);
+        $this->assertArrayHasKey('/password_repeat', $validationProblems);
 
         $this->assertSame(
             "Parameter named 'password_repeat' is different to parameter 'password'.",
-            $validationProblems[0]
+            $validationProblems['/password_repeat']
         );
     }
 
@@ -99,18 +99,18 @@ class DuplicateParamsTest extends BaseTestCase
         );
 
         $this->assertNull($duplicateParams);
-
         $this->assertCount(2, $validationProblems);
+        $this->assertArrayHasKey('/password', $validationProblems);
+        $this->assertArrayHasKey('/password_repeat', $validationProblems);
 
         $this->assertSame(
-            'Value not set for password.',
-            $validationProblems[0]
+            'Value is not set.',
+            $validationProblems['/password']
         );
-
 
         $this->assertRegExp(
             stringToRegexp(DuplicatesParamRule::ERROR_NO_PREVIOUS_PARAM),
-            $validationProblems[1]
+            $validationProblems['/password_repeat']
         );
     }
 
@@ -135,7 +135,7 @@ class DuplicateParamsTest extends BaseTestCase
 
         $this->assertRegExp(
             stringToRegexp(DuplicatesParamRule::ERROR_DIFFERENT_TYPES),
-            $validationProblems[0]
+            $validationProblems['/days_repeat']
         );
     }
 }

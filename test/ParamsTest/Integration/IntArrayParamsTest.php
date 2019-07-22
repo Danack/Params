@@ -6,9 +6,14 @@ namespace ParamsTest\Integration;
 
 use ParamsTest\BaseTestCase;
 
-
+/**
+ * @coversNothing
+ */
 class IntArrayParamsTest extends BaseTestCase
 {
+    /**
+     * @covers \ParamsTest\Integration\IntArrayParams
+     */
     public function testWorks()
     {
         $name = 'John';
@@ -25,6 +30,9 @@ class IntArrayParamsTest extends BaseTestCase
         $this->assertSame($values, $intArrayParams->getCounts());
     }
 
+    /**
+     * @covers \ParamsTest\Integration\IntArrayParams
+     */
     public function testBadInt()
     {
         $name = 'John';
@@ -37,12 +45,13 @@ class IntArrayParamsTest extends BaseTestCase
         [$intArrayParams, $errors] = IntArrayParams::createOrErrorFromArray($data);
 
         $this->assertNull($intArrayParams);
-
-
         $this->assertCount(1, $errors);
+
+        $expectedKey = '/counts/2';
+        $this->assertArrayHasKey($expectedKey, $errors, "Actual contents: ". json_encode($errors));
         $this->assertSame(
-            "Value for 'counts[2]' must contain only digits.",
-            $errors[0]
+            "Value must contain only digits.",
+            $errors[$expectedKey]
         );
     }
 }

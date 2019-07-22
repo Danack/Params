@@ -17,7 +17,7 @@ class NotNull implements SubsequentRule
     public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         if ($value === null) {
-            return ValidationResult::errorResult("null is not allowed for '$name'.");
+            return ValidationResult::errorResult($name, "null is not allowed for '$name'.");
         }
         return ValidationResult::valueResult($value);
     }

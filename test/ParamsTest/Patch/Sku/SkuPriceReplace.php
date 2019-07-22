@@ -159,7 +159,4 @@ class SkuPriceReplace
     {
         return $this->price_usd;
     }
-
-
-
 }

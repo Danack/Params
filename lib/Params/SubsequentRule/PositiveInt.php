@@ -25,13 +25,13 @@ class PositiveInt implements SubsequentRule
 
         $errorMessage = Functions::check_only_digits($name, $value);
         if ($errorMessage !== null) {
-            return ValidationResult::errorResult($errorMessage);
+            return ValidationResult::errorResult($name, $errorMessage);
         }
 
         $value = intval($value);
         $maxValue = self::MAX_SANE_VALUE;
         if ($value > $maxValue) {
-            return ValidationResult::errorResult("Value too large. Max allowed is $maxValue");
+            return ValidationResult::errorResult($name, "Value too large. Max allowed is $maxValue");
         }
 
         return ValidationResult::valueResult($value);

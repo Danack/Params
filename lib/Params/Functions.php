@@ -61,4 +61,74 @@ class Functions
     {
         return in_array($value, $array, true);
     }
+
+    /**
+     * Unescapes a json pointer part
+     *
+     * https://tools.ietf.org/html/rfc6901#section-4
+     *
+     * @param string $pointer
+     */
+    public static function escapeJsonPointer(string $pointer)
+    {
+        // then transforming any occurrence of the sequence '~0' to '~'
+        $result = str_replace('~', '~0', $pointer);
+        // first transforming any occurrence of the sequence '~1' to '/'
+        $result = str_replace('/', '~1', $result);
+
+        return $result;
+    }
+
+
+    /**
+     * Unescapes a json pointer part
+     *
+     * https://tools.ietf.org/html/rfc6901#section-4
+     *
+     * @param string $pointer
+     */
+    public static function unescapeJsonPointer(string $pointer)
+    {
+        // first transforming any occurrence of the sequence '~1' to '/'
+        $result = str_replace('~1', '/', $pointer);
+
+        // then transforming any occurrence of the sequence '~0' to '~'
+
+        $result = str_replace('~0', '~', $result);
+
+        return $result;
+    }
+
+    public static function addChildErrorMessagesForParam(
+        string $name,
+        array $newProblems,
+        array $currentErrorsMessages
+    ) {
+        $keyName = '/' . $name;
+
+        if (count($newProblems) !== 1) {
+            throw new \Exception("that's odd");
+        }
+
+        foreach ($newProblems as $key => $value) {
+            $currentErrorsMessages[$keyName . $key] = $value;
+        }
+
+        return $currentErrorsMessages;
+    }
+
+    public static function addChildErrorMessagesForArray(
+        string $name,
+        int $index,
+        array $problems,
+        array $errorsMessages
+    ) {
+//        $keyName = $name . '/' . $index;
+
+        foreach ($problems as $key => $value) {
+            $errorsMessages['/' . $name . $key] = $value;
+        }
+
+        return $errorsMessages;
+    }
 }

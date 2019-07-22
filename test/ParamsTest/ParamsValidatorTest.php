@@ -11,6 +11,9 @@ use VarMap\ArrayVarMap;
 use Params\ParamsValidator;
 use Params\SubsequentRule\AlwaysEndsRule;
 
+/**
+ * @coversNothing
+ */
 class ParamsValidatorTest extends BaseTestCase
 {
 
@@ -39,7 +42,7 @@ class ParamsValidatorTest extends BaseTestCase
         $errors = $validator->getValidationProblems();
 
         $this->assertEquals(1, count($errors));
-        $this->assertStringMatchesFormat(GetInt::ERROR_MESSAGE, $errors[0]);
+        $this->assertStringMatchesFormat(GetInt::ERROR_MESSAGE, $errors['/foo']);
     }
 
 

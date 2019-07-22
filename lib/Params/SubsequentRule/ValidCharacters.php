@@ -46,7 +46,7 @@ class ValidCharacters implements SubsequentRule
                 $badCharPosition,
                 $this->patternValidCharacters
             );
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, $message);
         }
         return ValidationResult::valueResult($value);
     }

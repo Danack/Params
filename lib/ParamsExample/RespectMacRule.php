@@ -28,7 +28,7 @@ class RespectMacRule implements SubsequentRule
             substr($value, 0, 64)
         );
 
-        return ValidationResult::errorResult($message);
+        return ValidationResult::errorResult($name, $message);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription)

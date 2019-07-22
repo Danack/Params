@@ -29,7 +29,7 @@ class MaxLength implements SubsequentRule
                 $name,
                 $this->maxLength
             );
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, $message);
         }
 
         return ValidationResult::valueResult($value);

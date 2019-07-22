@@ -89,7 +89,8 @@ class ParamsTest extends BaseTestCase
         ];
 
         $this->expectException(\Params\Exception\ValidationException::class);
-        $this->expectExceptionMessage("Value not set for foo");
+        // TODO - we should output the keys as well.
+        $this->expectExceptionMessage("Value not set.");
         Params::create('Foo', $rules, $arrayVarMap);
     }
 
@@ -129,9 +130,11 @@ class ParamsTest extends BaseTestCase
 
             public function process(string $name, $value, ParamValues $validator) : ValidationResult
             {
+
                 $this->test->fail("This shouldn't be reached.");
+                $key = "foo";
                 //this code won't be executed.
-                return ValidationResult::errorResult("Shouldn't be called");
+                return ValidationResult::errorResult($key, "Shouldn't be called");
             }
 
             public function updateParamDescription(ParamDescription $paramDescription)
@@ -161,7 +164,7 @@ class ParamsTest extends BaseTestCase
         catch (ValidationException $validationException) {
             $validationProblems = $validationException->getValidationProblems();
             $this->assertEquals(1, count($validationProblems));
-            $this->assertEquals($errorMessage, $validationProblems[0]);
+            $this->assertEquals($errorMessage, $validationProblems['/foo']);
         }
     }
 
@@ -221,11 +224,14 @@ class ParamsTest extends BaseTestCase
             $arrayVarMap
         );
         $this->assertNull($params);
-        /** @var ValidationErrors $validationErrors */
+
 //        $this->assertInstanceOf(ValidationErrors::class, $validationErrors);
 //        $errors = $validationErrors->getValidationProblems();
         $this->assertCount(1, $validationErrors);
-        $this->assertStringMatchesFormat('Value not set for %s.', $validationErrors[0]);
+        $expectedKey = '/limit';
+        $this->assertArrayHasKey($expectedKey, $validationErrors);
+
+        $this->assertStringMatchesFormat('Value not set.', $validationErrors[$expectedKey]);
     }
 
     /**

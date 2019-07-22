@@ -101,7 +101,7 @@ class SaneCharacters implements SubsequentRule
                 "Invalid combining characters found at position %s",
                 $badCharPosition
             );
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, $message);
         }
         return ValidationResult::valueResult($value);
     }

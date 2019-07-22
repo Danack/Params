@@ -5,7 +5,7 @@ namespace ParamsTest;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class BaseTestCase
+ * @coversNothing
  *
  * Allows checking that no code has output characters, or left the output buffer in a bad state.
  *
@@ -45,5 +45,4 @@ class BaseTestCase extends TestCase
         //and then complains about it not having any tests.
         $this->assertTrue(true);
     }
-
 }

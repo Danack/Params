@@ -22,7 +22,10 @@ class MinLength implements SubsequentRule
     public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         if (strlen($value) < $this->minLength) {
-            return ValidationResult::errorResult("string for '$name' too short, min chars is " . $this->minLength);
+            return ValidationResult::errorResult(
+                $name,
+                "String too short, min chars is " . $this->minLength
+            );
         }
         return ValidationResult::valueResult($value);
     }

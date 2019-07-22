@@ -23,7 +23,12 @@ class ArrayAllMultiplesOf implements SubsequentRule
         $this->multiplicand = $multiplicand;
     }
 
-
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @param ParamValues $validator
+     * @return ValidationResult
+     */
     public function process(string $name, $value, ParamValues $validator): ValidationResult
     {
         $errors = [];
@@ -31,9 +36,10 @@ class ArrayAllMultiplesOf implements SubsequentRule
         $index = 0;
         foreach ($value as $item) {
             if (($item % $this->multiplicand) !== 0) {
-                $errors[] = sprintf(
-                    "Item at position %s in not a multiple of %s but has value [%s]",
-                    $index,
+                // Because this is operating on an array of items, we need to put the complete name
+                // not just the index
+                $errors['/' . $name . '/' . $index] = sprintf(
+                    'Value is not a multiple of %s but has value [%s]',
                     $this->multiplicand,
                     $item
                 );

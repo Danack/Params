@@ -205,7 +205,8 @@ class PatchFactory
                 implode(', ', $errorMessages)
             );
 
-            return ValidationResult::errorResult($message);
+            // TODO - is this root name correct?
+            return ValidationResult::errorResult("", $message);
         }
 
         return ValidationResult::valueResult($patchEntries);

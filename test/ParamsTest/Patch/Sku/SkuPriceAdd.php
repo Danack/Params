@@ -55,7 +55,7 @@ class SkuPriceAdd
 
     public static function getRules()
     {
-       return [
+        return [
             'name' => [
                 new GetString(),
                 new MinLength(8),

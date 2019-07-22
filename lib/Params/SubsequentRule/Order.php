@@ -48,7 +48,7 @@ class Order implements SubsequentRule
                     implode(', ', $this->knownOrderNames)
                 );
 
-                return ValidationResult::errorResult($message);
+                return ValidationResult::errorResult($name, $message);
             }
             $orderElements[] = new OrderElement($partName, $partOrder);
         }

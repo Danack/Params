@@ -29,12 +29,13 @@ class ValidationResult
     }
 
     /**
+     * @param string $name
      * @param string $message
      * @return ValidationResult
      */
-    public static function errorResult(string $message)
+    public static function errorResult(string $name, string $message)
     {
-        return new self(null, [$message], true);
+        return new self(null, ['/' . $name => $message], true);
     }
 
     /**

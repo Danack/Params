@@ -68,7 +68,3 @@ class GetOptionalIntTest extends BaseTestCase
         $this->assertNull($validationResult->getValue());
     }
 }
-
-
-
-

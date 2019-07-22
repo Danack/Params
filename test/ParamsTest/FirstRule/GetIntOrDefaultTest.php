@@ -79,7 +79,3 @@ class GetIntOrDefaultTest extends BaseTestCase
         $this->assertNotNull($validationResult->getProblemMessages());
     }
 }
-
-
-
-

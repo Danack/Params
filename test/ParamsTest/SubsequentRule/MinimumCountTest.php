@@ -61,7 +61,7 @@ class MinimumCountTest extends BaseTestCase
 
         $this->assertRegExp(
             stringToRegexp(MinimumCount::ERROR_TOO_FEW_ELEMENTS),
-            $validationResult->getProblemMessages()[0]
+            $validationResult->getProblemMessages()['/foo']
         );
     }
 

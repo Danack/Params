@@ -15,7 +15,7 @@ use Params\ParamValues;
 
 class GetInt implements FirstRule
 {
-    const ERROR_MESSAGE = 'Value not set for %s.';
+    const ERROR_MESSAGE = 'Value not set.';
 
     public function process(
         string $name,
@@ -23,8 +23,7 @@ class GetInt implements FirstRule
         ParamValues $validator
     ) : ValidationResult {
         if ($varMap->has($name) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE, $name);
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, self::ERROR_MESSAGE);
         }
 
         $intRule = new IntegerInput();

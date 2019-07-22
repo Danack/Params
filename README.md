@@ -117,8 +117,8 @@ Pull requests should have full unit test coverage. Preferably also full mutation
 
 # Related info
 
-https://tools.ietf.org/html/rfc6901
-https://tools.ietf.org/html/rfc6902
+Json pointers - https://tools.ietf.org/html/rfc6901
+JSON Patch - https://tools.ietf.org/html/rfc6902
 
 
 

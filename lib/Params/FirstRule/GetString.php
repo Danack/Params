@@ -14,7 +14,7 @@ use Params\ParamValues;
 
 class GetString implements FirstRule
 {
-    const ERROR_MESSAGE = 'Value not set for %s.';
+    const ERROR_MESSAGE = 'Value is not set.';
 
     public function process(
         string $name,
@@ -22,8 +22,7 @@ class GetString implements FirstRule
         ParamValues $validator
     ): ValidationResult {
         if ($varMap->has($name) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE, $name);
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, self::ERROR_MESSAGE);
         }
         // TODO - reject bools/ints?
 

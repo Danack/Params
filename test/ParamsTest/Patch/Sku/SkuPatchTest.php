@@ -151,10 +151,6 @@ class SkuPatchTest extends BaseTestCase
         $this->assertSame($replacePriceInGbp, $skuPriceReplace->getPriceGbp());
         $this->assertSame($replacePriceInUsd, $skuPriceReplace->getPriceUsd());
 
-
-
         // asserting $skuPriceRemove
-
     }
-
 }

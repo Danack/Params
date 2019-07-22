@@ -22,24 +22,17 @@ class IntegerInput implements SubsequentRule
         if (is_int($value) !== true) {
             $value = (string)$value;
             if (strlen($value) === 0) {
-                $message = sprintf(
-                    "Value for %s is an empty string - should be an integer.",
-                    $name
+                return ValidationResult::errorResult(
+                    $name,
+                    "Value is an empty string - must be an integer."
                 );
-
-                return ValidationResult::errorResult($message);
             }
 
             // check string length is not zero length.
             $match = preg_match("/[^0-9]+/", $value);
 
             if ($match !== 0) {
-                $message = sprintf(
-                    "Value for '%s' must contain only digits.",
-                    $name
-                );
-
-                return ValidationResult::errorResult($message);
+                return ValidationResult::errorResult($name, "Value must contain only digits.");
             }
         }
 
@@ -52,7 +45,7 @@ class IntegerInput implements SubsequentRule
                 $maxSaneLength
             );
 
-            return ValidationResult::errorResult($message);
+            return ValidationResult::errorResult($name, $message);
         }
 
         return ValidationResult::valueResult(intval($value));

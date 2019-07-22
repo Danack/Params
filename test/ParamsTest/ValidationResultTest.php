@@ -23,12 +23,17 @@ class ValidationResultTest extends BaseTestCase
 
     public function testErrorResult()
     {
+        $name = 'foo';
+        $key = '/' . $name;
         $validationMessage = 'Something went wrong';
-        $validationResult = ValidationResult::errorResult($validationMessage);
+        $validationResult = ValidationResult::errorResult($name, $validationMessage);
 
         $this->assertTrue($validationResult->isFinalResult());
         $this->assertNull($validationResult->getValue());
-        $this->assertEquals($validationMessage, $validationResult->getProblemMessages()[0]);
+
+        $messages = $validationResult->getProblemMessages();
+        $this->assertArrayHasKey($key, $messages);
+        $this->assertEquals($validationMessage, $messages[$key]);
     }
 
     public function testFinalValueResult()

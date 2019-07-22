@@ -23,7 +23,10 @@ class MinIntValue implements SubsequentRule
     {
         $value = intval($value);
         if ($value < $this->minValue) {
-            return ValidationResult::errorResult("Value too small. Min allowed is " . $this->minValue);
+            return ValidationResult::errorResult(
+                $name,
+                "Value too small. Min allowed is " . $this->minValue
+            );
         }
 
         return ValidationResult::valueResult($value);

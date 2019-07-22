@@ -22,7 +22,7 @@ class AlwaysErrorsRule implements SubsequentRule
 
     public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
-        return ValidationResult::errorResult($this->message);
+        return ValidationResult::errorResult($name, $this->message);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription)
