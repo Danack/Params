@@ -47,6 +47,7 @@ class ParamsTest extends BaseTestCase
 
     /**
      * @covers \Params\Params::executeRules
+     * @covers \Params\Params::executeRulesWithValidator
      */
     public function testMissingRuleThrows()
     {
