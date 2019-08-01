@@ -28,8 +28,6 @@ class ParamsValidatorTest extends BaseTestCase
     public function testInvalidInputThrows()
     {
         $arrayVarMap = new ArrayVarMap([]);
-
-
         $validator = new ParamsValidator();
 
         $value = $validator->validateRulesForParam(
@@ -45,26 +43,30 @@ class ParamsValidatorTest extends BaseTestCase
         $this->assertStringMatchesFormat(GetInt::ERROR_MESSAGE, $errors['/foo']);
     }
 
-
+    /**
+     * @covers \Params\ParamsValidator
+     */
     public function testFinalResultStopsProcessing()
     {
-        $this->markTestSkipped("does this provide useful info?");
-//        $finalValue = 123;
-//
-//        $arrayVarMap = new ArrayVarMap(['foo' => 5]);
-//        $rules = [
-//            new GetInt(),
-//            // This rule will stop processing
-//            new AlwaysEndsRule($finalValue),
-//            // this rule would give an error if processing was not stopped.
-//            new MaxIntValue($finalValue - 5)
-//        ];
-//
-//        $validator = new ParamsValidator();
-//
-//        $value = $validator->validate('foo', $rules);
-//
-//        $this->assertEquals($finalValue, $value);
-//        $this->assertEmpty($validator->getValidationProblems());
+        $finalValue = 123;
+
+        $arrayVarMap = new ArrayVarMap(['foo' => 5]);
+        $subsequentRules = [
+            // This rule will stop processing
+            new AlwaysEndsRule($finalValue),
+            // this rule would give an error if processing was not stopped.
+            new MaxIntValue($finalValue - 5)
+        ];
+        $validator = new ParamsValidator();
+
+        [$value, $errors] = $validator->validateRulesForParam(
+            'foo',
+            $arrayVarMap,
+            new GetInt(),
+            ...$subsequentRules
+        );
+
+        $this->assertEquals($finalValue, $value);
+        $this->assertEmpty($errors);
     }
 }

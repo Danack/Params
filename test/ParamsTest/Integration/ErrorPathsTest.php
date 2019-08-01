@@ -10,7 +10,6 @@ use ParamsTest\Integration\IntArrayParams;
 
 /**
  * @coversNothing
- * @group wip
  */
 class ErrorPathsTest extends BaseTestCase
 {

@@ -71,4 +71,62 @@ class FunctionsTest extends BaseTestCase
         $foundJuggledType = Functions::array_value_exists($values, 2);
         $this->assertFalse($foundJuggledType);
     }
+
+
+    public function providesEscapeJsonPointer()
+    {
+        return [
+
+            ["a/b", "a~1b"],
+            ["m~n", "m~0n"],
+
+            ["~/0", "~0~10"],
+            ["~/2", "~0~12"],
+        ];
+    }
+
+
+    /**
+     * @dataProvider providesEscapeJsonPointer
+     * @covers \Params\Functions::escapeJsonPointer
+     */
+    public function testEscapeJsonPointer($unescaped, $expectedEscaped)
+    {
+        $actualEscaped = Functions::escapeJsonPointer($unescaped);
+        $this->assertSame($expectedEscaped, $actualEscaped);
+    }
+
+    /**
+     * @dataProvider providesEscapeJsonPointer
+     * @covers \Params\Functions::unescapeJsonPointer
+     */
+    public function testUnescapeJsonPointer($expectedUnescaped, $escaped)
+    {
+        $actualUnescaped = Functions::unescapeJsonPointer($escaped);
+        $this->assertSame($expectedUnescaped, $actualUnescaped);
+    }
+
+    /**
+     * @covers \Params\Functions::addChildErrorMessagesForArray
+     */
+    public function testaddChildErrorMessagesForArray()
+    {
+        $name = 'foo';
+        $message = 'Something went wrong.';
+        $problems = [
+            '/bar' => $message
+        ];
+
+        $problems = Functions::addChildErrorMessagesForArray(
+            $name,
+            $problems,
+            []
+        );
+
+        $expectedResult = [
+            '/foo/bar' => $message
+        ];
+
+        $this->assertSame($expectedResult, $problems);
+    }
 }

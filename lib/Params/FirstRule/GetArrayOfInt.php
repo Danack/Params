@@ -63,7 +63,6 @@ class GetArrayOfInt implements FirstRule
             if (count($problems) !== 0) {
                 $errorsMessages = Functions::addChildErrorMessagesForArray(
                     $name,
-                    $index,
                     $problems,
                     $errorsMessages
                 );

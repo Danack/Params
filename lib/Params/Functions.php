@@ -99,32 +99,13 @@ class Functions
         return $result;
     }
 
-    public static function addChildErrorMessagesForParam(
-        string $name,
-        array $newProblems,
-        array $currentErrorsMessages
-    ) {
-        $keyName = '/' . $name;
 
-        if (count($newProblems) !== 1) {
-            throw new \Exception("that's odd");
-        }
-
-        foreach ($newProblems as $key => $value) {
-            $currentErrorsMessages[$keyName . $key] = $value;
-        }
-
-        return $currentErrorsMessages;
-    }
 
     public static function addChildErrorMessagesForArray(
         string $name,
-        int $index,
         array $problems,
         array $errorsMessages
     ) {
-//        $keyName = $name . '/' . $index;
-
         foreach ($problems as $key => $value) {
             $errorsMessages['/' . $name . $key] = $value;
         }

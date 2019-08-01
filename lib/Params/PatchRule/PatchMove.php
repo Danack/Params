@@ -6,7 +6,7 @@ namespace Params\PatchRule;
 
 use Params\PatchOperation\PatchOperation;
 
-class PatchCopy implements PatchRule
+class PatchMove implements PatchRule
 {
     /** @var string */
     private $pathRegex;

@@ -24,9 +24,9 @@ trait CreateFromRequest
     {
         $variableMap = new Psr7VarMap($request);
 
-        $rules = static::getRules($variableMap);
+        $rules = static::getRules();
 
-        $object = Params::create(static::class, $rules);
+        $object = Params::create(static::class, $rules, $variableMap);
         /** @var $object self */
         return $object;
     }

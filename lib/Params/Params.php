@@ -167,7 +167,7 @@ class Params
 
         if (count($validationResult->getProblemMessages()) !== 0) {
             throw new PatchFormatException(
-                "Patch format error: " . $validationResult->getProblemMessages()
+                "Patch format error: " . implode(",", $validationResult->getProblemMessages())
             );
         }
 

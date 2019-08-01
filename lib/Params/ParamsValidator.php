@@ -90,13 +90,6 @@ class ParamsValidator implements ParamValues
         $validationResult = $firstRule->process($name, $varMap, $this);
         $validationProblems = $validationResult->getProblemMessages();
         if (count($validationProblems) !== 0) {
-//            array_push($this->validationProblems, ...$validationProblems);
-//            $this->validationProblems = Functions::addChildErrorMessagesForParam(
-//                $name,
-//                $validationProblems,
-//                $this->validationProblems
-//            );
-
             foreach ($validationProblems as $key => $value) {
                 $this->validationProblems[$key] = $value;
             }
