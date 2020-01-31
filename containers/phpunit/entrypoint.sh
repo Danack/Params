@@ -5,9 +5,8 @@ set -e
 # pwd
 # ls -l
 
-sh -c "echo '---Installing dependencies---'"
-composer install
+echo '---Installing dependencies---'
+php ./composer.phar install
 
-sh -c "echo '---Running unit tests---'"
-
-sh runTests.sh
+echo '---Running unit tests---'
+bash runTests.sh

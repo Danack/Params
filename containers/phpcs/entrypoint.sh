@@ -6,7 +6,7 @@ set -e
 # ls -l
 
 echo '---Installing dependencies---'
-composer install
+php ./composer.phar install
 
 sh runCodeSniffer.sh
 
