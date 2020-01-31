@@ -27,8 +27,8 @@ class KnownEnumValidatorTest extends BaseTestCase
     public function testErrorMessage()
     {
         $enumMap = [
-            'key1' => 'value1',
-            'key2' => 'value2',
+            'input1' => 'output1',
+            'input2' => 'output2',
         ];
 
         $rule = new EnumMap($enumMap);
@@ -39,10 +39,10 @@ class KnownEnumValidatorTest extends BaseTestCase
         $problemMessages = $validationResult->getProblemMessages();
 
         $this->assertNotNull($problemMessages);
-
+        $this->assertArrayHasKey('/foo', $problemMessages, 'problem was not set for /foo');
         $this->assertStringContainsString(
-            'key1, key2',
-            $problemMessages[0]
+            'input1, input2',
+            $problemMessages['/foo']
         );
     }
 

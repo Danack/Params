@@ -36,12 +36,12 @@ class EnumMap implements SubsequentRule
 
     public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
-
-
         if (array_key_exists($value, $this->allowedValues) !== true) {
+            $allowedInputValues = implode(', ', array_keys($this->allowedValues));
+
             return ValidationResult::errorResult(
                 $name,
-                "Value is not known. Please use one of " . implode(', ', $this->allowedValues)
+                "Value is not known. Please use one of " . $allowedInputValues
             );
         }
 

@@ -5,7 +5,7 @@ set -e
 # pwd
 # ls -l
 
-sh -c "echo '---Installing dependencies---' wtf"
+sh -c "echo '---Installing dependencies---'"
 composer install
 
 sh -c "echo '---Running unit tests---'"
