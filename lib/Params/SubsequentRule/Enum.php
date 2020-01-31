@@ -10,8 +10,6 @@ use Params\ParamsValidator;
 use Params\ParamValues;
 
 /**
- * Class KnownEnum
- *
  * Checks that the value is one of a known set of values
  */
 class Enum implements SubsequentRule

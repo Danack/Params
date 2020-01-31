@@ -1,0 +1,20 @@
+name: Main Workflow
+on: [push, pull_request]
+
+jobs:
+  unit_tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Perform phpunit tests
+        uses: ./actions/test
+  code_style:
+    name: Code Style Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Analyze code style
+        uses: ./actions/phpcs

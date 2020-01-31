@@ -4,6 +4,8 @@ A framework agnostic library for validating input parameters.
 
 [![Build Status](https://travis-ci.org/Danack/Params.svg?branch=master)](https://travis-ci.org/Danack/Params)
 
+[![Actions Status](https://github.com/{owner}/{repo}/workflows/{workflow_name}/badge.svg)](https://github.com/{owner}/{repo}/actions)
+
 # Installation
 
 ```composer require danack/params```

@@ -11,7 +11,7 @@ trait CreateOrErrorFromVarMap
 {
     /**
      * @param VarMap $variableMap
-     * @return array{0:object|null, 1:ValidationErrors|null}
+     * @return array{0:object|null, 1:\Params\ValidationErrors|null}
      * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
