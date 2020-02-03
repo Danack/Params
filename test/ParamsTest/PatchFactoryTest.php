@@ -393,5 +393,4 @@ class PatchFactoryTest extends BaseTestCase
             $message
         );
     }
-
 }
