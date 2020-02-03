@@ -371,4 +371,27 @@ class PatchFactoryTest extends BaseTestCase
             $message
         );
     }
+
+
+    /**
+     * @covers \Params\PatchFactory
+     */
+    public function testNonArrayErrorMessage()
+    {
+        $data = [
+            'I_am_not_an_array'
+        ];
+        $result = PatchFactory::convertInputToPatchObjects($data);
+
+        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertTrue($result->isFinalResult());
+        $this->assertCount(1, $result->getProblemMessages());
+
+        $message = $result->getProblemMessages()['/'];
+        $this->assertStringContainsString(
+            "Patch entry 0 is not an array.",
+            $message
+        );
+    }
+
 }
