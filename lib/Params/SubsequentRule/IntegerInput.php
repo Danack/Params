@@ -16,6 +16,14 @@ class IntegerInput implements SubsequentRule
 {
     const MAX_SANE_VALUE = 999999999999999;
 
+    /**
+     * Convert a generic input value to an integer
+     *
+     * @param string $name
+     * @param mixed $value
+     * @param ParamValues $validator
+     * @return ValidationResult
+     */
     public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
         // TODO - check is null
