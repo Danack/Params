@@ -19,8 +19,7 @@ class GetBool implements FirstRule
         string $name,
         VarMap $varMap,
         ParamValues $validator
-    ): ValidationResult
-    {
+    ): ValidationResult {
         if ($varMap->has($name) !== true) {
             return ValidationResult::errorResult($name, self::ERROR_MESSAGE);
         }
@@ -35,4 +34,3 @@ class GetBool implements FirstRule
         $paramDescription->setRequired(true);
     }
 }
-
