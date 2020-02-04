@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\FirstRule;
 
-use Params\SubsequentRule\IntegerInput;
+use Params\SubsequentRule\BoolInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
@@ -18,7 +18,7 @@ class GetBoolOrDefault implements FirstRule
 
     /**
      * setOrDefaultValidator constructor.
-     * @param mixed $default
+     * @param bool $default The default value to use.
      */
     public function __construct(bool $default)
     {

@@ -12,3 +12,5 @@ before_script:
 script:
   - bash runTests.sh
 
+notifications:
+  email: false
