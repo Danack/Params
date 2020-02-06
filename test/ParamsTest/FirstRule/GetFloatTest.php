@@ -62,11 +62,7 @@ class GetFloatTest extends BaseTestCase
             [['5.5']],
             [['banana']],
         ];
-
-   
     }
-
-
 
     /**
      * @covers \Params\FirstRule\GetFloat
