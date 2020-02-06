@@ -16,7 +16,6 @@ use Params\PatchOperation\AddPatchOperation;
 
 /**
  * @coversNothing
- * @group wip
  */
 class PatchFactoryTest extends BaseTestCase
 {
