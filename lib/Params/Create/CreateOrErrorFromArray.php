@@ -20,7 +20,7 @@ trait CreateOrErrorFromArray
     {
         $variableMap = new ArrayVarMap($data);
 
-        $namedRules = static::getRules();
+        $namedRules = static::getInputToParamInfoList();
 
         return Params::createOrError(static::class, $namedRules, $variableMap);
     }

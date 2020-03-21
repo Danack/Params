@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
-use Params\SubsequentRule\BoolInput;
+use Params\ProcessRule\BoolInput;
 use ParamsTest\BaseTestCase;
 use Params\ParamsValidator;
 
@@ -28,7 +28,7 @@ class BoolInputValidatorTest extends BaseTestCase
 
     /**
      * @dataProvider provideBoolValueWorksCases
-     * @covers \Params\SubsequentRule\IntegerInput
+     * @covers \Params\ProcessRule\IntegerInput
      */
     public function testValidationWorks($inputValue, bool $expectedValue)
     {
@@ -52,7 +52,7 @@ class BoolInputValidatorTest extends BaseTestCase
 
     /**
      * @dataProvider provideBoolValueErrorsCases
-     * @covers \Params\SubsequentRule\IntegerInput
+     * @covers \Params\ProcessRule\IntegerInput
      */
     public function testValidationErrors($inputValue)
     {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\Trim;
+use Params\ProcessRule\Trim;
 use Params\ParamsValidator;
 
 /**
@@ -14,7 +14,7 @@ use Params\ParamsValidator;
 class TrimTest extends BaseTestCase
 {
     /**
-     * @covers \Params\SubsequentRule\Trim
+     * @covers \Params\ProcessRule\Trim
      */
     public function testValidation()
     {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\MultipleEnum;
+use Params\ProcessRule\MultipleEnum;
 use Params\Value\MultipleEnums;
 use Params\ParamsValidator;
 
@@ -24,7 +24,7 @@ class MultipleEnumTest extends BaseTestCase
 
     /**
      * @dataProvider provideMultipleEnumCases
-     * @covers \Params\SubsequentRule\MultipleEnum
+     * @covers \Params\ProcessRule\MultipleEnum
      */
     public function testMultipleEnum_emptySegments($input, $expectedOutput)
     {
@@ -49,7 +49,7 @@ class MultipleEnumTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\SubsequentRule\MultipleEnum
+     * @covers \Params\ProcessRule\MultipleEnum
      */
     public function testValidation($testValue, $expectedFilters, $expectError)
     {

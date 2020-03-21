@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\FirstRule\GetArrayOfType;
+use Params\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ItemParams;
 use VarMap\ArrayVarMap;
 use Params\ParamsValidator;
@@ -18,7 +18,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 {
 
     /**
-     * @covers \Params\FirstRule\GetArrayOfType
+     * @covers \Params\ExtractRule\GetArrayOfType
      */
     public function testWorks()
     {
@@ -48,7 +48,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\FirstRule\GetArrayOfType
+     * @covers \Params\ExtractRule\GetArrayOfType
      */
     public function testMissingArrayErrors()
     {
@@ -65,7 +65,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\FirstRule\GetArrayOfType
+     * @covers \Params\ExtractRule\GetArrayOfType
      */
     public function testScalarInsteadOfArrayErrors()
     {
@@ -87,7 +87,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\FirstRule\GetArrayOfType
+     * @covers \Params\ExtractRule\GetArrayOfType
      */
     public function testScalarInsteadOfEntryArrayErrors()
     {
@@ -114,7 +114,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\FirstRule\GetArrayOfType
+     * @covers \Params\ExtractRule\GetArrayOfType
      */
     public function testSingleError()
     {
@@ -142,7 +142,7 @@ class GetArrayOfTypeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetArrayOfType
+     * @covers \Params\ExtractRule\GetArrayOfType
      */
     public function testMultipleErrors()
     {

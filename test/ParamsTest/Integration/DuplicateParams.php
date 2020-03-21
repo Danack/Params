@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
-use Params\FirstRule\GetInt;
+use Params\ExtractRule\GetInt;
+use Params\InputToParamInfo;
 use Params\SafeAccess;
-use Params\FirstRule\GetString;
-use Params\SubsequentRule\MinLength;
-use Params\SubsequentRule\MaxLength;
+use Params\ExtractRule\GetString;
+use Params\ProcessRule\MinLength;
+use Params\ProcessRule\MaxLength;
 use Params\Create\CreateOrErrorFromVarMap;
-use Params\SubsequentRule\DuplicatesParam;
+use Params\ProcessRule\DuplicatesParam;
 
 class DuplicateParams
 {
@@ -29,18 +30,20 @@ class DuplicateParams
         $this->password_repeat = $password_repeat;
     }
 
-    public static function getRules()
+    public static function getInputToParamInfoList()
     {
         return [
-            'password' => [
+            new InputToParamInfo(
+                'password',
                 new GetString(),
                 new MinLength(6),
                 new MaxLength(60)
-            ],
-            'password_repeat' => [
+            ),
+            new InputToParamInfo(
+                'password_repeat',
                 new GetString(),
-                new DuplicatesParam('password'),
-            ],
+                new DuplicatesParam('password')
+            ),
         ];
     }
 

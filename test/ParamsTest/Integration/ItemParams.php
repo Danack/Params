@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
-use Params\FirstRule\GetInt;
-use Params\FirstRule\GetString;
-use Params\SubsequentRule\MaxIntValue;
-use Params\SubsequentRule\MinIntValue;
-use Params\SubsequentRule\MinLength;
+use Params\ExtractRule\GetInt;
+use Params\ExtractRule\GetString;
+use Params\InputToParamInfo;
+use Params\ProcessRule\MaxIntValue;
+use Params\ProcessRule\MinIntValue;
+use Params\ProcessRule\MinLength;
 use Params\SafeAccess;
 use VarMap\VarMap;
 
-use Params\SubsequentRule\IntegerInput;
+use Params\ProcessRule\IntegerInput;
 
 class ItemParams
 {
@@ -35,17 +36,19 @@ class ItemParams
         $this->bar = $bar;
     }
 
-    public static function getRules()
+    public static function getInputToParamInfoList()
     {
         return [
-            'foo' => [
+            new InputToParamInfo(
+                'foo',
                 new GetInt(),
                 new MaxIntValue(100)
-            ],
-            'bar' => [
+            ),
+            new InputToParamInfo(
+                'bar',
                 new GetString(),
-                new MinLength(4),
-            ],
+                new MinLength(4)
+            ),
         ];
     }
 

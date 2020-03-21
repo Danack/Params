@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\Order;
+use Params\ProcessRule\Order;
 use Params\Value\Ordering;
 use Params\ParamsValidator;
 
@@ -24,7 +24,7 @@ class OrderTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\SubsequentRule\Order
+     * @covers \Params\ProcessRule\Order
      */
     public function testValidation($testValue, $expectedOrdering, $expectError)
     {

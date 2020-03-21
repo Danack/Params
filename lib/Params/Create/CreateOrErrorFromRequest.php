@@ -21,7 +21,7 @@ trait CreateOrErrorFromRequest
     {
         $variableMap = new Psr7VarMap($request);
 
-        $namedRules = static::getRules();
+        $namedRules = static::getInputToParamInfoList();
 
         return Params::createOrError(static::class, $namedRules, $variableMap);
     }

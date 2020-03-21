@@ -23,7 +23,7 @@ class Ordering
     const DESC = 'desc';
 
     /** @return \Params\Value\OrderElement[] */
-    private $orderElements;
+    private array $orderElements;
 
     /**
      * Order constructor.

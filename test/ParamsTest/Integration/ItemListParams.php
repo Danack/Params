@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
-use Params\FirstRule\GetString;
+use Params\ExtractRule\GetString;
 
-use Params\SubsequentRule\MaxLength;
+use Params\InputToParamInfo;
+use Params\ProcessRule\MaxLength;
 use Params\SafeAccess;
 use VarMap\VarMap;
 use Params\Create\CreateOrErrorFromVarMap;
-use Params\FirstRule\GetArrayOfType;
+use Params\ExtractRule\GetArrayOfType;
 
 class ItemListParams
 {
@@ -33,16 +34,18 @@ class ItemListParams
         $this->description = $description;
     }
 
-    public static function getRules()
+    public static function getInputToParamInfoList()
     {
         return [
-            'items' => [
-                new GetArrayOfType(ItemParams::class),
-            ],
-            'description' => [
+            new InputToParamInfo(
+                'items',
+                new GetArrayOfType(ItemParams::class)
+            ),
+            new InputToParamInfo(
+                'description',
                 new GetString(),
                 new MaxLength(120)
-            ],
+            ),
         ];
     }
 

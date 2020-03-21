@@ -15,11 +15,9 @@ namespace Params\Value;
  */
 class OrderElement
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
-    /** @var string */
-    private $order;
+    private string $order;
 
     /**
      * OrderElement constructor.

@@ -1,0 +1,8 @@
+
+
+parameters:
+  php_version_features: '7.4'
+  exclude_paths:
+    - "lib/Params/ProcessRule/SaneCharacters.php"
+    - "lib/Params/PatchOperation/*"
+

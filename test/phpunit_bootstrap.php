@@ -10,8 +10,10 @@
 //require_once(__DIR__ . '/../vendor/fzaninotto/faker/src/autoload.php');
 //
 
-
-function stringToRegexp(string $string)
+/**
+ * Used to convert to PHPUnits expected format.
+ */
+function stringToRegexp(string $string): string
 {
     $string = preg_quote($string, '#');
 

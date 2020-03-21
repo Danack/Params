@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception\Validator;
 
-use Params\FirstRule\GetInt;
-use Params\SubsequentRule\MaxIntValue;
+use Params\ExtractRule\GetInt;
+use Params\ProcessRule\MaxIntValue;
 use ParamsTest\BaseTestCase;
 use VarMap\ArrayVarMap;
 use Params\ParamsValidator;
-use Params\SubsequentRule\AlwaysEndsRule;
+use Params\ProcessRule\AlwaysEndsRule;
 
 /**
  * @coversNothing

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\MinLength;
+use Params\ProcessRule\MinLength;
 use Params\ParamsValidator;
 
 /**
@@ -29,7 +29,7 @@ class MinLengthTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxLengthCases
-     * @covers \Params\SubsequentRule\MinLength
+     * @covers \Params\ProcessRule\MinLength
      */
     public function testValidation(int $minLength, string $string, bool $expectError)
     {

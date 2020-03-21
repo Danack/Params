@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="Danack">
-    <description>Customised coding standard.</description>
+    <description>Customised coding standard for code shipped in the library.</description>
     <arg name="tab-width" value="4"/>
 
     <exclude-pattern>*migrations*</exclude-pattern>

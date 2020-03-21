@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\OpenApi;
 
-use Params\FirstRule\GetInt;
-use Params\SubsequentRule\MaxIntValue;
-use Params\SubsequentRule\MinIntValue;
+use Params\ExtractRule\GetInt;
+use Params\InputToParamInfo;
+use Params\ProcessRule\MaxIntValue;
+use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
 use Params\Create\CreateFromVarMap;
 
@@ -21,14 +22,15 @@ class RequiredIntExample
 
     const MAX = 100;
 
-    public static function getRules()
+    public static function getInputToParamInfoList()
     {
         return [
-            self::NAME => [
+            new InputToParamInfo(
+                self::NAME,
                 new GetInt(),
                 new MinIntValue(self::MIN),
                 new MaxIntValue(self::MAX)
-            ],
+            ),
         ];
     }
 }

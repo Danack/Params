@@ -9,19 +9,16 @@ use Params\Exception\OpenApiException;
 
 class OpenApiV300ParamDescription implements ParamDescription
 {
-    /** @var string */
-    private $name;
 
-    /** @var string */
-    private $type;
+    private string $name;
 
-    /** @var string */
-    private $format;
+    private ?string $type = null;
+
+    private ?string $format = null;
 
     private $enumValues = null;
 
-    /** @var null|bool  */
-    private $required = null;
+    private ?bool $required = null;
 
     /** @var int|float */
     private $minimum = null;
@@ -29,29 +26,24 @@ class OpenApiV300ParamDescription implements ParamDescription
     /** @var int|float */
     private $maximum = null;
 
-    /** @var int */
-    private $maxLength;
+    private ?int $maxLength = null;
 
-    /** @var int */
-    private $minLength;
+    private ?int $minLength = null;
 
     private $default = null;
 
-    /** @var bool */
-    private $exclusiveMaximum;
+    private ?bool $exclusiveMaximum = null;
 
-    /** @var bool */
-    private $exclusiveMinimum;
+    private ?bool $exclusiveMinimum = null;
 
-    /** @var null|bool */
-    private $nullAllowed = null;
+    private ?bool $nullAllowed = null;
 
     /**
      * Creates a set of Parameter descriptions according to the
      * OpenApi 3.0.0 spec
      *
      * https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md
-     * @param \Params\Rule[][] $allRules
+     * @param \Params\InputToParamInfo[] $allRules
      * @return self[]
      * @throws OpenApiException
      */
@@ -59,14 +51,16 @@ class OpenApiV300ParamDescription implements ParamDescription
     {
         $ruleDescriptions = [];
 
-        foreach ($allRules as $name => $rules) {
+        foreach ($allRules as $rules) {
             $description = new self();
+            $description->setName($rules->getInputName());
 
-            $description->setName($name);
+            $firstRule = $rules->getFirstRule();
+            $firstRule->updateParamDescription($description);
 
-            foreach ($rules as $rule) {
+            foreach ($rules->getSubsequentRules() as $subsequentRules) {
                 /** @var $rule \Params\Rule */
-                $rule->updateParamDescription($description);
+                $subsequentRules->updateParamDescription($description);
             }
 
             $ruleDescriptions[] = $description->toArray();

@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\FirstRule\GetOptionalString;
+use Params\ExtractRule\GetOptionalString;
 use Params\ParamsValidator;
 
 /**
@@ -15,7 +15,7 @@ use Params\ParamsValidator;
 class GetOptionalStringTest extends BaseTestCase
 {
     /**
-     * @covers \Params\FirstRule\GetOptionalString
+     * @covers \Params\ExtractRule\GetOptionalString
      */
     public function testMissingGivesNull()
     {
@@ -28,7 +28,7 @@ class GetOptionalStringTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetOptionalString
+     * @covers \Params\ExtractRule\GetOptionalString
      */
     public function testValidation()
     {

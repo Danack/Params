@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\AlwaysEndsRule;
+use Params\ProcessRule\AlwaysEndsRule;
 use Params\ParamsValidator;
 use VarMap\ArrayVarMap;
 
@@ -15,7 +15,7 @@ use VarMap\ArrayVarMap;
 class AlwaysEndsRuleTest extends BaseTestCase
 {
     /**
-     * @covers \Params\SubsequentRule\AlwaysEndsRule
+     * @covers \Params\ProcessRule\AlwaysEndsRule
      */
     public function testUnknownFilterErrors()
     {

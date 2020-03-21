@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\ValidCharacters;
-use Params\SubsequentRule\SaneCharacters;
+use Params\ProcessRule\ValidCharacters;
+use Params\ProcessRule\SaneCharacters;
 use Params\ParamsValidator;
 
 /**
@@ -27,7 +27,7 @@ class ValidCharactersTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\SubsequentRule\ValidCharacters
+     * @covers \Params\ProcessRule\ValidCharacters
      */
     public function testValidation($validCharactersPattern, $testValue, $expectedErrorPosition)
     {

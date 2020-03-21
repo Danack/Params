@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\EnumMap;
+use Params\ProcessRule\EnumMap;
 use Params\ParamsValidator;
 
 /**
@@ -48,7 +48,7 @@ class KnownEnumValidatorTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\SubsequentRule\EnumMap
+     * @covers \Params\ProcessRule\EnumMap
      */
     public function testValidation($testValue, $expectError, $expectedValue)
     {

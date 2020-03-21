@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
-use Params\SubsequentRule\MinimumCount;
+use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\Exception\LogicException;
 use Params\ParamsValidator;
@@ -26,7 +26,7 @@ class MinimumCountTest extends BaseTestCase
 
     /**
      * @dataProvider provideWorksCases
-     * @covers \Params\SubsequentRule\MinimumCount
+     * @covers \Params\ProcessRule\MinimumCount
      */
     public function testWorks(int $minimumCount, $values)
     {
@@ -49,7 +49,7 @@ class MinimumCountTest extends BaseTestCase
 
     /**
      * @dataProvider provideFailsCases
-     * @covers \Params\SubsequentRule\MinimumCount
+     * @covers \Params\ProcessRule\MinimumCount
      */
     public function testFails(int $minimumCount, $values)
     {
@@ -66,7 +66,7 @@ class MinimumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\SubsequentRule\MinimumCount
+     * @covers \Params\ProcessRule\MinimumCount
      */
     public function testMinimimCountZero()
     {
@@ -76,7 +76,7 @@ class MinimumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\SubsequentRule\MinimumCount
+     * @covers \Params\ProcessRule\MinimumCount
      */
     public function testInvalidOperand()
     {
@@ -84,7 +84,7 @@ class MinimumCountTest extends BaseTestCase
         $this->expectException(LogicException::class);
 
         $validator = new ParamsValidator();
-        $this->expectExceptionMessageRegExp(
+        $this->expectErrorMessageMatches(
             stringToRegexp(MinimumCount::ERROR_WRONG_TYPE)
         );
 

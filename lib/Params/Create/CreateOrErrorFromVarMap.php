@@ -17,7 +17,7 @@ trait CreateOrErrorFromVarMap
      */
     public static function createOrErrorFromVarMap(VarMap $variableMap)
     {
-        $namedRules = static::getRules();
+        $namedRules = static::getInputToParamInfoList();
 
         return Params::createOrError(static::class, $namedRules, $variableMap);
     }

@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Params;
 
-use Params\FirstRule\FirstRule;
-use Params\SubsequentRule\SubsequentRule;
+use Params\ExtractRule\ExtractRule;
+use Params\ProcessRule\ProcessRule;
 use VarMap\VarMap;
 use Params\Functions;
 
@@ -21,9 +21,9 @@ class ParamsValidator implements ParamValues
     /**
      * @var string[]
      */
-    private $validationProblems = [];
+    private array $validationProblems = [];
 
-    private $paramValues = [];
+    private array $paramValues = [];
 
     public function __construct()
     {
@@ -52,13 +52,13 @@ class ParamsValidator implements ParamValues
     /**
      * @param mixed $value
      * @param string $name The name is used to store values, and to generate appropriate error messages.
-     * @param SubsequentRule ...$subsequentRules
+     * @param ProcessRule ...$subsequentRules
      * @throws Exception\ParamMissingException
      */
     public function validateSubsequentRules(
         $value,
         string $name,
-        SubsequentRule ...$subsequentRules
+        ProcessRule ...$subsequentRules
     ) {
         foreach ($subsequentRules as $rule) {
             $validationResult = $rule->process($name, $value, $this);
@@ -84,8 +84,8 @@ class ParamsValidator implements ParamValues
     public function validateRulesForParam(
         string $name,
         VarMap $varMap,
-        FirstRule $firstRule,
-        SubsequentRule ...$subsequentRules
+        ExtractRule $firstRule,
+        ProcessRule ...$subsequentRules
     ) {
         $validationResult = $firstRule->process($name, $varMap, $this);
         $validationProblems = $validationResult->getProblemMessages();

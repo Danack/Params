@@ -5,13 +5,9 @@ declare(strict_types = 1);
 namespace Params;
 
 use Params\Exception\ValidationException;
-use Params\Exception\RulesEmptyException;
-use Params\Exception\ParamsException;
-use Params\FirstRule\FirstRule;
 use Params\PatchOperation\PatchOperation;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
-use Params\PatchFactory;
 use Params\Exception\PatchFormatException;
 
 /**
@@ -25,47 +21,45 @@ use Params\Exception\PatchFormatException;
  */
 class Params
 {
+    /**
+     * @param \Params\InputToParamInfo[] $rulesetList
+     * @param VarMap $sourceData
+     * @param ParamsValidator $validator
+     */
     public static function executeRulesWithValidator(
-        $namedRules,
+        $rulesetList,
         VarMap $sourceData,
         ParamsValidator $validator
     ) {
-        foreach ($namedRules as $parameterName => $rules) {
-            // TODO - test for packed array?
-
-            if (count($rules) === 0) {
-                throw new RulesEmptyException();
-            }
-            $firstRule = $rules[0];
-
-            if (!$firstRule instanceof FirstRule) {
-                throw ParamsException::badFirstRule();
-            }
-
-            $subsequentRules = array_splice($rules, 1);
+        foreach ($rulesetList as $ruleset) {
             $validator->validateRulesForParam(
-                $parameterName,
+                $ruleset->getInputName(),
                 $sourceData,
-                $firstRule,
-                ...$subsequentRules
+                $ruleset->getFirstRule(),
+                ...$ruleset->getSubsequentRules()
             );
         }
     }
 
+    /**
+     * @param \Params\InputToParamInfo[] $rulesetList
+     * @param $sourceData
+     * @return ParamsValidator
+     */
     public static function executeRules(
-        $namedRules,
+        $rulesetList,
         $sourceData
     ): ParamsValidator {
         $validator = new ParamsValidator();
 
-        self::executeRulesWithValidator($namedRules, $sourceData, $validator);
+        self::executeRulesWithValidator($rulesetList, $sourceData, $validator);
 
         return $validator;
     }
 
     /**
      * @param string $classname
-     * @param array $namedRules
+     * @param \Params\InputToParamInfo[] $rulesetList
      * @return mixed -  [object|null, ValidationErrors|null]
      * @throws Exception\ParamsException
      * @throws ValidationException
@@ -73,9 +67,9 @@ class Params
      * The rules are passed separately to the classname so that we can
      * support rules coming both from static info and from factory objects.
      */
-    public static function createOrError($classname, $namedRules, VarMap $sourceData)
+    public static function createOrError($classname, $rulesetList, VarMap $sourceData)
     {
-        $validator = self::executeRules($namedRules, $sourceData);
+        $validator = self::executeRules($rulesetList, $sourceData);
         $validationErrors = $validator->getValidationProblems();
         if (count($validationErrors) !== 0) {
             return [null, $validationErrors];
@@ -85,6 +79,14 @@ class Params
         return [$reflection_class->newInstanceArgs($validator->getParamsValues()), []];
     }
 
+    /**
+     * @param $classname
+     * @param @param \Params\InputToParamInfo[] $rulesetList
+     * @param VarMap $sourceData
+     * @return object|\T
+     * @throws ValidationException
+     * @throws \ReflectionException
+     */
     public static function create($classname, $namedRules, VarMap $sourceData)
     {
         $validator = self::executeRules($namedRules, $sourceData);

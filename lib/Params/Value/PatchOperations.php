@@ -9,7 +9,7 @@ use Params\PatchOperation\PatchOperation;
 class PatchOperations
 {
     /** @var PatchOperation[] */
-    private $patchOperations;
+    private array $patchOperations;
 
     /**
      * Patch constructor.

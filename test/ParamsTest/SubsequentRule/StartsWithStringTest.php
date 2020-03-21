@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\StartsWithString;
+use Params\ProcessRule\StartsWithString;
 use Params\ParamsValidator;
 
 /**
@@ -23,7 +23,7 @@ class StartsWithStringTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorksCases
-     * @covers \Params\SubsequentRule\StartsWithString
+     * @covers \Params\ProcessRule\StartsWithString
      */
     public function testValidationWorks(string $prefix, $testValue)
     {
@@ -44,7 +44,7 @@ class StartsWithStringTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestFailsCases
-     * @covers \Params\SubsequentRule\StartsWithString
+     * @covers \Params\ProcessRule\StartsWithString
      */
     public function testValidationErrors(string $prefix, $testValue)
     {

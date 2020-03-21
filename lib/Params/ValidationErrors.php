@@ -7,7 +7,7 @@ namespace Params;
 class ValidationErrors implements \IteratorAggregate
 {
     /** @var string[] */
-    private $validationProblems;
+    private array $validationProblems;
 
     /**
      *

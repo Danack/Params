@@ -6,13 +6,14 @@ namespace ParamsTest\Integration;
 
 use Params\Create\CreateFromArray;
 use Params\Create\CreateOrErrorFromArray;
-use Params\FirstRule\GetArrayOfInt;
-use Params\SubsequentRule\MaxIntValue;
-use Params\SubsequentRule\MinIntValue;
+use Params\ExtractRule\GetArrayOfInt;
+use Params\InputToParamInfo;
+use Params\ProcessRule\MaxIntValue;
+use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
-use Params\SubsequentRule\MinLength;
-use Params\SubsequentRule\MaxLength;
-use Params\FirstRule\GetString;
+use Params\ProcessRule\MinLength;
+use Params\ProcessRule\MaxLength;
+use Params\ExtractRule\GetString;
 
 class IntArrayParams
 {
@@ -38,21 +39,23 @@ class IntArrayParams
     }
 
 
-    public static function getRules()
+    public static function getInputToParamInfoList()
     {
         return [
-            'name' => [
+            new InputToParamInfo(
+                'name',
                 new GetString(),
                 new MinLength(4),
-                new MaxLength(16),
-            ],
-            'counts' => [
-               new GetArrayOfInt(
-                   new MinIntValue(1),
-                   new MaxIntValue(50)
-               ),
-               new ArrayAllMultiplesOf(3)
-            ]
+                new MaxLength(16)
+            ),
+            new InputToParamInfo(
+                'counts',
+                new GetArrayOfInt(
+                    new MinIntValue(1),
+                    new MaxIntValue(50)
+                ),
+                new ArrayAllMultiplesOf(3)
+            )
         ];
     }
 

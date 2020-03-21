@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
-use Params\FirstRule\GetIntOrDefault;
+use Params\ExtractRule\GetIntOrDefault;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\FirstRule\GetStringOrDefault;
+use Params\ExtractRule\GetStringOrDefault;
 use Params\ParamsValidator;
 
 /**
@@ -36,7 +36,7 @@ class GetIntOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetIntOrDefault
+     * @covers \Params\ExtractRule\GetIntOrDefault
      * @dataProvider provideTestCases
      */
     public function testValidation(ArrayVarMap $varMap, $default, $expectedValue)
@@ -61,7 +61,7 @@ class GetIntOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetIntOrDefault
+     * @covers \Params\ExtractRule\GetIntOrDefault
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($inputValue)

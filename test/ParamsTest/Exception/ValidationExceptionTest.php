@@ -38,17 +38,17 @@ class ValidationExceptionTest extends BaseTestCase
     }
 
 
-    /**
-     * @covers \Params\Exception\ParamsException
-     */
-    public function testParamsException()
-    {
-        $exception = ParamsException::badFirstRule();
-
-        $this->assertSame(
-            ParamsException::ERROR_FIRST_RULE_MUST_IMPLEMENT_FIRST_RULE,
-            $exception->getMessage()
-        );
-        $this->assertInstanceOf(ParamsException::class, $exception);
-    }
+//    /**
+//     * @covers \Params\Exception\ParamsException
+//     */
+//    public function testParamsException()
+//    {
+//        $exception = ParamsException::badFirstRule();
+//
+//        $this->assertSame(
+//            ParamsException::ERROR_FIRST_RULE_MUST_IMPLEMENT_FIRST_RULE,
+//            $exception->getMessage()
+//        );
+//        $this->assertInstanceOf(ParamsException::class, $exception);
+//    }
 }

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
-use Params\FirstRule\GetInt;
+use Params\ExtractRule\GetInt;
+use Params\InputToParamInfo;
 use Params\SafeAccess;
-use Params\FirstRule\GetString;
-use Params\SubsequentRule\MinLength;
-use Params\SubsequentRule\MaxLength;
+use Params\ExtractRule\GetString;
+use Params\ProcessRule\MinLength;
+use Params\ProcessRule\MaxLength;
 use Params\Create\CreateOrErrorFromVarMap;
-use Params\SubsequentRule\DuplicatesParam;
+use Params\ProcessRule\DuplicatesParam;
 
 class DuplicateButWrongTypeParams
 {
@@ -29,17 +30,18 @@ class DuplicateButWrongTypeParams
         $this->days_repeat = $days_repeat;
     }
 
-    public static function getRules()
+    public static function getInputToParamInfoList()
     {
         return [
-            'days' => [
+            new InputToParamInfo(
+                'days',
                 new GetInt()
-            ],
-            'days_repeat' => [
+            ),
+            new InputToParamInfo(
+                'days_repeat',
                 new GetString(),
-                new DuplicatesParam('days'),
-            ],
-
+                new DuplicatesParam('days')
+            ),
         ];
     }
 

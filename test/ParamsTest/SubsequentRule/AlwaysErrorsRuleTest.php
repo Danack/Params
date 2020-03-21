@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use Params\ParamsValidator;
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\AlwaysErrorsRule;
+use Params\ProcessRule\AlwaysErrorsRule;
 use Params\OpenApi\OpenApiV300ParamDescription;
 
 /**
@@ -15,7 +15,7 @@ use Params\OpenApi\OpenApiV300ParamDescription;
 class AlwaysErrorsRuleTest extends BaseTestCase
 {
     /**
-     * @covers \Params\SubsequentRule\AlwaysErrorsRule
+     * @covers \Params\ProcessRule\AlwaysErrorsRule
      */
     public function testUnknownFilterErrors()
     {
@@ -31,7 +31,7 @@ class AlwaysErrorsRuleTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\SubsequentRule\AlwaysErrorsRule
+     * @covers \Params\ProcessRule\AlwaysErrorsRule
      */
     public function testCoverage()
     {

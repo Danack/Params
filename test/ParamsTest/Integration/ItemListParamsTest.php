@@ -14,7 +14,7 @@ use ParamsTest\BaseTestCase;
 class ItemListParamsTest extends BaseTestCase
 {
     /**
-     * @covers \Params\FirstRule\GetArrayOfType
+     * @covers \Params\ExtractRule\GetArrayOfType
      */
     public function testWorks()
     {
@@ -52,7 +52,7 @@ class ItemListParamsTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\FirstRule\GetArrayOfType
+     * @covers \Params\ExtractRule\GetArrayOfType
      */
     public function testItemsMissing()
     {

@@ -6,10 +6,10 @@ namespace ParamsTest\Integration;
 
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
-use Params\SubsequentRule\SubsequentRule;
+use Params\ProcessRule\ProcessRule;
 use Params\ValidationResult;
 
-class ArrayAllMultiplesOf implements SubsequentRule
+class ArrayAllMultiplesOf implements ProcessRule
 {
     /** @var int */
     private $multiplicand;

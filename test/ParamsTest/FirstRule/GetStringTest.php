@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\FirstRule\GetString;
+use Params\ExtractRule\GetString;
 use Params\ParamsValidator;
 
 /**
@@ -15,7 +15,7 @@ use Params\ParamsValidator;
 class GetStringTest extends BaseTestCase
 {
     /**
-     * @covers \Params\FirstRule\GetString
+     * @covers \Params\ExtractRule\GetString
      */
     public function testMissingGivesError()
     {
@@ -26,7 +26,7 @@ class GetStringTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetString
+     * @covers \Params\ExtractRule\GetString
      */
     public function testValidation()
     {

@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\FirstRule\GetInt;
+use Params\ExtractRule\GetInt;
 use Params\ParamsValidator;
 
 /**
@@ -15,7 +15,7 @@ use Params\ParamsValidator;
 class GetIntTest extends BaseTestCase
 {
     /**
-     * @covers \Params\FirstRule\GetString
+     * @covers \Params\ExtractRule\GetString
      */
     public function testMissingGivesError()
     {
@@ -34,7 +34,7 @@ class GetIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetInt
+     * @covers \Params\ExtractRule\GetInt
      * @dataProvider provideTestWorksCases
      */
     public function testWorks($input, $expectedValue)
@@ -64,7 +64,7 @@ class GetIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetInt
+     * @covers \Params\ExtractRule\GetInt
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($variables)

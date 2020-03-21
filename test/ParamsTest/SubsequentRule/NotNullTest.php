@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\NotNull;
+use Params\ProcessRule\NotNull;
 use Params\ParamsValidator;
 
 /**
@@ -14,7 +14,7 @@ use Params\ParamsValidator;
 class NotNullTest extends BaseTestCase
 {
     /**
-     * @covers \Params\SubsequentRule\NotNull
+     * @covers \Params\ProcessRule\NotNull
      */
     public function testValidation()
     {

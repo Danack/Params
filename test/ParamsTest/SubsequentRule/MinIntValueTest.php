@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\MinIntValue;
+use Params\ProcessRule\MinIntValue;
 use Params\ParamsValidator;
 
 /**
@@ -32,7 +32,7 @@ class MinIntValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideMinIntValueCases
-     * @covers \Params\SubsequentRule\MinIntValue
+     * @covers \Params\ProcessRule\MinIntValue
      */
     public function testValidation(int $minValue, string $inputValue, bool $expectError)
     {

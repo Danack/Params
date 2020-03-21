@@ -4,13 +4,14 @@ declare(strict_types = 1);
 
 namespace ParamsTest\Patch\Sku;
 
-use Params\FirstRule\GetInt;
-use Params\FirstRule\GetString;
-use Params\SubsequentRule\MaxIntValue;
-use Params\SubsequentRule\MinIntValue;
+use Params\ExtractRule\GetInt;
+use Params\ExtractRule\GetString;
+use Params\InputToParamInfo;
+use Params\ProcessRule\MaxIntValue;
+use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
-use Params\SubsequentRule\MinLength;
-use Params\SubsequentRule\MaxLength;
+use Params\ProcessRule\MinLength;
+use Params\ProcessRule\MaxLength;
 
 class SkuPriceAdd
 {
@@ -53,35 +54,40 @@ class SkuPriceAdd
         $this->price_usd = $price_usd;
     }
 
-    public static function getRules()
+    public static function getInputToParamInfoList()
     {
         return [
-            'name' => [
+            new InputToParamInfo(
+                'name',
                 new GetString(),
                 new MinLength(8),
-                new MaxLength(256),
-            ],
-            'description' => [
+                new MaxLength(256)
+            ),
+            new InputToParamInfo(
+                'description',
                 new GetString(),
                 new MinLength(8),
-                new MaxLength(256),
-            ],
-            'price_eur' => [
+                new MaxLength(256)
+            ),
+            new InputToParamInfo(
+                'price_eur',
                 new GetInt(),
                 new MinIntValue(10000),
                 new MaxIntValue(1000000)
-            ],
+            ),
 
-            'price_gbp'  => [
+            new InputToParamInfo(
+                'price_gbp',
                 new GetInt(),
                 new MinIntValue(10000),
                 new MaxIntValue(1000000)
-            ],
-            'price_usd' => [
+            ),
+            new InputToParamInfo(
+                'price_usd',
                 new GetInt(),
                 new MinIntValue(10000),
                 new MaxIntValue(1000000)
-            ],
+            ),
         ];
     }
 

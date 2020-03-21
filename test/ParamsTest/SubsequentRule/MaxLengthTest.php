@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\MaxLength;
+use Params\ProcessRule\MaxLength;
 use Params\ParamsValidator;
 
 /**
@@ -29,7 +29,7 @@ class MaxLengthTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxLengthCases
-     * @covers \Params\SubsequentRule\MaxLength
+     * @covers \Params\ProcessRule\MaxLength
      */
     public function testValidation(int $maxLength, string $string, bool $expectError)
     {

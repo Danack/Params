@@ -32,7 +32,7 @@ class EmailPatchTest extends BaseTestCase
         return;
 
         $operations = Params::createPatch(
-            EmailPatchParams::getRules(),
+            EmailPatchParams::getInputToParamInfoList(),
             json_decode_safe(json_encode($data))
         );
 

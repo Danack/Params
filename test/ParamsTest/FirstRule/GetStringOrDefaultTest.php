@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\FirstRule\GetStringOrDefault;
+use Params\ExtractRule\GetStringOrDefault;
 use Params\ParamsValidator;
 
 /**
@@ -25,7 +25,7 @@ class GetStringOrDefaultTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\FirstRule\GetStringOrDefault
+     * @covers \Params\ExtractRule\GetStringOrDefault
      */
     public function testValidation(ArrayVarMap $varMap, $default, $expectedValue)
     {

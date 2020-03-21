@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\ValidDate;
+use Params\ProcessRule\ValidDate;
 use Params\ParamsValidator;
 
 /**
@@ -30,7 +30,7 @@ class ValidDateTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorksCases
-     * @covers \Params\SubsequentRule\ValidDate
+     * @covers \Params\ProcessRule\ValidDate
      */
     public function testValidationWorks($input, $expectedTime)
     {
@@ -52,7 +52,7 @@ class ValidDateTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrorsCases
-     * @covers \Params\SubsequentRule\ValidDate
+     * @covers \Params\ProcessRule\ValidDate
      */
     public function testValidationErrors($input)
     {

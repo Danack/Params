@@ -22,7 +22,7 @@ trait CreateFromArray
      */
     public static function createFromArray($data)
     {
-        $rules = static::getRules();
+        $rules = static::getInputToParamInfoList();
 
         $variableMap = new ArrayVarMap($data);
         $object = Params::create(static::class, $rules, $variableMap);

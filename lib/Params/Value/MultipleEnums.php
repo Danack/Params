@@ -10,7 +10,7 @@ namespace Params\Value;
 class MultipleEnums
 {
     /** @return string[] */
-    private $values;
+    private array $values;
 
     /**
      * Order constructor.

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
-use Params\SubsequentRule\IntegerInput;
+use Params\ProcessRule\IntegerInput;
 use ParamsTest\BaseTestCase;
 use Params\ParamsValidator;
 
@@ -26,7 +26,7 @@ class IntegerInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideIntValueWorksCases
-     * @covers \Params\SubsequentRule\IntegerInput
+     * @covers \Params\ProcessRule\IntegerInput
      */
     public function testValidationWorks(string $inputValue, int $expectedValue)
     {
@@ -52,7 +52,7 @@ class IntegerInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideMinIntValueErrorsCases
-     * @covers \Params\SubsequentRule\IntegerInput
+     * @covers \Params\ProcessRule\IntegerInput
      */
     public function testValidationErrors(string $inputValue)
     {

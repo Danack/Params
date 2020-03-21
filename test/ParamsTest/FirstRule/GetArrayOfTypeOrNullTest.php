@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
-use Params\FirstRule\GetArrayOfTypeOrNull;
+use Params\ExtractRule\GetArrayOfTypeOrNull;
 use ParamsTest\BaseTestCase;
-use Params\FirstRule\GetArrayOfType;
+use Params\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ItemParams;
 use VarMap\ArrayVarMap;
 use Params\ParamsValidator;
@@ -18,7 +18,7 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
 {
 
     /**
-     * @covers \Params\FirstRule\GetArrayOfTypeOrNull
+     * @covers \Params\ExtractRule\GetArrayOfTypeOrNull
      */
     public function testWorks()
     {
@@ -45,7 +45,7 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetArrayOfTypeOrNull
+     * @covers \Params\ExtractRule\GetArrayOfTypeOrNull
      */
     public function testWorksWhenNotSet()
     {

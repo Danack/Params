@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
-use Params\FirstRule\GetInt;
-use Params\SubsequentRule\MaxIntValue;
-use Params\SubsequentRule\MinIntValue;
+use Params\ExtractRule\GetInt;
+use Params\InputToParamInfo;
+use Params\ProcessRule\MaxIntValue;
+use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
 use VarMap\VarMap;
 
-use Params\SubsequentRule\IntegerInput;
+use Params\ProcessRule\IntegerInput;
 
 class SingleIntParams
 {
@@ -24,15 +25,16 @@ class SingleIntParams
         $this->limit = $limit;
     }
 
-    public static function getRules()
+    public static function getInputToParamInfoList()
     {
         return [
-            'limit' => [
+            new InputToParamInfo(
+                'limit',
                 new GetInt(),
                 new IntegerInput(),
                 new MinIntValue(0),
                 new MaxIntValue(100)
-            ]
+            )
         ];
     }
 

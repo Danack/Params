@@ -6,14 +6,13 @@ namespace Params;
 
 class ValidationResult
 {
-    /** @var string */
+    /** @var string|int|float|bool|array */
     private $value;
 
     /** @var string[] */
-    private $problemMessages;
+    private array $problemMessages;
 
-    /** @var bool */
-    private $isFinalResult;
+    private bool $isFinalResult;
 
     /**
      * ValidationResult constructor.

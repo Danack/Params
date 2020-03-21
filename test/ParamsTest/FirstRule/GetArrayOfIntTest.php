@@ -5,10 +5,10 @@ declare(strict_types = 1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\FirstRule\GetArrayOfInt;
+use Params\ExtractRule\GetArrayOfInt;
 use VarMap\ArrayVarMap;
 use Params\ParamsValidator;
-use Params\SubsequentRule\MaxIntValue;
+use Params\ProcessRule\MaxIntValue;
 
 /**
  * @coversNothing
@@ -16,7 +16,7 @@ use Params\SubsequentRule\MaxIntValue;
 class GetArrayOfIntTest extends BaseTestCase
 {
     /**
-     * @covers  \Params\FirstRule\GetArrayOfInt
+     * @covers  \Params\ExtractRule\GetArrayOfInt
      */
     public function testWorks()
     {
@@ -36,7 +36,7 @@ class GetArrayOfIntTest extends BaseTestCase
     }
 
     /**
-     * @covers  \Params\FirstRule\GetArrayOfInt
+     * @covers  \Params\ExtractRule\GetArrayOfInt
      */
     public function testErrorsOnType()
     {
@@ -60,7 +60,7 @@ class GetArrayOfIntTest extends BaseTestCase
     }
 
     /**
-     * @covers  \Params\FirstRule\GetArrayOfInt
+     * @covers  \Params\ExtractRule\GetArrayOfInt
      */
     public function testErrorsOnSubsequentRule()
     {

@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\FirstRule\GetFloat;
+use Params\ExtractRule\GetFloat;
 use Params\ParamsValidator;
 
 /**
@@ -15,7 +15,7 @@ use Params\ParamsValidator;
 class GetFloatTest extends BaseTestCase
 {
     /**
-     * @covers \Params\FirstRule\GetFloat
+     * @covers \Params\ExtractRule\GetFloat
      */
     public function testMissingGivesError()
     {
@@ -36,7 +36,7 @@ class GetFloatTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetFloat
+     * @covers \Params\ExtractRule\GetFloat
      * @dataProvider provideTestWorksCases
      */
     public function testWorks($input, $expectedValue)
@@ -65,7 +65,7 @@ class GetFloatTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetFloat
+     * @covers \Params\ExtractRule\GetFloat
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($variables)

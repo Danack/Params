@@ -9,5 +9,5 @@ namespace Params\Exception;
  */
 class RulesEmptyException extends ParamsException
 {
-
+    // TODO - this is dead?
 }

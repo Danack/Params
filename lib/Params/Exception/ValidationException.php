@@ -8,8 +8,7 @@ use Params\ValidationErrors;
 
 class ValidationException extends \Params\Exception\ParamsException
 {
-    /** @var array */
-    private $validationProblems;
+    private array $validationProblems;
 
     /**
      * ValidationException constructor.

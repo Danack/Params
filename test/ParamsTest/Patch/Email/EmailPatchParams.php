@@ -11,7 +11,7 @@ use Params\PatchRule\PatchTest;
 
 class EmailPatchParams
 {
-    public static function getRules()
+    public static function getInputToParamInfoList()
     {
         // TODO - allow regexes in paths
         // e.g. $pattern =  '#/projects/(?P<project_name>.+)#iux';
@@ -20,17 +20,17 @@ class EmailPatchParams
             new PatchTest(
                 '/email/user',
                 CheckUserEmailMatches::class,
-                CheckUserEmailMatches::getRules()
+                CheckUserEmailMatches::getInputToParamInfoList()
             ),
             new PatchTest(
                 '/email/admin',
                 CheckAdminEmailMatches::class,
-                CheckAdminEmailMatches::getRules()
+                CheckAdminEmailMatches::getInputToParamInfoList()
             ),
 
 
-//            new PatchReplace('/sku/prices', SkuPriceReplace::class, SkuPriceReplace::getRules()),
-//            new PatchRemove('/sku/prices', SkuPriceRemove::class, SkuPriceRemove::getRules()),
+//            new PatchReplace('/sku/prices', SkuPriceReplace::class, SkuPriceReplace::getInputToParamInfoList()),
+//            new PatchRemove('/sku/prices', SkuPriceRemove::class, SkuPriceRemove::getInputToParamInfoList()),
         ];
 
         return $rules;

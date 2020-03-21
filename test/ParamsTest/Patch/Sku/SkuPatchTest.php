@@ -40,7 +40,7 @@ class SkuPatchTest extends BaseTestCase
         ]];
 
         $operations = Params::createPatch(
-            SkuPatchParams::getRules(),
+            SkuPatchParams::getInputToParamInfoList(),
             json_decode_safe(json_encode($data))
         );
 
@@ -116,7 +116,7 @@ class SkuPatchTest extends BaseTestCase
         ];
 
         $operations = Params::createPatch(
-            SkuPatchParams::getRules(),
+            SkuPatchParams::getInputToParamInfoList(),
             json_decode_safe(json_encode($data))
         );
 

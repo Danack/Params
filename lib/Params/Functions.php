@@ -7,6 +7,10 @@ namespace Params;
 use Params\Exception\LogicException;
 use Params\Value\Ordering;
 
+/**
+ * This class exists to avoid requiring a functions file always be loaded,
+ * due to PHP's lack of function autoloading.
+ */
 class Functions
 {
     /**
@@ -98,8 +102,6 @@ class Functions
 
         return $result;
     }
-
-
 
     public static function addChildErrorMessagesForArray(
         string $name,

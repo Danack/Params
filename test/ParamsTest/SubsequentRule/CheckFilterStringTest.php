@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use Params\Value\MultipleEnums;
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\MultipleEnum;
+use Params\ProcessRule\MultipleEnum;
 use Params\ParamsValidator;
 
 /**
@@ -24,7 +24,7 @@ class CheckFilterStringTest extends BaseTestCase
 
     /**
      * @dataProvider providesKnownFilterCorrect
-     * @covers \Params\SubsequentRule\MultipleEnum
+     * @covers \Params\ProcessRule\MultipleEnum
      */
     public function testKnownFilterCorrect($inputString, $expectedResult)
     {
@@ -42,7 +42,7 @@ class CheckFilterStringTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\SubsequentRule\MultipleEnum
+     * @covers \Params\ProcessRule\MultipleEnum
      */
     public function testUnknownFilterErrors()
     {

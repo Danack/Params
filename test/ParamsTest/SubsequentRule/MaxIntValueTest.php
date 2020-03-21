@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\MaxIntValue;
+use Params\ProcessRule\MaxIntValue;
 use Params\ParamsValidator;
 
 /**
@@ -33,7 +33,7 @@ class MaxIntValueValidatorTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxLengthCases
-     * @covers \Params\SubsequentRule\MaxIntValue
+     * @covers \Params\ProcessRule\MaxIntValue
      */
     public function testValidation(int $maxValue, string $inputValue, bool $expectError)
     {

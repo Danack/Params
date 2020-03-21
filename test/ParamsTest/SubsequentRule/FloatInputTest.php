@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
-use Params\SubsequentRule\FloatInput;
+use Params\ProcessRule\FloatInput;
 use ParamsTest\BaseTestCase;
 use Params\ParamsValidator;
 
@@ -25,7 +25,7 @@ class FloatInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideWorksCases
-     * @covers \Params\SubsequentRule\FloatInput
+     * @covers \Params\ProcessRule\FloatInput
      */
     public function testValidationWorks(string $inputValue, float $expectedValue)
     {
@@ -49,7 +49,7 @@ class FloatInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideErrorCases
-     * @covers \Params\SubsequentRule\FloatInput
+     * @covers \Params\ProcessRule\FloatInput
      */
     public function testValidationErrors(string $inputValue)
     {

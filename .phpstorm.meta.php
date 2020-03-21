@@ -2,9 +2,9 @@
 
 namespace PHPSTORM_META {
 
-    override(\Params\Params::create(0), map([
-        '' => '@',
-    ]));
+//    override(\Params\Params::create(0), map([
+//        '' => '@',
+//    ]));
 }
 
 

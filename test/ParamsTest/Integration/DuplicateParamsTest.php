@@ -7,7 +7,7 @@ namespace ParamsTest\Integration;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ValidationErrors;
-use Params\SubsequentRule\DuplicatesParam as DuplicatesParamRule;
+use Params\ProcessRule\DuplicatesParam as DuplicatesParamRule;
 use ParamsTest\Integration\DuplicateButWrongTypeParams;
 
 /**
@@ -17,7 +17,7 @@ use ParamsTest\Integration\DuplicateButWrongTypeParams;
 class DuplicateParamsTest extends BaseTestCase
 {
     /**
-     * @covers \Params\SubsequentRule\DuplicatesParam
+     * @covers \Params\ProcessRule\DuplicatesParam
      */
     public function testWorks()
     {
@@ -60,7 +60,7 @@ class DuplicateParamsTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\SubsequentRule\DuplicatesParam
+     * @covers \Params\ProcessRule\DuplicatesParam
      */
     public function testDifferentValue()
     {
@@ -85,7 +85,7 @@ class DuplicateParamsTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\SubsequentRule\DuplicatesParam
+     * @covers \Params\ProcessRule\DuplicatesParam
      */
     public function testMissingPreviousValue()
     {
@@ -116,7 +116,7 @@ class DuplicateParamsTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\SubsequentRule\DuplicatesParam
+     * @covers \Params\ProcessRule\DuplicatesParam
      */
     public function testWrongTypePreviousValue()
     {

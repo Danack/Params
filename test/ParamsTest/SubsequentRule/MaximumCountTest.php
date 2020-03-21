@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\MaximumCount;
+use Params\ProcessRule\MaximumCount;
 use Params\Exception\LogicException;
 use Params\ParamsValidator;
 
@@ -25,7 +25,7 @@ class MaximumCountTest extends BaseTestCase
 
     /**
      * @dataProvider provideWorksCases
-     * @covers \Params\SubsequentRule\MaximumCount
+     * @covers \Params\ProcessRule\MaximumCount
      */
     public function testWorks(int $maximumCount, $values)
     {
@@ -47,7 +47,7 @@ class MaximumCountTest extends BaseTestCase
 
     /**
      * @dataProvider provideFailsCases
-     * @covers \Params\SubsequentRule\MaximumCount
+     * @covers \Params\ProcessRule\MaximumCount
      */
     public function testFails(int $maximumCount, $values)
     {
@@ -66,7 +66,7 @@ class MaximumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\SubsequentRule\MaximumCount
+     * @covers \Params\ProcessRule\MaximumCount
      */
     public function testMinimimCountZero()
     {
@@ -76,7 +76,7 @@ class MaximumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\SubsequentRule\MaximumCount
+     * @covers \Params\ProcessRule\MaximumCount
      */
     public function testInvalidOperand()
     {
@@ -84,7 +84,7 @@ class MaximumCountTest extends BaseTestCase
         $this->expectException(LogicException::class);
 
         $validator = new ParamsValidator();
-        $this->expectExceptionMessageRegExp(
+        $this->expectErrorMessageMatches(
             stringToRegexp(MaximumCount::ERROR_WRONG_TYPE)
         );
 

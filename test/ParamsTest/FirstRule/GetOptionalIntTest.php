@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\FirstRule\GetOptionalInt;
+use Params\ExtractRule\GetOptionalInt;
 use Params\ParamsValidator;
 
 /**
@@ -28,7 +28,7 @@ class GetOptionalIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetOptionalInt
+     * @covers \Params\ExtractRule\GetOptionalInt
      * @dataProvider provideTestCases
      */
     public function testValidation(ArrayVarMap $varMap, $expectedValue)
@@ -52,7 +52,7 @@ class GetOptionalIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\FirstRule\GetOptionalInt
+     * @covers \Params\ExtractRule\GetOptionalInt
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($inputValue)

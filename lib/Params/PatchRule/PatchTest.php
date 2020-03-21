@@ -8,13 +8,11 @@ use Params\PatchOperation\PatchOperation;
 
 class PatchTest implements PatchRule
 {
-    /** @var string */
-    private $pathRegex;
+    private string $pathRegex;
 
-    /** @var string */
-    private $className;
+    private string $className;
 
-    private $rules;
+    private array $rules;
 
     /**
      *

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
-use Params\SubsequentRule\SaneCharacters;
+use Params\ProcessRule\SaneCharacters;
 use Params\ParamsValidator;
 
 function getRawCharacters($string)
@@ -51,7 +51,7 @@ class SaneCharacterTest extends BaseTestCase
 
     /**
      * @dataProvider provideSuccessCases
-     * @covers \Params\SubsequentRule\SaneCharacters
+     * @covers \Params\ProcessRule\SaneCharacters
      */
     public function testValidationSuccess($testValue)
     {
@@ -63,7 +63,7 @@ class SaneCharacterTest extends BaseTestCase
 
     /**
      * @dataProvider provideFailureCases
-     * @covers \Params\SubsequentRule\SaneCharacters
+     * @covers \Params\ProcessRule\SaneCharacters
      */
     public function testValidationErrors($testValue)
     {

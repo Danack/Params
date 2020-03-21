@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\OpenApi;
 
-use Params\SubsequentRule\MaxLength;
-use Params\SubsequentRule\MinLength;
+use Params\InputToParamInfo;
+use Params\ProcessRule\MaxLength;
+use Params\ProcessRule\MinLength;
 use VarMap\VarMap;
-use Params\FirstRule\GetStringOrDefault;
-use Params\FirstRule\GetString;
-use Params\SubsequentRule\Enum;
+use Params\ExtractRule\GetStringOrDefault;
+use Params\ExtractRule\GetString;
+use Params\ProcessRule\Enum;
 use Params\SafeAccess;
 use Params\Create\CreateFromVarMap;
 
@@ -24,14 +25,15 @@ class RequiredStringExample
 
     const MAX_LENGTH = 100;
 
-    public static function getRules()
+    public static function getInputToParamInfoList()
     {
         return [
-            self::NAME => [
+            new InputToParamInfo(
+                self::NAME,
                 new GetString(),
                 new MaxLength(self::MAX_LENGTH),
                 new MinLength(self::MIN_LENGTH)
-            ],
+            ),
         ];
     }
 }
