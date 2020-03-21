@@ -33,7 +33,7 @@ class GetBool implements ExtractRule
         return $intRule->process($name, $varMap->get($name), $paramValues);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setType(ParamDescription::TYPE_BOOLEAN);
         $paramDescription->setRequired(true);

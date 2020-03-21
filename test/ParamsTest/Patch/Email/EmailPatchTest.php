@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ParamsTest\Patch\Email;
 
-use Params\Params;
+use Params\ParamsExecutor;
 use ParamsTest\Patch\Email\CheckUserEmailMatches;
 
 use ParamsTest\BaseTestCase;
@@ -31,7 +31,7 @@ class EmailPatchTest extends BaseTestCase
 
         return;
 
-        $operations = Params::createPatch(
+        $operations = ParamsExecutor::createPatch(
             EmailPatchParams::getInputToParamInfoList(),
             json_decode_safe(json_encode($data))
         );

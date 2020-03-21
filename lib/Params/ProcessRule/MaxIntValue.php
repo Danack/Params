@@ -30,7 +30,7 @@ class MaxIntValue implements ProcessRule
         return ValidationResult::valueResult($value);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setMaximum($this->maxValue);
         $paramDescription->setExclusiveMaximum(false);

@@ -48,7 +48,7 @@ class BoolInput implements ProcessRule
         return ValidationResult::errorResult($name, $message);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setType(ParamDescription::FORMAT_BOOLEAN);
     }

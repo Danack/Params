@@ -10,7 +10,7 @@ namespace Params;
 interface InputToParamInfoListAware
 {
     /**
-     * @return \Params\InputToParamInfo[]
+     * @return \Params\Param[]
      */
     public static function getInputToParamInfoList();
 }

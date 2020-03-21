@@ -12,7 +12,7 @@ use Params\ProcessRule\MaxLength;
 use Params\ProcessRule\SkipIfNull;
 use ParamsTest\BaseTestCase;
 use VarMap\ArrayVarMap;
-use Params\Params;
+use Params\ParamsExecutor;
 use Params\ProcessRule\AlwaysEndsRule;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\AlwaysErrorsRule;
@@ -24,7 +24,7 @@ use Params\ParamsValidator;
 use Params\Exception\ParamsException;
 use Params\Exception\RulesEmptyException;
 use Params\ParamValues;
-use Params\InputToParamInfo;
+use Params\Param;
 
 /**
  * @coversNothing
@@ -32,18 +32,18 @@ use Params\InputToParamInfo;
 class ParamsTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Params::executeRules
+     * @covers \Params\ParamsExecutor::executeRules
      */
     public function testWorksBasic()
     {
         $rules = [
-            new InputToParamInfo(
+            new Param(
                 'foo',
                 new GetIntOrDefault(5)
             )
         ];
 
-        $validator = \Params\Params::executeRules($rules, new ArrayVarMap([]));
+        $validator = \Params\ParamsExecutor::executeRules($rules, new ArrayVarMap([]));
         $this->assertSame(['foo' => 5], $validator->getParamsValues());
     }
 
@@ -79,14 +79,14 @@ class ParamsTest extends BaseTestCase
 //    }
 
     /**
-     * @covers \Params\Params::executeRules
+     * @covers \Params\ParamsExecutor::executeRules
      */
     public function testInvalidInputThrows()
     {
         $arrayVarMap = new ArrayVarMap([]);
 
         $rules = [
-            new InputToParamInfo(
+            new Param(
                 'foo',
                 new GetInt()
             )
@@ -95,11 +95,11 @@ class ParamsTest extends BaseTestCase
         $this->expectException(\Params\Exception\ValidationException::class);
         // TODO - we should output the keys as well.
         $this->expectExceptionMessage("Value not set.");
-        Params::create('Foo', $rules, $arrayVarMap);
+        ParamsExecutor::create('Foo', $rules, $arrayVarMap);
     }
 
     /**
-     * @covers \Params\Params::executeRules
+     * @covers \Params\ParamsExecutor::executeRules
      */
     public function testFinalResultStopsProcessing()
     {
@@ -107,7 +107,7 @@ class ParamsTest extends BaseTestCase
 
         $arrayVarMap = new ArrayVarMap(['foo' => 5]);
         $rules = [
-            new InputToParamInfo(
+            new Param(
                 'foo',
                 new GetInt(),
                 // This rule will stop processing
@@ -117,12 +117,12 @@ class ParamsTest extends BaseTestCase
             )
         ];
 
-        $validator = Params::executeRules($rules, $arrayVarMap);
+        $validator = ParamsExecutor::executeRules($rules, $arrayVarMap);
         $this->assertEquals($finalValue, ($validator->getParamsValues())['foo']);
     }
 
     /**
-     * @covers \Params\Params::executeRules
+     * @covers \Params\ParamsExecutor::executeRules
      */
     public function testErrorResultStopsProcessing()
     {
@@ -141,7 +141,7 @@ class ParamsTest extends BaseTestCase
                 return ValidationResult::errorResult($key, "Shouldn't be called");
             }
 
-            public function updateParamDescription(ParamDescription $paramDescription)
+            public function updateParamDescription(ParamDescription $paramDescription): void
             {
                 // does nothing
             }
@@ -151,7 +151,7 @@ class ParamsTest extends BaseTestCase
 
         $arrayVarMap = new ArrayVarMap(['foo' => 100]);
         $rules = [
-            new InputToParamInfo(
+            new Param(
                 'foo',
                 new GetInt(),
                 // This rule will stop processing
@@ -162,7 +162,7 @@ class ParamsTest extends BaseTestCase
         ];
 
         try {
-            Params::create('Foo', $rules, $arrayVarMap);
+            ParamsExecutor::create('Foo', $rules, $arrayVarMap);
 
             $this->fail("This shouldn't be reached, as an exception should have been thrown.");
         }
@@ -191,24 +191,24 @@ class ParamsTest extends BaseTestCase
 //    }
 
     /**
-     * @covers \Params\Params::create
+     * @covers \Params\ParamsExecutor::create
      */
     public function testException()
     {
         $arrayVarMap = new ArrayVarMap([]);
         $rules = \ParamsTest\Integration\FooParams::getInputToParamInfoList();
         $this->expectException(\Params\Exception\ParamsException::class);
-        \Params\Params::create(\ParamsTest\Integration\FooParams::class, $rules, $arrayVarMap);
+        \Params\ParamsExecutor::create(\ParamsTest\Integration\FooParams::class, $rules, $arrayVarMap);
     }
 
     /**
-     * @covers \Params\Params::create
+     * @covers \Params\ParamsExecutor::create
      */
     public function testWorks()
     {
         $arrayVarMap = new ArrayVarMap(['limit' => 5]);
         $rules = \ParamsTest\Integration\FooParams::getInputToParamInfoList();
-        $fooParams = \Params\Params::create(
+        $fooParams = \Params\ParamsExecutor::create(
             \ParamsTest\Integration\FooParams::class,
             $rules,
             $arrayVarMap
@@ -217,13 +217,13 @@ class ParamsTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Params::createOrError
+     * @covers \Params\ParamsExecutor::createOrError
      */
     public function testCreateOrError_ErrorIsReturned()
     {
         $arrayVarMap = new ArrayVarMap([]);
         $rules = \ParamsTest\Integration\FooParams::getInputToParamInfoList();
-        [$params, $validationErrors] = \Params\Params::createOrError(
+        [$params, $validationErrors] = \Params\ParamsExecutor::createOrError(
             \ParamsTest\Integration\FooParams::class,
             $rules,
             $arrayVarMap
@@ -240,13 +240,13 @@ class ParamsTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Params::createOrError
+     * @covers \Params\ParamsExecutor::createOrError
      */
     public function testcreateOrError_Works()
     {
         $arrayVarMap = new ArrayVarMap(['limit' => 5]);
         $rules = \ParamsTest\Integration\FooParams::getInputToParamInfoList();
-        [$fooParams, $errors] = \Params\Params::createOrError(
+        [$fooParams, $errors] = \Params\ParamsExecutor::createOrError(
             \ParamsTest\Integration\FooParams::class,
             $rules,
             $arrayVarMap

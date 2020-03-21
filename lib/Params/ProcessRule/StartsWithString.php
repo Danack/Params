@@ -38,7 +38,7 @@ class StartsWithString implements ProcessRule
         return ValidationResult::valueResult($value);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         // If we are allowing null, then parameter must be nullable
         // right?

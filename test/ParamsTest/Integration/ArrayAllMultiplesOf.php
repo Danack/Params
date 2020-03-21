@@ -54,7 +54,7 @@ class ArrayAllMultiplesOf implements ProcessRule
         return ValidationResult::valueResult($value);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         throw new \Exception("updateParamDescription not implemented yet.");
     }

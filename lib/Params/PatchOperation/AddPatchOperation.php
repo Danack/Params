@@ -28,21 +28,24 @@ class AddPatchOperation implements PatchOperation
         $this->value = $value;
     }
 
-    public function getOpType()
+    public function getOpType(): string
     {
         return "add";
     }
 
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    public function getFrom()
+    public function getFrom(): string
     {
         throw new LogicException("Calling 'getFrom' on a AddPatchEntry is meaningless.");
     }
 
+    /**
+     * @return mixed
+     */
     public function getValue()
     {
         return $this->value;

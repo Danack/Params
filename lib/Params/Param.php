@@ -8,7 +8,7 @@ use Params\ExtractRule\ExtractRule;
 use Params\ProcessRule\ProcessRule;
 use Params\Exception\BadTypeException;
 
-class InputToParamInfo
+class Param
 {
     /**
      * The name of the input to use.
@@ -17,7 +17,7 @@ class InputToParamInfo
 
 
     /**
-     * The first rule to extract the parameter from the input.
+     * The rule to extract the parameter from the input.
      */
     private \Params\ExtractRule\ExtractRule $extractRule;
 

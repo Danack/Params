@@ -39,11 +39,15 @@ class ParamsValidator implements ParamValues
         return $this->paramValues;
     }
 
-    public function hasParam(string $name)
+    public function hasParam(string $name): bool
     {
         return array_key_exists($name, $this->paramValues);
     }
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
     public function getParam(string $name)
     {
         return $this->paramValues[$name];
@@ -54,6 +58,7 @@ class ParamsValidator implements ParamValues
      * @param string $name The name is used to store values, and to generate appropriate error messages.
      * @param ProcessRule ...$subsequentRules
      * @throws Exception\ParamMissingException
+     * @return {?mixed}
      */
     public function validateSubsequentRules(
         $value,
@@ -62,9 +67,8 @@ class ParamsValidator implements ParamValues
     ) {
         foreach ($subsequentRules as $rule) {
             $validationResult = $rule->process($name, $value, $this);
-            $validationProblems = $validationResult->getProblemMessages();
-            if (count($validationProblems) != 0) {
-                foreach ($validationProblems as $path => $validationProblem) {
+            if ($validationResult->anyErrorsFound()) {
+                foreach ($validationResult->getProblemMessages() as $path => $validationProblem) {
                     $this->validationProblems[$path] = $validationProblem;
                 }
                 return [null, $this->validationProblems];
@@ -88,9 +92,9 @@ class ParamsValidator implements ParamValues
         ProcessRule ...$subsequentRules
     ) {
         $validationResult = $firstRule->process($name, $varMap, $this);
-        $validationProblems = $validationResult->getProblemMessages();
-        if (count($validationProblems) !== 0) {
-            foreach ($validationProblems as $key => $value) {
+
+        if ($validationResult->anyErrorsFound()) {
+            foreach ($validationResult->getProblemMessages() as $key => $value) {
                 $this->validationProblems[$key] = $value;
             }
 

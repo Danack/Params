@@ -9,7 +9,7 @@ use Params\Create\CreateFromVarMap;
 use Params\Create\CreateOrErrorFromVarMap;
 use Params\ExtractRule\GetIntOrDefault;
 use Params\ExtractRule\GetStringOrDefault;
-use Params\InputToParamInfo;
+use Params\Param;
 use Params\SafeAccess;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MaxLength;
@@ -65,7 +65,7 @@ class GetArticlesParams implements InputToParamInfoListAware
     }
 
     /**
-     * @return \Params\InputToParamInfo[]
+     * @return \Params\Param[]
      */
     public static function getInputToParamInfoList()
     {
@@ -75,18 +75,18 @@ class GetArticlesParams implements InputToParamInfoListAware
             new GetStringOrDefault('-date'),
 
 
-            new InputToParamInfo(
+            new Param(
 
                 new MaxLength(1024),
                 new Order(self::getKnownOrderNames())
             ),
-            new InputToParamInfo(
+            new Param(
                 'limit',
                 new GetIntOrDefault((string)self::LIMIT_DEFAULT),
                 new MinIntValue(self::LIMIT_MIN),
                 new MaxIntValue(self::LIMIT_MAX)
             ),
-            new InputToParamInfo(
+            new Param(
                 'after',
                 new GetStringOrDefault(null),
                 new SkipIfNull(),

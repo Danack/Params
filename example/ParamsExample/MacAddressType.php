@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace ParamsExample;
 
 use Params\ExtractRule\GetString;
-use Params\InputToParamInfo;
+use Params\Param;
 use Params\RulesForParamAware;
 
 class MacAddressType implements RulesForParamAware
@@ -32,7 +32,7 @@ class MacAddressType implements RulesForParamAware
     public static function getInputToParamInfoList(): array
     {
         return [
-            new InputToParamInfo(
+            new Param(
                 'input_name',
                 new GetString(),
                 new RespectMacRule()

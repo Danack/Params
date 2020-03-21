@@ -16,7 +16,7 @@ class Trim implements ProcessRule
         return ValidationResult::valueResult(trim($value));
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         // Does nothing?
     }

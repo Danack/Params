@@ -38,7 +38,7 @@ class AlwaysErrorsRuleTest extends BaseTestCase
         $message = 'test message';
         $rule = new AlwaysErrorsRule($message);
 
-        $paramDescription = new OpenApiV300ParamDescription();
+        $paramDescription = new OpenApiV300ParamDescription('John');
 
         $rule->updateParamDescription($paramDescription);
     }

@@ -6,7 +6,7 @@ namespace ParamsTest\Integration;
 
 use Params\ExtractRule\GetInt;
 use Params\ExtractRule\GetString;
-use Params\InputToParamInfo;
+use Params\Param;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\ProcessRule\MinLength;
@@ -39,12 +39,12 @@ class ItemParams
     public static function getInputToParamInfoList()
     {
         return [
-            new InputToParamInfo(
+            new Param(
                 'foo',
                 new GetInt(),
                 new MaxIntValue(100)
             ),
-            new InputToParamInfo(
+            new Param(
                 'bar',
                 new GetString(),
                 new MinLength(4)

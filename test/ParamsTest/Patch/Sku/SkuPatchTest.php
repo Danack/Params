@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace ParamsTest;
 
 use ParamsTest\Patch\Sku\SkuPatchParams;
-use Params\Params;
+use Params\ParamsExecutor;
 use ParamsTest\Patch\Sku\SkuPriceAdd;
 use ParamsTest\Patch\Sku\SkuPriceReplace;
 use ParamsTest\Patch\Sku\SkuPriceRemove;
@@ -39,7 +39,7 @@ class SkuPatchTest extends BaseTestCase
             ]
         ]];
 
-        $operations = Params::createPatch(
+        $operations = ParamsExecutor::createPatch(
             SkuPatchParams::getInputToParamInfoList(),
             json_decode_safe(json_encode($data))
         );
@@ -115,7 +115,7 @@ class SkuPatchTest extends BaseTestCase
 //            ],
         ];
 
-        $operations = Params::createPatch(
+        $operations = ParamsExecutor::createPatch(
             SkuPatchParams::getInputToParamInfoList(),
             json_decode_safe(json_encode($data))
         );

@@ -28,21 +28,24 @@ class MovePatchOperation implements PatchOperation
         $this->from = $from;
     }
 
-    public function getOpType()
+    public function getOpType(): string
     {
         return self::MOVE;
     }
 
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    public function getFrom()
+    public function getFrom(): ?string
     {
         return $this->from;
     }
 
+    /**
+     * @return mixed
+     */
     public function getValue()
     {
         throw new LogicException("Calling 'getValue' on a MovePatchEntry is meaningless.");

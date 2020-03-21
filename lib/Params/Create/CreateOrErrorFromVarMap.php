@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\Params;
+use Params\ParamsExecutor;
 use VarMap\VarMap;
 
 trait CreateOrErrorFromVarMap
@@ -19,6 +19,6 @@ trait CreateOrErrorFromVarMap
     {
         $namedRules = static::getInputToParamInfoList();
 
-        return Params::createOrError(static::class, $namedRules, $variableMap);
+        return ParamsExecutor::createOrError(static::class, $namedRules, $variableMap);
     }
 }

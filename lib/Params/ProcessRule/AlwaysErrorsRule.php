@@ -24,7 +24,7 @@ class AlwaysErrorsRule implements ProcessRule
         return ValidationResult::errorResult($name, $this->message);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         // Does nothing.
     }

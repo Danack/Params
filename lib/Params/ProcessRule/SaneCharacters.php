@@ -81,7 +81,7 @@ class SaneCharacters implements ProcessRule
         $validationResult = $this->validCharacters->process($name, $value, $validator);
 
         // If validation has already failed, return it.
-        if (count($validationResult->getProblemMessages()) !== 0) {
+        if ($validationResult->anyErrorsFound()) {
             return $validationResult;
         }
 
@@ -105,7 +105,7 @@ class SaneCharacters implements ProcessRule
         return ValidationResult::valueResult($value);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $this->validCharacters->updateParamDescription($paramDescription);
     }

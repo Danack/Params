@@ -4,14 +4,12 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
-use Params\SafeAccess;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\Params;
+use Params\ParamsExecutor;
 use Params\ParamValues;
-use Params\Functions;
 
 class GetArrayOfType implements ExtractRule
 {
@@ -62,7 +60,7 @@ class GetArrayOfType implements ExtractRule
             $dataVarMap = new ArrayVarMap($itemDatum);
             $rules = call_user_func([$this->className, 'getInputToParamInfoList'], $dataVarMap);
 
-            [$item, $errors] = Params::createOrError($this->className, $rules, $dataVarMap);
+            [$item, $errors] = ParamsExecutor::createOrError($this->className, $rules, $dataVarMap);
 
             if ($errors !== null) {
                 /**
@@ -86,7 +84,7 @@ class GetArrayOfType implements ExtractRule
         return ValidationResult::valueResult($items);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         // TODO - implement
     }

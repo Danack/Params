@@ -11,20 +11,20 @@ interface ParamDescription
     // the path field in the     Paths Object. See Path Templating for further information.
     //
     // For all other cases, the name corresponds to the parameter name used based on the in property.
-    public function setName(string $name);
+    public function setName(string $name): void;
 
     // string Required. The location of the parameter. Possible values are
     // "query", "header", "path", "formData" or "body".
-    public function setIn(string $in);
+    public function setIn(string $in): void;
 
     // string A brief description of the parameter. This could contain examples
     // of use. GFM syntax can be used for rich text representation.
-    public function setDescription(string $description);
+    public function setDescription(string $description): void;
 
     // boolean Determines whether this parameter is mandatory. If the parameter
     // is in "path", this property is required and its value MUST be true. Otherwise,
     // the property MAY be included and its default value is false.
-    public function setRequired(bool $required);
+    public function setRequired(bool $required): void;
 
 
     // ***************
@@ -32,7 +32,7 @@ interface ParamDescription
     // ***************
 
     // Schema Object Required. The schema defining the type used for the body parameter.
-    public function setSchema(string $schema);
+    public function setSchema(string $schema): void;
 
     // Below is for in when != "body"
 
@@ -49,7 +49,7 @@ interface ParamDescription
     const TYPE_ARRAY = "array";
     const TYPE_FILE = "file";
 
-    public function setType(string $type);
+    public function setType(string $type): void;
 
     const FORMAT_INTEGER    = "integer"; // integerint32 signed 32 bits
     const FORMAT_LONG       = "long";    // integerint64 signed 64 bits
@@ -64,17 +64,17 @@ interface ParamDescription
     const FORMAT_PASSWORD   = "password";  // string password Used to hint UIs the input needs to be obscured.
     // string The extending format for the previously mentioned type. See
     // Data Type Formats for further details.
-    public function setFormat(string $format);
+    public function setFormat(string $format): void;
 
     // boolean Sets the ability to pass empty-valued parameters. This is valid
     // only for either query or formData parameters and allows you to send a
     // parameter with a name only or an empty value. Default value is false.
-    public function setAllowEmptyValue(bool $allowEmptyValue);
+    public function setAllowEmptyValue(bool $allowEmptyValue): void;
 
     // Items Object Required if type is "array". Describes the type of items in the array.
     public function getItems() : ItemsObject;
     // TODO - how to get the $itemsObject to update this?
-    public function setItems(ItemsObject $itemsObject);
+    public function setItems(ItemsObject $itemsObject): void;
     // TODO - how to get the $itemsObject to update this?
 
     // string Determines the format of the array if type array is used. Possible values are:
@@ -91,7 +91,7 @@ interface ParamDescription
     const COLLECTION_TSV = 'tsv'; // - tab separated values foo\tbar.
     const COLLECTION_PIPES = 'pipes';  // - pipe separated values foo|bar.
 
-    public function setCollectionFormat(string $collectionFormat);
+    public function setCollectionFormat(string $collectionFormat): void;
 
 
     // * Declares the value of the parameter that the server will use if none
@@ -100,48 +100,58 @@ interface ParamDescription
     // "default" has no meaning for required parameters.) See https://tools.ietf
     //.org/html/draft-fge-json-schema-validation-00#section-6.2. Unlike JSON
     // Schema this value MUST conform to the defined type for this parameter.
-    public function setDefault($default);
+    /**
+     * @param mixed $default
+     */
+    public function setDefault($default): void;
 
     // number See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.2.
-    public function setMaximum($maximum);
+
+    /**
+     * @param int|float $maximum
+     */
+    public function setMaximum($maximum): void;
 
     // boolean See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.2.
-    public function setExclusiveMaximum(bool $exclusiveMaximum);
+    public function setExclusiveMaximum(bool $exclusiveMaximum): void;
 
     // number See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3.
+    /**
+     * @param int|float $maximum
+     */
     public function setMinimum($minimum);
 
     // boolean See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3.
-    public function setExclusiveMinimum(bool $exclusiveMinimum);
+    public function setExclusiveMinimum(bool $exclusiveMinimum): void;
 
     // integer See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.1.
-    public function setMaxLength(int $maxLength);
+    public function setMaxLength(int $maxLength): void;
 
     // integer See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.2.
-    public function setMinLength(int $minLength);
+    public function setMinLength(int $minLength): void;
 
     // string See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.3.
-    public function setPattern(string $pattern);
+    public function setPattern(string $pattern): void;
 
     // integer See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.2.
-    public function setMaxItems(int $maxItems);
+    public function setMaxItems(int $maxItems): void;
 
 
     // integer See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.3.
-    public function setMinItems(int $minItems);
+    public function setMinItems(int $minItems): void;
 
-    public function setNullAllowed();
+    public function setNullAllowed(): void;
 
     // boolean See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.4.
-    public function setUniqueItems(bool $uniqueItems);
+    public function setUniqueItems(bool $uniqueItems): void;
 
     // [*] See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.5.1.
     //    The value of this keyword MUST be an array.  This array MUST have at
     //   least one element.  Elements in the array MUST be unique.
     //
     // Elements in the array MAY be of any type, including null.
-    public function setEnum(array $enumValues);
+    public function setEnum(array $enumValues): void;
 
     // number See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.1.
-    public function setMultipleOf($multiple);
+    public function setMultipleOf($multiple): void;
 }

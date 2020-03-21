@@ -68,7 +68,7 @@ class IntegerInput implements ProcessRule
         return ValidationResult::valueResult(intval($value));
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         // todo - this seems like a not needed rule.
     }

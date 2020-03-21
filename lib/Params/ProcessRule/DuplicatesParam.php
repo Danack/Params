@@ -67,7 +67,7 @@ class DuplicatesParam implements ProcessRule
         return ValidationResult::valueResult($value);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
 //        $paramDescription->setDescription("must be duplicate of $this->paramToDuplicate");
         $paramDescription->setExclusiveMaximum(false);

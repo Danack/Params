@@ -28,7 +28,7 @@ class GetString implements ExtractRule
         return ValidationResult::valueResult($value);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setType(ParamDescription::TYPE_STRING);
         $paramDescription->setRequired(true);

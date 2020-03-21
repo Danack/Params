@@ -10,7 +10,7 @@ use Params\InputToParamInfoListAware;
 use Params\ProcessRule\MinLength;
 use Params\ProcessRule\MaxLength;
 use Params\SafeAccess;
-use Params\InputToParamInfo;
+use Params\Param;
 
 class ComputerDetailsParams implements InputToParamInfoListAware
 {
@@ -35,18 +35,18 @@ class ComputerDetailsParams implements InputToParamInfoListAware
     }
 
     /**
-     * @return \Params\InputToParamInfo[]
+     * @return \Params\Param[]
      */
     public static function getInputToParamInfoList()
     {
         return [
-            new InputToParamInfo(
+            new Param(
                 'name',
                 new GetString(),
                 new MinLength(2),
                 new MaxLength(1024)
             ),
-            InputToParamInfo::fromType(
+            Param::fromType(
                 'mac_address',
                 \ParamsExample\MacAddressType::class
             ),

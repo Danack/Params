@@ -8,7 +8,7 @@ use Params\RulesForParamAware;
 
 class BadTypeException extends ParamsException
 {
-    public static function fromClassname(string $classname)
+    public static function fromClassname(string $classname): self
     {
         $message = sprintf(
             'Type %s does not implement %s which is required.',

@@ -33,7 +33,7 @@ class Enum implements ProcessRule
         return ValidationResult::valueResult($value);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setEnum($this->allowedValues);
     }

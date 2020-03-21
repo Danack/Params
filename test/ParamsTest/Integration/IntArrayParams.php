@@ -7,7 +7,7 @@ namespace ParamsTest\Integration;
 use Params\Create\CreateFromArray;
 use Params\Create\CreateOrErrorFromArray;
 use Params\ExtractRule\GetArrayOfInt;
-use Params\InputToParamInfo;
+use Params\Param;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
@@ -42,13 +42,13 @@ class IntArrayParams
     public static function getInputToParamInfoList()
     {
         return [
-            new InputToParamInfo(
+            new Param(
                 'name',
                 new GetString(),
                 new MinLength(4),
                 new MaxLength(16)
             ),
-            new InputToParamInfo(
+            new Param(
                 'counts',
                 new GetArrayOfInt(
                     new MinIntValue(1),

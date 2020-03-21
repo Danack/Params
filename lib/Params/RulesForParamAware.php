@@ -7,7 +7,7 @@ namespace Params;
 interface RulesForParamAware
 {
     /**
-     * @return \Params\InputToParamInfo[]
+     * @return \Params\Param[]
      */
     public static function getInputToParamInfoList(): array;
 }

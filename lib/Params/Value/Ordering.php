@@ -22,7 +22,7 @@ class Ordering
     const ASC = 'asc';
     const DESC = 'desc';
 
-    /** @return \Params\Value\OrderElement[] */
+    /** @var \Params\Value\OrderElement[] */
     private array $orderElements;
 
     /**
@@ -43,15 +43,21 @@ class Ordering
     }
 
     /**
-     * @return string[]
+     * @param array<string: string> $carry
+     * @param OrderElement $orderElement
+     * @return array<string: string>
      */
-    public function toOrderArray()
+    private static function reduce(array $carry, \Params\Value\OrderElement $orderElement)
     {
-        $fn = function ($carry, \Params\Value\OrderElement $orderElement) {
-            $carry[$orderElement->getName()] = $orderElement->getOrder();
-            return $carry;
-        };
+        $carry[$orderElement->getName()] = $orderElement->getOrder();
+        return $carry;
+    }
 
-        return array_reduce($this->orderElements, $fn, []);
+    /**
+     * @return array<string: string>
+     */
+    public function toOrderArray(): array
+    {
+        return array_reduce($this->orderElements, [self::class, 'reduce'], []);
     }
 }

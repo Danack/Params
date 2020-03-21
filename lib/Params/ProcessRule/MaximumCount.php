@@ -60,7 +60,7 @@ class MaximumCount implements ProcessRule
         return ValidationResult::valueResult($value);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setMinItems($this->maximumCount);
         $paramDescription->setExclusiveMinimum(false);

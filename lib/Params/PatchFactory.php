@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Params;
 
-use Params\ValidationResult;
 use Params\PatchOperation\AddPatchOperation;
 use Params\PatchOperation\CopyPatchOperation;
 use Params\PatchOperation\MovePatchOperation;

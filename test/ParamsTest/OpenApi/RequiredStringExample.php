@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\OpenApi;
 
-use Params\InputToParamInfo;
+use Params\Param;
 use Params\ProcessRule\MaxLength;
 use Params\ProcessRule\MinLength;
 use VarMap\VarMap;
@@ -28,7 +28,7 @@ class RequiredStringExample
     public static function getInputToParamInfoList()
     {
         return [
-            new InputToParamInfo(
+            new Param(
                 self::NAME,
                 new GetString(),
                 new MaxLength(self::MAX_LENGTH),

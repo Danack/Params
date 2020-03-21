@@ -30,7 +30,7 @@ class MinLength implements ProcessRule
     }
 
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setMinLength($this->minLength);
     }

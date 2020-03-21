@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace ParamsTest\Patch\Sku;
 
 use Params\ExtractRule\GetInt;
-use Params\InputToParamInfo;
+use Params\Param;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
@@ -67,7 +67,7 @@ class SkuPriceReplace
     public static function getInputToParamInfoList()
     {
         return [
-            new InputToParamInfo(
+            new Param(
                 'sku_id',
                 new GetInt()
             ),
@@ -75,31 +75,31 @@ class SkuPriceReplace
 //            'sku_price_id' => [
 //                new GetInt(),
 //            ],
-            new InputToParamInfo(
+            new Param(
                 'name',
                 new GetString(),
                 new MinLength(8),
                 new MaxLength(256)
             ),
-            new InputToParamInfo(
+            new Param(
                 'description',
                 new GetString(),
                 new MinLength(8),
                 new MaxLength(256)
             ),
-            new InputToParamInfo(
+            new Param(
                 'price_eur',
                 new GetInt(),
                 new MinIntValue(10000),
                 new MaxIntValue(1000000)
             ),
-            new InputToParamInfo(
+            new Param(
                 'price_gbp',
                 new GetInt(),
                 new MinIntValue(10000),
                 new MaxIntValue(1000000)
             ),
-            new InputToParamInfo(
+            new Param(
                 'price_usd',
                 new GetInt(),
                 new MinIntValue(10000),

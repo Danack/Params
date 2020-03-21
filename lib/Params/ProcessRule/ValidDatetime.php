@@ -36,7 +36,7 @@ class ValidDatetime implements ProcessRule
         return ValidationResult::errorResult($name, self::ERROR_INVALID_DATETIME);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setType(ParamDescription::TYPE_STRING);
         $paramDescription->setFormat(ParamDescription::FORMAT_DATETIME);

@@ -30,7 +30,7 @@ class RespectMacRule implements ProcessRule
         return ValidationResult::errorResult($name, $message);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setDescription("A string representing a MAC address.");
         // TODO - other settings

@@ -58,7 +58,7 @@ class FloatInput implements ProcessRule
         return ValidationResult::valueResult(floatval($value));
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         // todo - this seems like a not needed rule.
     }

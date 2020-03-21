@@ -24,21 +24,24 @@ class RemovePatchOperation implements PatchOperation
         $this->path = $path;
     }
 
-    public function getOpType()
+    public function getOpType(): string
     {
         return "remove";
     }
 
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    public function getFrom()
+    public function getFrom(): string
     {
         throw new LogicException("Calling 'getFrom' on a TestPatchEntry is meaningless.");
     }
 
+    /**
+     * @return mixed
+     */
     public function getValue()
     {
         throw new LogicException("Calling 'getValue' on a RemovePatchEntry is meaningless.");

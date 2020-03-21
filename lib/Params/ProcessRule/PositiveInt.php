@@ -37,7 +37,7 @@ class PositiveInt implements ProcessRule
         return ValidationResult::valueResult($value);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setType(ParamDescription::TYPE_INTEGER);
         $paramDescription->setMinimum(0);

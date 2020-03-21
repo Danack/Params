@@ -28,7 +28,7 @@ class GetArrayOfTypeOrNull extends GetArrayOfType implements ExtractRule
         return parent::process($name, $varMap, $paramValues);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         parent::updateParamDescription($paramDescription);
         $paramDescription->setRequired(false);

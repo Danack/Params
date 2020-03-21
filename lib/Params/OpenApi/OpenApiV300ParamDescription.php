@@ -20,10 +20,10 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     private ?bool $required = null;
 
-    /** @var int|float */
+    /** @var int|float|null */
     private $minimum = null;
 
-    /** @var int|float */
+    /** @var int|float|null */
     private $maximum = null;
 
     private ?int $maxLength = null;
@@ -38,12 +38,17 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     private ?bool $nullAllowed = null;
 
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+
     /**
      * Creates a set of Parameter descriptions according to the
      * OpenApi 3.0.0 spec
      *
      * https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md
-     * @param \Params\InputToParamInfo[] $allRules
+     * @param \Params\Param[] $allRules
      * @return self[]
      * @throws OpenApiException
      */
@@ -52,8 +57,7 @@ class OpenApiV300ParamDescription implements ParamDescription
         $ruleDescriptions = [];
 
         foreach ($allRules as $rules) {
-            $description = new self();
-            $description->setName($rules->getInputName());
+            $description = new self($rules->getInputName());
 
             $firstRule = $rules->getFirstRule();
             $firstRule->updateParamDescription($description);
@@ -174,35 +178,35 @@ class OpenApiV300ParamDescription implements ParamDescription
     }
 
 
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    public function setIn(string $in)
+    public function setIn(string $in): void
     {
         // TODO: Implement setIn() method.
         throw new \Exception("setIn not implemented yet.");
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description): void
     {
         // TODO: Implement setDescription() method.
         throw new \Exception("setDescription not implemented yet.");
     }
 
-    public function setRequired(bool $required)
+    public function setRequired(bool $required): void
     {
         $this->required = $required;
     }
 
-    public function setSchema(string $schema)
+    public function setSchema(string $schema): void
     {
         // TODO: Implement setSchema() method.
         throw new \Exception("setSchema not implemented yet.");
     }
 
-    public function setType(string $type)
+    public function setType(string $type): void
     {
         $knownTypes = [
            'string',// (this includes dates and files)
@@ -220,7 +224,7 @@ class OpenApiV300ParamDescription implements ParamDescription
         $this->type = $type;
     }
 
-    public function setFormat(string $format)
+    public function setFormat(string $format): void
     {
         if ($this->type === 'number') {
             $knownFormats = [
@@ -247,7 +251,7 @@ class OpenApiV300ParamDescription implements ParamDescription
         $this->format = $format;
     }
 
-    public function setAllowEmptyValue(bool $allowEmptyValue)
+    public function setAllowEmptyValue(bool $allowEmptyValue): void
     {
         // TODO: Implement setAllowEmptyValue() method.
         throw new \Exception("setAllowEmptyValue not implemented yet.");
@@ -259,13 +263,13 @@ class OpenApiV300ParamDescription implements ParamDescription
         throw new \Exception("getItems not implemented yet.");
     }
 
-    public function setItems(ItemsObject $itemsObject)
+    public function setItems(ItemsObject $itemsObject): void
     {
         // TODO: Implement setItems() method.
         throw new \Exception("setItems not implemented yet.");
     }
 
-    public function setCollectionFormat(string $collectionFormat)
+    public function setCollectionFormat(string $collectionFormat): void
     {
 //        simple
         // CSV
@@ -275,32 +279,32 @@ class OpenApiV300ParamDescription implements ParamDescription
 //        throw new \Exception("setCollectionFormat not implemented yet.");
     }
 
-    public function setDefault($default)
+    public function setDefault($default): void
     {
         $this->default = $default;
     }
 
-    public function setMaximum($maximum)
+    public function setMaximum($maximum): void
     {
         $this->maximum = $maximum;
     }
 
-    public function setExclusiveMaximum(bool $exclusiveMaximum)
+    public function setExclusiveMaximum(bool $exclusiveMaximum): void
     {
         $this->exclusiveMaximum = $exclusiveMaximum;
     }
 
-    public function setMinimum($minimum)
+    public function setMinimum($minimum): void
     {
         $this->minimum = $minimum;
     }
 
-    public function setExclusiveMinimum(bool $exclusiveMinimum)
+    public function setExclusiveMinimum(bool $exclusiveMinimum): void
     {
         $this->exclusiveMinimum = $exclusiveMinimum;
     }
 
-    public function setMaxLength(int $maxLength)
+    public function setMaxLength(int $maxLength): void
     {
         if ($maxLength <= 0) {
             throw new OpenApiException("Max length must be greater than 0");
@@ -309,7 +313,7 @@ class OpenApiV300ParamDescription implements ParamDescription
     }
 
 
-    public function setMinLength(int $minLength)
+    public function setMinLength(int $minLength): void
     {
         if ($minLength <= 0) {
             throw new OpenApiException("Min length must be at least 0");
@@ -317,37 +321,37 @@ class OpenApiV300ParamDescription implements ParamDescription
         $this->minLength = $minLength;
     }
 
-    public function setPattern(string $pattern)
+    public function setPattern(string $pattern): void
     {
         // pattern: '^\d{3}-\d{2}-\d{4}$'
         // TODO: Implement setPattern() method.
         throw new \Exception("setPattern not implemented yet.");
     }
 
-    public function setMaxItems(int $maxItems)
+    public function setMaxItems(int $maxItems): void
     {
         // TODO: Implement setMaxItems() method.
         throw new \Exception("setMaxItems not implemented yet.");
     }
 
-    public function setMinItems(int $minItems)
+    public function setMinItems(int $minItems): void
     {
         // TODO: Implement setMinItems() method.
         throw new \Exception("setMinItems not implemented yet.");
     }
 
-    public function setNullAllowed()
+    public function setNullAllowed(): void
     {
         $this->nullAllowed = true;
     }
 
-    public function setUniqueItems(bool $uniqueItems)
+    public function setUniqueItems(bool $uniqueItems): void
     {
         // TODO: Implement setUniqueItems() method.
         throw new \Exception("setUniqueItems not implemented yet.");
     }
 
-    public function setEnum(array $enumValues)
+    public function setEnum(array $enumValues): void
     {
         foreach ($enumValues as $enumValue) {
             if (is_string($enumValue) !== true) {
@@ -358,7 +362,7 @@ class OpenApiV300ParamDescription implements ParamDescription
         $this->enumValues = $enumValues;
     }
 
-    public function setMultipleOf($multiple)
+    public function setMultipleOf($multiple): void
     {
         // TODO: Implement setMultipleOf() method.
         throw new \Exception("setMultipleOf not implemented yet.");
@@ -388,17 +392,11 @@ class OpenApiV300ParamDescription implements ParamDescription
         return $this->format;
     }
 
-    /**
-     * @return null
-     */
     public function getEnumValues()
     {
         return $this->enumValues;
     }
 
-    /**
-     * @return bool|null
-     */
     public function getRequired(): ?bool
     {
         return $this->required;
@@ -413,7 +411,7 @@ class OpenApiV300ParamDescription implements ParamDescription
     }
 
     /**
-     * @return float|int
+     * @return float|int|null
      */
     public function getMaximum()
     {
@@ -421,7 +419,7 @@ class OpenApiV300ParamDescription implements ParamDescription
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getMaxLength(): int
     {
@@ -437,32 +435,23 @@ class OpenApiV300ParamDescription implements ParamDescription
     }
 
     /**
-     * @return null
+     * @return mixed
      */
     public function getDefault()
     {
         return $this->default;
     }
 
-    /**
-     * @return bool
-     */
-    public function isExclusiveMaximum(): bool
+    public function isExclusiveMaximum(): ?bool
     {
         return $this->exclusiveMaximum;
     }
 
-    /**
-     * @return bool
-     */
-    public function isExclusiveMinimum(): bool
+    public function isExclusiveMinimum(): ?bool
     {
         return $this->exclusiveMinimum;
     }
 
-    /**
-     * @return bool|null
-     */
     public function getNullAllowed(): ?bool
     {
         return $this->nullAllowed;

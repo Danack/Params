@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Params;
 
+/**
+ *
+ */
 class ValidationResult
 {
     /** @var string|int|float|bool|array */
@@ -75,6 +78,17 @@ class ValidationResult
     public function getProblemMessages(): array
     {
         return $this->problemMessages;
+    }
+
+    /**
+     * Whether any errors were found.
+     */
+    public function anyErrorsFound(): bool
+    {
+        if (count($this->problemMessages) !== 0) {
+            return true;
+        }
+        return false;
     }
 
     /**

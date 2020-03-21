@@ -9,6 +9,8 @@ sh runUnitTests.sh
 
 php ./phpstan.phar analyze -c ./phpstan.neon -l 7 lib
 
+php ./psalm.phar
+
 set +e
 
 php vendor/bin/infection --configuration=infection.json.dist --log-verbosity=0 --only-covered --min-covered-msi=90

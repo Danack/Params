@@ -40,7 +40,7 @@ class GetIntOrDefault implements ExtractRule
         return $intRule->process($name, $value, $paramValues);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setType(ParamDescription::TYPE_INTEGER);
         $paramDescription->setDefault($this->default);

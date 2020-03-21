@@ -56,7 +56,7 @@ class Order implements ProcessRule
         return ValidationResult::valueResult(new Ordering($orderElements));
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setType(ParamDescription::TYPE_ARRAY);
         $paramDescription->setCollectionFormat(ParamDescription::COLLECTION_CSV);

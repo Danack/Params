@@ -6,7 +6,7 @@ namespace ParamsTest\Integration;
 
 use Params\ExtractRule\GetString;
 
-use Params\InputToParamInfo;
+use Params\Param;
 use Params\ProcessRule\MaxLength;
 use Params\SafeAccess;
 use VarMap\VarMap;
@@ -37,11 +37,11 @@ class ItemListParams
     public static function getInputToParamInfoList()
     {
         return [
-            new InputToParamInfo(
+            new Param(
                 'items',
                 new GetArrayOfType(ItemParams::class)
             ),
-            new InputToParamInfo(
+            new Param(
                 'description',
                 new GetString(),
                 new MaxLength(120)

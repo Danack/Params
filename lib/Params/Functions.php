@@ -17,7 +17,7 @@ class Functions
      * Separates an order parameter such as "+name", into the 'name' and
      * 'ordering' parts.
      * @param string $part
-     * @return array
+     * @return array{string, string}
      */
     public static function normalise_order_parameter(string $part)
     {
@@ -61,7 +61,7 @@ class Functions
         return null;
     }
 
-    public static function array_value_exists(array $array, $value)
+    public static function array_value_exists(array $array, $value): bool
     {
         return in_array($value, $array, true);
     }
@@ -73,7 +73,7 @@ class Functions
      *
      * @param string $pointer
      */
-    public static function escapeJsonPointer(string $pointer)
+    public static function escapeJsonPointer(string $pointer): string
     {
         // then transforming any occurrence of the sequence '~0' to '~'
         $result = str_replace('~', '~0', $pointer);
@@ -103,6 +103,12 @@ class Functions
         return $result;
     }
 
+    /**
+     * @param string $name
+     * @param array $problems
+     * @param array $errorsMessages
+     * @return array
+     */
     public static function addChildErrorMessagesForArray(
         string $name,
         array $problems,

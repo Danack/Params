@@ -19,10 +19,10 @@ use Params\Exception\PatchFormatException;
  * Any validation problem will cause a ValidationException to be thrown.
  *
  */
-class Params
+class ParamsExecutor
 {
     /**
-     * @param \Params\InputToParamInfo[] $rulesetList
+     * @param \Params\Param[] $rulesetList
      * @param VarMap $sourceData
      * @param ParamsValidator $validator
      */
@@ -42,7 +42,7 @@ class Params
     }
 
     /**
-     * @param \Params\InputToParamInfo[] $rulesetList
+     * @param \Params\Param[] $rulesetList
      * @param $sourceData
      * @return ParamsValidator
      */
@@ -59,7 +59,7 @@ class Params
 
     /**
      * @param string $classname
-     * @param \Params\InputToParamInfo[] $rulesetList
+     * @param \Params\Param[] $rulesetList
      * @return mixed -  [object|null, ValidationErrors|null]
      * @throws Exception\ParamsException
      * @throws ValidationException
@@ -119,6 +119,11 @@ class Params
         return $operations;
     }
 
+    /**
+     * @param string $path
+     * @param string $pathRegex
+     * @return array{0: true, 1: string}
+     */
     public static function pathMatches(string $path, string $pathRegex)
     {
         // TODO - we need to return bool $isMatch, and array $namedParams
@@ -167,7 +172,7 @@ class Params
     ) {
         $validationResult = PatchFactory::convertInputToPatchObjects($sourceData);
 
-        if (count($validationResult->getProblemMessages()) !== 0) {
+        if ($validationResult->anyErrorsFound()) {
             throw new PatchFormatException(
                 "Patch format error: " . implode(",", $validationResult->getProblemMessages())
             );

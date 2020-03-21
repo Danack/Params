@@ -6,8 +6,8 @@ namespace Params\ProcessRule;
 
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValidator;
 use Params\ParamValues;
+use Params\Exception\InvalidRulesException;
 
 /**
  * Checks that the value is one of a known set of input values and
@@ -35,6 +35,10 @@ class EnumMap implements ProcessRule
 
     public function process(string $name, $value, ParamValues $validator) : ValidationResult
     {
+        if (is_int($value) === false && is_string($value) === false) {
+            throw InvalidRulesException::badTypeForArrayAccess($value);
+        }
+
         if (array_key_exists($value, $this->allowedValues) !== true) {
             $allowedInputValues = implode(', ', array_keys($this->allowedValues));
 
@@ -47,7 +51,7 @@ class EnumMap implements ProcessRule
         return ValidationResult::valueResult($this->allowedValues[$value]);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
 //        $paramDescription->setEnum($this->allowedValues);
     }

@@ -238,6 +238,7 @@ class PatchFactoryTest extends BaseTestCase
         $result = PatchFactory::convertInputToPatchObjects($data);
         $this->assertInstanceOf(ValidationResult::class, $result);
         $this->assertTrue($result->isFinalResult());
+        $this->assertTrue($result->anyErrorsFound());
         $this->assertCount(1, $result->getProblemMessages());
 
         $message = $result->getProblemMessages()['/'];

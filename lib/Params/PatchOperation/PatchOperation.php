@@ -27,11 +27,11 @@ interface PatchOperation
         self::COPY
     ];
 
-    public function getOpType();
+    public function getOpType(): string;
 
-    public function getPath();
+    public function getPath(): string;
 
-    public function getFrom();
+    public function getFrom(): ?string;
 
     /**
      * @return mixed

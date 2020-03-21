@@ -55,11 +55,10 @@ class GetArrayOfInt implements ExtractRule
 
         foreach ($itemData as $itemDatum) {
             $result = $intRule->process((string)$index, $itemDatum, $paramValues);
-            $problems = $result->getProblemMessages();
-            if (count($problems) !== 0) {
+            if ($result->anyErrorsFound()) {
                 $errorsMessages = Functions::addChildErrorMessagesForArray(
                     $name,
-                    $problems,
+                    $result->getProblemMessages(),
                     $errorsMessages
                 );
                 continue;
@@ -97,7 +96,7 @@ class GetArrayOfInt implements ExtractRule
         return ValidationResult::valueResult($items);
     }
 
-    public function updateParamDescription(ParamDescription $paramDescription)
+    public function updateParamDescription(ParamDescription $paramDescription): void
     {
         // TODO - implement
     }
