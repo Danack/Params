@@ -26,8 +26,12 @@ use Params\Exception\InvalidRulesException;
  */
 class EnumMap implements ProcessRule
 {
+    /** @var array<mixed>  */
     private array $allowedValues;
 
+    /**
+     * @param array<mixed> $allowedValues
+     */
     public function __construct(array $allowedValues)
     {
         $this->allowedValues = $allowedValues;

@@ -61,6 +61,10 @@ interface ItemsObject
     // The value of this keyword MUST be an array.  This array MUST have at
     // least one element.  Elements in the array MUST be unique.
     // Elements in the array MAY be of any type, including null.
+    /**
+     * @Todo - should it be an array of scalars and/or recursive
+     * @param array<mixed> $enum
+     */
     public function setEnum(array $enum): void;
 
     // number See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.1.

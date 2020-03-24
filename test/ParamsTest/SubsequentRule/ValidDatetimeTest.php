@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDatetime;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -48,10 +48,10 @@ class ValidDatetimeTest extends BaseTestCase
     public function testValidationWorks($input, $expectedTime)
     {
         $rule = new ValidDatetime();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $input, $validator);
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedTime);
     }
 
@@ -70,9 +70,9 @@ class ValidDatetimeTest extends BaseTestCase
     public function testValidationErrors($input)
     {
         $rule = new ValidDatetime();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $input, $validator);
 
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

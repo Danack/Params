@@ -6,8 +6,8 @@ namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
 use Params\Exception\ValidationException;
-use Params\ValidationErrors;
 use Params\Exception\ParamsException;
+use Params\ValidationProblem;
 
 /**
  * @coversNothing
@@ -20,8 +20,8 @@ class ValidationExceptionTest extends BaseTestCase
     public function testGetting()
     {
         $validationMessages = [
-            'foo',
-            'bar'
+            new ValidationProblem('foo', 'foo was invalid'),
+            new ValidationProblem('bar', 'bar was invalid')
         ];
 
         $exception = new ValidationException(

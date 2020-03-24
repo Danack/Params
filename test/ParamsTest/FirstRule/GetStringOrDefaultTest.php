@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetStringOrDefault;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -30,10 +30,10 @@ class GetStringOrDefaultTest extends BaseTestCase
     public function testValidation(ArrayVarMap $varMap, $default, $expectedValue)
     {
         $rule = new GetStringOrDefault($default);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $varMap, $validator);
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 }

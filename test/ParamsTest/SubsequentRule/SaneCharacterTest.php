@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SaneCharacters;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 function getRawCharacters($string)
 {
@@ -56,9 +56,9 @@ class SaneCharacterTest extends BaseTestCase
     public function testValidationSuccess($testValue)
     {
         $rule = new SaneCharacters();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $testValue, $validator);
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
     }
 
     /**
@@ -68,12 +68,12 @@ class SaneCharacterTest extends BaseTestCase
     public function testValidationErrors($testValue)
     {
         $rule = new SaneCharacters();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $testValue, $validator);
 
         $bytesString = "Bytes were[" . getRawCharacters($testValue) . "]";
 
-        $this->assertNotNull($validationResult->getProblemMessages(), "Should have been error: " . json_encode($testValue));
+        $this->assertNotNull($validationResult->getValidationProblems(), "Should have been error: " . json_encode($testValue));
     }
 
 
@@ -81,13 +81,21 @@ class SaneCharacterTest extends BaseTestCase
     {
         $testValue = "danack_a̧͈͖r͒͑_more_a̧͈͖r͒͑";
         $rule = new SaneCharacters();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $testValue, $validator);
-        $messages = $validationResult->getProblemMessages();
+//        $messages = $validationResult->getValidationProblems();
 
-        $this->assertEquals(
+//        $this->assertEquals(
+//            "Invalid combining characters found at position 8",
+//            $messages['/foo']
+//        );
+
+        $this->assertCount(1, $validationResult->getValidationProblems());
+
+        $this->assertValidationProblem(
+            'foo',
             "Invalid combining characters found at position 8",
-            $messages['/foo']
+            $validationResult->getValidationProblems()
         );
     }
 }

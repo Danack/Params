@@ -54,6 +54,9 @@ class SkuPriceAdd
         $this->price_usd = $price_usd;
     }
 
+    /**
+     * @return \Params\Param[]
+     */
     public static function getInputToParamInfoList()
     {
         return [

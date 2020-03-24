@@ -17,15 +17,17 @@ class GetArrayOfTypeOrNull extends GetArrayOfType implements ExtractRule
     }
 
     public function process(
-        string $name,
+        string $identifier,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($name) === false) {
-            return ValidationResult::finalValueResult(null);
+
+        // If it's
+        if ($varMap->has($identifier) === false) {
+            return ValidationResult::valueResult(null);
         }
 
-        return parent::process($name, $varMap, $paramValues);
+        return parent::process($identifier, $varMap, $paramValues);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

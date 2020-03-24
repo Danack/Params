@@ -23,15 +23,15 @@ class GetStringOrDefault implements ExtractRule
     }
 
     public function process(
-        string $name,
+        string $identifier,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($name) !== true) {
+        if ($varMap->has($identifier) !== true) {
             return ValidationResult::valueResult($this->default);
         }
 
-        $value = (string)$varMap->get($name);
+        $value = (string)$varMap->get($identifier);
 
         return ValidationResult::valueResult($value);
     }

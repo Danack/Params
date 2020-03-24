@@ -17,13 +17,13 @@ use VarMap\VarMap;
 interface ExtractRule extends Rule
 {
     /**
-     * @param string $name The input variable name
+     * @param string $identifier The input variable name
      * @param VarMap $varMap The variable map containing the variables
      * @param ParamValues $paramValues
      * @return ValidationResult
      */
     public function process(
-        string $name,
+        string $identifier,
         VarMap $varMap,
         ParamValues $paramValues
     ) : ValidationResult;

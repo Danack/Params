@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetBool;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -20,9 +20,9 @@ class GetBoolTest extends BaseTestCase
     public function testMissingGivesError()
     {
         $rule = new GetBool('foo');
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 
     public function provideTestWorksCases()
@@ -46,7 +46,7 @@ class GetBoolTest extends BaseTestCase
     public function testWorks($input, $expectedValue)
     {
         $variableName = 'foo';
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $rule = new GetBool('foo');
         $validationResult = $rule->process(
             $variableName,
@@ -54,7 +54,7 @@ class GetBoolTest extends BaseTestCase
             $validator
         );
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -77,13 +77,13 @@ class GetBoolTest extends BaseTestCase
         $variableName = 'foo';
 
         $rule = new GetBool($variableName);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             $variableName,
             new ArrayVarMap($variables),
             $validator
         );
 
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

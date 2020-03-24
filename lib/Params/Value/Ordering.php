@@ -43,9 +43,9 @@ class Ordering
     }
 
     /**
-     * @param array<string: string> $carry
+     * @param array<string, string> $carry
      * @param OrderElement $orderElement
-     * @return array<string: string>
+     * @return array<string, string>
      */
     private static function reduce(array $carry, \Params\Value\OrderElement $orderElement)
     {
@@ -54,7 +54,7 @@ class Ordering
     }
 
     /**
-     * @return array<string: string>
+     * @return array<string, string>
      */
     public function toOrderArray(): array
     {

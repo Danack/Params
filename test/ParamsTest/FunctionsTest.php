@@ -106,27 +106,27 @@ class FunctionsTest extends BaseTestCase
         $this->assertSame($expectedUnescaped, $actualUnescaped);
     }
 
-    /**
-     * @covers \Params\Functions::addChildErrorMessagesForArray
-     */
-    public function testaddChildErrorMessagesForArray()
-    {
-        $name = 'foo';
-        $message = 'Something went wrong.';
-        $problems = [
-            '/bar' => $message
-        ];
-
-        $problems = Functions::addChildErrorMessagesForArray(
-            $name,
-            $problems,
-            []
-        );
-
-        $expectedResult = [
-            '/foo/bar' => $message
-        ];
-
-        $this->assertSame($expectedResult, $problems);
-    }
+//    /**
+//     * @covers \Params\Functions::addChildErrorMessagesForArray
+//     */
+//    public function testaddChildErrorMessagesForArray()
+//    {
+//        $name = 'foo';
+//        $message = 'Something went wrong.';
+//        $problems = [
+//            '/bar' => $message
+//        ];
+//
+//        $problems = Functions::addChildErrorMessagesForArray(
+//            $name,
+//            $problems,
+//            []
+//        );
+//
+//        $expectedResult = [
+//            '/foo/bar' => $message
+//        ];
+//
+//        $this->assertSame($expectedResult, $problems);
+//    }
 }

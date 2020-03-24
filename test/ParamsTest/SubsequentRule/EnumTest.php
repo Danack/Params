@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Enum;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -32,15 +32,15 @@ class EnumTest extends BaseTestCase
         $enumValues = ['zoq', 'fot', 'pik', '12345'];
 
         $rule = new Enum($enumValues);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $testValue, $validator);
 
         if ($expectError) {
-            $this->assertNotNull($validationResult->getProblemMessages());
+            $this->assertNotNull($validationResult->getValidationProblems());
             return;
         }
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 }

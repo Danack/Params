@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
+use Params\ProcessRule\MaximumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysErrorsRule;
 use Params\OpenApi\OpenApiV300ParamDescription;
@@ -21,11 +22,17 @@ class AlwaysErrorsRuleTest extends BaseTestCase
     {
         $message = 'test message';
         $rule = new AlwaysErrorsRule($message);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
 
         $result = $rule->process('foo', 5, $validator);
 
-        $this->assertEquals($message, $result->getProblemMessages()['/foo']);
+        $this->assertCount(1, $result->getValidationProblems());
+        $this->assertValidationProblem(
+            'foo',
+            $message,
+            $result->getValidationProblems()
+        );
+
         $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());
     }

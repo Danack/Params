@@ -29,11 +29,11 @@ class ItemListParamsTest extends BaseTestCase
         ];
 
         /** @var ItemListParams $itemListParams */
-        [$itemListParams, $error] = ItemListParams::createOrErrorFromVarMap(
+        [$itemListParams, $errors] = ItemListParams::createOrErrorFromVarMap(
             new ArrayVarMap($data)
         );
 
-        $this->assertEmpty($error);
+        $this->assertEmpty($errors);
 
         $this->assertInstanceOf(ItemListParams::class, $itemListParams);
         $this->assertSame($description, $itemListParams->getDescription());
@@ -69,9 +69,11 @@ class ItemListParamsTest extends BaseTestCase
 
         $this->assertNull($itemListParams);
         $this->assertCount(1, $validationProblems);
+        /** @var \Params\ValidationProblem $firstProblem */
+        $firstProblem = $validationProblems[0];
 
-        $expectedKey = '/items';
-        $this->assertArrayHasKey($expectedKey, $validationProblems);
-        $this->assertSame("Value must be set.", $validationProblems[$expectedKey]);
+        $expectedKey = 'items';
+        $this->assertSame($expectedKey, $firstProblem->getIdentifier());
+        $this->assertSame("Value must be set.", $firstProblem->getProblemMessage());
     }
 }

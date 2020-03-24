@@ -7,7 +7,7 @@ namespace Params\ProcessRule;
 use Params\Exception\LogicException;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\ParamValues;
 
 /**

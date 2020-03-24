@@ -9,44 +9,50 @@ namespace Params;
  */
 class ValidationResult
 {
-    /** @var string|int|float|bool|array */
+    /** @var mixed */
     private $value;
 
-    /** @var string[] */
-    private array $problemMessages;
+    /** @var \Params\ValidationProblem[] */
+    private array $validationProblems;
 
     private bool $isFinalResult;
 
     /**
      * ValidationResult constructor.
      * @param mixed $value
-     * @param string[] $problemMessages
+     * @param \Params\ValidationProblem[] $problemMessages
      * @param bool $isFinalResult
      */
     private function __construct($value, array $problemMessages, bool $isFinalResult)
     {
         $this->value = $value;
-        $this->problemMessages = $problemMessages;
+        $this->validationProblems = $problemMessages;
         $this->isFinalResult = $isFinalResult;
     }
 
     /**
+     * this is for a single value processing.
+     *
      * @param string $name
      * @param string $message
      * @return ValidationResult
      */
     public static function errorResult(string $name, string $message)
     {
-        return new self(null, ['/' . $name => $message], true);
+        return new self(
+            null,
+            [new ValidationProblem($name, $message)],
+            true
+        );
     }
 
     /**
-     * @param string[] $messages
+     * @param \Params\ValidationProblem[] $validationProblems
      * @return ValidationResult
      */
-    public static function errorsResult(array $messages)
+    public static function thisIsMultipleErrorResult(array $validationProblems)
     {
-        return new self(null, $messages, true);
+        return new self(null, $validationProblems, true);
     }
 
     /**
@@ -73,11 +79,11 @@ class ValidationResult
     }
 
     /**
-     * @return string[]
+     * @return \Params\ValidationProblem[]
      */
-    public function getProblemMessages(): array
+    public function getValidationProblems(): array
     {
-        return $this->problemMessages;
+        return $this->validationProblems;
     }
 
     /**
@@ -85,7 +91,7 @@ class ValidationResult
      */
     public function anyErrorsFound(): bool
     {
-        if (count($this->problemMessages) !== 0) {
+        if (count($this->validationProblems) !== 0) {
             return true;
         }
         return false;

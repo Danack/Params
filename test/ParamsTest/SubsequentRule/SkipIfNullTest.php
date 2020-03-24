@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SkipIfNull;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -32,7 +32,7 @@ class SkipIfNullTest extends BaseTestCase
     public function testValidation($testValue, $expectIsFinalResult)
     {
         $rule = new SkipIfNull();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $testValue, $validator);
         $this->assertEquals($validationResult->isFinalResult(), $expectIsFinalResult);
     }

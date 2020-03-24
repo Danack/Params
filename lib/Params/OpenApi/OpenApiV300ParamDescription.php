@@ -75,10 +75,6 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     public function toArray()
     {
-        if ($this->name === null) {
-            throw new OpenApiException("Name is null, cannot generate.");
-        }
-
         $array = [];
 
         $array['name'] = $this->name;
@@ -351,8 +347,13 @@ class OpenApiV300ParamDescription implements ParamDescription
         throw new \Exception("setUniqueItems not implemented yet.");
     }
 
+    /**
+     * @param array<mixed> $enumValues
+     * @throws OpenApiException
+     */
     public function setEnum(array $enumValues): void
     {
+        // TODO - this is technically incorrect - specs say enum can be any type
         foreach ($enumValues as $enumValue) {
             if (is_string($enumValue) !== true) {
                 throw new OpenApiException("All enum values must be strings.");
@@ -418,10 +419,7 @@ class OpenApiV300ParamDescription implements ParamDescription
         return $this->maximum;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getMaxLength(): int
+    public function getMaxLength(): ?int
     {
         return $this->maxLength;
     }

@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use Params\ProcessRule\IntegerInput;
 use ParamsTest\BaseTestCase;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -31,10 +31,10 @@ class IntegerInputTest extends BaseTestCase
     public function testValidationWorks(string $inputValue, int $expectedValue)
     {
         $rule = new IntegerInput();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $inputValue, $validator);
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($expectedValue, $validationResult->getValue());
     }
 
@@ -57,8 +57,8 @@ class IntegerInputTest extends BaseTestCase
     public function testValidationErrors(string $inputValue)
     {
         $rule = new IntegerInput();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $inputValue, $validator);
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

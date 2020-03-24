@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\Exception\LogicException;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -31,9 +31,9 @@ class MinimumCountTest extends BaseTestCase
     public function testWorks(int $minimumCount, $values)
     {
         $rule = new MinimumCount($minimumCount);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $values, $validator);
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertSame($values, $validationResult->getValue());
     }
@@ -54,14 +54,21 @@ class MinimumCountTest extends BaseTestCase
     public function testFails(int $minimumCount, $values)
     {
         $rule = new MinimumCount($minimumCount);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $values, $validator);
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
 
-        $this->assertRegExp(
-            stringToRegexp(MinimumCount::ERROR_TOO_FEW_ELEMENTS),
-            $validationResult->getProblemMessages()['/foo']
+//        $this->assertRegExp(
+//            stringToRegexp(MinimumCount::ERROR_TOO_FEW_ELEMENTS),
+//            $validationResult->getValidationProblems()['/foo']
+//        );
+
+        $this->assertCount(1, $validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            'foo',
+            MinimumCount::ERROR_TOO_FEW_ELEMENTS,
+            $validationResult->getValidationProblems()
         );
     }
 
@@ -83,7 +90,7 @@ class MinimumCountTest extends BaseTestCase
         $rule = new MinimumCount(3);
         $this->expectException(LogicException::class);
 
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $this->expectErrorMessageMatches(
             stringToRegexp(MinimumCount::ERROR_WRONG_TYPE)
         );

@@ -14,9 +14,15 @@ interface PatchRule
 {
     public function getPathRegex(): string;
 
+    /**
+     * @return class-string<mixed>
+     */
     public function getClassName(): string;
 
     public function getOpType(): string;
 
+    /**
+     * @return \Params\Param[]
+     */
     public function getRules(): array;
 }

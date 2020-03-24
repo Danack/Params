@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use Params\ProcessRule\BoolInput;
 use ParamsTest\BaseTestCase;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -33,10 +33,10 @@ class BoolInputValidatorTest extends BaseTestCase
     public function testValidationWorks($inputValue, bool $expectedValue)
     {
         $rule = new BoolInput();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $inputValue, $validator);
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($expectedValue, $validationResult->getValue());
     }
 
@@ -57,8 +57,8 @@ class BoolInputValidatorTest extends BaseTestCase
     public function testValidationErrors($inputValue)
     {
         $rule = new BoolInput();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $inputValue, $validator);
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalString;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -20,10 +20,10 @@ class GetOptionalStringTest extends BaseTestCase
     public function testMissingGivesNull()
     {
         $rule = new GetOptionalString();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
 
         $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertNull($validationResult->getValue());
     }
 
@@ -37,10 +37,10 @@ class GetOptionalStringTest extends BaseTestCase
 
         $varMap = new ArrayVarMap([$variableName => $expectedValue]);
         $rule = new GetOptionalString();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process($variableName, $varMap, $validator);
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 }

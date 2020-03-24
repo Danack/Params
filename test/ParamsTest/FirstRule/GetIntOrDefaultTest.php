@@ -8,7 +8,7 @@ use Params\ExtractRule\GetIntOrDefault;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetStringOrDefault;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -42,10 +42,10 @@ class GetIntOrDefaultTest extends BaseTestCase
     public function testValidation(ArrayVarMap $varMap, $default, $expectedValue)
     {
         $rule = new GetIntOrDefault($default);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $varMap, $validator);
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -72,10 +72,10 @@ class GetIntOrDefaultTest extends BaseTestCase
 
         $variables = [$variableName => $inputValue];
 
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $rule = new GetIntOrDefault($default);
         $validationResult = $rule->process($variableName, new ArrayVarMap($variables), $validator);
 
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

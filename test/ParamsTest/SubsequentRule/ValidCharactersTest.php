@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidCharacters;
 use Params\ProcessRule\SaneCharacters;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -32,22 +32,29 @@ class ValidCharactersTest extends BaseTestCase
     public function testValidation($validCharactersPattern, $testValue, $expectedErrorPosition)
     {
         $rule = new ValidCharacters($validCharactersPattern);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
 
         $validationResult = $rule->process('foo', $testValue, $validator);
         if ($expectedErrorPosition !== null) {
-            $this->assertNotNull($validationResult->getProblemMessages(), "Failed to detect invalid char at $expectedErrorPosition");
-            $this->assertStringContainsString(
-                (string)$expectedErrorPosition,
-                $validationResult->getProblemMessages()['/foo']
-            );
-            $this->assertStringContainsString(
+            $this->assertNotNull($validationResult->getValidationProblems(), "Failed to detect invalid char at $expectedErrorPosition");
+
+            $this->assertValidationProblemRegexp(
+                'foo',
                 $validCharactersPattern,
-                $validationResult->getProblemMessages()['/foo']
+                $validationResult->getValidationProblems()
             );
+
+//            $this->assertStringContainsString(
+//                (string)$expectedErrorPosition,
+//                $validationResult->getValidationProblems()['/foo']
+//            );
+//            $this->assertStringContainsString(
+//                $validCharactersPattern,
+//                $validationResult->getValidationProblems()['/foo']
+//            );
         }
         else {
-            $this->assertEmpty($validationResult->getProblemMessages());
+            $this->assertEmpty($validationResult->getValidationProblems());
         }
     }
 }

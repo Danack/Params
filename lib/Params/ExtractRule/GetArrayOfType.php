@@ -13,6 +13,7 @@ use Params\ParamValues;
 
 class GetArrayOfType implements ExtractRule
 {
+    /** @var class-string<mixed> */
     private string $className;
 
     const ERROR_MESSAGE_NOT_SET = "Value must be set.";
@@ -21,29 +22,35 @@ class GetArrayOfType implements ExtractRule
 
     const ERROR_MESSAGE_ITEM_NOT_ARRAY = "Values for type '%s' must be an array, but got '%s'. Use GetArrayOfInt|String for single values.";
 
+    /**
+     * @param class-string<mixed> $className
+     */
     public function __construct(string $className)
     {
         $this->className = $className;
     }
 
     public function process(
-        string $name,
+        string $identifier,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($name) !== true) {
-            return ValidationResult::errorResult($name, self::ERROR_MESSAGE_NOT_SET);
+
+        // Check its set
+        if ($varMap->has($identifier) !== true) {
+            return ValidationResult::errorResult($identifier, self::ERROR_MESSAGE_NOT_SET);
         }
 
-        $itemData = $varMap->get($name);
-
+        // Check its an array
+        $itemData = $varMap->get($identifier);
         if (is_array($itemData) !== true) {
-            return ValidationResult::errorResult($name, self::ERROR_MESSAGE_NOT_ARRAY);
+            return ValidationResult::errorResult($identifier, self::ERROR_MESSAGE_NOT_ARRAY);
         }
 
+        // Setup stuff
         $items = [];
-        /** @var array<string> $errorsMessages */
-        $errorsMessages = [];
+        /** @var array<string> $allValidationProblems */
+        $allValidationProblems = [];
         $index = 0;
 
         foreach ($itemData as $itemDatum) {
@@ -54,31 +61,21 @@ class GetArrayOfType implements ExtractRule
                     gettype($itemDatum)
                 );
 
-                return ValidationResult::errorResult($name, $message);
+                return ValidationResult::errorResult($identifier, $message);
             }
 
             $dataVarMap = new ArrayVarMap($itemDatum);
             $rules = call_user_func([$this->className, 'getInputToParamInfoList'], $dataVarMap);
 
-            [$item, $errors] = ParamsExecutor::createOrError($this->className, $rules, $dataVarMap);
-
-            if ($errors !== null) {
-                /**
-                 * @var string $key
-                 * @var string $error
-                 */
-                foreach ($errors as $key => $error) {
-                    $errorsMessages['/' . $name . '/' . $index . $key] = $error;
-                }
-            }
+            [$item, $validationProblems] = ParamsExecutor::createOrError($this->className, $rules, $dataVarMap);
+            $allValidationProblems = [...$allValidationProblems, ...$validationProblems];
 
             $index += 1;
             $items[] = $item;
         }
 
-
-        if (count($errorsMessages) !== 0) {
-            return ValidationResult::errorsResult($errorsMessages);
+        if (count($allValidationProblems) !== 0) {
+            return ValidationResult::thisIsMultipleErrorResult($allValidationProblems);
         }
 
         return ValidationResult::valueResult($items);

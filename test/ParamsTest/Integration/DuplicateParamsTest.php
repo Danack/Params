@@ -61,6 +61,7 @@ class DuplicateParamsTest extends BaseTestCase
 
     /**
      * @covers \Params\ProcessRule\DuplicatesParam
+     * @group debug
      */
     public function testDifferentValue()
     {
@@ -76,11 +77,11 @@ class DuplicateParamsTest extends BaseTestCase
 
         $this->assertNull($duplicateParams);
         $this->assertCount(1, $validationProblems);
-        $this->assertArrayHasKey('/password_repeat', $validationProblems);
 
-        $this->assertSame(
+        $this->assertValidationProblem(
+            'password_repeat',
             "Parameter named 'password_repeat' is different to parameter 'password'.",
-            $validationProblems['/password_repeat']
+            $validationProblems
         );
     }
 
@@ -100,17 +101,17 @@ class DuplicateParamsTest extends BaseTestCase
 
         $this->assertNull($duplicateParams);
         $this->assertCount(2, $validationProblems);
-        $this->assertArrayHasKey('/password', $validationProblems);
-        $this->assertArrayHasKey('/password_repeat', $validationProblems);
 
-        $this->assertSame(
+        $this->assertValidationProblem(
+            'password',
             'Value is not set.',
-            $validationProblems['/password']
+            $validationProblems
         );
 
-        $this->assertRegExp(
-            stringToRegexp(DuplicatesParamRule::ERROR_NO_PREVIOUS_PARAM),
-            $validationProblems['/password_repeat']
+        $this->assertValidationProblemRegexp(
+            'password_repeat',
+            DuplicatesParamRule::ERROR_NO_PREVIOUS_PARAM,
+            $validationProblems
         );
     }
 
@@ -133,9 +134,10 @@ class DuplicateParamsTest extends BaseTestCase
         $this->assertNull($duplicateParams);
         $this->assertCount(1, $validationProblems);
 
-        $this->assertRegExp(
-            stringToRegexp(DuplicatesParamRule::ERROR_DIFFERENT_TYPES),
-            $validationProblems['/days_repeat']
+        $this->assertValidationProblemRegexp(
+            'days_repeat',
+            DuplicatesParamRule::ERROR_DIFFERENT_TYPES,
+            $validationProblems
         );
     }
 }

@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\StartsWithString;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -28,9 +28,9 @@ class StartsWithStringTest extends BaseTestCase
     public function testValidationWorks(string $prefix, $testValue)
     {
         $rule = new StartsWithString($prefix);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $testValue, $validator);
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertSame($validationResult->getValue(), $testValue);
     }
 
@@ -49,8 +49,8 @@ class StartsWithStringTest extends BaseTestCase
     public function testValidationErrors(string $prefix, $testValue)
     {
         $rule = new StartsWithString($prefix);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $testValue, $validator);
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

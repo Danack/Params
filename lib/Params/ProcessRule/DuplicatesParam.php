@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Params\ProcessRule;
 
 use Params\ValidationResult;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
 

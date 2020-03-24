@@ -48,7 +48,7 @@ class ArrayAllMultiplesOf implements ProcessRule
         }
 
         if (count($errors) !== 0) {
-            return ValidationResult::errorsResult($errors);
+            return ValidationResult::thisIsMultipleErrorResult($errors);
         }
 
         return ValidationResult::valueResult($value);

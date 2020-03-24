@@ -8,7 +8,7 @@ use Params\ProcessRule\IntegerInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\ParamValues;
 
 class GetIntOrDefault implements ExtractRule
@@ -25,19 +25,19 @@ class GetIntOrDefault implements ExtractRule
     }
 
     public function process(
-        string $name,
+        string $identifier,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($name) === true) {
-            $value = $varMap->get($name);
+        if ($varMap->has($identifier) === true) {
+            $value = $varMap->get($identifier);
         }
         else {
             return ValidationResult::valueResult($this->default);
         }
 
         $intRule = new IntegerInput();
-        return $intRule->process($name, $value, $paramValues);
+        return $intRule->process($identifier, $value, $paramValues);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

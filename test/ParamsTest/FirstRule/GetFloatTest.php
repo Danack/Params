@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetFloat;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -20,9 +20,9 @@ class GetFloatTest extends BaseTestCase
     public function testMissingGivesError()
     {
         $rule = new GetFloat();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 
     public function provideTestWorksCases()
@@ -42,7 +42,7 @@ class GetFloatTest extends BaseTestCase
     public function testWorks($input, $expectedValue)
     {
         $variableName = 'foo';
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $rule = new GetFloat();
         $validationResult = $rule->process(
             $variableName,
@@ -50,7 +50,7 @@ class GetFloatTest extends BaseTestCase
             $validator
         );
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -73,13 +73,13 @@ class GetFloatTest extends BaseTestCase
         $variableName = 'foo';
 
         $rule = new GetFloat();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             $variableName,
             new ArrayVarMap($variables),
             $validator
         );
 
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

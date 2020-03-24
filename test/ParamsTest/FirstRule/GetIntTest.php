@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetInt;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -20,9 +20,9 @@ class GetIntTest extends BaseTestCase
     public function testMissingGivesError()
     {
         $rule = new GetInt();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 
     public function provideTestWorksCases()
@@ -40,7 +40,7 @@ class GetIntTest extends BaseTestCase
     public function testWorks($input, $expectedValue)
     {
         $variableName = 'foo';
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $rule = new GetInt();
         $validationResult = $rule->process(
             $variableName,
@@ -48,7 +48,7 @@ class GetIntTest extends BaseTestCase
             $validator
         );
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -72,13 +72,13 @@ class GetIntTest extends BaseTestCase
         $variableName = 'foo';
 
         $rule = new GetInt();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             $variableName,
             new ArrayVarMap($variables),
             $validator
         );
 
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

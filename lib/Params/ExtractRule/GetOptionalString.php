@@ -8,7 +8,7 @@ use Params\ProcessRule;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\ParamValues;
 
 class GetOptionalString implements ExtractRule
@@ -16,15 +16,15 @@ class GetOptionalString implements ExtractRule
     const ERROR_MESSAGE = 'Value not set for %s.';
 
     public function process(
-        string $name,
+        string $identifier,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($name) !== true) {
+        if ($varMap->has($identifier) !== true) {
             return ValidationResult::valueResult(null);
         }
 
-        $value = (string)$varMap->get($name);
+        $value = (string)$varMap->get($identifier);
 
         return ValidationResult::valueResult($value);
     }

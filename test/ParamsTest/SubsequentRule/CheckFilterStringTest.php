@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use Params\Value\MultipleEnums;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -29,9 +29,9 @@ class CheckFilterStringTest extends BaseTestCase
     public function testKnownFilterCorrect($inputString, $expectedResult)
     {
         $rule = new MultipleEnum(['foo', 'bar']);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('someFilter', $inputString, $validator);
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
 
         $validationValue = $validationResult->getValue();
 
@@ -48,8 +48,8 @@ class CheckFilterStringTest extends BaseTestCase
     {
         $expectedValue = 'zot';
         $rule = new MultipleEnum(['foo', 'bar']);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('someFilter', $expectedValue, $validator);
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

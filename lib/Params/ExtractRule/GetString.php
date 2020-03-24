@@ -14,16 +14,16 @@ class GetString implements ExtractRule
     const ERROR_MESSAGE = 'Value is not set.';
 
     public function process(
-        string $name,
+        string $identifier,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($name) !== true) {
-            return ValidationResult::errorResult($name, self::ERROR_MESSAGE);
+        if ($varMap->has($identifier) !== true) {
+            return ValidationResult::errorResult($identifier, self::ERROR_MESSAGE);
         }
         // TODO - reject bools/ints?
 
-        $value = (string)$varMap->get($name);
+        $value = (string)$varMap->get($identifier);
 
         return ValidationResult::valueResult($value);
     }

@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaxLength;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -34,14 +34,14 @@ class MaxLengthTest extends BaseTestCase
     public function testValidation(int $maxLength, string $string, bool $expectError)
     {
         $rule = new MaxLength($maxLength);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $string, $validator);
 
         if ($expectError === false) {
-            $this->assertEmpty($validationResult->getProblemMessages());
+            $this->assertEmpty($validationResult->getValidationProblems());
         }
         else {
-            $this->assertNotNull($validationResult->getProblemMessages());
+            $this->assertNotNull($validationResult->getValidationProblems());
         }
     }
 }

@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetString;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -20,9 +20,9 @@ class GetStringTest extends BaseTestCase
     public function testMissingGivesError()
     {
         $rule = new GetString();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 
     /**
@@ -34,14 +34,14 @@ class GetStringTest extends BaseTestCase
         $expectedValue = 'bar';
 
         $rule = new GetString();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             $variableName,
             new ArrayVarMap([$variableName => $expectedValue]),
             $validator
         );
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 }

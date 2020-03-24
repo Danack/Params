@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\EnumMap;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -30,20 +30,22 @@ class KnownEnumValidatorTest extends BaseTestCase
             'input1' => 'output1',
             'input2' => 'output2',
         ];
+        $name = 'foo';
 
         $rule = new EnumMap($enumMap);
-        $validator = new ParamsValidator();
-        $validationResult = $rule->process('foo', 'unknown value', $validator);
+        $validator = new ParamsValuesImpl();
+        $validationResult = $rule->process($name, 'unknown value', $validator);
 
+        $problems = $validationResult->getValidationProblems();
+        $this->assertCount(1, $problems);
+        $firstProblem = $problems[0];
 
-        $problemMessages = $validationResult->getProblemMessages();
-
-        $this->assertNotNull($problemMessages);
-        $this->assertArrayHasKey('/foo', $problemMessages, 'problem was not set for /foo');
+//        $this->assertArrayHasKey(, $problemMessages, 'problem was not set for /foo');
         $this->assertStringContainsString(
             'input1, input2',
-            $problemMessages['/foo']
+            $firstProblem->getProblemMessage()
         );
+        $this->assertSame($name, $firstProblem->getIdentifier());
     }
 
     /**
@@ -60,15 +62,15 @@ class KnownEnumValidatorTest extends BaseTestCase
         ];
 
         $rule = new EnumMap($enumMap);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $testValue, $validator);
 
         if ($expectError) {
-            $this->assertNotNull($validationResult->getProblemMessages());
+            $this->assertNotNull($validationResult->getValidationProblems());
             return;
         }
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 }

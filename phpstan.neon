@@ -3,6 +3,7 @@ includes:
 parameters:
   bootstrap: null
   autoload_files: null
+  checkMissingIterableValueType: false
   excludes_analyse:
     - *GetArticlesParams*
     - *CreateFromVarMap*
@@ -10,10 +11,15 @@ parameters:
     - '#Method .* has no return typehint specified.#'
     - '#Method .* has parameter .* with no typehint specified.#'
     - '#Property .* has no typehint specified.#'
-    - '#.* should be covariant with return type.*#'
     -
-      message: '#Parameter \#1 \$function of function call_user_func expects callable.*#'
+      message: '#Parameter \#1 \$function of function call_user_func.*#'
       path: *GetArrayOfType.php
+    -
+      message: '#Parameter \#1 \$args of method.*#'
+      path: *Params/ParamsExecutor.php
+
+
 #    -
 #      message: '#Parameter \#1 \$messages of static method.*#'
 #      path: *GetArrayOfInt.php
+

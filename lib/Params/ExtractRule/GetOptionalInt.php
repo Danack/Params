@@ -9,7 +9,7 @@ use Params\ProcessRule\IntegerInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\ParamValues;
 
 /**
@@ -25,16 +25,16 @@ class GetOptionalInt implements ExtractRule
 
 
     public function process(
-        string $name,
+        string $identifier,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($name) !== true) {
+        if ($varMap->has($identifier) !== true) {
             return ValidationResult::valueResult(null);
         }
 
         $intRule = new IntegerInput();
-        return $intRule->process($name, $varMap->get($name), $paramValues);
+        return $intRule->process($identifier, $varMap->get($identifier), $paramValues);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

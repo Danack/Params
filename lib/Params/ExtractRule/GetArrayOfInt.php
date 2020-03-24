@@ -8,10 +8,11 @@ use Params\ProcessRule\ProcessRule;
 use VarMap\VarMap;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\ProcessRule\IntegerInput;
 use Params\ParamValues;
 use Params\Functions;
+
 
 class GetArrayOfInt implements ExtractRule
 {
@@ -30,67 +31,85 @@ class GetArrayOfInt implements ExtractRule
     }
 
     public function process(
-        string $name,
+        string $identifier,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
 
-        if ($varMap->has($name) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE_NOT_SET, $name);
-            return ValidationResult::errorResult($name, $message);
+        // Check its set
+        if ($varMap->has($identifier) !== true) {
+            $message = sprintf(self::ERROR_MESSAGE_NOT_SET, $identifier);
+            return ValidationResult::errorResult($identifier, $message);
         }
 
-        $itemData = $varMap->get($name);
+        // Check its an array
+        $itemData = $varMap->get($identifier);
         if (is_array($itemData) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE_NOT_ARRAY, $name);
-            return ValidationResult::errorResult($name, $message);
+            $message = sprintf(self::ERROR_MESSAGE_NOT_ARRAY, $identifier);
+            return ValidationResult::errorResult($identifier, $message);
         }
 
+        // Setup stuff
         $items = [];
-        /** @var string[] $errorsMessages */
-        $errorsMessages = [];
+        /** @var \Params\ValidationProblem[] $validationProblems */
+        $validationProblems = [];
         $index = 0;
 
         $intRule = new IntegerInput();
 
         foreach ($itemData as $itemDatum) {
             $result = $intRule->process((string)$index, $itemDatum, $paramValues);
+
+            // If error, add it and attempt next entry in array
             if ($result->anyErrorsFound()) {
-                $errorsMessages = Functions::addChildErrorMessagesForArray(
-                    $name,
-                    $result->getProblemMessages(),
-                    $errorsMessages
-                );
+                $validationProblems = [...$validationProblems, ...$result->getValidationProblems()];
+
+//                $validationProblems = Functions::addChildErrorMessagesForArray(
+//                    $identifier,
+//                    $result->getValidationProblems(),
+//                    $validationProblems
+//                );
                 continue;
             }
 
-            // Is this needed? Can a FirstRule be final?
-            // Maybe but kind of useless.
-            if ($result->isFinalResult() === true) {
-                $items[] = $result->getValue();
-                continue;
-            }
+//            // Is this needed? Can a FirstRule be final?
+//            // Maybe but kind of useless.
+//            TODO - add this back with a test
+//            if ($result->isFinalResult() === true) {
+//                $items[] = $result->getValue();
+//                continue;
+//            }
 
-            $validator2 = new ParamsValidator();
+            $validator2 = new ParamsValuesImpl();
 
-            [$value, $validationErrors] =  $validator2->validateSubsequentRules(
+            $identifier = (string)$index;
+
+            $newValidationProblems =  $validator2->validateSubsequentRules(
                 $result->getValue(),
-                (string)$index,
+                $identifier,
                 ...$this->subsequentRules
             );
 
-            if (count($validationErrors) !== 0) {
-                foreach ($validationErrors as $key => $error) {
-                    $errorsMessages['/' . $name . $key] = $error;
-                }
+            $validationProblems = [...$validationProblems, ...$newValidationProblems];
+
+            if (count($newValidationProblems) !== 0) {
+                continue;
+//                foreach ($validationProblems as $key => $error) {
+//                    $validationProblems['/' . $identifier . $key] = $error;
+//                }
             }
 
+            if ($validator2->hasParam((string)$index) !== true) {
+                throw new \Exception("Code is borked.");
+            }
+
+
             $index += 1;
-            $items[] = $value;
+            $items[] = $validator2->getParam($identifier);
         }
 
-        if (count($errorsMessages) !== 0) {
-            return ValidationResult::errorsResult($errorsMessages);
+        if (count($validationProblems) !== 0) {
+            return ValidationResult::thisIsMultipleErrorResult($validationProblems);
         }
 
         return ValidationResult::valueResult($items);

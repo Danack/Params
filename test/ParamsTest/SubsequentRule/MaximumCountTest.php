@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\Rule;
 
+use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaximumCount;
 use Params\Exception\LogicException;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -30,9 +31,9 @@ class MaximumCountTest extends BaseTestCase
     public function testWorks(int $maximumCount, $values)
     {
         $rule = new MaximumCount($maximumCount);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $values, $validator);
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertSame($values, $validationResult->getValue());
     }
@@ -52,16 +53,23 @@ class MaximumCountTest extends BaseTestCase
     public function testFails(int $maximumCount, $values)
     {
         $rule = new MaximumCount($maximumCount);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $values, $validator);
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
 
 //        'Number of elements in foo is too large. Max allowed is 0 but got 3.'
 
-        $this->assertRegExp(
-            stringToRegexp(MaximumCount::ERROR_TOO_MANY_ELEMENTS),
-            $validationResult->getProblemMessages()['/foo']
+//        $this->assertRegExp(
+//            stringToRegexp(MaximumCount::ERROR_TOO_MANY_ELEMENTS),
+//            $validationResult->getValidationProblems()['/foo']
+//        );
+
+        $this->assertCount(1, $validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            'foo',
+            MaximumCount::ERROR_TOO_MANY_ELEMENTS,
+            $validationResult->getValidationProblems()
         );
     }
 
@@ -83,7 +91,7 @@ class MaximumCountTest extends BaseTestCase
         $rule = new MaximumCount(3);
         $this->expectException(LogicException::class);
 
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $this->expectErrorMessageMatches(
             stringToRegexp(MaximumCount::ERROR_WRONG_TYPE)
         );

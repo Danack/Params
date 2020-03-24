@@ -61,6 +61,11 @@ class Functions
         return null;
     }
 
+    /**
+     * @param array<mixed> $array
+     * @param mixed $value
+     * @return bool
+     */
     public static function array_value_exists(array $array, $value): bool
     {
         return in_array($value, $array, true);
@@ -103,21 +108,21 @@ class Functions
         return $result;
     }
 
-    /**
-     * @param string $name
-     * @param array $problems
-     * @param array $errorsMessages
-     * @return array
-     */
-    public static function addChildErrorMessagesForArray(
-        string $name,
-        array $problems,
-        array $errorsMessages
-    ) {
-        foreach ($problems as $key => $value) {
-            $errorsMessages['/' . $name . $key] = $value;
-        }
-
-        return $errorsMessages;
-    }
+//    /**
+//     * @param string $name
+//     * @param array $problems
+//     * @param array $errorsMessages
+//     * @return array
+//     */
+//    public static function addChildErrorMessagesForArray(
+//        string $name,
+//        array $problems,
+//        array $errorsMessages
+//    ) {
+//        foreach ($problems as $key => $value) {
+//            $errorsMessages['/' . $name . $key] = $value;
+//        }
+//
+//        return $errorsMessages;
+//    }
 }

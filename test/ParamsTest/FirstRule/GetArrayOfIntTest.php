@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfInt;
 use VarMap\ArrayVarMap;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\ProcessRule\MaxIntValue;
 
 /**
@@ -27,11 +27,11 @@ class GetArrayOfIntTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfInt();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $result = $rule->process('items', new ArrayVarMap($data), $validator);
 
         $this->assertFalse($result->isFinalResult());
-        $this->assertCount(0, $result->getProblemMessages());
+        $this->assertCount(0, $result->getValidationProblems());
         $this->assertSame($values, $result->getValue());
     }
 
@@ -47,16 +47,19 @@ class GetArrayOfIntTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfInt();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $result = $rule->process('items', new ArrayVarMap($data), $validator);
 
         $this->assertTrue($result->isFinalResult());
 
-        $problemMessages = $result->getProblemMessages();
+        $validationProblems = $result->getValidationProblems();
 
-        $this->assertCount(1, $problemMessages);
-        $this->assertArrayHasKey('/items/3', $problemMessages);
-        $this->assertSame('Value must contain only digits.', $problemMessages['/items/3']);
+        $this->assertCount(1, $validationProblems);
+        /** @var \Params\ValidationProblem $firstProblem */
+        $firstProblem = $validationProblems[0];
+
+        $this->assertSame('/items/3', $firstProblem->getIdentifier());
+        $this->assertSame('Value must contain only digits.', $firstProblem->getProblemMessage());
     }
 
     /**
@@ -73,12 +76,12 @@ class GetArrayOfIntTest extends BaseTestCase
         $rule = new GetArrayOfInt(
             new MaxIntValue(20)
         );
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $result = $rule->process('items', new ArrayVarMap($data), $validator);
 
         $this->assertTrue($result->isFinalResult());
 
-        $problemMessages = $result->getProblemMessages();
+        $problemMessages = $result->getValidationProblems();
 
         $this->assertCount(1, $problemMessages);
         $this->assertArrayHasKey('/items/3', $problemMessages);

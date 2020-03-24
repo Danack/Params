@@ -14,7 +14,7 @@ class InvalidRulesException extends \Params\Exception\ParamsException
     {
         $message = sprintf(
             "Cannot use type %s for array access",
-            getType($badValue)
+            gettype($badValue)
         );
 
         return new self($message);

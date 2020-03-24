@@ -20,7 +20,7 @@ use Params\ProcessRule\ProcessRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ValidationErrors;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\Exception\ParamsException;
 use Params\Exception\RulesEmptyException;
 use Params\ParamValues;
@@ -32,7 +32,7 @@ use Params\Param;
 class ParamsTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ParamsExecutor::executeRules
+     *  todo - covers what?
      */
     public function testWorksBasic()
     {
@@ -43,7 +43,11 @@ class ParamsTest extends BaseTestCase
             )
         ];
 
-        $validator = \Params\ParamsExecutor::executeRules($rules, new ArrayVarMap([]));
+        $validator = new ParamsValuesImpl();
+
+        $validator->executeRulesWithValidator($rules, new ArrayVarMap([]));
+
+//        $validator = \Params\ParamsExecutor::executeRules($rules, new ArrayVarMap([]));
         $this->assertSame(['foo' => 5], $validator->getParamsValues());
     }
 
@@ -79,7 +83,7 @@ class ParamsTest extends BaseTestCase
 //    }
 
     /**
-     * @covers \Params\ParamsExecutor::executeRules
+     *  todo - covers what?
      */
     public function testInvalidInputThrows()
     {
@@ -99,7 +103,7 @@ class ParamsTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ParamsExecutor::executeRules
+     *  todo - covers what?
      */
     public function testFinalResultStopsProcessing()
     {
@@ -117,12 +121,16 @@ class ParamsTest extends BaseTestCase
             )
         ];
 
-        $validator = ParamsExecutor::executeRules($rules, $arrayVarMap);
+        $validator = new ParamsValuesImpl();
+
+        $validator->executeRulesWithValidator($rules, $arrayVarMap);
+
+//        $validator = ParamsExecutor::executeRules($rules, $arrayVarMap);
         $this->assertEquals($finalValue, ($validator->getParamsValues())['foo']);
     }
 
     /**
-     * @covers \Params\ParamsExecutor::executeRules
+     * @group debug
      */
     public function testErrorResultStopsProcessing()
     {
@@ -230,13 +238,13 @@ class ParamsTest extends BaseTestCase
         );
         $this->assertNull($params);
 
-//        $this->assertInstanceOf(ValidationErrors::class, $validationErrors);
-//        $errors = $validationErrors->getValidationProblems();
         $this->assertCount(1, $validationErrors);
-        $expectedKey = '/limit';
-        $this->assertArrayHasKey($expectedKey, $validationErrors);
+        /** @var \Params\ValidationProblem $firstProblem */
+        $firstProblem = $validationErrors[0];
 
-        $this->assertStringMatchesFormat('Value not set.', $validationErrors[$expectedKey]);
+        $expectedKey = 'limit';
+        $this->assertSame($expectedKey, $firstProblem->getIdentifier());
+        $this->assertStringMatchesFormat('Value not set.', $firstProblem->getProblemMessage());
     }
 
     /**

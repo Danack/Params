@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysEndsRule;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use VarMap\ArrayVarMap;
 
 /**
@@ -21,11 +21,11 @@ class AlwaysEndsRuleTest extends BaseTestCase
     {
         $finalValue = 123;
         $rule = new AlwaysEndsRule($finalValue);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $result = $rule->process('foo', new ArrayVarMap([]), $validator);
 
         $this->assertTrue($result->isFinalResult());
         $this->assertEquals($finalValue, $result->getValue());
-        $this->assertCount(0, $result->getProblemMessages());
+        $this->assertCount(0, $result->getValidationProblems());
     }
 }

@@ -117,7 +117,7 @@ interface ParamDescription
 
     // number See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3.
     /**
-     * @param int|float $maximum
+     * @param int|float $minimum
      */
     public function setMinimum($minimum);
 
@@ -150,6 +150,9 @@ interface ParamDescription
     //   least one element.  Elements in the array MUST be unique.
     //
     // Elements in the array MAY be of any type, including null.
+    /**
+     * @param array<mixed> $enumValues
+     */
     public function setEnum(array $enumValues): void;
 
     // number See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.1.

@@ -7,7 +7,7 @@ namespace Params\ProcessRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\Exception\LogicException;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\ParamValues;
 
 class MinimumCount implements ProcessRule

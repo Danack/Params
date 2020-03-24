@@ -10,7 +10,7 @@ use Params\ProcessRule\FloatInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\ParamValues;
 
 class GetFloatOrDefault implements ExtractRule
@@ -29,21 +29,18 @@ class GetFloatOrDefault implements ExtractRule
     }
 
     public function process(
-        string $name,
+        string $identifier,
         VarMap $varMap,
         ParamValues $paramValues
     ) : ValidationResult {
 
-        if ($varMap->has($name) === true) {
-            $value = $varMap->get($name);
-        }
-        else {
+        if ($varMap->has($identifier) !== true) {
             return ValidationResult::valueResult($this->default);
         }
 
-        $intRule = new FloatInput();
+        $floatInput = new FloatInput();
 
-        return $intRule->process($name, $varMap->get($name), $paramValues);
+        return $floatInput->process($identifier, $varMap->get($identifier), $paramValues);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

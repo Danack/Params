@@ -7,7 +7,7 @@ namespace ParamsTest\Rule;
 use Params\ExtractRule\GetFloatOrDefault;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -44,10 +44,10 @@ class GetFloatOrDefaultTest extends BaseTestCase
     public function testValidation(ArrayVarMap $varMap, $default, $expectedValue)
     {
         $rule = new GetFloatOrDefault($default);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $varMap, $validator);
 
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -74,10 +74,10 @@ class GetFloatOrDefaultTest extends BaseTestCase
 
         $variables = [$variableName => $inputValue];
 
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $rule = new GetFloatOrDefault($default);
         $validationResult = $rule->process($variableName, new ArrayVarMap($variables), $validator);
 
-        $this->assertNotNull($validationResult->getProblemMessages());
+        $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

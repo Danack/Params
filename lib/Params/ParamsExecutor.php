@@ -10,6 +10,8 @@ use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use Params\Exception\PatchFormatException;
 
+
+
 /**
  * Class Params
  *
@@ -21,46 +23,27 @@ use Params\Exception\PatchFormatException;
  */
 class ParamsExecutor
 {
-    /**
-     * @param \Params\Param[] $rulesetList
-     * @param VarMap $sourceData
-     * @param ParamsValidator $validator
-     */
-    public static function executeRulesWithValidator(
-        $rulesetList,
-        VarMap $sourceData,
-        ParamsValidator $validator
-    ) {
-        foreach ($rulesetList as $ruleset) {
-            $validator->validateRulesForParam(
-                $ruleset->getInputName(),
-                $sourceData,
-                $ruleset->getFirstRule(),
-                ...$ruleset->getSubsequentRules()
-            );
-        }
-    }
+
+
+//    /**
+//     * @param \Params\Param[] $rulesetList
+//     * @param VarMap $sourceData
+//     * @return {\Params\ParamsValuesImpl, \Params\ValidationProblem[]}
+//     */
+//    public static function executeRules($rulesetList, $sourceData)
+//    {
+//        $paramsValuesImpl = new ParamsValuesImpl();
+//        $validationProblems = $paramsValuesImpl->executeRulesWithValidator($rulesetList, $sourceData);
+//
+//        return [$paramsValuesImpl, $validationProblems];
+//    }
+
 
     /**
+     * @template T
+     * @param class-string<T> $classname
      * @param \Params\Param[] $rulesetList
-     * @param $sourceData
-     * @return ParamsValidator
-     */
-    public static function executeRules(
-        $rulesetList,
-        $sourceData
-    ): ParamsValidator {
-        $validator = new ParamsValidator();
-
-        self::executeRulesWithValidator($rulesetList, $sourceData, $validator);
-
-        return $validator;
-    }
-
-    /**
-     * @param string $classname
-     * @param \Params\Param[] $rulesetList
-     * @return mixed -  [object|null, ValidationErrors|null]
+     * @return {object, \Params\ValidationProblem[]}|{null, \Params\ValidationProblem[]}
      * @throws Exception\ParamsException
      * @throws ValidationException
      *
@@ -69,35 +52,49 @@ class ParamsExecutor
      */
     public static function createOrError($classname, $rulesetList, VarMap $sourceData)
     {
-        $validator = self::executeRules($rulesetList, $sourceData);
-        $validationErrors = $validator->getValidationProblems();
-        if (count($validationErrors) !== 0) {
-            return [null, $validationErrors];
+//        [$paramsValuesImpl, $validationProblems] = self::executeRules($rulesetList, $sourceData);
+        $paramsValuesImpl = new ParamsValuesImpl();
+        $validationProblems = $paramsValuesImpl->executeRulesWithValidator($rulesetList, $sourceData);
+
+//        $validationProblems = $validator->getValidationProblems();
+        if (count($validationProblems) !== 0) {
+            return [null, $validationProblems];
         }
 
         $reflection_class = new \ReflectionClass($classname);
-        return [$reflection_class->newInstanceArgs($validator->getParamsValues()), []];
+        return [$reflection_class->newInstanceArgs($paramsValuesImpl->getParamsValues()), []];
     }
 
+
+
     /**
-     * @param $classname
-     * @param @param \Params\InputToParamInfo[] $rulesetList
+     * @template T
+     * @param class-string<T> $classname
+     * @param \Params\Param[] $namedRules
      * @param VarMap $sourceData
-     * @return object|\T
+     * @return T of object
      * @throws ValidationException
      * @throws \ReflectionException
      */
     public static function create($classname, $namedRules, VarMap $sourceData)
     {
-        $validator = self::executeRules($namedRules, $sourceData);
-        $validationProblems = $validator->getValidationProblems();
+        $paramsValuesImpl = new ParamsValuesImpl();
+        $validationProblems = $paramsValuesImpl->executeRulesWithValidator($namedRules, $sourceData);
+
+
+
+//        $validationProblems = $paramValues->getValidationProblems();
 
         if (count($validationProblems) !== 0) {
             throw new ValidationException("Validation problems", $validationProblems);
         }
 
         $reflection_class = new \ReflectionClass($classname);
-        return $reflection_class->newInstanceArgs($validator->getParamsValues());
+
+        $object = $reflection_class->newInstanceArgs($paramsValuesImpl->getParamsValues());
+
+        /** @var T $object */
+        return $object;
     }
 
     /**
@@ -122,7 +119,7 @@ class ParamsExecutor
     /**
      * @param string $path
      * @param string $pathRegex
-     * @return array{0: true, 1: string}
+     * @return array{0: bool, 1: string}
      */
     public static function pathMatches(string $path, string $pathRegex)
     {
@@ -166,6 +163,11 @@ class ParamsExecutor
         return [null, [$message]];
     }
 
+    /**
+     * @param $patchRules
+     * @param array $sourceData
+     * @return array
+     */
     public static function processOperations(
         $patchRules,
         array $sourceData
@@ -174,7 +176,7 @@ class ParamsExecutor
 
         if ($validationResult->anyErrorsFound()) {
             throw new PatchFormatException(
-                "Patch format error: " . implode(",", $validationResult->getProblemMessages())
+                "Patch format error: " . implode(",", $validationResult->getValidationProblems())
             );
         }
 

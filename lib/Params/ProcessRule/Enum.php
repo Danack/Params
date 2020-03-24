@@ -6,7 +6,7 @@ namespace Params\ProcessRule;
 
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\ParamValues;
 
 /**
@@ -14,14 +14,27 @@ use Params\ParamValues;
  */
 class Enum implements ProcessRule
 {
+    /**
+     * @var array<mixed>
+     */
     private array $allowedValues;
 
+    /**
+     *
+     * @param array<mixed> $allowedValues
+     */
     public function __construct(array $allowedValues)
     {
         $this->allowedValues = $allowedValues;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @param ParamValues $validator
+     * @return ValidationResult
+     */
+    public function process(string $name, $value, ParamValues $validator): ValidationResult
     {
         if (in_array($value, $this->allowedValues, true) !== true) {
             return ValidationResult::errorResult(

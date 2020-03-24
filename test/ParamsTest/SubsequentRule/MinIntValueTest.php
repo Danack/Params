@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MinIntValue;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -37,14 +37,14 @@ class MinIntValueTest extends BaseTestCase
     public function testValidation(int $minValue, string $inputValue, bool $expectError)
     {
         $rule = new MinIntValue($minValue);
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $inputValue, $validator);
 
         if ($expectError === false) {
-            $this->assertEmpty($validationResult->getProblemMessages());
+            $this->assertEmpty($validationResult->getValidationProblems());
         }
         else {
-            $this->assertNotNull($validationResult->getProblemMessages());
+            $this->assertNotNull($validationResult->getValidationProblems());
         }
     }
 }

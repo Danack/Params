@@ -45,4 +45,104 @@ class BaseTestCase extends TestCase
         //and then complains about it not having any tests.
         $this->assertTrue(true);
     }
+
+
+    /**
+     * @param string $identifier
+     * @param string $problem
+     * @param \Params\ValidationProblem[] $validationProblems
+     */
+    protected function assertValidationProblem(string $identifier, string $expectedProblem, $validationProblems)
+    {
+        foreach ($validationProblems as $validationProblem) {
+            if ($validationProblem->getIdentifier() !== $identifier) {
+                continue;
+            }
+
+            if ($validationProblem->getProblemMessage() === $expectedProblem) {
+                // correct problem message found
+                return;
+            }
+
+            $incorrectMessageText = sprintf(
+                "Validation problem for identifier '%s' found, but wrong message.\nExpected: '%s'\nActual '%s'\n",
+                $identifier,
+                $expectedProblem,
+                $validationProblem->getProblemMessage()
+            );
+
+            $this->fail($incorrectMessageText);
+        }
+
+        // Identifier not found
+        $identifiers = [];
+        foreach ($validationProblems as $validationProblem) {
+            $identifiers[] = $validationProblem->getIdentifier();
+        }
+
+        $missingIndentifierText = sprintf(
+            "Identifier '%s' not found in validation problems. Identifiers found are '%s'",
+            $identifier,
+            implode(", ", $identifiers)
+        );
+
+        $this->fail($missingIndentifierText);
+    }
+
+    /**
+     * @param string $identifier
+     * @param string $problem
+     * @param \Params\ValidationProblem[] $validationProblems
+     */
+    protected function assertValidationProblemRegexp(string $identifier, string $expectedProblem, $validationProblems)
+    {
+        $expectedProblemRegexp = stringToRegexp($expectedProblem);
+
+        foreach ($validationProblems as $validationProblem) {
+            if ($validationProblem->getIdentifier() !== $identifier) {
+                continue;
+            }
+
+            if (preg_match($expectedProblemRegexp, $validationProblem->getProblemMessage())) {
+                // correct problem message found
+                return;
+            }
+
+            $incorrectMessageText = sprintf(
+                "Validation problem for identifier '%s' found, but wrong message.\nExpected: '%s'\nActual '%s'\n",
+                $identifier,
+                $expectedProblem,
+                $validationProblem->getProblemMessage()
+            );
+
+            $this->fail($incorrectMessageText);
+        }
+
+        // Identifier not found
+        $identifiers = [];
+        foreach ($validationProblems as $validationProblem) {
+            $identifiers[] = $validationProblem->getIdentifier();
+        }
+
+        $missingIndentifierText = sprintf(
+            "Identifier '%s' not found in validation problems. Identifiers found are '%s'",
+            $identifier,
+            implode(", ", $identifiers)
+        );
+
+        $this->fail($missingIndentifierText);
+    }
+
+
+    /**
+     * @param array<array{string, string}> $identifiersAndProblems
+     */
+    public function assertValidationProblems($identifiersAndProblems, $validationProblems)
+    {
+        foreach ($identifiersAndProblems as $identifierAndProblem) {
+            $identifier = $identifierAndProblem[0];
+            $problem = $identifierAndProblem[1];
+            $this->assertValidationProblem($identifier, $problem, $validationProblems);
+        }
+    }
 }

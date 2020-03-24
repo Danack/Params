@@ -17,6 +17,8 @@ class ValidationErrorsTest extends BaseTestCase
      */
     public function testBasic()
     {
+        $this->markTestSkipped("Removing ValidationErrors");
+        return;
         $errorStrings = [
             'error 1',
             'error 2',

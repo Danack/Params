@@ -8,7 +8,7 @@ use Params\ValidationResult;
 use Params\Value\MultipleEnums;
 use Params\Functions;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\ParamValues;
 
 /**

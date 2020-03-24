@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\Rule;
 use Params\ValidationResult;
 use Params\ParamValues;

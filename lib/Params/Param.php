@@ -27,8 +27,6 @@ class Param
      */
     private array $processRules;
 
-
-
     /**
      *
      * @param string $input_name
@@ -45,29 +43,35 @@ class Param
         $this->processRules = $subsequent_rules;
     }
 
-    public static function fromType(
-        string $input_name,
-        string $type_name
-    ) {
-        $is_correct_type = is_subclass_of(
-            $type_name,
-            RulesForParamAware::class,
-            $allow_string = true
-        );
 
-        if ($is_correct_type !== true) {
-            throw BadTypeException::fromClassname($type_name);
-        }
-
-        /** @var \Params\RulesForParam $rulesForParam  */
-        $rulesForParam = call_user_func([$type_name, 'getRulesForParam']);
-
-        return new self(
-            $input_name,
-            $rulesForParam->getExtractRule(),
-            ...$rulesForParam->getProcessRules()
-        );
-    }
+//    public static function fromType(
+//        string $input_name,
+//        string $type_name
+//    ) {
+//        $is_correct_type = is_subclass_of(
+//            $type_name,
+//            RulesForParamAware::class,
+//            $allow_string = true
+//        );
+//
+//        if ($is_correct_type !== true) {
+//            throw BadTypeException::fromClassname($type_name);
+//        }
+//
+//        echo "This is unused?";
+//        exit(0);
+//
+////        /** @var \Params\RulesForParamAware $rulesForParam  */
+////        $rulesForParam = call_user_func([$type_name, 'getRulesForParam']);
+////
+////        /** @var $rulesForParam */
+////
+////        return new self(
+////            $input_name,
+////            $rulesForParam->getExtractRule(),
+////            ...$rulesForParam->getProcessRules()
+////        );
+//    }
 
     /**
      * @return string

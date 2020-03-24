@@ -131,6 +131,10 @@ class ShouldNeverBeCalledParamDescription implements ParamDescription
         throw new \Exception("setUniqueItems should not be called.");
     }
 
+    /**
+     * @param array<mixed> $enumValues
+     * @throws \Exception
+     */
     public function setEnum(array $enumValues): void
     {
         throw new \Exception("setEnum should not be called.");

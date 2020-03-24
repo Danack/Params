@@ -9,7 +9,7 @@ namespace Params\Value;
  */
 class MultipleEnums
 {
-    /** @return string[] */
+    /** @var array<string> */
     private array $values;
 
     /**

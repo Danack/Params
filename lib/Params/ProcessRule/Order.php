@@ -9,7 +9,7 @@ use Params\Value\OrderElement;
 use Params\Functions;
 use Params\Value\Ordering;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 use Params\ParamValues;
 
 /**

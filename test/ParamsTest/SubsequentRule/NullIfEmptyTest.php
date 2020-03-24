@@ -6,7 +6,7 @@ namespace ParamsTest\Rule;
 
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\NullIfEmpty;
-use Params\ParamsValidator;
+use Params\ParamsValuesImpl;
 
 /**
  * @coversNothing
@@ -32,9 +32,9 @@ class NullIfEmptyTest extends BaseTestCase
     public function testValidationWorks($testValue, $shouldBeNull)
     {
         $rule = new NullIfEmpty();
-        $validator = new ParamsValidator();
+        $validator = new ParamsValuesImpl();
         $validationResult = $rule->process('foo', $testValue, $validator);
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
 
 
         if ($shouldBeNull === true) {

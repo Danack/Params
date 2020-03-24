@@ -18,22 +18,24 @@ class ValidationResultTest extends BaseTestCase
         $validationResult = ValidationResult::valueResult($value);
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertEquals($value, $validationResult->getValue());
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
     }
 
     public function testErrorResult()
     {
         $name = 'foo';
-        $key = '/' . $name;
+//        $expectedKey = '/' . $name;
         $validationMessage = 'Something went wrong';
         $validationResult = ValidationResult::errorResult($name, $validationMessage);
 
         $this->assertTrue($validationResult->isFinalResult());
         $this->assertNull($validationResult->getValue());
 
-        $messages = $validationResult->getProblemMessages();
-        $this->assertArrayHasKey($key, $messages);
-        $this->assertEquals($validationMessage, $messages[$key]);
+        $problems = $validationResult->getValidationProblems();
+        $this->assertCount(1, $problems);
+        $firstProblem = $problems[0];
+        $this->assertSame($name, $firstProblem->getIdentifier());
+        $this->assertEquals($validationMessage, $firstProblem->getProblemMessage());
     }
 
     public function testFinalValueResult()
@@ -42,6 +44,6 @@ class ValidationResultTest extends BaseTestCase
         $validationResult = ValidationResult::finalValueResult($value);
         $this->assertTrue($validationResult->isFinalResult());
         $this->assertEquals($value, $validationResult->getValue());
-        $this->assertEmpty($validationResult->getProblemMessages());
+        $this->assertEmpty($validationResult->getValidationProblems());
     }
 }
