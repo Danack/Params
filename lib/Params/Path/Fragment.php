@@ -2,11 +2,9 @@
 
 declare(strict_types = 1);
 
-
 namespace Params\Path;
 
-
-interface PathFragment
+interface Fragment
 {
-
+    public function toString(): string;
 }
