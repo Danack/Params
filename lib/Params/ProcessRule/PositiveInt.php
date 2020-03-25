@@ -9,6 +9,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * Class PositiveIntValidator
@@ -19,19 +20,19 @@ class PositiveInt implements ProcessRule
 {
     const MAX_SANE_VALUE = 1_024 * 1_024 * 1_024 * 1_024;
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         $matches = null;
 
-        $errorMessage = Functions::check_only_digits($name, $value);
+        $errorMessage = Functions::check_only_digits($path->toString(), $value);
         if ($errorMessage !== null) {
-            return ValidationResult::errorResult($name, $errorMessage);
+            return ValidationResult::errorResult($path->toString(), $errorMessage);
         }
 
         $value = intval($value);
         $maxValue = self::MAX_SANE_VALUE;
         if ($value > $maxValue) {
-            return ValidationResult::errorResult($name, "Value too large. Max allowed is $maxValue");
+            return ValidationResult::errorResult($path->toString(), "Value too large. Max allowed is $maxValue");
         }
 
         return ValidationResult::valueResult($value);

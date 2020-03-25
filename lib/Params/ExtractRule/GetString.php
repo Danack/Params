@@ -8,22 +8,23 @@ use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
 use Params\ValidationResult;
 use VarMap\VarMap;
+use Params\Path;
 
 class GetString implements ExtractRule
 {
     const ERROR_MESSAGE = 'Value is not set.';
 
     public function process(
-        string $identifier,
+        Path $path,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($identifier) !== true) {
-            return ValidationResult::errorResult($identifier, self::ERROR_MESSAGE);
+        if ($varMap->has($path->toString()) !== true) {
+            return ValidationResult::errorResult($path->toString(), self::ERROR_MESSAGE);
         }
         // TODO - reject bools/ints?
 
-        $value = (string)$varMap->get($identifier);
+        $value = (string)$varMap->get($path->toString());
 
         return ValidationResult::valueResult($value);
     }

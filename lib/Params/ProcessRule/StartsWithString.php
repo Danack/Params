@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * Convert the value to null if the string is empty, and provides
@@ -22,16 +23,16 @@ class StartsWithString implements ProcessRule
         $this->prefix = $prefix;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         if (strpos((string)$value, $this->prefix) !== 0) {
             $message = sprintf(
                 "The string for [%s] must start with [%s].",
-                $name,
+                $path,
                 $this->prefix
             );
 
-            return ValidationResult::errorResult($name, $message);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
 
         // This rule does not modify the value

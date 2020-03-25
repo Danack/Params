@@ -8,6 +8,7 @@ use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetBool;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -19,9 +20,13 @@ class GetBoolTest extends BaseTestCase
      */
     public function testMissingGivesError()
     {
-        $rule = new GetBool('foo');
+        $rule = new GetBool();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            new ArrayVarMap([]),
+            $validator
+        );
         $this->assertNotNull($validationResult->getValidationProblems());
     }
 
@@ -47,9 +52,9 @@ class GetBoolTest extends BaseTestCase
     {
         $variableName = 'foo';
         $validator = new ParamsValuesImpl();
-        $rule = new GetBool('foo');
+        $rule = new GetBool();
         $validationResult = $rule->process(
-            $variableName,
+            Path::fromName($variableName),
             new ArrayVarMap([$variableName => $input]),
             $validator
         );
@@ -76,10 +81,10 @@ class GetBoolTest extends BaseTestCase
     {
         $variableName = 'foo';
 
-        $rule = new GetBool($variableName);
+        $rule = new GetBool();
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
-            $variableName,
+            Path::fromName($variableName),
             new ArrayVarMap($variables),
             $validator
         );

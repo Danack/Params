@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
 use Params\Exception\InvalidRulesException;
+use Params\Path;
 
 /**
  * Checks that the value is one of a known set of input values and
@@ -37,7 +38,7 @@ class EnumMap implements ProcessRule
         $this->allowedValues = $allowedValues;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         if (is_int($value) === false && is_string($value) === false) {
             throw InvalidRulesException::badTypeForArrayAccess($value);
@@ -47,7 +48,7 @@ class EnumMap implements ProcessRule
             $allowedInputValues = implode(', ', array_keys($this->allowedValues));
 
             return ValidationResult::errorResult(
-                $name,
+                $path,
                 "Value is not known. Please use one of " . $allowedInputValues
             );
         }

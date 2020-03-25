@@ -59,7 +59,7 @@ class ParamsValidatorTest extends BaseTestCase
         ];
         $validator = new ParamsValuesImpl();
 
-        $errors = $validator->validateRulesForParam(
+        $errors = $validator->validateParam(
             'foo',
             $arrayVarMap,
             new GetInt(),

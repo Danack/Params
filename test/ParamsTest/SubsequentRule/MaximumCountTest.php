@@ -9,6 +9,7 @@ use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaximumCount;
 use Params\Exception\LogicException;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -32,7 +33,11 @@ class MaximumCountTest extends BaseTestCase
     {
         $rule = new MaximumCount($maximumCount);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $values, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $values,
+            $validator
+        );
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertSame($values, $validationResult->getValue());
@@ -54,7 +59,11 @@ class MaximumCountTest extends BaseTestCase
     {
         $rule = new MaximumCount($maximumCount);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $values, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $values,
+            $validator
+        );
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
 
@@ -96,6 +105,10 @@ class MaximumCountTest extends BaseTestCase
             stringToRegexp(MaximumCount::ERROR_WRONG_TYPE)
         );
 
-        $rule->process('foo', 'a banana', $validator);
+        $rule->process(
+            Path::fromName('foo'),
+            'a banana',
+            $validator
+        );
     }
 }

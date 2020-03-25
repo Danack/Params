@@ -7,6 +7,7 @@ namespace ParamsTest\Rule;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\NotNull;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -20,12 +21,20 @@ class NotNullTest extends BaseTestCase
     {
         $rule1 = new NotNull();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule1->process('foo', null, $validator);
+        $validationResult = $rule1->process(
+            Path::fromName('foo'),
+            null,
+            $validator
+        );
         $this->assertNotNull($validationResult->getValidationProblems());
 
         $rule2 = new NotNull();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule2->process('foo', 5, $validator);
+        $validationResult = $rule2->process(
+            Path::fromName('foo'),
+            5,
+            $validator
+        );
         $this->assertEmpty($validationResult->getValidationProblems());
     }
 }

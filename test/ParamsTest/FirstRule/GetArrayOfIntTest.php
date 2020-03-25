@@ -9,6 +9,7 @@ use Params\ExtractRule\GetArrayOfInt;
 use VarMap\ArrayVarMap;
 use Params\ParamsValuesImpl;
 use Params\ProcessRule\MaxIntValue;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -28,7 +29,11 @@ class GetArrayOfIntTest extends BaseTestCase
 
         $rule = new GetArrayOfInt();
         $validator = new ParamsValuesImpl();
-        $result = $rule->process('items', new ArrayVarMap($data), $validator);
+        $result = $rule->process(
+            Path::fromName('items'),
+            new ArrayVarMap($data),
+            $validator
+        );
 
         $this->assertFalse($result->isFinalResult());
         $this->assertCount(0, $result->getValidationProblems());

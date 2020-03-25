@@ -7,6 +7,7 @@ namespace ParamsTest\Rule;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDate;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -36,7 +37,11 @@ class ValidDateTest extends BaseTestCase
     {
         $rule = new ValidDate();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $input, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $input,
+            $validator
+        );
 
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedTime);
@@ -58,7 +63,11 @@ class ValidDateTest extends BaseTestCase
     {
         $rule = new ValidDate();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $input, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $input,
+            $validator
+        );
 
         $this->assertNotNull($validationResult->getValidationProblems());
     }

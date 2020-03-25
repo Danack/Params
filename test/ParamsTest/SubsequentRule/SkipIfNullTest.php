@@ -7,6 +7,7 @@ namespace ParamsTest\Rule;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SkipIfNull;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -33,7 +34,11 @@ class SkipIfNullTest extends BaseTestCase
     {
         $rule = new SkipIfNull();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $testValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $testValue,
+            $validator
+        );
         $this->assertEquals($validationResult->isFinalResult(), $expectIsFinalResult);
     }
 }

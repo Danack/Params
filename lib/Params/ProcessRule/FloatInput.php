@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * Checks a value is an float
@@ -17,19 +18,19 @@ class FloatInput implements ProcessRule
     /**
      * Convert a generic input value to an integer
      *
-     * @param string $name
+     * @param Path $path
      * @param mixed $value
      * @param ParamValues $validator
      * @return ValidationResult
      */
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         // TODO - check is null
         if (is_int($value) !== true) {
             $value = (string)$value;
             if (strlen($value) === 0) {
                 return ValidationResult::errorResult(
-                    $name,
+                    $path,
                     "Value is an empty string - must be a floating point number."
                 );
             }
@@ -51,7 +52,7 @@ class FloatInput implements ProcessRule
 
             if ($match !== 1) {
                 // TODO - says what position bad character is at.
-                return ValidationResult::errorResult($name, "Value must be a floating point number.");
+                return ValidationResult::errorResult($path->toString(), "Value must be a floating point number.");
             }
         }
 

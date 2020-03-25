@@ -8,16 +8,17 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * @TODO - is there any point to this rule?
  */
 class NotNull implements ProcessRule
 {
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         if ($value === null) {
-            return ValidationResult::errorResult($name, "null is not allowed for '$name'.");
+            return ValidationResult::errorResult($path->toString(), "null is not allowed for '$path'.");
         }
         return ValidationResult::valueResult($value);
     }

@@ -8,6 +8,7 @@ use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidCharacters;
 use Params\ProcessRule\SaneCharacters;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -34,7 +35,11 @@ class ValidCharactersTest extends BaseTestCase
         $rule = new ValidCharacters($validCharactersPattern);
         $validator = new ParamsValuesImpl();
 
-        $validationResult = $rule->process('foo', $testValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $testValue,
+            $validator
+        );
         if ($expectedErrorPosition !== null) {
             $this->assertNotNull($validationResult->getValidationProblems(), "Failed to detect invalid char at $expectedErrorPosition");
 

@@ -10,6 +10,7 @@ use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 class GetBoolOrDefault implements ExtractRule
 {
@@ -25,19 +26,19 @@ class GetBoolOrDefault implements ExtractRule
     }
 
     public function process(
-        string $identifier,
+        Path $path,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($identifier) === true) {
-            $value = $varMap->get($identifier);
+        if ($varMap->has($path->getCurrentName()) === true) {
+            $value = $varMap->get($path->getCurrentName());
         }
         else {
             return ValidationResult::valueResult($this->default);
         }
 
         $intRule = new BoolInput();
-        return $intRule->process($identifier, $value, $paramValues);
+        return $intRule->process($path, $value, $paramValues);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

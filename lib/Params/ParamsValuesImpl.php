@@ -18,18 +18,8 @@ use Params\Functions;
  */
 class ParamsValuesImpl implements ParamValues
 {
-//    /**
-//     * @var \Params\ValidationProblem[]
-//     */
-//    private array $validationProblems = [];
-
     /** @var array<string, mixed>  */
     private array $paramValues = [];
-
-//    public function __construct()
-//    {
-//        $this->validationProblems = [];
-//    }
 
     /**
      * Gets the currently processed params.
@@ -56,97 +46,86 @@ class ParamsValuesImpl implements ParamValues
 
     /**
      * @param mixed $value
-     * @param string $name The name is used to store values, and to generate appropriate error messages.
+     * @param Path $path
      * @param ProcessRule ...$subsequentRules
      * @throws Exception\ParamMissingException
      * @return \Params\ValidationProblem[]
      */
     public function validateSubsequentRules(
         $value,
-        string $name,
+        Path $path,
         ProcessRule ...$subsequentRules
     ) {
         foreach ($subsequentRules as $rule) {
-            $validationResult = $rule->process($name, $value, $this);
+            $validationResult = $rule->process($path, $value, $this);
             if ($validationResult->anyErrorsFound()) {
-//                $this->validationProblems = [$this->validationProblems, ]
                 return $validationResult->getValidationProblems();
             }
 
             $value = $validationResult->getValue();
-            $this->paramValues[$name] = $value;
+            $this->paramValues[$path->getCurrentName()] = $value;
             if ($validationResult->isFinalResult() === true) {
                 break;
             }
         }
 
-//        $this->paramValues[$name] = $value;
-        // Return no problems
         return [];
     }
 
     /**
-     * @param string $name
+     * @param \Params\Param $param
      * @param VarMap $varMap
-     * @param ExtractRule $firstRule
-     * @param ProcessRule ...$subsequentRules
-     * @return \Params\ValidationProblem[]
+     * @param Path $path
+     * @return array|ValidationProblem[]
      * @throws Exception\ParamMissingException
      */
-    public function validateRulesForParam(
-        string $name,
+    public function validateParam(
+        Param $param,
         VarMap $varMap,
-        ExtractRule $firstRule,
-        ProcessRule ...$subsequentRules
+        Path $path
     ) {
-        $validationResult = $firstRule->process($name, $varMap, $this);
+        $pathForParam = $path->addNamePathFragment($param->getInputName());
+
+        $firstRule = $param->getFirstRule();
+        $subsequentRules = $param->getSubsequentRules();
+
+        $validationResult = $firstRule->process($pathForParam, $varMap, $this);
 
         if ($validationResult->anyErrorsFound()) {
             return $validationResult->getValidationProblems();
-//            $this->validationProblems = [...$this->validationProblems, ...$validationResult->getValidationProblems()];
-//            return null;
         }
 
         $value = $validationResult->getValue();
-        $this->paramValues[$name] = $value;
+        $this->paramValues[$pathForParam->getCurrentName()] = $value;
         if ($validationResult->isFinalResult() === true) {
             return [];
         }
 
         return $this->validateSubsequentRules(
             $value,
-            $name,
+            $pathForParam,
             ...$subsequentRules
         );
     }
 
-//    /**
-//     * @return \Params\ValidationProblem[]
-//     */
-//    public function getValidationProblems(): array
-//    {
-//        return $this->validationProblems;
-//    }
 
     /**
-     * @param \Params\Param[] $rulesetList
+     * @param \Params\Param[] $params
      * @param VarMap $sourceData
      * @return \Params\ValidationProblem[]
      */
     public function executeRulesWithValidator(
-        $rulesetList,
+        $params,
         VarMap $sourceData
     ) {
         $validationProblems = [];
+        $path = new Path();
 
-        foreach ($rulesetList as $ruleset) {
-
-            // Path add name fragment '$ruleset->getInputName()'
-            $newValidationProblems = $this->validateRulesForParam(
-                $ruleset->getInputName(),
+        foreach ($params as $param) {
+            $newValidationProblems = $this->validateParam(
+                $param,
                 $sourceData,
-                $ruleset->getFirstRule(),
-                ...$ruleset->getSubsequentRules()
+                $path
             );
 
             $validationProblems = [...$validationProblems, ...$newValidationProblems];

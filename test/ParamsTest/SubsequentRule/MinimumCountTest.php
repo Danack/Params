@@ -8,6 +8,7 @@ use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\Exception\LogicException;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -32,7 +33,11 @@ class MinimumCountTest extends BaseTestCase
     {
         $rule = new MinimumCount($minimumCount);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $values, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $values,
+            $validator
+        );
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertSame($values, $validationResult->getValue());
@@ -55,7 +60,11 @@ class MinimumCountTest extends BaseTestCase
     {
         $rule = new MinimumCount($minimumCount);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $values, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $values,
+            $validator
+        );
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
 
@@ -95,6 +104,10 @@ class MinimumCountTest extends BaseTestCase
             stringToRegexp(MinimumCount::ERROR_WRONG_TYPE)
         );
 
-        $rule->process('foo', 'a banana', $validator);
+        $rule->process(
+            Path::fromName('foo'),
+            'a banana',
+            $validator
+        );
     }
 }

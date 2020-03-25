@@ -8,6 +8,7 @@ use Params\Rule;
 use Params\ValidationResult;
 use Params\ParamValues;
 use VarMap\VarMap;
+use Params\Path;
 
 /**
  * The first rule for a parameter. It should extract the initial value
@@ -17,13 +18,13 @@ use VarMap\VarMap;
 interface ExtractRule extends Rule
 {
     /**
-     * @param string $identifier The input variable name
+     * @param \Params\Path $path
      * @param VarMap $varMap The variable map containing the variables
      * @param ParamValues $paramValues
      * @return ValidationResult
      */
     public function process(
-        string $identifier,
+        Path $path,
         VarMap $varMap,
         ParamValues $paramValues
     ) : ValidationResult;

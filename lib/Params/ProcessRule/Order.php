@@ -11,6 +11,7 @@ use Params\Value\Ordering;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * Class Order
@@ -33,7 +34,7 @@ class Order implements ProcessRule
         $this->knownOrderNames = $knownOrderNames;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         $parts = explode(',', $value);
         $orderElements = [];
@@ -44,11 +45,11 @@ class Order implements ProcessRule
                 $message = sprintf(
                     "Cannot order by [%s] for [%s], as not known for this operation. Known are [%s]",
                     $partName,
-                    $name,
+                    $path,
                     implode(', ', $this->knownOrderNames)
                 );
 
-                return ValidationResult::errorResult($name, $message);
+                return ValidationResult::errorResult($path->toString(), $message);
             }
             $orderElements[] = new OrderElement($partName, $partOrder);
         }

@@ -8,6 +8,7 @@ use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
 use Params\ProcessRule\ProcessRule;
 use Params\ValidationResult;
+use Params\Path;
 
 class ArrayAllMultiplesOf implements ProcessRule
 {
@@ -24,12 +25,12 @@ class ArrayAllMultiplesOf implements ProcessRule
     }
 
     /**
-     * @param string $name
+     * @param Path $path
      * @param mixed $value
      * @param ParamValues $validator
      * @return ValidationResult
      */
-    public function process(string $name, $value, ParamValues $validator): ValidationResult
+    public function process(Path $path, $value, ParamValues $validator): ValidationResult
     {
         $errors = [];
 
@@ -38,7 +39,7 @@ class ArrayAllMultiplesOf implements ProcessRule
             if (($item % $this->multiplicand) !== 0) {
                 // Because this is operating on an array of items, we need to put the complete name
                 // not just the index
-                $errors['/' . $name . '/' . $index] = sprintf(
+                $errors['/' . $path . '/' . $index] = sprintf(
                     'Value is not a multiple of %s but has value [%s]',
                     $this->multiplicand,
                     $item

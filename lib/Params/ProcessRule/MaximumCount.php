@@ -9,6 +9,7 @@ use Params\OpenApi\ParamDescription;
 use Params\Exception\LogicException;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 class MaximumCount implements ProcessRule
 {
@@ -33,7 +34,7 @@ class MaximumCount implements ProcessRule
         $this->maximumCount = $maximumCount;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         if (is_array($value) !== true) {
             $message = sprintf(
@@ -49,12 +50,12 @@ class MaximumCount implements ProcessRule
         if ($actualCount > $this->maximumCount) {
             $message = sprintf(
                 self::ERROR_TOO_MANY_ELEMENTS,
-                $name,
+                $path,
                 $this->maximumCount,
                 $actualCount
             );
 
-            return ValidationResult::errorResult($name, $message);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
 
         return ValidationResult::valueResult($value);

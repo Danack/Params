@@ -8,6 +8,7 @@ use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetFloat;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -21,7 +22,11 @@ class GetFloatTest extends BaseTestCase
     {
         $rule = new GetFloat();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            new ArrayVarMap([]),
+            $validator
+        );
         $this->assertNotNull($validationResult->getValidationProblems());
     }
 
@@ -45,7 +50,7 @@ class GetFloatTest extends BaseTestCase
         $validator = new ParamsValuesImpl();
         $rule = new GetFloat();
         $validationResult = $rule->process(
-            $variableName,
+            Path::fromName($variableName),
             new ArrayVarMap([$variableName => $input]),
             $validator
         );
@@ -75,7 +80,7 @@ class GetFloatTest extends BaseTestCase
         $rule = new GetFloat();
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
-            $variableName,
+            Path::fromName($variableName),
             new ArrayVarMap($variables),
             $validator
         );

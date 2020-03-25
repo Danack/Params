@@ -10,6 +10,7 @@ use Params\Functions;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * Checks whether a string represent a valid multiple enum string e.g.
@@ -32,7 +33,7 @@ class MultipleEnum implements ProcessRule
         $this->allowedValues = $allowedValues;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         $value = trim($value);
         $filterStringParts = explode(',', $value);
@@ -49,11 +50,11 @@ class MultipleEnum implements ProcessRule
                 $message = sprintf(
                     "Cannot filter by [%s] for [%s], as not known for this operation. Known are [%s]",
                     $filterStringPart,
-                    $name,
+                    $path,
                     implode(', ', $this->allowedValues)
                 );
 
-                return ValidationResult::errorResult($name, $message);
+                return ValidationResult::errorResult($path->toString(), $message);
             }
             $filterElements[] = $filterStringPart;
         }

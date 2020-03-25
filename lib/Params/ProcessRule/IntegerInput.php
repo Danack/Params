@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * Checks a value is an integer that has a sane value
@@ -19,12 +20,12 @@ class IntegerInput implements ProcessRule
     /**
      * Convert a generic input value to an integer
      *
-     * @param string $name
+     * @param Path $path
      * @param mixed $value
      * @param ParamValues $validator
      * @return ValidationResult
      */
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         // TODO - check is null
         if (is_int($value) !== true) {
@@ -32,7 +33,7 @@ class IntegerInput implements ProcessRule
             // check string length is not zero length.
             if (strlen($value) === 0) {
                 return ValidationResult::errorResult(
-                    $name,
+                    $path,
                     "Value is an empty string - must be an integer."
                 );
             }
@@ -49,7 +50,7 @@ class IntegerInput implements ProcessRule
             );
 
             if ($match !== 1) {
-                return ValidationResult::errorResult($name, "Value must contain only digits.");
+                return ValidationResult::errorResult($path->toString(), "Value must contain only digits.");
             }
         }
 
@@ -58,11 +59,11 @@ class IntegerInput implements ProcessRule
         if (strlen((string)$value) > $maxSaneLength) {
             $message = sprintf(
                 "Value for %s too long, max %s digits",
-                $name,
+                $path,
                 $maxSaneLength
             );
 
-            return ValidationResult::errorResult($name, $message);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
 
         return ValidationResult::valueResult(intval($value));

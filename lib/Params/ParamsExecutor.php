@@ -9,8 +9,7 @@ use Params\PatchOperation\PatchOperation;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use Params\Exception\PatchFormatException;
-
-
+use Params\Path;
 
 /**
  * Class Params
@@ -79,11 +78,8 @@ class ParamsExecutor
     public static function create($classname, $namedRules, VarMap $sourceData)
     {
         $paramsValuesImpl = new ParamsValuesImpl();
+
         $validationProblems = $paramsValuesImpl->executeRulesWithValidator($namedRules, $sourceData);
-
-
-
-//        $validationProblems = $paramValues->getValidationProblems();
 
         if (count($validationProblems) !== 0) {
             throw new ValidationException("Validation problems", $validationProblems);

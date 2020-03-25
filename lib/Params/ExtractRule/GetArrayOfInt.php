@@ -12,6 +12,7 @@ use Params\ParamsValuesImpl;
 use Params\ProcessRule\IntegerInput;
 use Params\ParamValues;
 use Params\Functions;
+use Params\Path;
 
 
 class GetArrayOfInt implements ExtractRule
@@ -31,22 +32,22 @@ class GetArrayOfInt implements ExtractRule
     }
 
     public function process(
-        string $identifier,
+        Path $path,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
 
         // Check its set
-        if ($varMap->has($identifier) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE_NOT_SET, $identifier);
-            return ValidationResult::errorResult($identifier, $message);
+        if ($varMap->has($path->getCurrentName()) !== true) {
+            $message = sprintf(self::ERROR_MESSAGE_NOT_SET, $path);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
 
         // Check its an array
-        $itemData = $varMap->get($identifier);
+        $itemData = $varMap->get($path->getCurrentName());
         if (is_array($itemData) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE_NOT_ARRAY, $identifier);
-            return ValidationResult::errorResult($identifier, $message);
+            $message = sprintf(self::ERROR_MESSAGE_NOT_ARRAY, $path);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
 
         // Setup stuff
@@ -57,8 +58,13 @@ class GetArrayOfInt implements ExtractRule
 
         $intRule = new IntegerInput();
 
+
+
         foreach ($itemData as $itemDatum) {
-            $result = $intRule->process((string)$index, $itemDatum, $paramValues);
+
+            $pathForItem = $path->addArrayIndexPathFragment($index);
+
+            $result = $intRule->process($pathForItem, $itemDatum, $paramValues);
 
             // If error, add it and attempt next entry in array
             if ($result->anyErrorsFound()) {
@@ -82,11 +88,11 @@ class GetArrayOfInt implements ExtractRule
 
             $validator2 = new ParamsValuesImpl();
 
-            $identifier = (string)$index;
+            $path = (string)$index;
 
             $newValidationProblems =  $validator2->validateSubsequentRules(
                 $result->getValue(),
-                $identifier,
+                $path,
                 ...$this->subsequentRules
             );
 
@@ -105,7 +111,7 @@ class GetArrayOfInt implements ExtractRule
 
 
             $index += 1;
-            $items[] = $validator2->getParam($identifier);
+            $items[] = $validator2->getParam($path);
         }
 
         if (count($validationProblems) !== 0) {

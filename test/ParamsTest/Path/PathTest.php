@@ -45,15 +45,11 @@ class PathTest extends BaseTestCase
     {
         $path = new Path();
         $path2 = $path->addNamePathFragment('values');
-
         $path3 = $path2->addArrayIndexPathFragment(2);
 
         // Test new is correct
         $this->assertSame('values[2]', $path3->toString());
-
         $this->assertSame('values', $path2->toString());
-
-        // Test original unchanged
         $this->assertSame('', $path->toString());
     }
 

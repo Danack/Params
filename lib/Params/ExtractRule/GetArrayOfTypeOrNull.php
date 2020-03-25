@@ -8,6 +8,7 @@ use VarMap\VarMap;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
+use Params\Path;
 
 class GetArrayOfTypeOrNull extends GetArrayOfType implements ExtractRule
 {
@@ -17,17 +18,17 @@ class GetArrayOfTypeOrNull extends GetArrayOfType implements ExtractRule
     }
 
     public function process(
-        string $identifier,
+        Path $path,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
 
         // If it's
-        if ($varMap->has($identifier) === false) {
+        if ($varMap->has($path->getCurrentName()) === false) {
             return ValidationResult::valueResult(null);
         }
 
-        return parent::process($identifier, $varMap, $paramValues);
+        return parent::process($path, $varMap, $paramValues);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

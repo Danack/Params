@@ -6,7 +6,6 @@ namespace Params;
 
 class ValidationProblem
 {
-
     /**
      * The identifier
      *

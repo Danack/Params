@@ -9,6 +9,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * Class ValidCharacters
@@ -28,7 +29,7 @@ class ValidCharacters implements ProcessRule
         $this->patternValidCharacters = $patternValidCharacters;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         $patternInvalidCharacters = "/[^" . $this->patternValidCharacters . "]+/xu";
         $matches = [];
@@ -45,7 +46,7 @@ class ValidCharacters implements ProcessRule
                 $badCharPosition,
                 $this->patternValidCharacters
             );
-            return ValidationResult::errorResult($name, $message);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
         return ValidationResult::valueResult($value);
     }

@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * Checks that the value is one of a known set of values
@@ -29,16 +30,16 @@ class Enum implements ProcessRule
     }
 
     /**
-     * @param string $name
+     * @param Path $path
      * @param mixed $value
      * @param ParamValues $validator
      * @return ValidationResult
      */
-    public function process(string $name, $value, ParamValues $validator): ValidationResult
+    public function process(Path $path, $value, ParamValues $validator): ValidationResult
     {
         if (in_array($value, $this->allowedValues, true) !== true) {
             return ValidationResult::errorResult(
-                $name,
+                $path->toString(),
                 "Value is not known. Please use one of " . implode(', ', $this->allowedValues)
             );
         }

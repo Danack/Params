@@ -8,6 +8,7 @@ use Params\Exception\LogicException;
 use Params\OpenApi\ParamDescription;
 use Params\ValidationResult;
 use Params\ParamValues;
+use Params\Path;
 
 class SaneCharacters implements ProcessRule
 {
@@ -76,9 +77,9 @@ class SaneCharacters implements ProcessRule
         $this->validCharacters = new ValidCharacters($pattern);
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
-        $validationResult = $this->validCharacters->process($name, $value, $validator);
+        $validationResult = $this->validCharacters->process($path, $value, $validator);
 
         // If validation has already failed, return it.
         if ($validationResult->anyErrorsFound()) {
@@ -100,7 +101,7 @@ class SaneCharacters implements ProcessRule
                 "Invalid combining characters found at position %s",
                 $badCharPosition
             );
-            return ValidationResult::errorResult($name, $message);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
         return ValidationResult::valueResult($value);
     }

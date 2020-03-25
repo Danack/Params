@@ -8,6 +8,7 @@ use Params\Value\MultipleEnums;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -30,7 +31,11 @@ class CheckFilterStringTest extends BaseTestCase
     {
         $rule = new MultipleEnum(['foo', 'bar']);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('someFilter', $inputString, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('someFilter'),
+            $inputString,
+            $validator
+        );
         $this->assertEmpty($validationResult->getValidationProblems());
 
         $validationValue = $validationResult->getValue();
@@ -49,7 +54,11 @@ class CheckFilterStringTest extends BaseTestCase
         $expectedValue = 'zot';
         $rule = new MultipleEnum(['foo', 'bar']);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('someFilter', $expectedValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('someFilter'),
+            $expectedValue,
+            $validator
+        );
         $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

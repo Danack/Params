@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
+use Params\Path;
 
 class GetStringOrDefault implements ExtractRule
 {
@@ -23,15 +24,15 @@ class GetStringOrDefault implements ExtractRule
     }
 
     public function process(
-        string $identifier,
+        Path $path,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($identifier) !== true) {
+        if ($varMap->has($path->toString()) !== true) {
             return ValidationResult::valueResult($this->default);
         }
 
-        $value = (string)$varMap->get($identifier);
+        $value = (string)$varMap->get($path->toString());
 
         return ValidationResult::valueResult($value);
     }

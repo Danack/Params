@@ -19,12 +19,10 @@ use Params\ProcessRule\AlwaysErrorsRule;
 use Params\ProcessRule\ProcessRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ValidationErrors;
 use Params\ParamsValuesImpl;
-use Params\Exception\ParamsException;
-use Params\Exception\RulesEmptyException;
 use Params\ParamValues;
 use Params\Param;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -141,7 +139,7 @@ class ParamsTest extends BaseTestCase
                 $this->test = $test;
             }
 
-            public function process(string $name, $value, ParamValues $validator) : ValidationResult
+            public function process(Path $path, $value, ParamValues $validator) : ValidationResult
             {
                 $this->test->fail("This shouldn't be reached.");
                 $key = "foo";

@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 class AlwaysErrorsRule implements ProcessRule
 {
@@ -19,9 +20,9 @@ class AlwaysErrorsRule implements ProcessRule
     }
 
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
-        return ValidationResult::errorResult($name, $this->message);
+        return ValidationResult::errorResult($path->toString(), $this->message);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

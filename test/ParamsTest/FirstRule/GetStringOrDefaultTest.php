@@ -8,6 +8,7 @@ use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetStringOrDefault;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -31,7 +32,11 @@ class GetStringOrDefaultTest extends BaseTestCase
     {
         $rule = new GetStringOrDefault($default);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $varMap, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $varMap,
+            $validator
+        );
 
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);

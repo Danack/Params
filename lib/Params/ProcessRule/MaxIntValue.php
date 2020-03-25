@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 class MaxIntValue implements ProcessRule
 {
@@ -18,12 +19,12 @@ class MaxIntValue implements ProcessRule
         $this->maxValue = $maxValue;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         $value = intval($value);
         if ($value > $this->maxValue) {
             return ValidationResult::errorResult(
-                $name, "Value too large. Max allowed is " . $this->maxValue
+                $path->toString(), "Value too large. Max allowed is " . $this->maxValue
             );
         }
 

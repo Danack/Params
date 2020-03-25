@@ -7,6 +7,7 @@ namespace ParamsTest\Rule;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\PositiveInt;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -34,7 +35,11 @@ class PositiveIntTest extends BaseTestCase
     {
         $rule = new PositiveInt();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $testValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $testValue,
+            $validator
+        );
         if ($expectError == true) {
             $this->assertNotNull($validationResult->getValidationProblems());
         }

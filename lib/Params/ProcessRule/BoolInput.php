@@ -8,13 +8,14 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * Takes some input and converts it to a bool in a mostly sane way.
  */
 class BoolInput implements ProcessRule
 {
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         if (is_bool($value) === true) {
             return ValidationResult::valueResult($value);
@@ -45,7 +46,7 @@ class BoolInput implements ProcessRule
             gettype($value)
         );
 
-        return ValidationResult::errorResult($name, $message);
+        return ValidationResult::errorResult($path->toString(), $message);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

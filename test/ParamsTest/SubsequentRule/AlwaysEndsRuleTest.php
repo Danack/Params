@@ -8,6 +8,7 @@ use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysEndsRule;
 use Params\ParamsValuesImpl;
 use VarMap\ArrayVarMap;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -22,7 +23,11 @@ class AlwaysEndsRuleTest extends BaseTestCase
         $finalValue = 123;
         $rule = new AlwaysEndsRule($finalValue);
         $validator = new ParamsValuesImpl();
-        $result = $rule->process('foo', new ArrayVarMap([]), $validator);
+        $result = $rule->process(
+            Path::fromName('foo'),
+            new ArrayVarMap([]),
+            $validator
+        );
 
         $this->assertTrue($result->isFinalResult());
         $this->assertEquals($finalValue, $result->getValue());

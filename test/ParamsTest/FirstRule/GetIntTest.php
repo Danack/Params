@@ -8,6 +8,7 @@ use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetInt;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -21,7 +22,11 @@ class GetIntTest extends BaseTestCase
     {
         $rule = new GetInt();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            new ArrayVarMap([]),
+            $validator
+        );
         $this->assertNotNull($validationResult->getValidationProblems());
     }
 
@@ -43,7 +48,7 @@ class GetIntTest extends BaseTestCase
         $validator = new ParamsValuesImpl();
         $rule = new GetInt();
         $validationResult = $rule->process(
-            $variableName,
+            Path::fromName($variableName),
             new ArrayVarMap([$variableName => $input]),
             $validator
         );
@@ -74,7 +79,7 @@ class GetIntTest extends BaseTestCase
         $rule = new GetInt();
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
-            $variableName,
+            Path::fromName($variableName),
             new ArrayVarMap($variables),
             $validator
         );

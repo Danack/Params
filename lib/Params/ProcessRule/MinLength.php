@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 class MinLength implements ProcessRule
 {
@@ -18,11 +19,11 @@ class MinLength implements ProcessRule
         $this->minLength = $minLength;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         if (strlen($value) < $this->minLength) {
             return ValidationResult::errorResult(
-                $name,
+                $path,
                 "String too short, min chars is " . $this->minLength
             );
         }

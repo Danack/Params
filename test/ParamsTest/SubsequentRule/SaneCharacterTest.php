@@ -7,6 +7,7 @@ namespace ParamsTest\Rule;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SaneCharacters;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 function getRawCharacters($string)
 {
@@ -57,7 +58,11 @@ class SaneCharacterTest extends BaseTestCase
     {
         $rule = new SaneCharacters();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $testValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $testValue,
+            $validator
+        );
         $this->assertEmpty($validationResult->getValidationProblems());
     }
 
@@ -69,7 +74,11 @@ class SaneCharacterTest extends BaseTestCase
     {
         $rule = new SaneCharacters();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $testValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $testValue,
+            $validator
+        );
 
         $bytesString = "Bytes were[" . getRawCharacters($testValue) . "]";
 
@@ -82,7 +91,11 @@ class SaneCharacterTest extends BaseTestCase
         $testValue = "danack_a̧͈͖r͒͑_more_a̧͈͖r͒͑";
         $rule = new SaneCharacters();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $testValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $testValue,
+            $validator
+        );
 //        $messages = $validationResult->getValidationProblems();
 
 //        $this->assertEquals(

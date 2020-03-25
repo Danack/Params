@@ -8,6 +8,7 @@ use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalInt;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -35,7 +36,11 @@ class GetOptionalIntTest extends BaseTestCase
     {
         $rule = new GetOptionalInt();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $varMap, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $varMap,
+            $validator
+        );
 
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
@@ -62,7 +67,11 @@ class GetOptionalIntTest extends BaseTestCase
 
         $validator = new ParamsValuesImpl();
         $rule = new GetOptionalInt();
-        $validationResult = $rule->process($variableName, new ArrayVarMap($variables), $validator);
+        $validationResult = $rule->process(
+            Path::fromName($variableName),
+            new ArrayVarMap($variables),
+            $validator
+        );
 
         $this->assertNotNull($validationResult->getValidationProblems());
         $this->assertNull($validationResult->getValue());

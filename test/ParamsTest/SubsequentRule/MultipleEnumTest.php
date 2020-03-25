@@ -8,6 +8,7 @@ use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\Value\MultipleEnums;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -30,7 +31,11 @@ class MultipleEnumTest extends BaseTestCase
     {
         $enumRule = new MultipleEnum(['foo', 'bar']);
         $validator = new ParamsValuesImpl();
-        $result = $enumRule->process('unused', $input, $validator);
+        $result = $enumRule->process(
+            Path::fromName('unused'),
+            $input,
+            $validator
+        );
 
         $this->assertEmpty($result->getValidationProblems());
         $value = $result->getValue();
@@ -55,7 +60,11 @@ class MultipleEnumTest extends BaseTestCase
     {
         $rule = new MultipleEnum(['time', 'distance']);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $testValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $testValue,
+            $validator
+        );
 
         if ($expectError === true) {
             $this->assertNotNull($validationResult->getValidationProblems());

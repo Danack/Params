@@ -11,6 +11,7 @@ use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * Class GetOptionalInt
@@ -25,16 +26,16 @@ class GetOptionalInt implements ExtractRule
 
 
     public function process(
-        string $identifier,
+        Path $path,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($identifier) !== true) {
+        if ($varMap->has($path->toString()) !== true) {
             return ValidationResult::valueResult(null);
         }
 
         $intRule = new IntegerInput();
-        return $intRule->process($identifier, $varMap->get($identifier), $paramValues);
+        return $intRule->process($path, $varMap->get($path->toString()), $paramValues);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

@@ -8,6 +8,7 @@ use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Order;
 use Params\Value\Ordering;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -32,7 +33,11 @@ class OrderTest extends BaseTestCase
 
         $rule = new Order($orderParams);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $testValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $testValue,
+            $validator
+        );
 
         if ($expectError === true) {
             $this->assertNotNull($validationResult->getValidationProblems());

@@ -14,6 +14,14 @@ class Path
      */
     private array $pathFragments = [];
 
+
+    public static function fromName(string $name)
+    {
+        $instance = new self();
+        $instance = $instance->addNamePathFragment($name);
+        return $instance;
+    }
+
     public function addNamePathFragment(string $name): self
     {
         $newInstance = clone $this;
@@ -27,6 +35,26 @@ class Path
         $newInstance->pathFragments[] = new ArrayIndexFragment($index);
         return $newInstance;
     }
+
+    /**
+     * @return string|int
+     * @throws \Exception
+     */
+    public function getCurrentName()
+    {
+        $lastFragment = end($this->pathFragments);
+
+        if ($lastFragment instanceof NameFragment) {
+            return $lastFragment->getName();
+        }
+
+        if ($lastFragment instanceof ArrayIndexFragment) {
+            return $lastFragment->getIndex();
+        }
+
+        throw new \Exception("Unknown fragment type [" . getType($lastFragment) . "].");
+    }
+
 
     public function toString(): string
     {

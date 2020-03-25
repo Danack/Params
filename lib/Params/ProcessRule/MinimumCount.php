@@ -9,6 +9,7 @@ use Params\OpenApi\ParamDescription;
 use Params\Exception\LogicException;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 class MinimumCount implements ProcessRule
 {
@@ -32,7 +33,7 @@ class MinimumCount implements ProcessRule
         $this->minimumCount = $minimumCount;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         if (is_array($value) !== true) {
             $message = sprintf(
@@ -48,12 +49,12 @@ class MinimumCount implements ProcessRule
         if ($actualCount < $this->minimumCount) {
             $message = sprintf(
                 self::ERROR_TOO_FEW_ELEMENTS,
-                $name,
+                $path,
                 $this->minimumCount,
                 $actualCount
             );
 
-            return ValidationResult::errorResult($name, $message);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
 
         return ValidationResult::valueResult($value);

@@ -7,6 +7,7 @@ namespace ParamsTest\Rule;
 use Params\ProcessRule\FloatInput;
 use ParamsTest\BaseTestCase;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -31,7 +32,11 @@ class FloatInputTest extends BaseTestCase
     {
         $rule = new FloatInput();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $inputValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $inputValue,
+            $validator
+        );
 
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($expectedValue, $validationResult->getValue());
@@ -55,7 +60,11 @@ class FloatInputTest extends BaseTestCase
     {
         $rule = new FloatInput();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $inputValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $inputValue,
+            $validator
+        );
         $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\ParamsValuesImpl;
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
+use Params\Path;
 
 class DuplicatesParam implements ProcessRule
 {
@@ -27,7 +28,7 @@ class DuplicatesParam implements ProcessRule
         $this->paramToDuplicate = $paramToDuplicate;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         if ($validator->hasParam($this->paramToDuplicate) !== true) {
             $message = sprintf(
@@ -35,7 +36,7 @@ class DuplicatesParam implements ProcessRule
                 $this->paramToDuplicate
             );
 
-            return ValidationResult::errorResult($name, $message);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
 
         $previousValue = $validator->getParam($this->paramToDuplicate);
@@ -46,22 +47,22 @@ class DuplicatesParam implements ProcessRule
         if ($previousType !== $currentType) {
             $message = sprintf(
                 self::ERROR_DIFFERENT_TYPES,
-                $name,
+                $path,
                 $this->paramToDuplicate,
                 $previousType,
                 $currentType
             );
 
-            return ValidationResult::errorResult($name, $message);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
 
         if ($value !== $previousValue) {
             $message = sprintf(
                 self::ERROR_DIFFERENT_VALUE,
-                $name,
+                $path,
                 $this->paramToDuplicate
             );
-            return ValidationResult::errorResult($name, $message);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
 
         return ValidationResult::valueResult($value);

@@ -7,6 +7,7 @@ namespace ParamsTest\Rule;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Trim;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -20,7 +21,7 @@ class TrimTest extends BaseTestCase
     {
         $rule = new Trim();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', ' bar ', $validator);
+        $validationResult = $rule->process(Path::fromName('foo'), ' bar ', $validator);
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), 'bar');
     }

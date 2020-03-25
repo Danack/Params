@@ -8,6 +8,7 @@ use Params\ParamsValuesImpl;
 use Params\Rule;
 use Params\ValidationResult;
 use Params\ParamValues;
+use Params\Path;
 
 /**
  * A rule that is not the first rule. It should process the value that is passed to it.
@@ -16,11 +17,11 @@ use Params\ParamValues;
 interface ProcessRule extends Rule
 {
     /**
-     * @param string $name The name of the param being processed.
+     * @param Path $path
      * @param mixed $value The current value of the param as it is being processed
      * @param ParamValues $validator The name of the param being processed.
      * @return ValidationResult
      * @throws \Params\Exception\ParamMissingException
      */
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult;
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult;
 }

@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 class MinIntValue implements ProcessRule
 {
@@ -18,12 +19,12 @@ class MinIntValue implements ProcessRule
         $this->minValue = $minValue;
     }
 
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         $value = intval($value);
         if ($value < $this->minValue) {
             return ValidationResult::errorResult(
-                $name,
+                $path,
                 "Value too small. Min allowed is " . $this->minValue
             );
         }

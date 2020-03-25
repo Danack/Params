@@ -10,6 +10,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsExecutor;
 use Params\ParamValues;
+use Params\Path;
 
 class GetArrayOfType implements ExtractRule
 {
@@ -31,20 +32,20 @@ class GetArrayOfType implements ExtractRule
     }
 
     public function process(
-        string $identifier,
+        Path $path,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
 
         // Check its set
-        if ($varMap->has($identifier) !== true) {
-            return ValidationResult::errorResult($identifier, self::ERROR_MESSAGE_NOT_SET);
+        if ($varMap->has($path->getCurrentName()) !== true) {
+            return ValidationResult::errorResult($path->toString(), self::ERROR_MESSAGE_NOT_SET);
         }
 
         // Check its an array
-        $itemData = $varMap->get($identifier);
+        $itemData = $varMap->get($path->getCurrentName());
         if (is_array($itemData) !== true) {
-            return ValidationResult::errorResult($identifier, self::ERROR_MESSAGE_NOT_ARRAY);
+            return ValidationResult::errorResult($path->toString(), self::ERROR_MESSAGE_NOT_ARRAY);
         }
 
         // Setup stuff
@@ -61,7 +62,7 @@ class GetArrayOfType implements ExtractRule
                     gettype($itemDatum)
                 );
 
-                return ValidationResult::errorResult($identifier, $message);
+                return ValidationResult::errorResult($path->toString(), $message);
             }
 
             $dataVarMap = new ArrayVarMap($itemDatum);

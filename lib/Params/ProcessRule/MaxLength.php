@@ -8,6 +8,7 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
+use Params\Path;
 
 class MaxLength implements ProcessRule
 {
@@ -21,15 +22,15 @@ class MaxLength implements ProcessRule
     {
         $this->maxLength = $maxLength;
     }
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         if (strlen($value) > $this->maxLength) {
             $message = sprintf(
                 "String too long for '%s', max chars is %d.",
-                $name,
+                $path,
                 $this->maxLength
             );
-            return ValidationResult::errorResult($name, $message);
+            return ValidationResult::errorResult($path->toString(), $message);
         }
 
         return ValidationResult::valueResult($value);

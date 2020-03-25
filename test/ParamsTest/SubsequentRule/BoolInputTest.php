@@ -7,6 +7,7 @@ namespace ParamsTest\Rule;
 use Params\ProcessRule\BoolInput;
 use ParamsTest\BaseTestCase;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -34,7 +35,11 @@ class BoolInputValidatorTest extends BaseTestCase
     {
         $rule = new BoolInput();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $inputValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $inputValue,
+            $validator
+        );
 
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($expectedValue, $validationResult->getValue());
@@ -58,7 +63,11 @@ class BoolInputValidatorTest extends BaseTestCase
     {
         $rule = new BoolInput();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $inputValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $inputValue,
+            $validator
+        );
         $this->assertNotNull($validationResult->getValidationProblems());
     }
 }

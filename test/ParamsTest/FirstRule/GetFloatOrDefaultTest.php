@@ -8,6 +8,7 @@ use Params\ExtractRule\GetFloatOrDefault;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -45,7 +46,11 @@ class GetFloatOrDefaultTest extends BaseTestCase
     {
         $rule = new GetFloatOrDefault($default);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $varMap, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $varMap,
+            $validator
+        );
 
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
@@ -76,7 +81,11 @@ class GetFloatOrDefaultTest extends BaseTestCase
 
         $validator = new ParamsValuesImpl();
         $rule = new GetFloatOrDefault($default);
-        $validationResult = $rule->process($variableName, new ArrayVarMap($variables), $validator);
+        $validationResult = $rule->process(
+            Path::fromName($variableName),
+            new ArrayVarMap($variables),
+            $validator
+        );
 
         $this->assertNotNull($validationResult->getValidationProblems());
     }

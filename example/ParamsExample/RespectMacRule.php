@@ -16,7 +16,7 @@ use Params\ParamValues;
  */
 class RespectMacRule implements ProcessRule
 {
-    public function process(string $name, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         if (v::macAddress()->validate($value) === true) {
             return ValidationResult::valueResult($value);
@@ -27,7 +27,7 @@ class RespectMacRule implements ProcessRule
             substr($value, 0, 64)
         );
 
-        return ValidationResult::errorResult($name, $message);
+        return ValidationResult::errorResult($path, $message);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void
