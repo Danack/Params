@@ -19,13 +19,13 @@ use Params\Path;
 class ParamsValidatorTest extends BaseTestCase
 {
 
-    public function testMissingRuleThrows()
-    {
-        $this->markTestSkipped("does this provide useful info?");
-//        $validator = new ParamsValidator();
-//        $this->expectException(\Params\Exception\ParamsException::class);
-//        $validator->validate('foobar', []);
-    }
+//    public function testMissingRuleThrows()
+//    {
+//        $this->markTestSkipped("does this provide useful info?");
+////        $validator = new ParamsValidator();
+////        $this->expectException(\Params\Exception\ParamsException::class);
+////        $validator->validate('foobar', []);
+//    }
 
 //    public function testInvalidInputThrows()
 //    {

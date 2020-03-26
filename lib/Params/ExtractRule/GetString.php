@@ -19,12 +19,12 @@ class GetString implements ExtractRule
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-        if ($varMap->has($path->toString()) !== true) {
+        if ($varMap->has($path->getCurrentName()) !== true) {
             return ValidationResult::errorResult($path, self::ERROR_MESSAGE);
         }
         // TODO - reject bools/ints?
 
-        $value = (string)$varMap->get($path->toString());
+        $value = (string)$varMap->get($path->getCurrentName());
 
         return ValidationResult::valueResult($value);
     }

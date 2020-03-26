@@ -399,7 +399,7 @@ class PatchFactoryTest extends BaseTestCase
         $this->assertCount(1, $result->getValidationProblems());
 
         $this->assertCount(1, $result->getValidationProblems());
-        $this->markTestSkipped("This needs fixing. Patches should be / based.");
+//        $this->markTestSkipped("This needs fixing. Patches should be / based.");
         $this->assertValidationProblem(
             '/',
             "Patch entry 0 is not an array.",

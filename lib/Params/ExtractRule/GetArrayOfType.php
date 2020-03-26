@@ -55,6 +55,9 @@ class GetArrayOfType implements ExtractRule
         $index = 0;
         // TODO - why don't we use the key here?
         foreach ($itemData as $itemDatum) {
+
+            $pathForItem = $path->addArrayIndexPathFragment($index);
+
             if (is_array($itemDatum) !== true) {
                 $message = sprintf(
                     self::ERROR_MESSAGE_ITEM_NOT_ARRAY,
@@ -72,7 +75,7 @@ class GetArrayOfType implements ExtractRule
                 $this->className,
                 $rules,
                 $dataVarMap,
-                $path
+                $pathForItem
             );
             $allValidationProblems = [...$allValidationProblems, ...$validationProblems];
 

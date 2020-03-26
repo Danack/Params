@@ -25,7 +25,6 @@ class EmailPatchTest extends BaseTestCase
         ]];
 
         $this->markTestSkipped("Patch param values can be values, not VarMaps so need different way of processing 'FirstRules'");
-
         return;
 
         $operations = ParamsExecutor::createPatch(

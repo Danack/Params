@@ -171,10 +171,10 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $this->assertCount(1, $result->getValidationProblems());
 
-        $this->markTestSkipped("This needs fixing");
+//        $this->markTestSkipped("This needs fixing");
 
         $this->assertValidationProblem(
-            'items/0/bar',
+            'items[0]/bar',
             "String too short, min chars is 4",
             $result->getValidationProblems()
         );
@@ -206,16 +206,14 @@ class GetArrayOfTypeTest extends BaseTestCase
         $validationProblems = $result->getValidationProblems();
         $this->assertCount(2, $validationProblems);
 
-//        $this->markTestSkipped("This needs fixing");
-
         $this->assertValidationProblem(
-            'items/0/bar',
+            'items[0]/bar',
             "String too short, min chars is 4",
             $validationProblems
         );
 
         $this->assertValidationProblem(
-            'items/1/foo',
+            'items[1]/foo',
             "Value too large. Max allowed is 100",
             $validationProblems
         );
