@@ -39,13 +39,13 @@ class GetArrayOfType implements ExtractRule
 
         // Check its set
         if ($varMap->has($path->getCurrentName()) !== true) {
-            return ValidationResult::errorResult($path->toString(), self::ERROR_MESSAGE_NOT_SET);
+            return ValidationResult::errorResult($path, self::ERROR_MESSAGE_NOT_SET);
         }
 
         // Check its an array
         $itemData = $varMap->get($path->getCurrentName());
         if (is_array($itemData) !== true) {
-            return ValidationResult::errorResult($path->toString(), self::ERROR_MESSAGE_NOT_ARRAY);
+            return ValidationResult::errorResult($path, self::ERROR_MESSAGE_NOT_ARRAY);
         }
 
         // Setup stuff
@@ -53,7 +53,7 @@ class GetArrayOfType implements ExtractRule
         /** @var array<string> $allValidationProblems */
         $allValidationProblems = [];
         $index = 0;
-
+        // TODO - why don't we use the key here?
         foreach ($itemData as $itemDatum) {
             if (is_array($itemDatum) !== true) {
                 $message = sprintf(
@@ -62,16 +62,26 @@ class GetArrayOfType implements ExtractRule
                     gettype($itemDatum)
                 );
 
-                return ValidationResult::errorResult($path->toString(), $message);
+                return ValidationResult::errorResult($path, $message);
             }
 
             $dataVarMap = new ArrayVarMap($itemDatum);
             $rules = call_user_func([$this->className, 'getInputToParamInfoList'], $dataVarMap);
 
-            [$item, $validationProblems] = ParamsExecutor::createOrError($this->className, $rules, $dataVarMap);
+            [$item, $validationProblems] = ParamsExecutor::createOrErrorFromPath(
+                $this->className,
+                $rules,
+                $dataVarMap,
+                $path
+            );
             $allValidationProblems = [...$allValidationProblems, ...$validationProblems];
 
+
+
             $index += 1;
+
+            // TODO - should this skip if there were any problems validating
+            // the rules?
             $items[] = $item;
         }
 

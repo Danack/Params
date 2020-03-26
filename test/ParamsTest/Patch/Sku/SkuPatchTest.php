@@ -16,9 +16,6 @@ use ParamsTest\Patch\Sku\SkuPriceRemove;
  */
 class SkuPatchTest extends BaseTestCase
 {
-    /**
-     * @group debug
-     */
     public function testVeryBasic()
     {
         $name = 'Prod name';

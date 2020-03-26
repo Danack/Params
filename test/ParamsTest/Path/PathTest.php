@@ -16,7 +16,7 @@ class PathTest extends BaseTestCase
 {
     public function testBasicWorks()
     {
-        $path = new Path();
+        $path = Path::initial();
         $this->assertSame('', $path->toString());
     }
 
@@ -26,7 +26,7 @@ class PathTest extends BaseTestCase
      */
     public function testNameWorks()
     {
-        $path = new Path();
+        $path = Path::initial();
         $path2 = $path->addNamePathFragment('john');
 
         // Test new is correct
@@ -43,7 +43,7 @@ class PathTest extends BaseTestCase
      */
     public function testNameWithArrayWorks()
     {
-        $path = new Path();
+        $path = Path::initial();
         $path2 = $path->addNamePathFragment('values');
         $path3 = $path2->addArrayIndexPathFragment(2);
 
@@ -61,7 +61,7 @@ class PathTest extends BaseTestCase
      */
     public function testNameWithArrayThenNameWorks()
     {
-        $path = new Path();
+        $path = Path::initial();
         $path2 = $path->addNamePathFragment('values');
         $path3 = $path2->addArrayIndexPathFragment(2);
         $path4 = $path3->addNamePathFragment('bar');

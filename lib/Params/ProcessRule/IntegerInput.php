@@ -50,7 +50,7 @@ class IntegerInput implements ProcessRule
             );
 
             if ($match !== 1) {
-                return ValidationResult::errorResult($path->toString(), "Value must contain only digits.");
+                return ValidationResult::errorResult($path, "Value must contain only digits.");
             }
         }
 
@@ -59,11 +59,11 @@ class IntegerInput implements ProcessRule
         if (strlen((string)$value) > $maxSaneLength) {
             $message = sprintf(
                 "Value for %s too long, max %s digits",
-                $path,
+                $path->toString(),
                 $maxSaneLength
             );
 
-            return ValidationResult::errorResult($path->toString(), $message);
+            return ValidationResult::errorResult($path, $message);
         }
 
         return ValidationResult::valueResult(intval($value));

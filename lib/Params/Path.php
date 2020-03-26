@@ -14,6 +14,14 @@ class Path
      */
     private array $pathFragments = [];
 
+    private function __construct()
+    {
+    }
+
+    public static function initial()
+    {
+        return new self();
+    }
 
     public static function fromName(string $name)
     {

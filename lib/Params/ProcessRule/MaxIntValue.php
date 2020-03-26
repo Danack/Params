@@ -24,7 +24,8 @@ class MaxIntValue implements ProcessRule
         $value = intval($value);
         if ($value > $this->maxValue) {
             return ValidationResult::errorResult(
-                $path->toString(), "Value too large. Max allowed is " . $this->maxValue
+                $path,
+                "Value too large. Max allowed is " . $this->maxValue
             );
         }
 

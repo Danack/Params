@@ -20,7 +20,7 @@ class GetString implements ExtractRule
         ParamValues $paramValues
     ): ValidationResult {
         if ($varMap->has($path->toString()) !== true) {
-            return ValidationResult::errorResult($path->toString(), self::ERROR_MESSAGE);
+            return ValidationResult::errorResult($path, self::ERROR_MESSAGE);
         }
         // TODO - reject bools/ints?
 

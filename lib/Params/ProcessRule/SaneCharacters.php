@@ -101,7 +101,7 @@ class SaneCharacters implements ProcessRule
                 "Invalid combining characters found at position %s",
                 $badCharPosition
             );
-            return ValidationResult::errorResult($path->toString(), $message);
+            return ValidationResult::errorResult($path, $message);
         }
         return ValidationResult::valueResult($value);
     }

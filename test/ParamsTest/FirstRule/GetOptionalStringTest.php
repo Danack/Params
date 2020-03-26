@@ -8,6 +8,7 @@ use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalString;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -22,7 +23,11 @@ class GetOptionalStringTest extends BaseTestCase
         $rule = new GetOptionalString();
         $validator = new ParamsValuesImpl();
 
-        $validationResult = $rule->process('foo', new ArrayVarMap([]), $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            new ArrayVarMap([]),
+            $validator
+        );
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertNull($validationResult->getValue());
     }
@@ -38,7 +43,7 @@ class GetOptionalStringTest extends BaseTestCase
         $varMap = new ArrayVarMap([$variableName => $expectedValue]);
         $rule = new GetOptionalString();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process($variableName, $varMap, $validator);
+        $validationResult = $rule->process(Path::fromName($variableName), $varMap, $validator);
 
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);

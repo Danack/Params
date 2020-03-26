@@ -10,6 +10,7 @@ use Params\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ItemParams;
 use VarMap\ArrayVarMap;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -19,6 +20,7 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
 
     /**
      * @covers \Params\ExtractRule\GetArrayOfTypeOrNull
+     * @group debug
      */
     public function testWorks()
     {
@@ -30,7 +32,11 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
 
         $rule = new GetArrayOfTypeOrNull(ItemParams::class);
         $validator = new ParamsValuesImpl();
-        $result = $rule->process('items', new ArrayVarMap($data), $validator);
+        $result = $rule->process(
+            Path::fromName('items'),
+            new ArrayVarMap($data),
+            $validator
+        );
 
         $this->assertFalse($result->isFinalResult());
 
@@ -53,7 +59,11 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
 
         $rule = new GetArrayOfTypeOrNull(ItemParams::class);
         $validator = new ParamsValuesImpl();
-        $result = $rule->process('items', new ArrayVarMap($data), $validator);
+        $result = $rule->process(
+            Path::fromName('items'),
+            new ArrayVarMap($data),
+            $validator
+        );
 
 //        $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());

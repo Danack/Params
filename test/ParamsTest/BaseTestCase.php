@@ -55,7 +55,7 @@ class BaseTestCase extends TestCase
     protected function assertValidationProblem(string $identifier, string $expectedProblem, $validationProblems)
     {
         foreach ($validationProblems as $validationProblem) {
-            if ($validationProblem->getIdentifier() !== $identifier) {
+            if ($validationProblem->getPath()->toString() !== $identifier) {
                 continue;
             }
 
@@ -74,10 +74,11 @@ class BaseTestCase extends TestCase
             $this->fail($incorrectMessageText);
         }
 
+        // TODO - should be path not identifier.
         // Identifier not found
         $identifiers = [];
         foreach ($validationProblems as $validationProblem) {
-            $identifiers[] = $validationProblem->getIdentifier();
+            $identifiers[] = $validationProblem->getPath()->toString();
         }
 
         $missingIndentifierText = sprintf(
@@ -99,7 +100,7 @@ class BaseTestCase extends TestCase
         $expectedProblemRegexp = stringToRegexp($expectedProblem);
 
         foreach ($validationProblems as $validationProblem) {
-            if ($validationProblem->getIdentifier() !== $identifier) {
+            if ($validationProblem->getPath()->toString() !== $identifier) {
                 continue;
             }
 
@@ -119,15 +120,15 @@ class BaseTestCase extends TestCase
         }
 
         // Identifier not found
-        $identifiers = [];
+        $pathsAsStrings = [];
         foreach ($validationProblems as $validationProblem) {
-            $identifiers[] = $validationProblem->getIdentifier();
+            $pathsAsStrings[] = $validationProblem->getPath()->toString();
         }
 
         $missingIndentifierText = sprintf(
             "Identifier '%s' not found in validation problems. Identifiers found are '%s'",
             $identifier,
-            implode(", ", $identifiers)
+            implode(", ", $pathsAsStrings)
         );
 
         $this->fail($missingIndentifierText);

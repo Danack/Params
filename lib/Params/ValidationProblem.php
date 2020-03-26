@@ -7,11 +7,9 @@ namespace Params;
 class ValidationProblem
 {
     /**
-     * The identifier
-     *
-     * @var string
+     * The path of the parameter that was being validated.
      */
-    private string $identifier;
+    private Path $path;
 
     private string $problemMessage;
 
@@ -20,18 +18,15 @@ class ValidationProblem
      * @param string $path
      * @param string $description
      */
-    public function __construct(string $path, string $description)
+    public function __construct(Path $path, string $description)
     {
-        $this->identifier = $path;
+        $this->path = $path;
         $this->problemMessage = $description;
     }
 
-    /**
-     * @return string
-     */
-    public function getIdentifier(): string
+    public function getPath(): Path
     {
-        return $this->identifier;
+        return $this->path;
     }
 
     /**
@@ -42,8 +37,12 @@ class ValidationProblem
         return $this->problemMessage;
     }
 
+    /**
+     * TODO - this probably shouldn't be here?
+     * Need to think about where message formatting should be done.
+     */
     public function toString(): string
     {
-        return $this->identifier . " " . $this->problemMessage;
+        return $this->path->toString() . " " . $this->problemMessage;
     }
 }

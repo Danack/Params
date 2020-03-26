@@ -45,11 +45,11 @@ class Order implements ProcessRule
                 $message = sprintf(
                     "Cannot order by [%s] for [%s], as not known for this operation. Known are [%s]",
                     $partName,
-                    $path,
+                    $path->toString(),
                     implode(', ', $this->knownOrderNames)
                 );
 
-                return ValidationResult::errorResult($path->toString(), $message);
+                return ValidationResult::errorResult($path, $message);
             }
             $orderElements[] = new OrderElement($partName, $partOrder);
         }

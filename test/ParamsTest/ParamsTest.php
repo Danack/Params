@@ -42,8 +42,9 @@ class ParamsTest extends BaseTestCase
         ];
 
         $validator = new ParamsValuesImpl();
+        $path = Path::initial();
 
-        $validator->executeRulesWithValidator($rules, new ArrayVarMap([]));
+        $validator->executeRulesWithValidator($rules, new ArrayVarMap([]), $path);
 
 //        $validator = \Params\ParamsExecutor::executeRules($rules, new ArrayVarMap([]));
         $this->assertSame(['foo' => 5], $validator->getParamsValues());
@@ -120,16 +121,14 @@ class ParamsTest extends BaseTestCase
         ];
 
         $validator = new ParamsValuesImpl();
+        $path = Path::initial();
 
-        $validator->executeRulesWithValidator($rules, $arrayVarMap);
+        $validator->executeRulesWithValidator($rules, $arrayVarMap, $path);
 
 //        $validator = ParamsExecutor::executeRules($rules, $arrayVarMap);
         $this->assertEquals($finalValue, ($validator->getParamsValues())['foo']);
     }
 
-    /**
-     * @group debug
-     */
     public function testErrorResultStopsProcessing()
     {
         $shouldntBeInvoked = new class($this) implements ProcessRule {
@@ -144,7 +143,7 @@ class ParamsTest extends BaseTestCase
                 $this->test->fail("This shouldn't be reached.");
                 $key = "foo";
                 //this code won't be executed.
-                return ValidationResult::errorResult($key, "Shouldn't be called");
+                return ValidationResult::errorResult(Path::fromName($key), "Shouldn't be called");
             }
 
             public function updateParamDescription(ParamDescription $paramDescription): void
@@ -173,9 +172,11 @@ class ParamsTest extends BaseTestCase
             $this->fail("This shouldn't be reached, as an exception should have been thrown.");
         }
         catch (ValidationException $validationException) {
-            $validationProblems = $validationException->getValidationProblems();
-            $this->assertEquals(1, count($validationProblems));
-            $this->assertEquals($errorMessage, $validationProblems['/foo']);
+            $this->assertValidationProblem(
+                'foo',
+                $errorMessage,
+                $validationException->getValidationProblems()
+            );
         }
     }
 
@@ -229,20 +230,23 @@ class ParamsTest extends BaseTestCase
     {
         $arrayVarMap = new ArrayVarMap([]);
         $rules = \ParamsTest\Integration\FooParams::getInputToParamInfoList();
-        [$params, $validationErrors] = \Params\ParamsExecutor::createOrError(
+        [$params, $validationProblems] = \Params\ParamsExecutor::createOrError(
             \ParamsTest\Integration\FooParams::class,
             $rules,
             $arrayVarMap
         );
         $this->assertNull($params);
 
-        $this->assertCount(1, $validationErrors);
+        $this->assertCount(1, $validationProblems);
         /** @var \Params\ValidationProblem $firstProblem */
-        $firstProblem = $validationErrors[0];
 
-        $expectedKey = 'limit';
-        $this->assertSame($expectedKey, $firstProblem->getIdentifier());
-        $this->assertStringMatchesFormat('Value not set.', $firstProblem->getProblemMessage());
+        $this->assertCount(1, $validationProblems);
+
+        $this->assertValidationProblem(
+            'limit',
+            'Value not set.',
+            $validationProblems
+        );
     }
 
     /**

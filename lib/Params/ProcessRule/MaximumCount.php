@@ -50,12 +50,12 @@ class MaximumCount implements ProcessRule
         if ($actualCount > $this->maximumCount) {
             $message = sprintf(
                 self::ERROR_TOO_MANY_ELEMENTS,
-                $path,
+                $path->toString(),
                 $this->maximumCount,
                 $actualCount
             );
 
-            return ValidationResult::errorResult($path->toString(), $message);
+            return ValidationResult::errorResult($path, $message);
         }
 
         return ValidationResult::valueResult($value);

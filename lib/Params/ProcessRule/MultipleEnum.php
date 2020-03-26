@@ -50,11 +50,11 @@ class MultipleEnum implements ProcessRule
                 $message = sprintf(
                     "Cannot filter by [%s] for [%s], as not known for this operation. Known are [%s]",
                     $filterStringPart,
-                    $path,
+                    $path->toString(),
                     implode(', ', $this->allowedValues)
                 );
 
-                return ValidationResult::errorResult($path->toString(), $message);
+                return ValidationResult::errorResult($path, $message);
             }
             $filterElements[] = $filterStringPart;
         }

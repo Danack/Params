@@ -18,6 +18,7 @@ class GetArrayOfIntTest extends BaseTestCase
 {
     /**
      * @covers  \Params\ExtractRule\GetArrayOfInt
+     * @group debug
      */
     public function testWorks()
     {
@@ -53,18 +54,27 @@ class GetArrayOfIntTest extends BaseTestCase
 
         $rule = new GetArrayOfInt();
         $validator = new ParamsValuesImpl();
-        $result = $rule->process('items', new ArrayVarMap($data), $validator);
+        $result = $rule->process(
+            Path::fromName('items'),
+            new ArrayVarMap($data),
+            $validator
+        );
 
         $this->assertTrue($result->isFinalResult());
 
         $validationProblems = $result->getValidationProblems();
 
         $this->assertCount(1, $validationProblems);
-        /** @var \Params\ValidationProblem $firstProblem */
-        $firstProblem = $validationProblems[0];
+        $this->assertValidationProblem(
+            'items[3]',
+            'Value must contain only digits.',
+            $validationProblems
+        );
 
-        $this->assertSame('/items/3', $firstProblem->getIdentifier());
-        $this->assertSame('Value must contain only digits.', $firstProblem->getProblemMessage());
+//        /** @var \Params\ValidationProblem $firstProblem */
+//        $firstProblem = $validationProblems[0];
+//        $this->assertSame('/items/3', $firstProblem->getPath());
+//        $this->assertSame('Value must contain only digits.', $firstProblem->getProblemMessage());
     }
 
     /**
@@ -82,14 +92,20 @@ class GetArrayOfIntTest extends BaseTestCase
             new MaxIntValue(20)
         );
         $validator = new ParamsValuesImpl();
-        $result = $rule->process('items', new ArrayVarMap($data), $validator);
+        $result = $rule->process(
+            Path::fromName('items'),
+            new ArrayVarMap($data),
+            $validator
+        );
 
         $this->assertTrue($result->isFinalResult());
 
         $problemMessages = $result->getValidationProblems();
 
-        $this->assertCount(1, $problemMessages);
-        $this->assertArrayHasKey('/items/3', $problemMessages);
-        $this->assertSame('Value too large. Max allowed is 20', $problemMessages['/items/3']);
+        $this->assertValidationProblem(
+            'items[3]',
+            'Value too large. Max allowed is 20',
+            $problemMessages
+        );
     }
 }

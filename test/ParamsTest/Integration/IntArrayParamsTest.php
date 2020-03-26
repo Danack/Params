@@ -47,11 +47,17 @@ class IntArrayParamsTest extends BaseTestCase
         $this->assertNull($intArrayParams);
         $this->assertCount(1, $errors);
 
-        $expectedKey = '/counts/2';
-        $this->assertArrayHasKey($expectedKey, $errors, "Actual contents: ". json_encode($errors));
-        $this->assertSame(
+        $this->assertValidationProblem(
+            'counts[2]',
             "Value must contain only digits.",
-            $errors[$expectedKey]
+            $errors
         );
+
+//        $expectedKey = '/counts/2';
+//        $this->assertArrayHasKey($expectedKey, $errors, "Actual contents: ". json_encode($errors));
+//        $this->assertSame(
+//            "Value must contain only digits.",
+//            $errors[$expectedKey]
+//        );
     }
 }

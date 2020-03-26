@@ -28,11 +28,11 @@ class StartsWithString implements ProcessRule
         if (strpos((string)$value, $this->prefix) !== 0) {
             $message = sprintf(
                 "The string for [%s] must start with [%s].",
-                $path,
+                $path->toString(),
                 $this->prefix
             );
 
-            return ValidationResult::errorResult($path->toString(), $message);
+            return ValidationResult::errorResult($path, $message);
         }
 
         // This rule does not modify the value

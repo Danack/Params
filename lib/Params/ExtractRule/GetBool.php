@@ -22,7 +22,7 @@ class GetBool implements ExtractRule
         ParamValues $paramValues
     ): ValidationResult {
         if ($varMap->has($path->getCurrentName()) !== true) {
-            return ValidationResult::errorResult($path->getCurrentName(), self::ERROR_MESSAGE);
+            return ValidationResult::errorResult($path, self::ERROR_MESSAGE);
         }
 
         $intRule = new BoolInput();

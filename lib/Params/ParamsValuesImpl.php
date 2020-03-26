@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Params;
 
+use Params\Exception\LogicException;
 use Params\ExtractRule\ExtractRule;
 use Params\ProcessRule\ProcessRule;
 use VarMap\VarMap;
@@ -30,17 +31,24 @@ class ParamsValuesImpl implements ParamValues
         return $this->paramValues;
     }
 
-    public function hasParam(string $name): bool
+    /**
+     * @param string|int $name
+     */
+    public function hasParam($name): bool
     {
         return array_key_exists($name, $this->paramValues);
     }
 
     /**
-     * @param string $name
+     * @param string|int $name
      * @return mixed
      */
-    public function getParam(string $name)
+    public function getParam($name)
     {
+        if (array_key_exists($name, $this->paramValues) === false) {
+            throw new LogicException("Trying to access $name which isn't present in ParamValuesImpl.");
+        }
+
         return $this->paramValues[$name];
     }
 
@@ -63,11 +71,16 @@ class ParamsValuesImpl implements ParamValues
             }
 
             $value = $validationResult->getValue();
+            // Set this here in case the rule happens to need to refer to the
+            // current item by name
             $this->paramValues[$path->getCurrentName()] = $value;
             if ($validationResult->isFinalResult() === true) {
                 break;
             }
         }
+
+        // Set this here in case the subsequent rules are empty.
+        $this->paramValues[$path->getCurrentName()] = $value;
 
         return [];
     }
@@ -87,7 +100,7 @@ class ParamsValuesImpl implements ParamValues
         $pathForParam = $path->addNamePathFragment($param->getInputName());
 
         $firstRule = $param->getFirstRule();
-        $subsequentRules = $param->getSubsequentRules();
+
 
         $validationResult = $firstRule->process($pathForParam, $varMap, $this);
 
@@ -95,12 +108,14 @@ class ParamsValuesImpl implements ParamValues
             return $validationResult->getValidationProblems();
         }
 
+
         $value = $validationResult->getValue();
         $this->paramValues[$pathForParam->getCurrentName()] = $value;
         if ($validationResult->isFinalResult() === true) {
             return [];
         }
 
+        $subsequentRules = $param->getSubsequentRules();
         return $this->validateSubsequentRules(
             $value,
             $pathForParam,
@@ -116,10 +131,11 @@ class ParamsValuesImpl implements ParamValues
      */
     public function executeRulesWithValidator(
         $params,
-        VarMap $sourceData
+        VarMap $sourceData,
+        Path $path
     ) {
         $validationProblems = [];
-        $path = new Path();
+
 
         foreach ($params as $param) {
             $newValidationProblems = $this->validateParam(
@@ -128,7 +144,12 @@ class ParamsValuesImpl implements ParamValues
                 $path
             );
 
-            $validationProblems = [...$validationProblems, ...$newValidationProblems];
+            try {
+                $validationProblems = [...$validationProblems, ...$newValidationProblems];
+            }
+            catch (\Throwable $t) {
+                echo "wat " . $t;
+            }
         }
 
         return $validationProblems;

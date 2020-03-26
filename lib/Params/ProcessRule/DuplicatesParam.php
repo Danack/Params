@@ -36,7 +36,7 @@ class DuplicatesParam implements ProcessRule
                 $this->paramToDuplicate
             );
 
-            return ValidationResult::errorResult($path->toString(), $message);
+            return ValidationResult::errorResult($path, $message);
         }
 
         $previousValue = $validator->getParam($this->paramToDuplicate);
@@ -47,22 +47,22 @@ class DuplicatesParam implements ProcessRule
         if ($previousType !== $currentType) {
             $message = sprintf(
                 self::ERROR_DIFFERENT_TYPES,
-                $path,
+                $path->toString(),
                 $this->paramToDuplicate,
                 $previousType,
                 $currentType
             );
 
-            return ValidationResult::errorResult($path->toString(), $message);
+            return ValidationResult::errorResult($path, $message);
         }
 
         if ($value !== $previousValue) {
             $message = sprintf(
                 self::ERROR_DIFFERENT_VALUE,
-                $path,
+                $path->toString(),
                 $this->paramToDuplicate
             );
-            return ValidationResult::errorResult($path->toString(), $message);
+            return ValidationResult::errorResult($path, $message);
         }
 
         return ValidationResult::valueResult($value);

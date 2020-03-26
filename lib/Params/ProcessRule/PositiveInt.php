@@ -26,13 +26,13 @@ class PositiveInt implements ProcessRule
 
         $errorMessage = Functions::check_only_digits($path->toString(), $value);
         if ($errorMessage !== null) {
-            return ValidationResult::errorResult($path->toString(), $errorMessage);
+            return ValidationResult::errorResult($path, $errorMessage);
         }
 
         $value = intval($value);
         $maxValue = self::MAX_SANE_VALUE;
         if ($value > $maxValue) {
-            return ValidationResult::errorResult($path->toString(), "Value too large. Max allowed is $maxValue");
+            return ValidationResult::errorResult($path, "Value too large. Max allowed is $maxValue");
         }
 
         return ValidationResult::valueResult($value);

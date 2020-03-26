@@ -33,15 +33,12 @@ class ValidationResult
     /**
      * this is for a single value processing.
      *
-     * @param string $name
-     * @param string $message
-     * @return ValidationResult
      */
-    public static function errorResult(string $name, string $message)
+    public static function errorResult(Path $path, string $message): ValidationResult
     {
         return new self(
             null,
-            [new ValidationProblem($name, $message)],
+            [new ValidationProblem($path, $message)],
             true
         );
     }
@@ -52,6 +49,20 @@ class ValidationResult
      */
     public static function thisIsMultipleErrorResult(array $validationProblems)
     {
+        foreach ($validationProblems as $key => $validationProblem) {
+            if (is_int($key)  === false) {
+                throw new \LogicException("Key for array must be integer");
+            }
+            if (!$validationProblem instanceof ValidationProblem) {
+                throw new \LogicException(
+                    "Array must contain only 'ValidationProblem's instead got " . getType($validationProblem)
+                );
+            }
+        }
+
+        // TODO - check that arrays are not string indexed, as this
+        // breaks the combining code.
+
         return new self(null, $validationProblems, true);
     }
 

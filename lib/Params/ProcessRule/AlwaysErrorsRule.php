@@ -22,7 +22,7 @@ class AlwaysErrorsRule implements ProcessRule
 
     public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
-        return ValidationResult::errorResult($path->toString(), $this->message);
+        return ValidationResult::errorResult($path, $this->message);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

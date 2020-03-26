@@ -23,8 +23,8 @@ class GetInt implements ExtractRule
         VarMap $varMap,
         ParamValues $paramValues
     ) : ValidationResult {
-        if ($varMap->has($path->toString()) !== true) {
-            return ValidationResult::errorResult($path->toString(), self::ERROR_MESSAGE);
+        if ($varMap->has($path->getCurrentName()) !== true) {
+            return ValidationResult::errorResult($path, self::ERROR_MESSAGE);
         }
 
         $intRule = new IntegerInput();

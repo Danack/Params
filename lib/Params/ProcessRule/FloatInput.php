@@ -52,7 +52,7 @@ class FloatInput implements ProcessRule
 
             if ($match !== 1) {
                 // TODO - says what position bad character is at.
-                return ValidationResult::errorResult($path->toString(), "Value must be a floating point number.");
+                return ValidationResult::errorResult($path, "Value must be a floating point number.");
             }
         }
 

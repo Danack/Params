@@ -9,6 +9,7 @@ use Params\ProcessRule\MaximumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysErrorsRule;
 use Params\OpenApi\OpenApiV300ParamDescription;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -24,7 +25,11 @@ class AlwaysErrorsRuleTest extends BaseTestCase
         $rule = new AlwaysErrorsRule($message);
         $validator = new ParamsValuesImpl();
 
-        $result = $rule->process('foo', 5, $validator);
+        $result = $rule->process(
+            Path::fromName('foo'),
+            5,
+            $validator
+        );
 
         $this->assertCount(1, $result->getValidationProblems());
         $this->assertValidationProblem(

@@ -49,12 +49,12 @@ class MinimumCount implements ProcessRule
         if ($actualCount < $this->minimumCount) {
             $message = sprintf(
                 self::ERROR_TOO_FEW_ELEMENTS,
-                $path,
+                $path->toString(),
                 $this->minimumCount,
                 $actualCount
             );
 
-            return ValidationResult::errorResult($path->toString(), $message);
+            return ValidationResult::errorResult($path, $message);
         }
 
         return ValidationResult::valueResult($value);

@@ -18,7 +18,10 @@ class NotNull implements ProcessRule
     public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
         if ($value === null) {
-            return ValidationResult::errorResult($path->toString(), "null is not allowed for '$path'.");
+            return ValidationResult::errorResult(
+                $path,
+                "null is not allowed for '" . $path->toString() . "'."
+            );
         }
         return ValidationResult::valueResult($value);
     }

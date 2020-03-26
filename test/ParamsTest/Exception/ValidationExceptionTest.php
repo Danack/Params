@@ -8,6 +8,7 @@ use ParamsTest\BaseTestCase;
 use Params\Exception\ValidationException;
 use Params\Exception\ParamsException;
 use Params\ValidationProblem;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -20,8 +21,8 @@ class ValidationExceptionTest extends BaseTestCase
     public function testGetting()
     {
         $validationMessages = [
-            new ValidationProblem('foo', 'foo was invalid'),
-            new ValidationProblem('bar', 'bar was invalid')
+            new ValidationProblem(Path::fromName('foo'), 'foo was invalid'),
+            new ValidationProblem(Path::fromName('bar'), 'bar was invalid')
         ];
 
         $exception = new ValidationException(

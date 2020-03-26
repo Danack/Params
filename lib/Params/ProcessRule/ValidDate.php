@@ -22,7 +22,7 @@ class ValidDate implements ProcessRule
             return ValidationResult::valueResult($dateTime);
         }
 
-        return ValidationResult::errorResult($path->toString(), self::ERROR_INVALID_DATETIME);
+        return ValidationResult::errorResult($path, self::ERROR_INVALID_DATETIME);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

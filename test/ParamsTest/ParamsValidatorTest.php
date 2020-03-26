@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use Params\ExtractRule\GetInt;
+use Params\Param;
 use Params\ProcessRule\MaxIntValue;
 use ParamsTest\BaseTestCase;
 use VarMap\ArrayVarMap;
 use Params\ParamsValuesImpl;
 use Params\ProcessRule\AlwaysEndsRule;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -50,20 +52,24 @@ class ParamsValidatorTest extends BaseTestCase
     {
         $finalValue = 123;
 
+
         $arrayVarMap = new ArrayVarMap(['foo' => 5]);
-        $subsequentRules = [
+
+        $param = new Param(
+            'foo',
+            new GetInt(),
             // This rule will stop processing
             new AlwaysEndsRule($finalValue),
             // this rule would give an error if processing was not stopped.
             new MaxIntValue($finalValue - 5)
-        ];
+        );
+
         $validator = new ParamsValuesImpl();
 
         $errors = $validator->validateParam(
-            'foo',
+            $param,
             $arrayVarMap,
-            new GetInt(),
-            ...$subsequentRules
+            Path::initial()
         );
 
         $this->assertTrue($validator->hasParam('foo'));

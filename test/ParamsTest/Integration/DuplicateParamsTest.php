@@ -61,7 +61,6 @@ class DuplicateParamsTest extends BaseTestCase
 
     /**
      * @covers \Params\ProcessRule\DuplicatesParam
-     * @group debug
      */
     public function testDifferentValue()
     {

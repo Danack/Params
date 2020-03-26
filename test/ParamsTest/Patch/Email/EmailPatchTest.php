@@ -14,9 +14,6 @@ use ParamsTest\BaseTestCase;
  */
 class EmailPatchTest extends BaseTestCase
 {
-    /**
-     * @group debug
-     */
     public function testVeryBasic()
     {
         $email = "john@example.com";

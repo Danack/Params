@@ -27,10 +27,10 @@ class MaxLength implements ProcessRule
         if (strlen($value) > $this->maxLength) {
             $message = sprintf(
                 "String too long for '%s', max chars is %d.",
-                $path,
+                $path->toString(),
                 $this->maxLength
             );
-            return ValidationResult::errorResult($path->toString(), $message);
+            return ValidationResult::errorResult($path, $message);
         }
 
         return ValidationResult::valueResult($value);

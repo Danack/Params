@@ -6,10 +6,10 @@ namespace Params;
 
 use Params\Exception\ValidationException;
 use Params\PatchOperation\PatchOperation;
+use Params\Path;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use Params\Exception\PatchFormatException;
-use Params\Path;
 
 /**
  * Class Params
@@ -22,26 +22,10 @@ use Params\Path;
  */
 class ParamsExecutor
 {
-
-
-//    /**
-//     * @param \Params\Param[] $rulesetList
-//     * @param VarMap $sourceData
-//     * @return {\Params\ParamsValuesImpl, \Params\ValidationProblem[]}
-//     */
-//    public static function executeRules($rulesetList, $sourceData)
-//    {
-//        $paramsValuesImpl = new ParamsValuesImpl();
-//        $validationProblems = $paramsValuesImpl->executeRulesWithValidator($rulesetList, $sourceData);
-//
-//        return [$paramsValuesImpl, $validationProblems];
-//    }
-
-
     /**
      * @template T
      * @param class-string<T> $classname
-     * @param \Params\Param[] $rulesetList
+     * @param \Params\Param[] $params
      * @return {object, \Params\ValidationProblem[]}|{null, \Params\ValidationProblem[]}
      * @throws Exception\ParamsException
      * @throws ValidationException
@@ -49,13 +33,12 @@ class ParamsExecutor
      * The rules are passed separately to the classname so that we can
      * support rules coming both from static info and from factory objects.
      */
-    public static function createOrError($classname, $rulesetList, VarMap $sourceData)
+    public static function createOrError($classname, $params, VarMap $sourceData)
     {
-//        [$paramsValuesImpl, $validationProblems] = self::executeRules($rulesetList, $sourceData);
         $paramsValuesImpl = new ParamsValuesImpl();
-        $validationProblems = $paramsValuesImpl->executeRulesWithValidator($rulesetList, $sourceData);
+        $path = Path::initial();
+        $validationProblems = $paramsValuesImpl->executeRulesWithValidator($params, $sourceData, $path);
 
-//        $validationProblems = $validator->getValidationProblems();
         if (count($validationProblems) !== 0) {
             return [null, $validationProblems];
         }
@@ -65,6 +48,30 @@ class ParamsExecutor
     }
 
 
+    /**
+     * @template T
+     * @param class-string<T> $classname
+     * @param \Params\Param[] $params
+     * @param Path
+     * @return {object, \Params\ValidationProblem[]}|{null, \Params\ValidationProblem[]}
+     * @throws Exception\ParamsException
+     * @throws ValidationException
+     *
+     * The rules are passed separately to the classname so that we can
+     * support rules coming both from static info and from factory objects.
+     */
+    public static function createOrErrorFromPath($classname, $params, VarMap $sourceData, Path $path)
+    {
+        $paramsValuesImpl = new ParamsValuesImpl();
+        $validationProblems = $paramsValuesImpl->executeRulesWithValidator($params, $sourceData, $path);
+
+        if (count($validationProblems) !== 0) {
+            return [null, $validationProblems];
+        }
+
+        $reflection_class = new \ReflectionClass($classname);
+        return [$reflection_class->newInstanceArgs($paramsValuesImpl->getParamsValues()), []];
+    }
 
     /**
      * @template T
@@ -78,8 +85,9 @@ class ParamsExecutor
     public static function create($classname, $namedRules, VarMap $sourceData)
     {
         $paramsValuesImpl = new ParamsValuesImpl();
+        $path = Path::initial();
 
-        $validationProblems = $paramsValuesImpl->executeRulesWithValidator($namedRules, $sourceData);
+        $validationProblems = $paramsValuesImpl->executeRulesWithValidator($namedRules, $sourceData, $path);
 
         if (count($validationProblems) !== 0) {
             throw new ValidationException("Validation problems", $validationProblems);

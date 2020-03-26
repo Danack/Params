@@ -46,7 +46,7 @@ class ValidCharacters implements ProcessRule
                 $badCharPosition,
                 $this->patternValidCharacters
             );
-            return ValidationResult::errorResult($path->toString(), $message);
+            return ValidationResult::errorResult($path, $message);
         }
         return ValidationResult::valueResult($value);
     }

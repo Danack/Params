@@ -39,7 +39,7 @@ class Enum implements ProcessRule
     {
         if (in_array($value, $this->allowedValues, true) !== true) {
             return ValidationResult::errorResult(
-                $path->toString(),
+                $path,
                 "Value is not known. Please use one of " . implode(', ', $this->allowedValues)
             );
         }

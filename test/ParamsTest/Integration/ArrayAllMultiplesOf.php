@@ -7,9 +7,14 @@ namespace ParamsTest\Integration;
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
 use Params\ProcessRule\ProcessRule;
+use Params\ValidationProblem;
 use Params\ValidationResult;
 use Params\Path;
 
+/**
+ * Example of processing an array, without processing each item individually
+ * as a separate type.
+ */
 class ArrayAllMultiplesOf implements ProcessRule
 {
     /** @var int */
@@ -39,11 +44,14 @@ class ArrayAllMultiplesOf implements ProcessRule
             if (($item % $this->multiplicand) !== 0) {
                 // Because this is operating on an array of items, we need to put the complete name
                 // not just the index
-                $errors['/' . $path . '/' . $index] = sprintf(
-                    'Value is not a multiple of %s but has value [%s]',
+                $message = sprintf(
+                    'Value at position [%d] is not a multiple of %s but has value [%s]',
+                    $index,
                     $this->multiplicand,
                     $item
                 );
+
+                $errors[] = new ValidationProblem($path, $message);
             }
             $index += 1;
         }

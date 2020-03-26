@@ -7,6 +7,7 @@ namespace ParamsTest\Rule;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\EnumMap;
 use Params\ParamsValuesImpl;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -34,7 +35,11 @@ class KnownEnumValidatorTest extends BaseTestCase
 
         $rule = new EnumMap($enumMap);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process($name, 'unknown value', $validator);
+        $validationResult = $rule->process(
+            Path::fromName($name),
+            'unknown value',
+            $validator
+        );
 
         $problems = $validationResult->getValidationProblems();
         $this->assertCount(1, $problems);
@@ -45,7 +50,7 @@ class KnownEnumValidatorTest extends BaseTestCase
             'input1, input2',
             $firstProblem->getProblemMessage()
         );
-        $this->assertSame($name, $firstProblem->getIdentifier());
+        $this->assertSame($name, $firstProblem->getPath()->toString());
     }
 
     /**
@@ -63,7 +68,11 @@ class KnownEnumValidatorTest extends BaseTestCase
 
         $rule = new EnumMap($enumMap);
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process('foo', $testValue, $validator);
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            $testValue,
+            $validator
+        );
 
         if ($expectError) {
             $this->assertNotNull($validationResult->getValidationProblems());

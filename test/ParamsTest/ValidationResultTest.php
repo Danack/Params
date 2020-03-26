@@ -6,6 +6,7 @@ namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
 use Params\ValidationResult;
+use Params\Path;
 
 /**
  * @covers \Params\ValidationResult
@@ -24,9 +25,13 @@ class ValidationResultTest extends BaseTestCase
     public function testErrorResult()
     {
         $name = 'foo';
-//        $expectedKey = '/' . $name;
+        $path = Path::fromName($name);
+
         $validationMessage = 'Something went wrong';
-        $validationResult = ValidationResult::errorResult($name, $validationMessage);
+        $validationResult = ValidationResult::errorResult(
+            $path,
+            $validationMessage
+        );
 
         $this->assertTrue($validationResult->isFinalResult());
         $this->assertNull($validationResult->getValue());
@@ -34,7 +39,7 @@ class ValidationResultTest extends BaseTestCase
         $problems = $validationResult->getValidationProblems();
         $this->assertCount(1, $problems);
         $firstProblem = $problems[0];
-        $this->assertSame($name, $firstProblem->getIdentifier());
+        $this->assertSame($path, $firstProblem->getPath());
         $this->assertEquals($validationMessage, $firstProblem->getProblemMessage());
     }
 

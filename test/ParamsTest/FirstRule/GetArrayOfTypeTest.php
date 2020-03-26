@@ -10,6 +10,7 @@ use ParamsTest\Integration\ItemParams;
 use VarMap\ArrayVarMap;
 use Params\ParamsValuesImpl;
 use ParamsTest\Integration\SingleIntParams;
+use Params\Path;
 
 /**
  * @coversNothing
@@ -30,7 +31,11 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $rule = new GetArrayOfType(ItemParams::class);
         $validator = new ParamsValuesImpl();
-        $result = $rule->process('items', new ArrayVarMap($data), $validator);
+        $result = $rule->process(
+            Path::fromName('items'),
+            new ArrayVarMap($data),
+            $validator
+        );
 
         $this->assertFalse($result->isFinalResult());
 //        $this->assertEquals("Value not set for 'items'.", $result->getProblemMessages());
@@ -56,7 +61,11 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $rule = new GetArrayOfType(ItemParams::class);
         $validator = new ParamsValuesImpl();
-        $result = $rule->process('items', new ArrayVarMap($data), $validator);
+        $result = $rule->process(
+            Path::fromName('items'),
+            new ArrayVarMap($data),
+            $validator
+        );
         $this->assertTrue($result->isFinalResult());
         $expectedKey = '/items';
 
@@ -80,7 +89,11 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $rule = new GetArrayOfType(ItemParams::class);
         $validator = new ParamsValuesImpl();
-        $result = $rule->process('items', new ArrayVarMap($data), $validator);
+        $result = $rule->process(
+            Path::fromName('items'),
+            new ArrayVarMap($data),
+            $validator
+        );
         $this->assertTrue($result->isFinalResult());
         $expectedKey = 'items';
 
@@ -110,23 +123,25 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $rule = new GetArrayOfType(SingleIntParams::class);
         $validator = new ParamsValuesImpl();
-        $result = $rule->process('items', new ArrayVarMap($data), $validator);
+        $result = $rule->process(
+            Path::fromName('items'),
+            new ArrayVarMap($data),
+            $validator
+        );
         $this->assertTrue($result->isFinalResult());
 
-        $expectedKey = 'items';
+//        $expectedKey = 'items';
 
         $validationProblems = $result->getValidationProblems();
 
-
         $this->assertCount(1, $validationProblems);
-        /** @var \Params\ValidationProblem $firstProblem */
-        $firstProblem = $validationProblems[0];
 
-        $this->assertSame($expectedKey, $firstProblem->getIdentifier());
-        $this->assertRegExp(
-            stringToRegexp(GetArrayOfType::ERROR_MESSAGE_ITEM_NOT_ARRAY),
-            $firstProblem->getProblemMessage()
+        $this->assertValidationProblemRegexp(
+            'items',
+            GetArrayOfType::ERROR_MESSAGE_ITEM_NOT_ARRAY,
+            $validationProblems
         );
+
         $this->assertNull($result->getValue());
     }
 
@@ -145,7 +160,11 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $rule = new GetArrayOfType(ItemParams::class);
         $validator = new ParamsValuesImpl();
-        $result = $rule->process('items', new ArrayVarMap($data), $validator);
+        $result = $rule->process(
+            Path::fromName('items'),
+            new ArrayVarMap($data),
+            $validator
+        );
 
         $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());
@@ -175,16 +194,19 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $validator = new ParamsValuesImpl();
         $rule = new GetArrayOfType(ItemParams::class);
-        $result = $rule->process('items', new ArrayVarMap($data), $validator);
+        $result = $rule->process(
+            Path::fromName('items'),
+            new ArrayVarMap($data),
+            $validator
+        );
 
         $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());
 
-
         $validationProblems = $result->getValidationProblems();
         $this->assertCount(2, $validationProblems);
 
-        $this->markTestSkipped("This needs fixing");
+//        $this->markTestSkipped("This needs fixing");
 
         $this->assertValidationProblem(
             'items/0/bar',

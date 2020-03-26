@@ -46,7 +46,7 @@ class BoolInput implements ProcessRule
             gettype($value)
         );
 
-        return ValidationResult::errorResult($path->toString(), $message);
+        return ValidationResult::errorResult($path, $message);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void
