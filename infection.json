@@ -14,7 +14,8 @@
     "mutators": {
         "OneZeroInteger": {
             "ignore": [
-                "Params\\SubsequentRule\\SaneCharacters::process"
+                "Params\\ProcessRule\\SaneCharacters::process",
+                "Params\\ProcessRule\\ValidCharacters::process"
             ]
         }
     }
