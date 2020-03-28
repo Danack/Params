@@ -18,12 +18,12 @@ class Path
     {
     }
 
-    public static function initial()
+    public static function initial(): self
     {
         return new self();
     }
 
-    public static function fromName(string $name)
+    public static function fromName(string $name): self
     {
         $instance = new self();
         $instance = $instance->addNamePathFragment($name);
@@ -60,7 +60,7 @@ class Path
             return $lastFragment->getIndex();
         }
 
-        throw new \Exception("Unknown fragment type [" . getType($lastFragment) . "].");
+        throw new \Exception("Unknown fragment type [" . gettype($lastFragment) . "].");
     }
 
 

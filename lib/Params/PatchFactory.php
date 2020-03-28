@@ -14,6 +14,11 @@ use Params\PatchOperation\TestPatchOperation;
 
 class PatchFactory
 {
+    /**
+     * @param string $op
+     * @param string $path
+     * @param array $patchEntryInput
+     */
     private static function createPatchEntryForArray($op, $path, $patchEntryInput)
     {
         if ($op === PatchOperation::TEST) {
@@ -55,10 +60,11 @@ class PatchFactory
 
 
     /**
+     * Converts input data into patch objects or gives error.
      * @param array $patchEntry
      * @return array
      */
-    private static function checkArrayEntryForValidity(array $patchEntry)
+    private static function convertInputArrayToPatchObjects(array $patchEntry)
     {
         if (array_key_exists('op', $patchEntry) === false) {
             return ["missing 'op'", null];
@@ -72,6 +78,11 @@ class PatchFactory
             $patchEntry['path'],
             $patchEntry
         );
+    }
+
+
+    private static function blah()
+    {
     }
 
     /**
@@ -91,13 +102,15 @@ class PatchFactory
             // todo - do we want to support both array and object decoded patches?
             // for now we will.
             if (is_array($patchEntryInput) === true) {
-                [$error, $patchEntry] = self::checkArrayEntryForValidity($patchEntryInput);
+                [$error, $patchEntry] = self::convertInputArrayToPatchObjects($patchEntryInput);
             }
             else {
                 $error = "Patch entry $count is not an array.";
             }
 
             if ($error !== null) {
+                // TODO - handle to string conversion better.
+                $error = (string)$error;
                 $errorMessages[] = "Error for entry $count: " . $error;
             }
             if ($patchEntry !== null) {
@@ -114,6 +127,7 @@ class PatchFactory
             );
 
             // TODO - is this root name correct?
+            throw new \Exception("This code is invalid and needs fixing.");
             return ValidationResult::errorResult("", $message);
         }
 

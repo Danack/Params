@@ -14,14 +14,15 @@ use Params\Path;
  */
 class AlwaysEndsRule implements ProcessRule
 {
-    private $finalResult;
+    /** @var mixed */
+    private $finalValue;
 
     /**
      * @param mixed $finalResult
      */
     public function __construct($finalResult)
     {
-        $this->finalResult = $finalResult;
+        $this->finalValue = $finalResult;
     }
 
     /**
@@ -32,7 +33,7 @@ class AlwaysEndsRule implements ProcessRule
      */
     public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
-        return ValidationResult::finalValueResult($this->finalResult);
+        return ValidationResult::finalValueResult($this->finalValue);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

@@ -18,14 +18,14 @@ class GetFloatOrDefaultTest extends BaseTestCase
     public function provideTestCases()
     {
         return [
-            // Test value is read as string
-            [new ArrayVarMap(['foo' => '5']), 'john', 5.0],
+//            // Test value is read as string
+//            [new ArrayVarMap(['foo' => '5']), 'john', 5.0],
 
             // Test value is read as float
-            [new ArrayVarMap(['foo' => 5]), 'john', 5.0],
+            [new ArrayVarMap(['foo' => 5]), 20, 5.0],
 
-            // Test default is used as string
-            [new ArrayVarMap([]), '5', 5.0],
+//            // Test default is used as string
+//            [new ArrayVarMap([]), '5', 5.0],
 
             // Test default is used as float
             [new ArrayVarMap([]), 5, 5.0],
@@ -34,7 +34,7 @@ class GetFloatOrDefaultTest extends BaseTestCase
             [new ArrayVarMap([]), null, null],
 
             // Extra checks
-            [new ArrayVarMap([]), '-1000.1', -1000.1],
+            [new ArrayVarMap([]), -1000.1, -1000.1],
         ];
     }
 

@@ -21,6 +21,8 @@ class MinLength implements ProcessRule
 
     public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
+        // TODO - handle to string conversion better.
+        $value = (string)$value;
         if (strlen($value) < $this->minLength) {
             return ValidationResult::errorResult(
                 $path,

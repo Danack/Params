@@ -18,13 +18,12 @@ class GetFloatOrDefault implements ExtractRule
 {
     const ERROR_MESSAGE = 'Value not set.';
 
-    private $default;
+    private ?float $default;
 
     /**
-     * setOrDefaultValidator constructor.
-     * @param mixed $default
+     * @param float $default
      */
-    public function __construct($default)
+    public function __construct(?float  $default)
     {
         $this->default = $default;
     }

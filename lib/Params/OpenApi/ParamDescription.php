@@ -119,7 +119,7 @@ interface ParamDescription
     /**
      * @param int|float $minimum
      */
-    public function setMinimum($minimum);
+    public function setMinimum($minimum): void;
 
     // boolean See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3.
     public function setExclusiveMinimum(bool $exclusiveMinimum): void;
@@ -156,5 +156,9 @@ interface ParamDescription
     public function setEnum(array $enumValues): void;
 
     // number See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.1.
+
+    /**
+     * @param int|float $multiple
+     */
     public function setMultipleOf($multiple): void;
 }

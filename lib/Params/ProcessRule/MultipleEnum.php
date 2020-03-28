@@ -35,7 +35,8 @@ class MultipleEnum implements ProcessRule
 
     public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
-        $value = trim($value);
+        // TODO - handle to string conversion better.
+        $value = trim((string)$value);
         $filterStringParts = explode(',', $value);
         $filterElements = [];
         foreach ($filterStringParts as $filterStringPart) {

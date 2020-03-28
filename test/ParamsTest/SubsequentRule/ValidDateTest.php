@@ -32,6 +32,7 @@ class ValidDateTest extends BaseTestCase
     /**
      * @dataProvider provideTestWorksCases
      * @covers \Params\ProcessRule\ValidDate
+     * @group heisenbug
      */
     public function testValidationWorks($input, $expectedTime)
     {

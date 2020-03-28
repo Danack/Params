@@ -16,6 +16,8 @@ class ValidDatetime implements ProcessRule
 
     public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
+        $value = (string)$value;
+
         $dateTime = \DateTime::createFromFormat(\DateTime::RFC3339, $value);
         if ($dateTime instanceof \DateTime) {
             return ValidationResult::valueResult($dateTime);

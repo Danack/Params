@@ -26,7 +26,7 @@ class ParamsExecutor
      * @template T
      * @param class-string<T> $classname
      * @param \Params\Param[] $params
-     * @return {object, \Params\ValidationProblem[]}|{null, \Params\ValidationProblem[]}
+     * @return array{0:?object, 1:\Params\ValidationProblem[]}
      * @throws Exception\ParamsException
      * @throws ValidationException
      *
@@ -52,8 +52,8 @@ class ParamsExecutor
      * @template T
      * @param class-string<T> $classname
      * @param \Params\Param[] $params
-     * @param Path
-     * @return {object, \Params\ValidationProblem[]}|{null, \Params\ValidationProblem[]}
+     * @param Path $path
+     * @return array{0:?object, 1:\Params\ValidationProblem[]}
      * @throws Exception\ParamsException
      * @throws ValidationException
      *
@@ -76,18 +76,22 @@ class ParamsExecutor
     /**
      * @template T
      * @param class-string<T> $classname
-     * @param \Params\Param[] $namedRules
+     * @param \Params\Param[] $params
      * @param VarMap $sourceData
      * @return T of object
      * @throws ValidationException
      * @throws \ReflectionException
      */
-    public static function create($classname, $namedRules, VarMap $sourceData)
+    public static function create($classname, $params, VarMap $sourceData)
     {
         $paramsValuesImpl = new ParamsValuesImpl();
         $path = Path::initial();
 
-        $validationProblems = $paramsValuesImpl->executeRulesWithValidator($namedRules, $sourceData, $path);
+        $validationProblems = $paramsValuesImpl->executeRulesWithValidator(
+            $params,
+            $sourceData,
+            $path
+        );
 
         if (count($validationProblems) !== 0) {
             throw new ValidationException("Validation problems", $validationProblems);
@@ -105,6 +109,11 @@ class ParamsExecutor
      * Creating patches is slightly harder. For Params the order of parameters isn't
      * important, for patch operations it is. e.g. copy -> delete != delete->copy
      *
+     * @param \Params\PatchRule\PatchRule[] $namedRules
+     * @param array $sourceData
+     * @return array
+     * @throws PatchFormatException
+     * @throws ValidationException
      */
     public static function createPatch($namedRules, array $sourceData): array
     {
@@ -131,6 +140,13 @@ class ParamsExecutor
         return [true, $path];
     }
 
+    /**
+     * @param PatchOperation $patchObject
+     * @param \Params\PatchRule\PatchRule[] $patchRules
+     * @return array
+     * @throws Exception\ParamsException
+     * @throws ValidationException
+     */
     public static function processPatchObject(
         PatchOperation $patchObject,
         $patchRules
@@ -164,11 +180,12 @@ class ParamsExecutor
             $patchObject->getOpType()
         );
 
+        // TODO - This is a bug. Message shouldn't be a string but a ValidationProblem
         return [null, [$message]];
     }
 
     /**
-     * @param $patchRules
+     * @param \Params\PatchRule\PatchRule[] $patchRules
      * @param array $sourceData
      * @return array
      */

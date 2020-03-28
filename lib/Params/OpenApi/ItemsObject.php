@@ -28,12 +28,24 @@ interface ItemsObject
     public function setItems(string $items): void;
 
     // number See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.2.
+
+    /**
+     * @param float|int $maximum
+     */
     public function setMaximum($maximum): void;
 
     // boolean See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.2.
     public function setExclusiveMaximum(bool $exclusiveMinimum): void;
 
-    // number See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3.
+    /**
+     * @param float|int $number
+     * See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3.
+     */
+
+    /**
+     * @param float|int $number
+     * See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3.
+     */
     public static function setMinimum($number): void;
 
     // boolean See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3.
@@ -67,6 +79,9 @@ interface ItemsObject
      */
     public function setEnum(array $enum): void;
 
-    // number See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.1.
+    /**
+     * @param float|int $number
+     * See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.1.
+     */
     public function setMultipleOf($number): void;
 }

@@ -12,6 +12,9 @@ use Params\Path;
 
 class GetArrayOfTypeOrNull extends GetArrayOfType implements ExtractRule
 {
+    /**
+     * @param class-string $className
+     */
     public function __construct(string $className)
     {
         parent::__construct($className);

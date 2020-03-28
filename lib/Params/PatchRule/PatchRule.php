@@ -15,7 +15,7 @@ interface PatchRule
     public function getPathRegex(): string;
 
     /**
-     * @return class-string<mixed>
+     * @return class-string
      */
     public function getClassName(): string;
 

@@ -14,11 +14,14 @@ class Trim implements ProcessRule
 {
     public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
-        return ValidationResult::valueResult(trim($value));
+
+        // TODO - handle string conversion more safely?
+        return ValidationResult::valueResult(trim((string)$value));
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
         // Does nothing?
+        // Should update description?
     }
 }

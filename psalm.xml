@@ -1,21 +1,147 @@
 <?xml version="1.0"?>
 <psalm
-    totallyTyped="true"
-    errorLevel="1"
-    resolveFromConfigFile="true"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
->
+        totallyTyped="true"
+        errorLevel="1"
+        resolveFromConfigFile="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+        errorBaseline="psalm-baseline.xml">
 
     <issueHandlers>
-      <MixedAssignment errorLevel="suppress" />
+        <MixedAssignment errorLevel="suppress"/>
+        <!-- TODO - this needs to be re-enabled -->
+        <PossiblyInvalidArgument>
+            <errorLevel type="suppress">
+                <directory name="*"/>
+            </errorLevel>
+        </PossiblyInvalidArgument>
+
+        <!-- TODO - this needs to be re-enabled -->
+        <PossiblyInvalidArgument>
+            <errorLevel type="suppress">
+                <directory name="lib/Params/PatchRule"/>
+            </errorLevel>
+        </PossiblyInvalidArgument>
+
+        <!-- TODO - this needs to be re-enabled -->
+        <MixedArgument>
+            <errorLevel type="suppress">
+                <file name="lib/Params/PatchFactory.php"/>
+                <file name="lib/Params/ParamsExecutor.php"/>
+                <file name="lib/Params/Functions.php"/>
+            </errorLevel>
+        </MixedArgument>
+
+
+
+        <!-- TODO - this needs to be re-enabled -->
+        <InvalidArgument>
+            <errorLevel type="suppress">
+                <file name="lib/Params/ParamsExecutor.php"/>
+            </errorLevel>
+        </InvalidArgument>
+
+
+        <!-- TODO - this needs to be re-enabled -->
+        <InvalidDocblock>
+            <errorLevel type="suppress">
+                <directory name="lib/Params/PatchRule"/>
+            </errorLevel>
+        </InvalidDocblock>
+
+        <!-- TODO - this needs to be re-enabled -->
+        <InvalidReturnStatement>
+            <errorLevel type="suppress">
+                <file name="lib/Params/OpenApi/OpenApiV300ParamDescription.php" />
+            </errorLevel>
+        </InvalidReturnStatement>
+
+        <!-- TODO - this needs to be re-enabled -->
+        <InvalidReturnType>
+            <errorLevel type="suppress">
+                <file name="lib/Params/OpenApi/OpenApiV300ParamDescription.php" />
+            </errorLevel>
+        </InvalidReturnType>
+
+
+
+
+
+        <!-- TODO - this needs to be re-enabled -->
+        <InvalidScalarArgument>
+            <errorLevel type="suppress">
+                <file name="lib/Params/ParamsExecutor.php"/>
+            </errorLevel>
+        </InvalidScalarArgument>
+
+
+
+
+        <!-- TODO - this needs to be re-enabled -->
+        <PossiblyInvalidArgument>
+            <errorLevel type="suppress">
+                <referencedFunction name="VarMap\VarMap::has"/>
+                <referencedFunction name="VarMap\VarMap::get"/>
+            </errorLevel>
+        </PossiblyInvalidArgument>
+
+        <!-- TODO - this needs to be re-enabled -->
+        <MissingParamType>
+            <errorLevel type="suppress">
+                <file name="lib/Params/PatchFactory.php"/>
+            </errorLevel>
+        </MissingParamType>
+
+
+
+
+        <!-- TODO - this needs to be re-enabled -->
+        <MixedArrayAccess>
+            <errorLevel type="suppress">
+                <file name="lib/Params/Functions.php"/>
+            </errorLevel>
+        </MixedArrayAccess>
+
+        <!-- TODO - this needs to be re-enabled -->
+        <MixedReturnStatement>
+            <errorLevel type="suppress">
+                <file name="lib/Params/PatchFactory.php"/>
+                <file name="lib/Params/ParamsExecutor.php"/>
+            </errorLevel>
+        </MixedReturnStatement>
+
+        <!-- TODO - this needs to be re-enabled -->
+        <MixedInferredReturnType>
+            <errorLevel type="suppress">
+                <file name="lib/Params/PatchFactory.php"/>
+                <file name="lib/Params/ParamsExecutor.php"/>
+            </errorLevel>
+        </MixedInferredReturnType>
+
+
+        <!-- TODO - this needs to be re-enabled -->
+        <MissingReturnType>
+            <errorLevel type="suppress">
+                <file name="lib/Params/PatchFactory.php"/>
+            </errorLevel>
+        </MissingReturnType>
+
+        <!-- TODO - this needs to be re-enabled -->
+        <MixedReturnTypeCoercion>
+            <errorLevel type="suppress">
+                <file name="lib/Params/ParamsValuesImpl.php"/>
+            </errorLevel>
+        </MixedReturnTypeCoercion>
     </issueHandlers>
 
+
+
+
     <projectFiles>
-        <directory name="lib" />
+        <directory name="lib"/>
         <ignoreFiles>
-            <directory name="vendor" />
+            <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
 </psalm>

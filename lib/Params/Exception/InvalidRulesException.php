@@ -7,7 +7,7 @@ namespace Params\Exception;
 class InvalidRulesException extends \Params\Exception\ParamsException
 {
     /**
-     *
+     * @param mixed $badValue
      * @return InvalidRulesException
      */
     public static function badTypeForArrayAccess($badValue)

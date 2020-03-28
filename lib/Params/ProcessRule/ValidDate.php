@@ -16,6 +16,8 @@ class ValidDate implements ProcessRule
 
     public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
+        // TODO - should we handle this better?
+        $value = (string)$value;
         $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d', $value);
         if ($dateTime instanceof \DateTimeImmutable) {
             $dateTime = $dateTime->setTime(0, 0, 0, 0);

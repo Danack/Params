@@ -24,7 +24,9 @@ class MaxLength implements ProcessRule
     }
     public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
-        if (strlen($value) > $this->maxLength) {
+        // TODO - handle to string conversion better.
+
+        if (strlen((string)$value) > $this->maxLength) {
             $message = sprintf(
                 "String too long for '%s', max chars is %d.",
                 $path->toString(),

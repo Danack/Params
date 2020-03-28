@@ -11,9 +11,7 @@ use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ProcessRule\IntegerInput;
 use Params\ParamValues;
-use Params\Functions;
 use Params\Path;
-
 
 class GetArrayOfInt implements ExtractRule
 {
@@ -39,14 +37,14 @@ class GetArrayOfInt implements ExtractRule
 
         // Check its set
         if ($varMap->has($path->getCurrentName()) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE_NOT_SET, $path);
+            $message = sprintf(self::ERROR_MESSAGE_NOT_SET, $path->getCurrentName());
             return ValidationResult::errorResult($path, $message);
         }
 
         // Check its an array
         $itemData = $varMap->get($path->getCurrentName());
         if (is_array($itemData) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE_NOT_ARRAY, $path);
+            $message = sprintf(self::ERROR_MESSAGE_NOT_ARRAY, $path->getCurrentName());
             return ValidationResult::errorResult($path, $message);
         }
 

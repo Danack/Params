@@ -20,13 +20,13 @@ class GetIntOrDefaultTest extends BaseTestCase
     {
         return [
 
-            // Test value is read as string
-            [new ArrayVarMap(['foo' => '5']), 'john', 5],
+//            // Test value is read as string
+//            [new ArrayVarMap(['foo' => '5']), 'john', 5],
             // Test value is read as int
-            [new ArrayVarMap(['foo' => 5]), 'john', 5],
+            [new ArrayVarMap(['foo' => 5]), 20, 5],
 
-            // Test default is used as string
-            [new ArrayVarMap([]), '5', 5],
+//            // Test default is used as string
+//            [new ArrayVarMap([]), '5', 5],
 
             // Test default is used as int
             [new ArrayVarMap([]), 5, 5],

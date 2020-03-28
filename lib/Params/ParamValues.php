@@ -11,7 +11,11 @@ namespace Params;
  */
 interface ParamValues
 {
-    public function hasParam(string $name);
+    public function hasParam(string $name): bool;
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
     public function getParam(string $name);
 }

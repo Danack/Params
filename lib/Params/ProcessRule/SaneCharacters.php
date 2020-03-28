@@ -9,6 +9,7 @@ use Params\OpenApi\ParamDescription;
 use Params\ValidationResult;
 use Params\ParamValues;
 use Params\Path;
+use Params\ProcessRule\ValidCharacters;
 
 class SaneCharacters implements ProcessRule
 {
@@ -65,7 +66,10 @@ class SaneCharacters implements ProcessRule
     // \P{xx} a character without the xx property
     // \X an extended Unicode sequence
 
-    private $validCharacters;
+    /**
+     * @var ValidCharacters
+     */
+    private \Params\ProcessRule\ValidCharacters $validCharacters;
 
     /**
      * SaneCharacters constructor.
@@ -89,7 +93,8 @@ class SaneCharacters implements ProcessRule
         // Any 3 or more combining things.
         $disallowedPattern = "/([\u{0300}-\u{036F}\u{20D0}-\u{20FF}]{3,})/xu";
         $matches = [];
-        $count = preg_match($disallowedPattern, $value, $matches, PREG_OFFSET_CAPTURE);
+        // TODO - handle string conversion better?
+        $count = preg_match($disallowedPattern, (string)$value, $matches, PREG_OFFSET_CAPTURE);
 
         if ($count === false) {
             throw new LogicException("preg_match failed");

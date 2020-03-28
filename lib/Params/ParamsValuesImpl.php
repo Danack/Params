@@ -19,12 +19,12 @@ use Params\Functions;
  */
 class ParamsValuesImpl implements ParamValues
 {
-    /** @var array<string, mixed>  */
+    /** @var array<int|string, mixed>  */
     private array $paramValues = [];
 
     /**
      * Gets the currently processed params.
-     * @return array<string, mixed>
+     * @return array<int|string, mixed>
      */
     public function getParamsValues()
     {
@@ -144,12 +144,7 @@ class ParamsValuesImpl implements ParamValues
                 $path
             );
 
-            try {
-                $validationProblems = [...$validationProblems, ...$newValidationProblems];
-            }
-            catch (\Throwable $t) {
-                echo "wat " . $t;
-            }
+            $validationProblems = [...$validationProblems, ...$newValidationProblems];
         }
 
         return $validationProblems;

@@ -12,13 +12,13 @@ use Params\Path;
 
 class GetStringOrDefault implements ExtractRule
 {
-    private $default;
+    private ?string $default;
 
     /**
      * setOrDefaultValidator constructor.
-     * @param mixed $default
+     * @param ?string $default
      */
-    public function __construct($default)
+    public function __construct(?string $default)
     {
         $this->default = $default;
     }

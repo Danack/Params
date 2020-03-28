@@ -14,13 +14,12 @@ use Params\Path;
 
 class GetIntOrDefault implements ExtractRule
 {
-    private $default;
+    private ?int $default;
 
     /**
-     * setOrDefaultValidator constructor.
-     * @param mixed $default
+     * @param ?int $default
      */
-    public function __construct($default)
+    public function __construct(?int $default)
     {
         $this->default = $default;
     }

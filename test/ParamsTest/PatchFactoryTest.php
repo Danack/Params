@@ -21,7 +21,7 @@ class PatchFactoryTest extends BaseTestCase
 {
     /**
      * @covers \Params\PatchFactory
-     * @group needs_fixing
+     * @group
      */
     public function testBasicErrors()
     {

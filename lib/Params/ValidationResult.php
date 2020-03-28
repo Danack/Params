@@ -53,9 +53,9 @@ class ValidationResult
             if (is_int($key)  === false) {
                 throw new \LogicException("Key for array must be integer");
             }
-            if (!$validationProblem instanceof ValidationProblem) {
+            if (!($validationProblem instanceof ValidationProblem)) {
                 throw new \LogicException(
-                    "Array must contain only 'ValidationProblem's instead got " . getType($validationProblem)
+                    "Array must contain only 'ValidationProblem's instead got " . gettype($validationProblem)
                 );
             }
         }
@@ -84,6 +84,9 @@ class ValidationResult
         return new self($value, [], true);
     }
 
+    /**
+     * @return mixed
+     */
     public function getValue()
     {
         return $this->value;

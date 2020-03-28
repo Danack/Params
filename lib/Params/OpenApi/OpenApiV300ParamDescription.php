@@ -9,13 +9,15 @@ use Params\Exception\OpenApiException;
 
 class OpenApiV300ParamDescription implements ParamDescription
 {
-
     private string $name;
 
     private ?string $type = null;
 
     private ?string $format = null;
 
+    /**
+     * @var ?array<mixed>
+     */
     private $enumValues = null;
 
     private ?bool $required = null;
@@ -30,6 +32,9 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     private ?int $minLength = null;
 
+    /**
+     * @var mixed
+     */
     private $default = null;
 
     private ?bool $exclusiveMaximum = null;
@@ -73,7 +78,7 @@ class OpenApiV300ParamDescription implements ParamDescription
         return $ruleDescriptions;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         $array = [];
 
@@ -92,7 +97,8 @@ class OpenApiV300ParamDescription implements ParamDescription
         return $array;
     }
 
-    private function generateSchema()
+
+    private function generateSchema(): array
     {
         $schema = [];
 
@@ -377,22 +383,19 @@ class OpenApiV300ParamDescription implements ParamDescription
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
-    public function getFormat(): string
+    public function getFormat(): ?string
     {
         return $this->format;
     }
 
+    /**
+     * @return ?array<mixed>
+     */
     public function getEnumValues()
     {
         return $this->enumValues;
@@ -404,7 +407,7 @@ class OpenApiV300ParamDescription implements ParamDescription
     }
 
     /**
-     * @return float|int
+     * @return float|int|null
      */
     public function getMinimum()
     {
@@ -424,10 +427,7 @@ class OpenApiV300ParamDescription implements ParamDescription
         return $this->maxLength;
     }
 
-    /**
-     * @return int
-     */
-    public function getMinLength(): int
+    public function getMinLength(): ?int
     {
         return $this->minLength;
     }

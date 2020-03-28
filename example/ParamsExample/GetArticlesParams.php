@@ -71,18 +71,17 @@ class GetArticlesParams implements InputToParamInfoListAware
     {
         return [
 
-            'order',
-            new GetStringOrDefault('-date'),
 
 
             new Param(
-
-                new MaxLength(1024),
+                'order',
+                new GetStringOrDefault('-date'),
+//                new MaxLength(1024),
                 new Order(self::getKnownOrderNames())
             ),
             new Param(
                 'limit',
-                new GetIntOrDefault((string)self::LIMIT_DEFAULT),
+                new GetIntOrDefault(self::LIMIT_DEFAULT),
                 new MinIntValue(self::LIMIT_MIN),
                 new MaxIntValue(self::LIMIT_MAX)
             ),

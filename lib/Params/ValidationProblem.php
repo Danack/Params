@@ -13,11 +13,6 @@ class ValidationProblem
 
     private string $problemMessage;
 
-    /**
-     *
-     * @param string $path
-     * @param string $description
-     */
     public function __construct(Path $path, string $description)
     {
         $this->path = $path;

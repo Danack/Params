@@ -96,7 +96,7 @@ class Functions
      *
      * @param string $pointer
      */
-    public static function unescapeJsonPointer(string $pointer)
+    public static function unescapeJsonPointer(string $pointer): string
     {
         // first transforming any occurrence of the sequence '~1' to '/'
         $result = str_replace('~1', '/', $pointer);

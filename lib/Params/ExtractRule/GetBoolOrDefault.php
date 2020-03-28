@@ -14,13 +14,13 @@ use Params\Path;
 
 class GetBoolOrDefault implements ExtractRule
 {
-    private bool $default;
+    private ?bool $default;
 
     /**
      * setOrDefaultValidator constructor.
      * @param bool $default The default value to use.
      */
-    public function __construct(bool $default)
+    public function __construct(?bool $default)
     {
         $this->default = $default;
     }

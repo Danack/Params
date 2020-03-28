@@ -2,6 +2,7 @@
 
 declare(strict_types = 1);
 
+namespace ParamsTest;
 
 use ParamsTest\BaseTestCase;
 use Params\Path;

@@ -10,7 +10,7 @@ class PatchMove implements PatchRule
 {
     private string $pathRegex;
 
-    /** @var class-string<mixed> */
+    /** @var class-string */
     private string $className;
 
     /**
@@ -21,7 +21,7 @@ class PatchMove implements PatchRule
     /**
      *
      * @param string $pathRegex
-     * @param class-string<mixed> $className
+     * @param class-string $className
      * @param \Params\Param[] $rules
      */
     public function __construct(string $pathRegex, string $className, array $rules)
@@ -40,7 +40,7 @@ class PatchMove implements PatchRule
     }
 
     /**
-     * @return class-string<mixed>
+     * @return class-string
      */
     public function getClassName(): string
     {

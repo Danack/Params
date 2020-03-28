@@ -14,7 +14,7 @@ use Params\Path;
 
 class GetArrayOfType implements ExtractRule
 {
-    /** @var class-string<mixed> */
+    /** @var class-string */
     private string $className;
 
     const ERROR_MESSAGE_NOT_SET = "Value must be set.";
@@ -24,7 +24,7 @@ class GetArrayOfType implements ExtractRule
     const ERROR_MESSAGE_ITEM_NOT_ARRAY = "Values for type '%s' must be an array, but got '%s'. Use GetArrayOfInt|String for single values.";
 
     /**
-     * @param class-string<mixed> $className
+     * @param class-string $className
      */
     public function __construct(string $className)
     {
@@ -50,12 +50,11 @@ class GetArrayOfType implements ExtractRule
 
         // Setup stuff
         $items = [];
-        /** @var array<string> $allValidationProblems */
+        /** @var \Params\ValidationProblem[] $allValidationProblems */
         $allValidationProblems = [];
         $index = 0;
         // TODO - why don't we use the key here?
         foreach ($itemData as $itemDatum) {
-
             $pathForItem = $path->addArrayIndexPathFragment($index);
 
             if (is_array($itemDatum) !== true) {
@@ -71,6 +70,7 @@ class GetArrayOfType implements ExtractRule
             $dataVarMap = new ArrayVarMap($itemDatum);
             $rules = call_user_func([$this->className, 'getInputToParamInfoList'], $dataVarMap);
 
+            /** @var \Params\Param[] $rules */
             [$item, $validationProblems] = ParamsExecutor::createOrErrorFromPath(
                 $this->className,
                 $rules,
@@ -78,8 +78,6 @@ class GetArrayOfType implements ExtractRule
                 $pathForItem
             );
             $allValidationProblems = [...$allValidationProblems, ...$validationProblems];
-
-
 
             $index += 1;
 
