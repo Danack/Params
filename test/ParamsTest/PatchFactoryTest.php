@@ -6,7 +6,7 @@ namespace ParamsTest\Exception\Validator;
 
 use Params\PatchFactory;
 use ParamsTest\BaseTestCase;
-use Params\ValidationResult;
+use Params\PatchValidationResult;
 use Params\PatchOperation\TestPatchOperation;
 use Params\PatchOperation\RemovePatchOperation;
 use Params\PatchOperation\ReplacePatchOperation;
@@ -16,36 +16,55 @@ use Params\PatchOperation\AddPatchOperation;
 
 /**
  * @coversNothing
+ * @group patch
  */
 class PatchFactoryTest extends BaseTestCase
 {
+
     /**
      * @covers \Params\PatchFactory
-     * @group
+     */
+    public function testNonArrayData()
+    {
+        $nonArrayInput = [
+            "This is not an array",
+        ];
+
+        $result = PatchFactory::convertInputToPatchObjects($nonArrayInput);
+        $this->assertTrue($result->isFinalResult());
+
+        $this->assertPatchValidationProblem(
+            "Not a valid operation object.",
+            $result->getPatchObjectProblems()
+        );
+    }
+
+
+        /**
+     * @covers \Params\PatchFactory
      */
     public function testBasicErrors()
     {
         $missingPathData = [
-            [ "op" => "add",  ]
+            [ "op" => "add" ]
         ];
 
         $result = PatchFactory::convertInputToPatchObjects($missingPathData);
         $this->assertTrue($result->isFinalResult());
 
-        $problems = $result->getValidationProblems();
+        $problems = $result->getPatchObjectProblems();
         $this->assertCount(1, $problems);
-        $this->assertStringContainsString("missing 'path'", $problems['/']);
+        $this->assertPatchValidationProblem(PatchFactory::$OPERATION_MISSING_PATH, $problems);
 
         $missingOpData = [
-            [ "path" => "/a/b/c",  ]
+            [ "path" => "/a/b/c" ]
         ];
 
         $result = PatchFactory::convertInputToPatchObjects($missingOpData);
         $this->assertTrue($result->isFinalResult());
-
-        $problems = $result->getValidationProblems();
+        $problems = $result->getPatchObjectProblems();
         $this->assertCount(1, $problems);
-        $this->assertStringContainsString("missing 'op'", $problems['/']);
+        $this->assertPatchValidationProblem(PatchFactory::$OPERATION_MISSING_OP, $problems);
     }
 
     /**
@@ -62,18 +81,19 @@ class PatchFactoryTest extends BaseTestCase
 
         $result = PatchFactory::convertInputToPatchObjects($data);
 
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertEmpty(
-            $result->getValidationProblems(),
-            "Problems were: " . implode($result->getValidationProblems())
+            $result->getPatchObjectProblems(),
+            "Problems were: " . implode($result->getPatchObjectProblems())
         );
         $this->assertFalse($result->isFinalResult());
 
 
-        $patchOperations = $result->getValue();
+        $patchOperations = $result->getPatchOperations();
         $this->assertCount(1, $patchOperations);
         $patchOperation = $patchOperations[0];
         $this->assertInstanceOf(AddPatchOperation::class, $patchOperation);
+
         $this->assertSame($path, $patchOperation->getPath());
         $this->assertSame($value, $patchOperation->getValue());
     }
@@ -92,15 +112,15 @@ class PatchFactoryTest extends BaseTestCase
 
         $result = PatchFactory::convertInputToPatchObjects($data);
 
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertEmpty(
-            $result->getValidationProblems(),
-            "Problems were: " . implode($result->getValidationProblems())
+            $result->getPatchObjectProblems(),
+            "Problems were: " . implode($result->getPatchObjectProblems())
         );
         $this->assertFalse($result->isFinalResult());
 
 
-        $patchOperations = $result->getValue();
+        $patchOperations = $result->getPatchOperations();
         $this->assertCount(1, $patchOperations);
         $patchOperation = $patchOperations[0];
         $this->assertInstanceOf(CopyPatchOperation::class, $patchOperation);
@@ -123,14 +143,14 @@ class PatchFactoryTest extends BaseTestCase
 
         $result = PatchFactory::convertInputToPatchObjects($data);
 
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertEmpty(
-            $result->getValidationProblems(),
-            "Problems were: " . implode($result->getValidationProblems())
+            $result->getPatchObjectProblems(),
+            "Problems were: " . implode($result->getPatchObjectProblems())
         );
         $this->assertFalse($result->isFinalResult());
 
-        $patchOperations = $result->getValue();
+        $patchOperations = $result->getPatchOperations();
         $this->assertCount(1, $patchOperations);
         $patchOperation = $patchOperations[0];
         $this->assertInstanceOf(MovePatchOperation::class, $patchOperation);
@@ -145,22 +165,20 @@ class PatchFactoryTest extends BaseTestCase
     public function testPatchRemove()
     {
         $path = "/a/b/c";
-        $value = "foo";
-
         $data = [
             [ "op" => "remove", "path" => $path]
         ];
 
         $result = PatchFactory::convertInputToPatchObjects($data);
 
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertEmpty(
-            $result->getValidationProblems(),
-            "Problems were: " . implode($result->getValidationProblems())
+            $result->getPatchObjectProblems(),
+            "Problems were: " . implode($result->getPatchObjectProblems())
         );
         $this->assertFalse($result->isFinalResult());
 
-        $patchOperations = $result->getValue();
+        $patchOperations = $result->getPatchOperations();
         $this->assertCount(1, $patchOperations);
         $patchOperation = $patchOperations[0];
         $this->assertInstanceOf(RemovePatchOperation::class, $patchOperation);
@@ -169,7 +187,6 @@ class PatchFactoryTest extends BaseTestCase
 
     /**
      * @covers \Params\PatchFactory
-     * @group needs_fixing
      */
     public function testPatchReplace()
     {
@@ -182,15 +199,14 @@ class PatchFactoryTest extends BaseTestCase
 
         $result = PatchFactory::convertInputToPatchObjects($data);
 
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertEmpty(
-            $result->getValidationProblems(),
-            "Problems were: " . implode($result->getValidationProblems())
+            $result->getPatchObjectProblems(),
+            "Problems were: " . implode($result->getPatchObjectProblems())
         );
         $this->assertFalse($result->isFinalResult());
 
-
-        $patchOperations = $result->getValue();
+        $patchOperations = $result->getPatchOperations();
         $this->assertCount(1, $patchOperations);
         $patchOperation = $patchOperations[0];
         $this->assertInstanceOf(ReplacePatchOperation::class, $patchOperation);
@@ -200,7 +216,6 @@ class PatchFactoryTest extends BaseTestCase
 
     /**
      * @covers \Params\PatchFactory
-     * @group needs_fixing
      */
     public function testPatchTest()
     {
@@ -213,14 +228,14 @@ class PatchFactoryTest extends BaseTestCase
 
         $result = PatchFactory::convertInputToPatchObjects($data);
 
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertEmpty(
-            $result->getValidationProblems(),
-            "Problems were: " . implode($result->getValidationProblems())
+            $result->getPatchObjectProblems(),
+            "Problems were: " . implode($result->getPatchObjectProblems())
         );
         $this->assertFalse($result->isFinalResult());
 
-        $patchOperations = $result->getValue();
+        $patchOperations = $result->getPatchOperations();
         $this->assertCount(1, $patchOperations);
         $patchOperation = $patchOperations[0];
         $this->assertInstanceOf(TestPatchOperation::class, $patchOperation);
@@ -228,11 +243,8 @@ class PatchFactoryTest extends BaseTestCase
         $this->assertSame($value, $patchOperation->getValue());
     }
 
-
-
     /**
      * @covers \Params\PatchFactory
-     * @group needs_fixing
      */
     public function testAddErrorMessage()
     {
@@ -240,21 +252,19 @@ class PatchFactoryTest extends BaseTestCase
             [ "op" => "add", "path" => "/a/b/c"]
         ];
         $result = PatchFactory::convertInputToPatchObjects($data);
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertTrue($result->isFinalResult());
         $this->assertTrue($result->anyErrorsFound());
-        $this->assertCount(1, $result->getValidationProblems());
+        $this->assertCount(1, $result->getPatchObjectProblems());
 
-        $message = $result->getValidationProblems()['/'];
-        $this->assertStringContainsString(
+        $this->assertPatchValidationProblem(
             "Add operation must contain an entry for 'value'",
-            $message
+            $result->getPatchObjectProblems()
         );
     }
 
     /**
      * @covers \Params\PatchFactory
-     * @group needs_fixing
      */
     public function testCopyErrorMessage()
     {
@@ -262,20 +272,18 @@ class PatchFactoryTest extends BaseTestCase
             [ "op" => "copy", "path" => "/a/b/c"]
         ];
         $result = PatchFactory::convertInputToPatchObjects($data);
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertTrue($result->isFinalResult());
-        $this->assertCount(1, $result->getValidationProblems());
+        $this->assertCount(1, $result->getPatchObjectProblems());
 
-        $message = $result->getValidationProblems()['/'];
-        $this->assertStringContainsString(
+        $this->assertPatchValidationProblem(
             "Copy operation must contain an entry for 'from'",
-            $message
+            $result->getPatchObjectProblems()
         );
     }
 
     /**
      * @covers \Params\PatchFactory
-     * @group needs_fixing
      */
     public function testMoveErrorMessage()
     {
@@ -283,21 +291,19 @@ class PatchFactoryTest extends BaseTestCase
             [ "op" => "move", "path" => "/a/b/c"]
         ];
         $result = PatchFactory::convertInputToPatchObjects($data);
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertTrue($result->isFinalResult());
-        $this->assertCount(1, $result->getValidationProblems());
+        $this->assertCount(1, $result->getPatchObjectProblems());
 
-        $message = $result->getValidationProblems()['/'];
-        $this->assertStringContainsString(
+
+        $this->assertPatchValidationProblem(
             "Move operation must contain an entry for 'from'",
-            $message
+            $result->getPatchObjectProblems()
         );
     }
 
-
     /**
      * @covers \Params\PatchFactory
-     * @group needs_fixing
      */
     public function testReplaceErrorMessage()
     {
@@ -305,14 +311,13 @@ class PatchFactoryTest extends BaseTestCase
             [ "op" => "replace", "path" => "/a/b/c"]
         ];
         $result = PatchFactory::convertInputToPatchObjects($data);
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertTrue($result->isFinalResult());
-        $this->assertCount(1, $result->getValidationProblems());
+        $this->assertCount(1, $result->getPatchObjectProblems());
 
-        $message = $result->getValidationProblems()['/'];
-        $this->assertStringContainsString(
+        $this->assertPatchValidationProblem(
             "Replace operation must contain an entry for 'value'",
-            $message
+            $result->getPatchObjectProblems()
         );
     }
 
@@ -326,21 +331,19 @@ class PatchFactoryTest extends BaseTestCase
             [ "op" => "test", "path" => "/a/b/c"]
         ];
         $result = PatchFactory::convertInputToPatchObjects($data);
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertTrue($result->isFinalResult());
-        $this->assertCount(1, $result->getValidationProblems());
+        $this->assertCount(1, $result->getPatchObjectProblems());
 
-        $message = $result->getValidationProblems()['/'];
-        $this->assertStringContainsString(
+        $this->assertPatchValidationProblem(
             "Test operation must contain an entry for 'value'",
-            $message
+            $result->getPatchObjectProblems()
         );
     }
 
 
     /**
      * @covers \Params\PatchFactory
-     * @group needs_fixing
      */
     public function testUnknownErrorMessage()
     {
@@ -350,20 +353,18 @@ class PatchFactoryTest extends BaseTestCase
             [ "op" => $op, "path" => "/a/b/c"]
         ];
         $result = PatchFactory::convertInputToPatchObjects($data);
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertTrue($result->isFinalResult());
-        $this->assertCount(1, $result->getValidationProblems());
+        $this->assertCount(1, $result->getPatchObjectProblems());
 
-        $message = $result->getValidationProblems()['/'];
-        $this->assertStringContainsString(
+        $this->assertPatchValidationProblem(
             "Unknown operation '$op'",
-            $message
+            $result->getPatchObjectProblems()
         );
     }
 
     /**
      * @covers \Params\PatchFactory
-     * @group needs_fixing
      */
     public function testUnknownTypeErrorMessage()
     {
@@ -371,45 +372,41 @@ class PatchFactoryTest extends BaseTestCase
             'foobar'
         ];
         $result = PatchFactory::convertInputToPatchObjects($data);
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertTrue($result->isFinalResult());
-        $this->assertCount(1, $result->getValidationProblems());
+        $this->assertCount(1, $result->getPatchObjectProblems());
 
-        $message = $result->getValidationProblems()['/'];
-        $this->assertStringContainsString(
-            "is not an array.",
-            $message
+        $this->assertPatchValidationProblem(
+            PatchFactory::$DATA_NOT_ARRAY_FOR_OPERATION,
+            $result->getPatchObjectProblems()
         );
     }
 
 
     /**
      * @covers \Params\PatchFactory
-     * @group needs_fixing
      */
-    public function testNonArrayErrorMessage()
+    public function testInvalidPatchObjects()
     {
         $data = [
-            'I_am_not_an_array'
+            [ "op" => 'test', "path" => "/a/b/c", 'value' => 5], // ok
+            [ "op" => 'add'], //missing path
+            [ "path" => "/a/b/c"], //missing op
         ];
         $result = PatchFactory::convertInputToPatchObjects($data);
-
-        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertInstanceOf(PatchValidationResult::class, $result);
         $this->assertTrue($result->isFinalResult());
-        $this->assertCount(1, $result->getValidationProblems());
 
-        $this->assertCount(1, $result->getValidationProblems());
-//        $this->markTestSkipped("This needs fixing. Patches should be / based.");
-        $this->assertValidationProblem(
-            '/',
-            "Patch entry 0 is not an array.",
-            $result->getValidationProblems()
-        );
+        $patchOperationProblems = $result->getPatchObjectProblems();
 
-//        $message = $result->getValidationProblems()['/'];
-//        $this->assertStringContainsString(
-//            "Patch entry 0 is not an array.",
-//            $message
-//        );
+        $this->assertCount(2, $patchOperationProblems);
+        $missingPath = $patchOperationProblems[0];
+        $this->assertSame(1, $missingPath->getOperationIndex());
+        $this->assertSame(PatchFactory::$OPERATION_MISSING_PATH, $missingPath->getProblemMessage());
+
+        $missingOp = $patchOperationProblems[1];
+
+        $this->assertSame(2, $missingOp->getOperationIndex());
+        $this->assertSame(PatchFactory::$OPERATION_MISSING_OP, $missingOp->getProblemMessage());
     }
 }

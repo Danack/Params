@@ -6,6 +6,7 @@ namespace Params;
 
 use Params\Path\ArrayIndexFragment;
 use Params\Path\NameFragment;
+use Params\Path\PatchPathFragment;
 
 class Path
 {

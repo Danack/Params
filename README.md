@@ -148,3 +148,22 @@ JSON Patch - https://tools.ietf.org/html/rfc6902
 
 Some people care whether a parameter is in the query string or body. This library currently doesn't support differentiating them.
 
+
+
+## Release 'plan' 
+
+
+
+0.7 Complete all basic Extract rules
+
+0.7.5 Complete all basic Process Rules
+
+0.8 Error message standardisation and cleanup
+
+0.9 Patch support re-implemented
+
+0.10 Path support using Validation problems
+
+0.11 Re-enable disabled Psalm errors and fix them
+
+0.12 Add path component extraction for patches.

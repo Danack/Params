@@ -147,7 +147,7 @@ class ParamsExecutor
      * @throws Exception\ParamsException
      * @throws ValidationException
      */
-    public static function processPatchObject(
+    public static function applyRulesToPatchOperation(
         PatchOperation $patchObject,
         $patchRules
     ) {
@@ -197,17 +197,17 @@ class ParamsExecutor
 
         if ($validationResult->anyErrorsFound()) {
             throw new PatchFormatException(
-                "Patch format error: " . implode(",", $validationResult->getValidationProblems())
+                "Patch format error: " . implode(",", $validationResult->getPatchObjectProblems())
             );
         }
 
-        $patchObjects = $validationResult->getValue();
+        $patchOperations = $validationResult->getPatchOperations();
 
         $operationObjects = [];
         $allProblems = [];
 
-        foreach ($patchObjects as $patchObject) {
-            [$operationObject, $problems] = self::processPatchObject($patchObject, $patchRules);
+        foreach ($patchOperations as $patchOperation) {
+            [$operationObject, $problems] = self::applyRulesToPatchOperation($patchOperation, $patchRules);
 
             if ($operationObject !== null) {
                 $operationObjects[] = $operationObject;

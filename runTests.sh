@@ -3,13 +3,13 @@
 set -e
 # set -x
 
-# sh runCodeSniffer.sh
+sh runCodeSniffer.sh
 
-# sh runUnitTests.sh
+sh runUnitTests.sh
 
-# php ./phpstan.phar analyze -c ./phpstan.neon -l 7 lib
+php ./phpstan.phar analyze -c ./phpstan.neon -l 7 lib
 
-# php ./psalm.phar
+php ./psalm.phar
 
 sh runMutationTests.sh
 

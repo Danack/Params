@@ -19,6 +19,9 @@
     "yoast/yoastcs": "1.0"
   },
   "autoload": {
+    "files": [
+      "lib/Params/funcs.php"
+    ],
     "psr-0": {
       "Params\\": "lib/"
     }

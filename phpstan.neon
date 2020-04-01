@@ -2,7 +2,8 @@ includes:
   - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
   bootstrap: null
-  autoload_files: null
+#  autoload_files:
+#    - lib/params/funcs.php
   checkMissingIterableValueType: false
   treatPhpDocTypesAsCertain: false
   excludes_analyse:
@@ -10,7 +11,7 @@ parameters:
     - *CreateFromVarMap*
     - *Params/OpenApi/OpenApiV300ParamDescription.php
   ignoreErrors:
-    - '#Method .* has no return typehint specified.#'
+    # - '#Method .* has no return typehint specified.#'
     -
       message: '#Parameter \#1 \$function of function call_user_func.*#'
       path: *GetArrayOfType.php
@@ -20,9 +21,9 @@ parameters:
     -
       message: '#Parameter \#1 \$name of method VarMap\VarMap::get() expects string, int|string given\.#'
       path: *
-    -
-      message: '#Unreachable statement - code above always terminates\.#'
-      path: *Params/PatchFactory.php
+#    -
+ #     message: '#Unreachable statement - code above always terminates\.#'
+  #    path: *Params/PatchFactory.php
 
 
 
