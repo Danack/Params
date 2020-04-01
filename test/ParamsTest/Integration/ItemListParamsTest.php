@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace ParamsTest\Integration;
 
 use VarMap\ArrayVarMap;
-use Params\ValidationErrors;
 use ParamsTest\BaseTestCase;
 
 /**

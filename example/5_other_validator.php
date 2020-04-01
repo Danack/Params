@@ -29,7 +29,7 @@ $badData = [
     'mac_address' => 'a1:b2:c3:d4:e5:banana'
 ];
 
-/** @var \Params\ValidationErrors $validationErrors */
+/** @var \Params\ValidationProblem[] $validationErrors */
 [$computerDetails, $validationErrors] =
     ComputerDetailsParams::createOrErrorFromArray($badData);
 
@@ -39,9 +39,12 @@ if (count($validationErrors) === 0) {
     exit(-1);
 }
 
-printf(
-    "Bad data\n\tErrors correctly detected [%s]\n",
-    implode(', ', $validationErrors)
-);
+echo "Bad data correctly detected: \n";
+
+foreach ($validationErrors as $validationError) {
+    /** @var \Params\ValidationProblem $validationError */
+    echo "\t" . $validationError->getProblemMessage() . "\n";
+}
+
 
 echo "\nExample behaved as expected.\n";

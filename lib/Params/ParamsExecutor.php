@@ -44,6 +44,9 @@ class ParamsExecutor
         }
 
         $reflection_class = new \ReflectionClass($classname);
+
+        // TODO - wrap this in an ResultObject.
+
         return [$reflection_class->newInstanceArgs($paramsValuesImpl->getParamsValues()), []];
     }
 

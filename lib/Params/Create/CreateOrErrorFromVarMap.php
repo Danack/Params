@@ -11,12 +11,14 @@ trait CreateOrErrorFromVarMap
 {
     /**
      * @param VarMap $variableMap
-     * @return array{0:object|null, 1:\Params\ValidationErrors|null}
+     * @return array<?object, \Params\ValidationProblem[]>
      * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
     public static function createOrErrorFromVarMap(VarMap $variableMap)
     {
+        // TODO - change
+
         $namedRules = static::getInputToParamInfoList();
 
         return ParamsExecutor::createOrError(static::class, $namedRules, $variableMap);

@@ -6,9 +6,9 @@ namespace ParamsExample;
 
 use Params\ExtractRule\GetString;
 use Params\Param;
-use Params\RulesForParamAware;
+use Params\ParamAware;
 
-class MacAddressType implements RulesForParamAware
+class MacAddressType implements ParamAware
 {
     /** @var string */
     private $value;
@@ -29,14 +29,13 @@ class MacAddressType implements RulesForParamAware
     {
         return $this->value;
     }
-    public static function getInputToParamInfoList(): array
+
+    public static function getParamInfo(string $inputName): Param
     {
-        return [
-            new Param(
-                'input_name',
-                new GetString(),
-                new RespectMacRule()
-            )
-        ];
+        return new Param(
+            $inputName,
+            new GetString(),
+            new RespectMacRule()
+        );
     }
 }

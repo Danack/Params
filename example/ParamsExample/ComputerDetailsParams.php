@@ -11,6 +11,7 @@ use Params\ProcessRule\MinLength;
 use Params\ProcessRule\MaxLength;
 use Params\SafeAccess;
 use Params\Param;
+use ParamsExample\MacAddressType;
 
 class ComputerDetailsParams implements InputToParamInfoListAware
 {
@@ -46,10 +47,8 @@ class ComputerDetailsParams implements InputToParamInfoListAware
                 new MinLength(2),
                 new MaxLength(1024)
             ),
-            Param::fromType(
-                'mac_address',
-                \ParamsExample\MacAddressType::class
-            ),
+
+            MacAddressType::getParamInfo('mac_address'),
         ];
     }
 

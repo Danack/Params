@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\Exception;
 
-use Params\RulesForParamAware;
+use Params\ParamAware;
 
 class BadTypeException extends ParamsException
 {
@@ -13,7 +13,7 @@ class BadTypeException extends ParamsException
         $message = sprintf(
             'Type %s does not implement %s which is required.',
             $classname,
-            RulesForParamAware::class
+            ParamAware::class
         );
 
         return new self($message);

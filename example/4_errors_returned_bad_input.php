@@ -12,7 +12,12 @@ $varmap = new ArrayVarMap(['order' => 'error']);
 [$articleGetIndexParams, $validationErrors] = GetArticlesParams::createOrErrorFromVarMap($varmap);
 
 if (count($validationErrors) !== 0) {
-    echo "There were errors creating ArticleGetIndexParams from input\n  " . implode('\n  ', $validationErrors);
+    echo "There were errors creating ArticleGetIndexParams from input\n  ";
+    foreach ($validationErrors as $validationError) {
+        /** @var \Params\ValidationProblem $validationError */
+        echo "\n  " . $validationError->getProblemMessage();
+    }
+
     echo "\nExample behaved as expected.\n";
     exit(0);
 }

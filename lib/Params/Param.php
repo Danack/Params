@@ -8,6 +8,9 @@ use Params\ExtractRule\ExtractRule;
 use Params\ProcessRule\ProcessRule;
 use Params\Exception\BadTypeException;
 
+/**
+ * @todo rename this to ParamInfo?
+ */
 class Param
 {
     /**
@@ -50,7 +53,7 @@ class Param
 //    ) {
 //        $is_correct_type = is_subclass_of(
 //            $type_name,
-//            RulesForParamAware::class,
+//            ParamAware::class,
 //            $allow_string = true
 //        );
 //
@@ -58,19 +61,17 @@ class Param
 //            throw BadTypeException::fromClassname($type_name);
 //        }
 //
-//        echo "This is unused?";
+//        /** @var \Params\ParamAware $rulesForParam  */
+//        $rulesForParam = call_user_func([$type_name, 'getParamInfo'], $input_name);
+//
+//        var_dump($rulesForParam);
 //        exit(0);
 //
-////        /** @var \Params\RulesForParamAware $rulesForParam  */
-////        $rulesForParam = call_user_func([$type_name, 'getRulesForParam']);
-////
-////        /** @var $rulesForParam */
-////
-////        return new self(
-////            $input_name,
-////            $rulesForParam->getExtractRule(),
-////            ...$rulesForParam->getProcessRules()
-////        );
+//        return new self(
+//            $input_name,
+//            $rulesForParam->getExtractRule(),
+//            ...$rulesForParam->getProcessRules()
+//        );
 //    }
 
     /**

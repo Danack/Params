@@ -42,4 +42,17 @@ class ValidationException extends \Params\Exception\ParamsException
     {
         return $this->validationProblems;
     }
+
+    /**
+     * @return string[]
+     */
+    public function getValidationProblemsAsStrings(): array
+    {
+        $strings = [];
+        foreach ($this->validationProblems as $validationProblem) {
+            $strings[] = $validationProblem->toString();
+        }
+
+        return $strings;
+    }
 }
