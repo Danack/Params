@@ -28,7 +28,7 @@
         <MixedArgument>
             <errorLevel type="suppress">
                 <file name="lib/Params/PatchFactory.php"/>
-                <file name="lib/Params/funcs.php"/>
+                <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedArgument>
 
@@ -37,7 +37,7 @@
         <!-- TODO - find a better way of handling this. Or rewrite PHP preg functions. -->
         <MixedArrayAccess>
             <errorLevel type="suppress">
-                <file name="lib/Params/funcs.php"/>
+                <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedArrayAccess>
 
@@ -104,7 +104,7 @@
         <!-- TODO - this needs to be re-enabled -->
         <MixedArgumentTypeCoercion>
             <errorLevel type="suppress">
-                <file name="lib/Params/funcs.php"/>
+                <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedArgumentTypeCoercion>
 
@@ -113,7 +113,7 @@
         <MixedReturnStatement>
             <errorLevel type="suppress">
                 <file name="lib/Params/PatchFactory.php"/>
-                <file name="lib/Params/funcs.php"/>
+                <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedReturnStatement>
 
@@ -121,7 +121,7 @@
         <MixedInferredReturnType>
             <errorLevel type="suppress">
                 <file name="lib/Params/PatchFactory.php"/>
-                <file name="lib/Params/funcs.php"/>
+                <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedInferredReturnType>
 
