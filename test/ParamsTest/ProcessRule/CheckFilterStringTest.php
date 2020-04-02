@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Rule;
+namespace ParamsTest\ProcessRule;
 
 use Params\Value\MultipleEnums;
 use ParamsTest\BaseTestCase;

@@ -2,39 +2,39 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Rule;
+namespace ParamsTest\ProcessRule;
 
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\MinLength;
+use Params\ProcessRule\MaxLength;
 use Params\ParamsValuesImpl;
 use Params\Path;
 
 /**
  * @coversNothing
  */
-class MinLengthTest extends BaseTestCase
+class MaxLengthTest extends BaseTestCase
 {
     public function provideMaxLengthCases()
     {
-        $length = 8;
-        $underLengthString = str_repeat('a', $length - 1);
-        $exactLengthString = str_repeat('a', $length);
-        $overLengthString = str_repeat('a', $length + 1);
+        $maxLength = 10;
+        $underLengthString = str_repeat('a', $maxLength - 1);
+        $exactLengthString = str_repeat('a', $maxLength);
+        $overLengthString = str_repeat('a', $maxLength + 1);
 
         return [
-            [$length, $underLengthString, true],
-            [$length, $exactLengthString, false],
-            [$length, $overLengthString, false],
+            [$maxLength, $underLengthString, false],
+            [$maxLength, $exactLengthString, false],
+            [$maxLength, $overLengthString, true],
         ];
     }
 
     /**
      * @dataProvider provideMaxLengthCases
-     * @covers \Params\ProcessRule\MinLength
+     * @covers \Params\ProcessRule\MaxLength
      */
-    public function testValidation(int $minLength, string $string, bool $expectError)
+    public function testValidation(int $maxLength, string $string, bool $expectError)
     {
-        $rule = new MinLength($minLength);
+        $rule = new MaxLength($maxLength);
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             Path::fromName('foo'),

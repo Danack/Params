@@ -11,8 +11,8 @@ examples+=('example/3_errors_returned_acceptable_input.php')
 examples+=('example/4_errors_returned_bad_input.php')
 examples+=('example/5_other_validator.php')
 examples+=('example/6_array_of_type_validator.php')
-examples+=('example/7_open_api_descriptions.php')
-
+examples+=('example/7_array_of_type_validator_also.php')
+examples+=('example/8_open_api_descriptions.php')
 
 for example in "${examples[@]}"
 do
@@ -25,5 +25,5 @@ do
    if [ "$example_exit_code" -ne "0" ]; then echo "Example [] failed";  exit "$example_exit_code"; fi
 done
 
-
+echo ""
 echo "examples completed without problem"

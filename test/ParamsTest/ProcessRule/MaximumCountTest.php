@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Rule;
+namespace ParamsTest\ProcessRule;
 
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
+use Params\ProcessRule\MaximumCount;
 use Params\Exception\LogicException;
 use Params\ParamsValuesImpl;
 use Params\Path;
@@ -13,25 +14,24 @@ use Params\Path;
 /**
  * @coversNothing
  */
-class MinimumCountTest extends BaseTestCase
+class MaximumCountTest extends BaseTestCase
 {
     public function provideWorksCases()
     {
         return [
-            [0, [1]], // 0 <= 1
-            [1, [1]], // 1 <= 1
-            [2, [1, 2]], // 2 <= 2
-            [2, [1, 2, 3, 4, 5]], // 2 <= 5
+            [3, []], // 3 <= 3
+            [3, [1, 2, 3]], // 3 <= 3
+            [4, [1, 2, 3]], // 3 <= 4
         ];
     }
 
     /**
      * @dataProvider provideWorksCases
-     * @covers \Params\ProcessRule\MinimumCount
+     * @covers \Params\ProcessRule\MaximumCount
      */
-    public function testWorks(int $minimumCount, $values)
+    public function testWorks(int $maximumCount, $values)
     {
-        $rule = new MinimumCount($minimumCount);
+        $rule = new MaximumCount($maximumCount);
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             Path::fromName('foo'),
@@ -46,19 +46,18 @@ class MinimumCountTest extends BaseTestCase
     public function provideFailsCases()
     {
         return [
-            [1, []], // 3 > 0
-            [3, [1, 2]], // 4 > 3
-            [50, [1, 2]], // 4 > 3
+            [0, [1, 2, 3]], // 3 > 0
+            [3, [1, 2, 3, 4]], // 4 > 3
         ];
     }
 
     /**
      * @dataProvider provideFailsCases
-     * @covers \Params\ProcessRule\MinimumCount
+     * @covers \Params\ProcessRule\MaximumCount
      */
-    public function testFails(int $minimumCount, $values)
+    public function testFails(int $maximumCount, $values)
     {
-        $rule = new MinimumCount($minimumCount);
+        $rule = new MaximumCount($maximumCount);
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             Path::fromName('foo'),
@@ -68,40 +67,42 @@ class MinimumCountTest extends BaseTestCase
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
 
+//        'Number of elements in foo is too large. Max allowed is 0 but got 3.'
+
 //        $this->assertRegExp(
-//            stringToRegexp(MinimumCount::ERROR_TOO_FEW_ELEMENTS),
+//            stringToRegexp(MaximumCount::ERROR_TOO_MANY_ELEMENTS),
 //            $validationResult->getValidationProblems()['/foo']
 //        );
 
         $this->assertCount(1, $validationResult->getValidationProblems());
         $this->assertValidationProblemRegexp(
             'foo',
-            MinimumCount::ERROR_TOO_FEW_ELEMENTS,
+            MaximumCount::ERROR_TOO_MANY_ELEMENTS,
             $validationResult->getValidationProblems()
         );
     }
 
     /**
-     * @covers \Params\ProcessRule\MinimumCount
+     * @covers \Params\ProcessRule\MaximumCount
      */
     public function testMinimimCountZero()
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(MinimumCount::ERROR_MINIMUM_COUNT_MINIMUM);
-        new MinimumCount(-2);
+        $this->expectExceptionMessage(MaximumCount::ERROR_MAXIMUM_COUNT_MINIMUM);
+        new MaximumCount(-2);
     }
 
     /**
-     * @covers \Params\ProcessRule\MinimumCount
+     * @covers \Params\ProcessRule\MaximumCount
      */
     public function testInvalidOperand()
     {
-        $rule = new MinimumCount(3);
+        $rule = new MaximumCount(3);
         $this->expectException(LogicException::class);
 
         $validator = new ParamsValuesImpl();
         $this->expectErrorMessageMatches(
-            stringToRegexp(MinimumCount::ERROR_WRONG_TYPE)
+            stringToRegexp(MaximumCount::ERROR_WRONG_TYPE)
         );
 
         $rule->process(

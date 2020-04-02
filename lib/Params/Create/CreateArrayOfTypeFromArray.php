@@ -39,7 +39,7 @@ trait CreateArrayOfTypeFromArray
         $path = Path::initial();
         $validationResult = createArrayForTypeWithRules($path, self::class, $data, $rules);
 
-        if (count($validationResult->anyErrorsFound()) !== 0) {
+        if ($validationResult->anyErrorsFound() === true) {
             throw new ValidationException(
                 "Validation problems",
                 $validationResult->getValidationProblems()

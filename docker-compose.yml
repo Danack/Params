@@ -1,24 +1,12 @@
 version: "3"
 services:
   php_test:
-    build: containers/php_test
-    image: params_php_test
-    volumes:
-      - .:/var/app
-  php_73_test:
-    build: containers/php_73_test
-    image: params_php_73_test
-    volumes:
-      - .:/var/app
-  phpcs:
-    build: containers/phpcs
-    #    image: params_php_73_test
+    build: containers/run_php_tests
     volumes:
       - .:/var/app
 
-  phpunit:
-    build: containers/phpunit
-#    image: params_php_73_test
+  phpcs:
+    build: containers/run_php_codesniffer
     volumes:
       - .:/var/app
 

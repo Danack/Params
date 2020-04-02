@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Rule;
+namespace ParamsTest\ProcessRule;
 
 use Params\ParamsValuesImpl;
 use Params\ProcessRule\MaximumCount;

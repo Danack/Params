@@ -2,36 +2,35 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Rule;
+namespace ParamsTest\ProcessRule;
 
-use Params\ProcessRule\IntegerInput;
+use Params\ProcessRule\FloatInput;
 use ParamsTest\BaseTestCase;
 use Params\ParamsValuesImpl;
 use Params\Path;
 
 /**
  * @coversNothing
- * @group wip
  */
-class IntegerInputTest extends BaseTestCase
+class FloatInputTest extends BaseTestCase
 {
-    public function provideIntValueWorksCases()
+    public function provideWorksCases()
     {
         return [
             ['5', 5],
-            ['-10', -10],
             ['555555', 555555],
-            [(string)IntegerInput::MAX_SANE_VALUE, IntegerInput::MAX_SANE_VALUE]
+            ['1000.1', 1000.1],
+            ['-1000.1', -1000.1],
         ];
     }
 
     /**
-     * @dataProvider provideIntValueWorksCases
-     * @covers \Params\ProcessRule\IntegerInput
+     * @dataProvider provideWorksCases
+     * @covers \Params\ProcessRule\FloatInput
      */
-    public function testValidationWorks(string $inputValue, int $expectedValue)
+    public function testValidationWorks(string $inputValue, float $expectedValue)
     {
-        $rule = new IntegerInput();
+        $rule = new FloatInput();
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             Path::fromName('foo'),
@@ -43,25 +42,23 @@ class IntegerInputTest extends BaseTestCase
         $this->assertEquals($expectedValue, $validationResult->getValue());
     }
 
-    public function provideMinIntValueErrorsCases()
+    public function provideErrorCases()
     {
         return [
             // todo - we should test the exact error.
-            ['-5'],
+            ['5.a'],
             ['5.5'],
             ['banana'],
-            [''],
-            [(string)(IntegerInput::MAX_SANE_VALUE + 1)]
         ];
     }
 
     /**
-     * @dataProvider provideMinIntValueErrorsCases
-     * @covers \Params\ProcessRule\IntegerInput
+     * @dataProvider provideErrorCases
+     * @covers \Params\ProcessRule\FloatInput
      */
     public function testValidationErrors(string $inputValue)
     {
-        $rule = new IntegerInput();
+        $rule = new FloatInput();
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             Path::fromName('foo'),
