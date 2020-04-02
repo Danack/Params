@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<phpunit bootstrap="phpunit_bootstrap.php">
+<phpunit
+  bootstrap="phpunit_bootstrap.php"
+  beStrictAboutCoversAnnotation="false"
+  beStrictAboutOutputDuringTests="true">
 <php>
     </php>
 
@@ -24,7 +27,6 @@
             </exclude>
         </whitelist>
     </filter>
-
 
     <logging>
         <!-- <log type="coverage-php" target="../tmp/coverage/unittest.cov"/> -->

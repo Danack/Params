@@ -8,6 +8,7 @@ use Params\Exception;
 use Params\ParamsExecutor;
 use Psr\Http\Message\ServerRequestInterface;
 use VarMap\Psr7VarMap;
+use function Params\createOrError;
 
 trait CreateOrErrorFromRequest
 {
@@ -23,6 +24,6 @@ trait CreateOrErrorFromRequest
 
         $namedRules = static::getInputToParamInfoList();
 
-        return ParamsExecutor::createOrError(static::class, $namedRules, $variableMap);
+        return createOrError(static::class, $namedRules, $variableMap);
     }
 }

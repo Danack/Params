@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Params\OpenApi;
 
-use Params\Functions;
 use Params\Exception\OpenApiException;
+use function Params\array_value_exists;
 
 class OpenApiV300ParamDescription implements ParamDescription
 {
@@ -219,7 +219,7 @@ class OpenApiV300ParamDescription implements ParamDescription
            'object',
         ];
 
-        if (Functions::array_value_exists($knownTypes, $type) === false) {
+        if (array_value_exists($knownTypes, $type) === false) {
             throw new OpenApiException("Type [$type] is not known for the OpenApi spec.");
         }
 
@@ -234,7 +234,7 @@ class OpenApiV300ParamDescription implements ParamDescription
                 'double', // floating-point numbers with double precision.
             ];
 
-            if (Functions::array_value_exists($knownFormats, $format) === false) {
+            if (array_value_exists($knownFormats, $format) === false) {
                 throw new OpenApiException("Format [$format] is not known for type 'number' the OpenApi spec.");
             }
         }
@@ -244,7 +244,7 @@ class OpenApiV300ParamDescription implements ParamDescription
                 'int64', // Signed 64-bit integers (long type).
             ];
 
-            if (Functions::array_value_exists($knownFormats, $format) === false) {
+            if (array_value_exists($knownFormats, $format) === false) {
                 throw new OpenApiException("Format [$format] is not known for type 'integer' the OpenApi spec.");
             }
         }

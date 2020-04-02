@@ -6,6 +6,7 @@ namespace Params\Create;
 
 use Params\ParamsExecutor;
 use VarMap\VarMap;
+use function Params\createOrError;
 
 trait CreateOrErrorFromVarMap
 {
@@ -21,6 +22,6 @@ trait CreateOrErrorFromVarMap
 
         $namedRules = static::getInputToParamInfoList();
 
-        return ParamsExecutor::createOrError(static::class, $namedRules, $variableMap);
+        return createOrError(static::class, $namedRules, $variableMap);
     }
 }

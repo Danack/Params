@@ -6,11 +6,11 @@ namespace Params\ProcessRule;
 
 use Params\ValidationResult;
 use Params\Value\MultipleEnums;
-use Params\Functions;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
 use Params\Path;
+use function Params\array_value_exists;
 
 /**
  * Checks whether a string represent a valid multiple enum string e.g.
@@ -47,7 +47,7 @@ class MultipleEnum implements ProcessRule
                 continue;
             }
 
-            if (Functions::array_value_exists($this->allowedValues, $filterStringPart) !== true) {
+            if (array_value_exists($this->allowedValues, $filterStringPart) !== true) {
                 $message = sprintf(
                     "Cannot filter by [%s] for [%s], as not known for this operation. Known are [%s]",
                     $filterStringPart,

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Rule;
+namespace ParamsTest\ExtractRule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;

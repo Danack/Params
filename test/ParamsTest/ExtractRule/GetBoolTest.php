@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Rule;
+namespace ParamsTest\ExtractRule;
 
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetInt;
+use Params\ExtractRule\GetBool;
 use Params\ParamsValuesImpl;
 use Params\Path;
 
 /**
  * @coversNothing
  */
-class GetIntTest extends BaseTestCase
+class GetBoolTest extends BaseTestCase
 {
     /**
      * @covers \Params\ExtractRule\GetString
      */
     public function testMissingGivesError()
     {
-        $rule = new GetInt();
+        $rule = new GetBool();
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             Path::fromName('foo'),
@@ -33,20 +33,26 @@ class GetIntTest extends BaseTestCase
     public function provideTestWorksCases()
     {
         return [
-            ['5', 5],
-            [5, 5],
+            ['true', true],
+            ['truuue', false],
+            [null, false],
+
+            [0, false],
+            [1, true],
+            [2, true],
+            [-5000, true],
         ];
     }
 
     /**
-     * @covers \Params\ExtractRule\GetInt
+     * @covers \Params\ExtractRule\GetBool
      * @dataProvider provideTestWorksCases
      */
     public function testWorks($input, $expectedValue)
     {
         $variableName = 'foo';
         $validator = new ParamsValuesImpl();
-        $rule = new GetInt();
+        $rule = new GetBool();
         $validationResult = $rule->process(
             Path::fromName($variableName),
             new ArrayVarMap([$variableName => $input]),
@@ -57,26 +63,25 @@ class GetIntTest extends BaseTestCase
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
-
     public function provideTestErrorCases()
     {
         return [
-            [['foo', null]],
-            [['foo', '']],
-            [['foo', '6 apples']],
-            [['foo', 'banana']],
+            // todo - we should test the exact error.
+            [['foo' => fopen('php://memory', 'r+')]],
+            [['foo' => [1, 2, 3]]],
+            [['foo' => new \StdClass()]]
         ];
     }
 
     /**
-     * @covers \Params\ExtractRule\GetInt
+     * @covers \Params\ExtractRule\GetBool
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($variables)
     {
         $variableName = 'foo';
 
-        $rule = new GetInt();
+        $rule = new GetBool();
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             Path::fromName($variableName),

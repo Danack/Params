@@ -5,10 +5,8 @@ declare(strict_types = 1);
 namespace Params;
 
 use Params\Exception\LogicException;
-use Params\ExtractRule\ExtractRule;
 use Params\ProcessRule\ProcessRule;
 use VarMap\VarMap;
-use Params\Functions;
 
 /**
  * Class ParamsValidator

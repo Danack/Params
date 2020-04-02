@@ -7,8 +7,10 @@ bash runCodeSniffer.sh
 
 bash runUnitTests.sh --no-coverage
 
+echo "Running PHPStan"
 php ./phpstan.phar analyze -c ./phpstan.neon -l 7 lib
 
+echo "Running Psalm"
 php ./psalm.phar
 
 bash runMutationTests.sh

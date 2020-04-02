@@ -28,19 +28,26 @@
         <MixedArgument>
             <errorLevel type="suppress">
                 <file name="lib/Params/PatchFactory.php"/>
-                <file name="lib/Params/ParamsExecutor.php"/>
-                <file name="lib/Params/Functions.php"/>
+                <file name="lib/Params/funcs.php"/>
             </errorLevel>
         </MixedArgument>
 
 
 
-        <!-- TODO - this needs to be re-enabled -->
-        <InvalidArgument>
+        <!-- TODO - find a better way of handling this. Or rewrite PHP preg functions. -->
+        <MixedArrayAccess>
             <errorLevel type="suppress">
-                <file name="lib/Params/ParamsExecutor.php"/>
+                <file name="lib/Params/funcs.php"/>
             </errorLevel>
-        </InvalidArgument>
+        </MixedArrayAccess>
+
+
+<!--        &lt;!&ndash; TODO - this needs to be re-enabled &ndash;&gt;-->
+<!--        <InvalidArgument>-->
+<!--            <errorLevel type="suppress">-->
+<!--                <file name="lib/Params/ParamsExecutor.php"/>-->
+<!--            </errorLevel>-->
+<!--        </InvalidArgument>-->
 
 
         <!-- TODO - this needs to be re-enabled -->
@@ -94,20 +101,19 @@
         </MissingParamType>
 
 
-
-
         <!-- TODO - this needs to be re-enabled -->
-        <MixedArrayAccess>
+        <MixedArgumentTypeCoercion>
             <errorLevel type="suppress">
-                <file name="lib/Params/Functions.php"/>
+                <file name="lib/Params/funcs.php"/>
             </errorLevel>
-        </MixedArrayAccess>
+        </MixedArgumentTypeCoercion>
+
 
         <!-- TODO - this needs to be re-enabled -->
         <MixedReturnStatement>
             <errorLevel type="suppress">
                 <file name="lib/Params/PatchFactory.php"/>
-                <file name="lib/Params/ParamsExecutor.php"/>
+                <file name="lib/Params/funcs.php"/>
             </errorLevel>
         </MixedReturnStatement>
 
@@ -115,7 +121,7 @@
         <MixedInferredReturnType>
             <errorLevel type="suppress">
                 <file name="lib/Params/PatchFactory.php"/>
-                <file name="lib/Params/ParamsExecutor.php"/>
+                <file name="lib/Params/funcs.php"/>
             </errorLevel>
         </MixedInferredReturnType>
 

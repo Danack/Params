@@ -7,6 +7,7 @@ namespace Params\Create;
 use Params\ParamsExecutor;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
+use function Params\create;
 
 /**
  * Use this trait when the parameters arrive as named parameters e.g
@@ -25,7 +26,7 @@ trait CreateFromArray
         $rules = static::getInputToParamInfoList();
 
         $variableMap = new ArrayVarMap($data);
-        $object = ParamsExecutor::create(static::class, $rules, $variableMap);
+        $object = create(static::class, $rules, $variableMap);
         /** @var $object self */
         return $object;
     }

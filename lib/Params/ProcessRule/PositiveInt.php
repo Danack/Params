@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
-use Params\Functions;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValuesImpl;
 use Params\ParamValues;
 use Params\Path;
+use function Params\check_only_digits;
 
 /**
  * Class PositiveIntValidator
@@ -24,7 +23,7 @@ class PositiveInt implements ProcessRule
     {
         $matches = null;
 
-        $errorMessage = Functions::check_only_digits($path->toString(), $value);
+        $errorMessage = check_only_digits($path->toString(), $value);
         if ($errorMessage !== null) {
             return ValidationResult::errorResult($path, $errorMessage);
         }

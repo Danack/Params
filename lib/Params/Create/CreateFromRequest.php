@@ -7,6 +7,7 @@ namespace Params\Create;
 use Params\ParamsExecutor;
 use Psr\Http\Message\ServerRequestInterface;
 use VarMap\Psr7VarMap;
+use function Params\create;
 
 /**
  * Use this trait when the parameters arrive as named parameters e.g
@@ -26,7 +27,7 @@ trait CreateFromRequest
 
         $rules = static::getInputToParamInfoList();
 
-        $object = ParamsExecutor::create(static::class, $rules, $variableMap);
+        $object = create(static::class, $rules, $variableMap);
         /** @var $object self */
         return $object;
     }

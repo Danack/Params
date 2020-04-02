@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
-use Params\Exception\ValidationException;
-use Params\Functions;
 use Params\Value\Ordering;
+use function Params\unescapeJsonPointer;
+use function Params\array_value_exists;
+use function Params\check_only_digits;
+use function Params\normalise_order_parameter;
+use function Params\escapeJsonPointer;
 
 /**
  * @coversNothing
@@ -25,37 +28,37 @@ class FunctionsTest extends BaseTestCase
 
     /**
      * @dataProvider providesNormaliseOrderParameter
-     * @covers \Params\Functions::normalise_order_parameter
+     * @covers ::Params\normalise_order_parameter
      */
     public function testNormaliseOrderParameter($input, $expectedName, $expectedOrder)
     {
-        list($name, $order) = Functions::normalise_order_parameter($input);
+        list($name, $order) = normalise_order_parameter($input);
 
         $this->assertEquals($expectedName, $name);
         $this->assertEquals($expectedOrder, $order);
     }
 
     /**
-     * @covers \Params\Functions::check_only_digits
+     * @covers ::Params\check_only_digits
      */
     public function testCheckOnlyDigits()
     {
         // An integer gets short circuited
-        $errorMsg = Functions::check_only_digits('Foo', 12345);
+        $errorMsg = check_only_digits('Foo', 12345);
         $this->assertNull($errorMsg);
 
         // Correct string passes through
-        $errorMsg = Functions::check_only_digits('Foo', '12345');
+        $errorMsg = check_only_digits('Foo', '12345');
         $this->assertNull($errorMsg);
 
         // Incorrect string passes through
-        $errorMsg = Functions::check_only_digits('Foo', '123X45');
+        $errorMsg = check_only_digits('Foo', '123X45');
         $this->assertStringMatchesFormat("%sposition 3%s", $errorMsg);
         $this->assertStringMatchesFormat("%sFoo%s", $errorMsg);
     }
 
     /**
-     * @covers \Params\Functions::array_value_exists
+     * @covers ::Params\array_value_exists
      */
     public function testArrayValueExists()
     {
@@ -65,10 +68,10 @@ class FunctionsTest extends BaseTestCase
             '3'
         ];
 
-        $foundExactType = Functions::array_value_exists($values, '2');
+        $foundExactType = array_value_exists($values, '2');
         $this->assertTrue($foundExactType);
 
-        $foundJuggledType = Functions::array_value_exists($values, 2);
+        $foundJuggledType = array_value_exists($values, 2);
         $this->assertFalse($foundJuggledType);
     }
 
@@ -88,21 +91,21 @@ class FunctionsTest extends BaseTestCase
 
     /**
      * @dataProvider providesEscapeJsonPointer
-     * @covers \Params\Functions::escapeJsonPointer
+     * @covers ::\Params\escapeJsonPointer
      */
     public function testEscapeJsonPointer($unescaped, $expectedEscaped)
     {
-        $actualEscaped = Functions::escapeJsonPointer($unescaped);
+        $actualEscaped = escapeJsonPointer($unescaped);
         $this->assertSame($expectedEscaped, $actualEscaped);
     }
 
     /**
      * @dataProvider providesEscapeJsonPointer
-     * @covers \Params\Functions::unescapeJsonPointer
+     * @covers ::Params\unescapeJsonPointer
      */
     public function testUnescapeJsonPointer($expectedUnescaped, $escaped)
     {
-        $actualUnescaped = Functions::unescapeJsonPointer($escaped);
+        $actualUnescaped = unescapeJsonPointer($escaped);
         $this->assertSame($expectedUnescaped, $actualUnescaped);
     }
 

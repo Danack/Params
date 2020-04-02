@@ -6,6 +6,7 @@ namespace Params\Create;
 
 use Params\ParamsExecutor;
 use VarMap\VarMap;
+use function Params\create;
 
 /**
  * Use this trait when the parameters arrive as named parameters e.g
@@ -32,7 +33,7 @@ trait CreateFromVarMap
             throw new \Exception("Borken.");
         }
 
-        $object = ParamsExecutor::create(static::class, $rules, $variableMap);
+        $object = create(static::class, $rules, $variableMap);
         /** @var $object self */
         return $object;
     }

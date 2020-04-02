@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace ParamsTest\Patch\Email;
 
 use Params\ParamsExecutor;
+use function Params\createPatch;
 use ParamsTest\Patch\Email\CheckUserEmailMatches;
-
 use ParamsTest\BaseTestCase;
 
 /**
@@ -27,7 +27,7 @@ class EmailPatchTest extends BaseTestCase
         $this->markTestSkipped("Patch param values can be values, not VarMaps so need different way of processing 'FirstRules'");
         return;
 
-        $operations = ParamsExecutor::createPatch(
+        $operations = createPatch(
             EmailPatchParams::getInputToParamInfoList(),
             json_decode_safe(json_encode($data))
         );

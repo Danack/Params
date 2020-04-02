@@ -6,12 +6,12 @@ namespace Params\ProcessRule;
 
 use Params\ValidationResult;
 use Params\Value\OrderElement;
-use Params\Functions;
 use Params\Value\Ordering;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValuesImpl;
 use Params\ParamValues;
 use Params\Path;
+use function Params\array_value_exists;
+use function Params\normalise_order_parameter;
 
 /**
  * Class Order
@@ -40,8 +40,8 @@ class Order implements ProcessRule
         $orderElements = [];
 
         foreach ($parts as $part) {
-            list($partName, $partOrder) = Functions::normalise_order_parameter($part);
-            if (Functions::array_value_exists($this->knownOrderNames, $partName) !== true) {
+            list($partName, $partOrder) = normalise_order_parameter($part);
+            if (array_value_exists($this->knownOrderNames, $partName) !== true) {
                 $message = sprintf(
                     "Cannot order by [%s] for [%s], as not known for this operation. Known are [%s]",
                     $partName,
