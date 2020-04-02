@@ -9,7 +9,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
       - name: Perform phpunit tests
-        uses: ./containers/phpunit
+        uses: ./containers/run_php_tests
   code_style:
     name: Code Style Analysis
     runs-on: ubuntu-latest
@@ -17,4 +17,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
       - name: Analyze code style
-        uses: ./containers/phpcs
+        uses: ./containers/run_php_codesniffer

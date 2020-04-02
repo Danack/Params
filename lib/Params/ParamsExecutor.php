@@ -109,36 +109,6 @@ class ParamsExecutor
         return $object;
     }
 
-//    public static function createArray($classname, $params, VarMap $sourceData)
-//    {
-//        $paramsValuesImpl = new ParamsValuesImpl();
-//        $path = Path::initial();
-//
-//
-//
-//
-//
-//
-//        $validationProblems = $paramsValuesImpl->executeRulesWithValidator(
-//            $params,
-//            $sourceData,
-//            $path
-//        );
-//
-//        if (count($validationProblems) !== 0) {
-//            throw new ValidationException("Validation problems", $validationProblems);
-//        }
-//
-//        $reflection_class = new \ReflectionClass($classname);
-//
-//        $object = $reflection_class->newInstanceArgs($paramsValuesImpl->getParamsValues());
-//
-//        /** @var T $object */
-//        return $object;
-//    }
-
-
-
     /**
      * Creating patches is slightly harder. For Params the order of parameters isn't
      * important, for patch operations it is. e.g. copy -> delete != delete->copy
