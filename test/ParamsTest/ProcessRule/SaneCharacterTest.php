@@ -80,9 +80,12 @@ class SaneCharacterTest extends BaseTestCase
             $validator
         );
 
-        $bytesString = "Bytes were[" . getRawCharacters($testValue) . "]";
+//        $bytesString = "Bytes were[" . getRawCharacters($testValue) . "]";
 
-        $this->assertNotNull($validationResult->getValidationProblems(), "Should have been error: " . json_encode($testValue));
+        $this->assertExpectedValidationProblems(
+            $validationResult->getValidationProblems(),
+            "Should have been error: " . json_encode($testValue)
+        );
     }
 
 

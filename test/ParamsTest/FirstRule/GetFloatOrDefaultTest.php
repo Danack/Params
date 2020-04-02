@@ -73,7 +73,7 @@ class GetFloatOrDefaultTest extends BaseTestCase
      */
     public function testErrors($inputValue)
     {
-        $default = 5;
+        $default = 5.0;
 
         $variableName = 'foo';
 
@@ -87,6 +87,6 @@ class GetFloatOrDefaultTest extends BaseTestCase
             $validator
         );
 
-        $this->assertNotNull($validationResult->getValidationProblems());
+        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
 }

@@ -41,7 +41,7 @@ class EnumTest extends BaseTestCase
         );
 
         if ($expectError) {
-            $this->assertNotNull($validationResult->getValidationProblems());
+            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
             return;
         }
 

@@ -27,7 +27,7 @@ class GetStringTest extends BaseTestCase
             new ArrayVarMap([]),
             $validator
         );
-        $this->assertNotNull($validationResult->getValidationProblems());
+        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
 
     /**

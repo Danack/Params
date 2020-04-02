@@ -85,6 +85,6 @@ class GetIntOrDefaultTest extends BaseTestCase
             $validator
         );
 
-        $this->assertNotNull($validationResult->getValidationProblems());
+        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
 }

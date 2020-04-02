@@ -59,6 +59,6 @@ class CheckFilterStringTest extends BaseTestCase
             $expectedValue,
             $validator
         );
-        $this->assertNotNull($validationResult->getValidationProblems());
+        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
 }

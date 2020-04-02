@@ -5,6 +5,7 @@
   "license": "MIT",
   "require": {
     "php" : "^7.4",
+    "ext-mbstring": "*",
     "danack/var-map": "^0.6.0"
   },
   "require-dev": {

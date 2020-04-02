@@ -16,15 +16,33 @@ class MinLengthTest extends BaseTestCase
 {
     public function provideMaxLengthCases()
     {
-        $length = 8;
-        $underLengthString = str_repeat('a', $length - 1);
-        $exactLengthString = str_repeat('a', $length);
-        $overLengthString = str_repeat('a', $length + 1);
+        $minLength = 8;
+        $underLengthMinString = str_repeat('a', $minLength - 1);
+        $exactLengthMinString = str_repeat('a', $minLength);
+        $overLengthMinString = str_repeat('a', $minLength + 1);
+
+        // Test the edge behaviour around partially multibyte strings
+        $underLengthMinWithMBString = str_repeat('a', $minLength - 2) . "\xC2\xA3";
+        $exactLengthMinWithMBString = str_repeat('a', $minLength - 1) . "\xC2\xA3";
+        $overLengthMinWithMBString = str_repeat('a', $minLength) . "\xC2\xA3";
+
+        // Test the edge behaviour around strings that are only MB characters
+        $underLengthMinMBStringOnly = str_repeat("\xC2\xA3", $minLength - 1);
+        $exactLengthMinMBStringOnly = str_repeat("\xC2\xA3", $minLength);
+        $overLengthMinMBStringOnly = str_repeat("\xC2\xA3", $minLength + 1);
 
         return [
-            [$length, $underLengthString, true],
-            [$length, $exactLengthString, false],
-            [$length, $overLengthString, false],
+            [$minLength, $underLengthMinString, true],
+            [$minLength, $exactLengthMinString, false],
+            [$minLength, $overLengthMinString, false],
+
+            [$minLength, $underLengthMinWithMBString, true],
+            [$minLength, $exactLengthMinWithMBString, false],
+            [$minLength, $overLengthMinWithMBString, false],
+
+            [$minLength, $underLengthMinMBStringOnly, true],
+            [$minLength, $exactLengthMinMBStringOnly, false],
+            [$minLength, $overLengthMinMBStringOnly, false],
         ];
     }
 
@@ -43,10 +61,11 @@ class MinLengthTest extends BaseTestCase
         );
 
         if ($expectError === false) {
-            $this->assertEmpty($validationResult->getValidationProblems());
+            $this->assertNoValidationProblems($validationResult->getValidationProblems());
         }
         else {
-            $this->assertNotNull($validationResult->getValidationProblems());
+            // TODO - test against strings
+            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         }
     }
 }

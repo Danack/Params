@@ -43,11 +43,11 @@ class IntegerInputTest extends BaseTestCase
         $this->assertEquals($expectedValue, $validationResult->getValue());
     }
 
-    public function provideMinIntValueErrorsCases()
+    public function providesDetectsErrorsCorrectly()
     {
         return [
             // todo - we should test the exact error.
-            ['-5'],
+            ['5.0'],
             ['5.5'],
             ['banana'],
             [''],
@@ -56,10 +56,10 @@ class IntegerInputTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider provideMinIntValueErrorsCases
+     * @dataProvider providesDetectsErrorsCorrectly
      * @covers \Params\ProcessRule\IntegerInput
      */
-    public function testValidationErrors(string $inputValue)
+    public function testDetectsErrorsCorrectly(string $inputValue)
     {
         $rule = new IntegerInput();
         $validator = new ParamsValuesImpl();
@@ -68,6 +68,6 @@ class IntegerInputTest extends BaseTestCase
             $inputValue,
             $validator
         );
-        $this->assertNotNull($validationResult->getValidationProblems());
+        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
 }

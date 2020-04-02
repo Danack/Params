@@ -26,7 +26,7 @@ class NotNullTest extends BaseTestCase
             null,
             $validator
         );
-        $this->assertNotNull($validationResult->getValidationProblems());
+        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
 
         $rule2 = new NotNull();
         $validator = new ParamsValuesImpl();

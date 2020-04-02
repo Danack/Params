@@ -26,7 +26,7 @@ class MaxLength implements ProcessRule
     {
         // TODO - handle to string conversion better.
 
-        if (strlen((string)$value) > $this->maxLength) {
+        if (mb_strlen((string)$value) > $this->maxLength) {
             $message = sprintf(
                 "String too long for '%s', max chars is %d.",
                 $path->toString(),

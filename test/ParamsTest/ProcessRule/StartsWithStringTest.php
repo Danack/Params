@@ -60,6 +60,6 @@ class StartsWithStringTest extends BaseTestCase
             $testValue,
             $validator
         );
-        $this->assertNotNull($validationResult->getValidationProblems());
+        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
 }

@@ -27,7 +27,7 @@ class GetBoolTest extends BaseTestCase
             new ArrayVarMap([]),
             $validator
         );
-        $this->assertNotNull($validationResult->getValidationProblems());
+        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
 
     public function provideTestWorksCases()
@@ -89,6 +89,6 @@ class GetBoolTest extends BaseTestCase
             $validator
         );
 
-        $this->assertNotNull($validationResult->getValidationProblems());
+        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
 }

@@ -67,7 +67,7 @@ class MultipleEnumTest extends BaseTestCase
         );
 
         if ($expectError === true) {
-            $this->assertNotNull($validationResult->getValidationProblems());
+            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
             return;
         }
 

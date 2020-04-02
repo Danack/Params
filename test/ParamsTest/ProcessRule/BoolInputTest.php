@@ -68,6 +68,6 @@ class BoolInputValidatorTest extends BaseTestCase
             $inputValue,
             $validator
         );
-        $this->assertNotNull($validationResult->getValidationProblems());
+        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
 }

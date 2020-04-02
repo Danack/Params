@@ -47,7 +47,9 @@ class FloatInputTest extends BaseTestCase
         return [
             // todo - we should test the exact error.
             ['5.a'],
-            ['5.5'],
+            ['5.5 '], // trailing space
+            [' 5.5'], // leading space
+            ['5.5banana'], // trailing invalid chars
             ['banana'],
         ];
     }
@@ -65,6 +67,6 @@ class FloatInputTest extends BaseTestCase
             $inputValue,
             $validator
         );
-        $this->assertNotNull($validationResult->getValidationProblems());
+        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
 }

@@ -22,7 +22,6 @@ trait CreateFromVarMap
     public static function createFromVarMap(VarMap $variableMap)
     {
         // @TODO - check interface is implemented here.
-
         if (method_exists(self::class, 'getInputToParamInfoList') === true) {
             $rules = static::getInputToParamInfoList();
         }

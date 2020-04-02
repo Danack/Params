@@ -50,7 +50,7 @@ class MaxIntValueValidatorTest extends BaseTestCase
             $this->assertEmpty($validationResult->getValidationProblems());
         }
         else {
-            $this->assertNotNull($validationResult->getValidationProblems());
+            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         }
     }
 }

@@ -41,7 +41,7 @@ class PositiveIntTest extends BaseTestCase
             $validator
         );
         if ($expectError == true) {
-            $this->assertNotNull($validationResult->getValidationProblems());
+            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         }
         else {
             $this->assertEmpty($validationResult->getValidationProblems());

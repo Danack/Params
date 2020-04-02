@@ -183,4 +183,41 @@ class BaseTestCase extends TestCase
             $this->assertPatchValidationProblem($problemMessage, $validationProblems);
         }
     }
+
+    /**
+     * @param \Params\ValidationProblem[] $validationProblems
+     */
+    public function assertNoValidationProblems(array $validationProblems)
+    {
+        if (count($validationProblems) === 0) {
+            return;
+        }
+
+        $message = "Failed asserting no validation problems. Actually found:";
+        foreach ($validationProblems as $validationProblem) {
+            $message .= "\n  " . $validationProblem->toString();
+        }
+
+        $this->fail($message);
+    }
+
+    /**
+     * Test that the expected validation problems are present
+     * TODO - pass the expected problems in...
+     * @param \Params\ValidationProblem[] $validationProblems
+     * @param string $detailMessage
+     */
+    public function assertExpectedValidationProblems(
+        array $validationProblems,
+        string $detailMessage = null
+    ) {
+        $failureMessage = "Validation problems weren't expected to be empty.";
+        if ($detailMessage !== null) {
+            $failureMessage .= $detailMessage;
+        }
+
+        if (count($validationProblems) === 0) {
+            $this->fail($failureMessage);
+        }
+    }
 }

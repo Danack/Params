@@ -41,22 +41,16 @@ class ValidCharactersTest extends BaseTestCase
             $validator
         );
         if ($expectedErrorPosition !== null) {
-            $this->assertNotNull($validationResult->getValidationProblems(), "Failed to detect invalid char at $expectedErrorPosition");
+            $this->assertExpectedValidationProblems(
+                $validationResult->getValidationProblems(),
+                "Failed to detect invalid char at $expectedErrorPosition"
+            );
 
             $this->assertValidationProblemRegexp(
                 'foo',
                 $validCharactersPattern,
                 $validationResult->getValidationProblems()
             );
-
-//            $this->assertStringContainsString(
-//                (string)$expectedErrorPosition,
-//                $validationResult->getValidationProblems()['/foo']
-//            );
-//            $this->assertStringContainsString(
-//                $validCharactersPattern,
-//                $validationResult->getValidationProblems()['/foo']
-//            );
         }
         else {
             $this->assertEmpty($validationResult->getValidationProblems());
