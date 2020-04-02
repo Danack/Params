@@ -8,7 +8,7 @@ use Params\OpenApi\OpenApiV300ParamDescription;
 
 require __DIR__ . "/../vendor/autoload.php";
 
-$inputToParamRuleList = GetArticlesParams::getInputToParamInfoList();
+$inputToParamRuleList = GetArticlesParams::getInputParameterList();
 
 $descriptions = OpenApiV300ParamDescription::createFromRules($inputToParamRuleList);
 

@@ -31,7 +31,7 @@ class PatchRuleTest extends BaseTestCase
     {
         $path = '/sku/prices';
         $class = SkuPriceAdd::class;
-        $rules = SkuPriceAdd::getInputToParamInfoList();
+        $rules = SkuPriceAdd::getInputParameterList();
 
         $patchAdd = new PatchAdd($path, $class, $rules);
         $this->assertSame($path, $patchAdd->getPathRegex());

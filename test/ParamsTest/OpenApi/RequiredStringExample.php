@@ -25,7 +25,7 @@ class RequiredStringExample
 
     const MAX_LENGTH = 100;
 
-    public static function getInputToParamInfoList()
+    public static function getInputParameterList()
     {
         return [
             new Param(

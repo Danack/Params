@@ -30,7 +30,7 @@ class DuplicateButWrongTypeParams
         $this->days_repeat = $days_repeat;
     }
 
-    public static function getInputToParamInfoList()
+    public static function getInputParameterList()
     {
         return [
             new Param(

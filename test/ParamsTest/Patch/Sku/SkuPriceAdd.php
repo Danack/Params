@@ -57,7 +57,7 @@ class SkuPriceAdd
     /**
      * @return \Params\Param[]
      */
-    public static function getInputToParamInfoList()
+    public static function getInputParameterList()
     {
         return [
             new Param(

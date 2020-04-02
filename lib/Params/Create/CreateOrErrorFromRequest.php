@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Params\Create;
 
 use Params\Exception;
-use Params\ParamsExecutor;
 use Psr\Http\Message\ServerRequestInterface;
 use VarMap\Psr7VarMap;
 use function Params\createOrError;
@@ -22,7 +21,7 @@ trait CreateOrErrorFromRequest
     {
         $variableMap = new Psr7VarMap($request);
 
-        $namedRules = static::getInputToParamInfoList();
+        $namedRules = static::getInputParameterList();
 
         return createOrError(static::class, $namedRules, $variableMap);
     }

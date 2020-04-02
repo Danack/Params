@@ -64,7 +64,7 @@ class SkuPriceReplace
     }
 
 
-    public static function getInputToParamInfoList()
+    public static function getInputParameterList()
     {
         return [
             new Param(

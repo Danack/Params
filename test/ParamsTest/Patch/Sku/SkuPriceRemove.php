@@ -25,7 +25,7 @@ class SkuPriceRemove
         return $this->sku_id;
     }
 
-    public static function getInputToParamInfoList()
+    public static function getInputParameterList()
     {
         return [
             new Param(

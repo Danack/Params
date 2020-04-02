@@ -17,9 +17,9 @@ use Params\ProcessRule\MinIntValue;
 use Params\ProcessRule\Order;
 use Params\ProcessRule\SkipIfNull;
 use Params\Value\Ordering;
-use Params\InputToParamInfoListAware;
+use Params\InputParameterList;
 
-class GetArticlesParams implements InputToParamInfoListAware
+class GetArticlesParams implements InputParameterList
 {
     use SafeAccess;
     use CreateFromRequest;
@@ -67,7 +67,7 @@ class GetArticlesParams implements InputToParamInfoListAware
     /**
      * @return \Params\Param[]
      */
-    public static function getInputToParamInfoList()
+    public static function getInputParameterList()
     {
         return [
             new Param(

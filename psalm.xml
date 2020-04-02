@@ -41,15 +41,6 @@
             </errorLevel>
         </MixedArrayAccess>
 
-
-<!--        &lt;!&ndash; TODO - this needs to be re-enabled &ndash;&gt;-->
-<!--        <InvalidArgument>-->
-<!--            <errorLevel type="suppress">-->
-<!--                <file name="lib/Params/ParamsExecutor.php"/>-->
-<!--            </errorLevel>-->
-<!--        </InvalidArgument>-->
-
-
         <!-- TODO - this needs to be re-enabled -->
         <InvalidDocblock>
             <errorLevel type="suppress">
@@ -71,16 +62,6 @@
             </errorLevel>
         </InvalidReturnType>
 
-
-
-
-
-        <!-- TODO - this needs to be re-enabled -->
-        <InvalidScalarArgument>
-            <errorLevel type="suppress">
-                <file name="lib/Params/ParamsExecutor.php"/>
-            </errorLevel>
-        </InvalidScalarArgument>
 
 
 

@@ -22,7 +22,7 @@ class RequiredIntExample
 
     const MAX = 100;
 
-    public static function getInputToParamInfoList()
+    public static function getInputParameterList()
     {
         return [
             new Param(

@@ -7,12 +7,8 @@ namespace ParamsTest\Exception\Validator;
 use Params\Exception\ValidationException;
 use Params\ExtractRule\GetInt;
 use Params\ExtractRule\GetIntOrDefault;
-use Params\ExtractRule\GetStringOrDefault;
-use Params\ProcessRule\MaxLength;
-use Params\ProcessRule\SkipIfNull;
 use ParamsTest\BaseTestCase;
 use VarMap\ArrayVarMap;
-use Params\ParamsExecutor;
 use Params\ProcessRule\AlwaysEndsRule;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\AlwaysErrorsRule;
@@ -205,7 +201,7 @@ class ParamsTest extends BaseTestCase
     public function testException()
     {
         $arrayVarMap = new ArrayVarMap([]);
-        $rules = \ParamsTest\Integration\FooParams::getInputToParamInfoList();
+        $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         $this->expectException(\Params\Exception\ParamsException::class);
         create(\ParamsTest\Integration\FooParams::class, $rules, $arrayVarMap);
     }
@@ -216,7 +212,7 @@ class ParamsTest extends BaseTestCase
     public function testWorks()
     {
         $arrayVarMap = new ArrayVarMap(['limit' => 5]);
-        $rules = \ParamsTest\Integration\FooParams::getInputToParamInfoList();
+        $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         $fooParams = create(
             \ParamsTest\Integration\FooParams::class,
             $rules,
@@ -231,7 +227,7 @@ class ParamsTest extends BaseTestCase
     public function testCreateOrError_ErrorIsReturned()
     {
         $arrayVarMap = new ArrayVarMap([]);
-        $rules = \ParamsTest\Integration\FooParams::getInputToParamInfoList();
+        $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         [$params, $validationProblems] = createOrError(
             \ParamsTest\Integration\FooParams::class,
             $rules,
@@ -257,7 +253,7 @@ class ParamsTest extends BaseTestCase
     public function testcreateOrError_Works()
     {
         $arrayVarMap = new ArrayVarMap(['limit' => 5]);
-        $rules = \ParamsTest\Integration\FooParams::getInputToParamInfoList();
+        $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         [$fooParams, $errors] = createOrError(
             \ParamsTest\Integration\FooParams::class,
             $rules,

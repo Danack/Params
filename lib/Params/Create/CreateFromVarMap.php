@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\ParamsExecutor;
 use VarMap\VarMap;
 use function Params\create;
 
@@ -23,10 +22,7 @@ trait CreateFromVarMap
     public static function createFromVarMap(VarMap $variableMap)
     {
         // @TODO - check interface is implemented here.
-        if (method_exists(self::class, 'getInputToParamInfoList') === true) {
-            $rules = static::getInputToParamInfoList();
-        }
-        else if (method_exists(self::class, 'getInputParameterList') === true) {
+        if (method_exists(self::class, 'getInputParameterList') === true) {
             $rules = static::getInputParameterList();
         }
         else {

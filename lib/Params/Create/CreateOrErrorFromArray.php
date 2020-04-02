@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\ParamsExecutor;
 use VarMap\ArrayVarMap;
-use VarMap\VarMap;
 use function Params\createOrError;
 
 trait CreateOrErrorFromArray
@@ -21,7 +19,7 @@ trait CreateOrErrorFromArray
     {
         $variableMap = new ArrayVarMap($data);
 
-        $namedRules = static::getInputToParamInfoList();
+        $namedRules = static::getInputParameterList();
 
         return createOrError(static::class, $namedRules, $variableMap);
     }

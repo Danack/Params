@@ -6,7 +6,6 @@ namespace Params;
 
 use Params\ExtractRule\ExtractRule;
 use Params\ProcessRule\ProcessRule;
-use Params\Exception\BadTypeException;
 
 /**
  * @todo rename this to InputParameter?

@@ -62,7 +62,7 @@ class DescriptionTest extends BaseTestCase
         $descriptionExpectations = [
             'required' => true,
         ];
-        $rules = RequiredStringExample::getInputToParamInfoList();
+        $rules = RequiredStringExample::getInputParameterList();
         $this->performFullTest([], $descriptionExpectations, $rules);
     }
 
@@ -72,7 +72,7 @@ class DescriptionTest extends BaseTestCase
             'minLength' => RequiredStringExample::MIN_LENGTH,
         ];
 
-        $rules = RequiredStringExample::getInputToParamInfoList();
+        $rules = RequiredStringExample::getInputParameterList();
         $this->performSchemaTest($schemaExpectations, $rules);
     }
 
@@ -82,7 +82,7 @@ class DescriptionTest extends BaseTestCase
             'maxLength' => RequiredStringExample::MAX_LENGTH,
         ];
 
-        $rules = RequiredStringExample::getInputToParamInfoList();
+        $rules = RequiredStringExample::getInputParameterList();
         $this->performSchemaTest($schemaExpectations, $rules);
     }
 

@@ -33,7 +33,7 @@ class CheckAdminEmailMatches
         $this->email = $email;
     }
 
-    public static function getInputToParamInfoList()
+    public static function getInputParameterList()
     {
         return [
             new Param(

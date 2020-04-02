@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\ParamsExecutor;
 use Psr\Http\Message\ServerRequestInterface;
 use VarMap\Psr7VarMap;
 use function Params\create;
@@ -25,7 +24,7 @@ trait CreateFromRequest
     {
         $variableMap = new Psr7VarMap($request);
 
-        $rules = static::getInputToParamInfoList();
+        $rules = static::getInputParameterList();
 
         $object = create(static::class, $rules, $variableMap);
         /** @var $object self */

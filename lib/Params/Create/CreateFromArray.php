@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\ParamsExecutor;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use function Params\create;
@@ -23,7 +22,7 @@ trait CreateFromArray
      */
     public static function createFromArray($data)
     {
-        $rules = static::getInputToParamInfoList();
+        $rules = static::getInputParameterList();
 
         $variableMap = new ArrayVarMap($data);
         $object = create(static::class, $rules, $variableMap);

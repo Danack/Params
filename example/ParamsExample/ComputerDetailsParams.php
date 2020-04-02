@@ -6,14 +6,14 @@ namespace ParamsExample;
 
 use Params\Create\CreateOrErrorFromArray;
 use Params\ExtractRule\GetString;
-use Params\InputToParamInfoListAware;
+use Params\InputParameterList;
 use Params\ProcessRule\MinLength;
 use Params\ProcessRule\MaxLength;
 use Params\SafeAccess;
 use Params\Param;
 use ParamsExample\MacAddressType;
 
-class ComputerDetailsParams implements InputToParamInfoListAware
+class ComputerDetailsParams implements InputParameterList
 {
     use SafeAccess;
     use CreateOrErrorFromArray;
@@ -38,7 +38,7 @@ class ComputerDetailsParams implements InputToParamInfoListAware
     /**
      * @return \Params\Param[]
      */
-    public static function getInputToParamInfoList()
+    public static function getInputParameterList()
     {
         return [
             new Param(

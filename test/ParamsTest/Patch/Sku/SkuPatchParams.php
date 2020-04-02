@@ -10,7 +10,7 @@ use Params\PatchRule\PatchRemove;
 
 class SkuPatchParams
 {
-    public static function getInputToParamInfoList()
+    public static function getInputParameterList()
     {
         // TODO - allow regexes in paths
         // e.g. $pattern =  '#/projects/(?P<project_name>.+)#iux';
@@ -19,17 +19,17 @@ class SkuPatchParams
             new PatchAdd(
                 '/sku/prices',
                 SkuPriceAdd::class,
-                SkuPriceAdd::getInputToParamInfoList()
+                SkuPriceAdd::getInputParameterList()
             ),
             new PatchReplace(
                 '/sku/prices',
                 SkuPriceReplace::class,
-                SkuPriceReplace::getInputToParamInfoList()
+                SkuPriceReplace::getInputParameterList()
             ),
             new PatchRemove(
                 '/sku/prices',
                 SkuPriceRemove::class,
-                SkuPriceRemove::getInputToParamInfoList()
+                SkuPriceRemove::getInputParameterList()
             ),
         ];
 

@@ -36,11 +36,6 @@ class ItemListParams implements InputParameterList
         $this->description = $description;
     }
 
-    public static function getInputToParamInfoList()
-    {
-        return self::getInputParameterList();
-    }
-
     public static function getInputParameterList()
     {
         return [
