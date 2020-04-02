@@ -6,9 +6,8 @@ namespace ParamsExample;
 
 use Params\ExtractRule\GetString;
 use Params\Param;
-use Params\ParamAware;
 
-class MacAddressType implements ParamAware
+class MacAddressType
 {
     /** @var string */
     private $value;

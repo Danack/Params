@@ -11,21 +11,15 @@ parameters:
     - *CreateFromVarMap*
     - *Params/OpenApi/OpenApiV300ParamDescription.php
   ignoreErrors:
-    # - '#Method .* has no return typehint specified.#'
     -
-      message: '#Parameter \#1 \$function of function call_user_func.*#'
-      path: *GetArrayOfType.php
+      message: '#Parameter \#1 \$function of function call_user_func expects callable.*#'
+      path: *Params/funcs.php
     -
       message: '#Parameter \#1 \$args of method.*#'
       path: *Params/ParamsExecutor.php
     -
       message: '#Parameter \#1 \$name of method VarMap\VarMap::get() expects string, int|string given\.#'
       path: *
-#    -
- #     message: '#Unreachable statement - code above always terminates\.#'
-  #    path: *Params/PatchFactory.php
-
-
 
 
 

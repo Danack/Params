@@ -70,13 +70,9 @@ class GetArticlesParams implements InputToParamInfoListAware
     public static function getInputToParamInfoList()
     {
         return [
-
-
-
             new Param(
                 'order',
                 new GetStringOrDefault('-date'),
-//                new MaxLength(1024),
                 new Order(self::getKnownOrderNames())
             ),
             new Param(

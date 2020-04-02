@@ -9,7 +9,7 @@ use Params\ProcessRule\ProcessRule;
 use Params\Exception\BadTypeException;
 
 /**
- * @todo rename this to ParamInfo?
+ * @todo rename this to InputParameter?
  */
 class Param
 {
@@ -18,11 +18,10 @@ class Param
      */
     private string $input_name;
 
-
     /**
      * The rule to extract the parameter from the input.
      */
-    private \Params\ExtractRule\ExtractRule $extractRule;
+    private ExtractRule $extractRule;
 
     /**
      * The subsequent rules to process the parameter.

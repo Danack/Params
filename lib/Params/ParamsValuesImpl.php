@@ -136,7 +136,6 @@ class ParamsValuesImpl implements ParamValues
     ) {
         $validationProblems = [];
 
-
         foreach ($params as $param) {
             $newValidationProblems = $this->validateParam(
                 $param,

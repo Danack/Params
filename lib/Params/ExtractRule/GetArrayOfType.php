@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
+use Params\Param;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use Params\ValidationResult;
@@ -11,11 +12,21 @@ use Params\OpenApi\ParamDescription;
 use Params\ParamsExecutor;
 use Params\ParamValues;
 use Params\Path;
+use Params\Exception\MissingClassException;
+use Params\Exception\TypeNotInputParameterListException;
+use Params\Exception\InputParameterListException;
+use Params\InputParameterList;
+
+use function Params\getInputParameterListForClass;
+use function Params\createArrayForTypeWithRules;
 
 class GetArrayOfType implements ExtractRule
 {
     /** @var class-string */
     private string $className;
+
+    /** @var \Params\Param[] */
+    private array $inputParameterList;
 
     const ERROR_MESSAGE_NOT_SET = "Value must be set.";
 
@@ -29,6 +40,7 @@ class GetArrayOfType implements ExtractRule
     public function __construct(string $className)
     {
         $this->className = $className;
+        $this->inputParameterList = getInputParameterListForClass($this->className);
     }
 
     public function process(
@@ -48,49 +60,12 @@ class GetArrayOfType implements ExtractRule
             return ValidationResult::errorResult($path, self::ERROR_MESSAGE_NOT_ARRAY);
         }
 
-        // Setup stuff
-        $items = [];
-        /** @var \Params\ValidationProblem[] $allValidationProblems */
-        $allValidationProblems = [];
-        $index = 0;
-        // TODO - why don't we use the key here?
-        foreach ($itemData as $itemDatum) {
-            $pathForItem = $path->addArrayIndexPathFragment($index);
-
-            if (is_array($itemDatum) !== true) {
-                $message = sprintf(
-                    self::ERROR_MESSAGE_ITEM_NOT_ARRAY,
-                    $this->className,
-                    gettype($itemDatum)
-                );
-
-                return ValidationResult::errorResult($path, $message);
-            }
-
-            $dataVarMap = new ArrayVarMap($itemDatum);
-            $rules = call_user_func([$this->className, 'getInputToParamInfoList'], $dataVarMap);
-
-            /** @var \Params\Param[] $rules */
-            [$item, $validationProblems] = ParamsExecutor::createOrErrorFromPath(
-                $this->className,
-                $rules,
-                $dataVarMap,
-                $pathForItem
-            );
-            $allValidationProblems = [...$allValidationProblems, ...$validationProblems];
-
-            $index += 1;
-
-            // TODO - should this skip if there were any problems validating
-            // the rules?
-            $items[] = $item;
-        }
-
-        if (count($allValidationProblems) !== 0) {
-            return ValidationResult::thisIsMultipleErrorResult($allValidationProblems);
-        }
-
-        return ValidationResult::valueResult($items);
+        return createArrayForTypeWithRules(
+            $path,
+            $this->className,
+            $itemData,
+            $this->inputParameterList
+        );
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

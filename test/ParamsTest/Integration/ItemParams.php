@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
+use Params\Create\CreateFromVarMap;
+use Params\Create\CreateArrayOfTypeFromArray;
 use Params\ExtractRule\GetInt;
 use Params\ExtractRule\GetString;
 use Params\Param;
 use Params\ProcessRule\MaxIntValue;
-use Params\ProcessRule\MinIntValue;
 use Params\ProcessRule\MinLength;
 use Params\SafeAccess;
-use VarMap\VarMap;
+use Params\InputParameterList;
 
-use Params\ProcessRule\IntegerInput;
-
-class ItemParams
+class ItemParams implements InputParameterList
 {
     use SafeAccess;
+    use CreateFromVarMap;
+    use CreateArrayOfTypeFromArray;
 
     /** @var int  */
     private $foo;
@@ -36,7 +37,10 @@ class ItemParams
         $this->bar = $bar;
     }
 
-    public static function getInputToParamInfoList()
+    /**
+     * @return \Params\Param[]
+     */
+    public static function getInputParameterList()
     {
         return [
             new Param(

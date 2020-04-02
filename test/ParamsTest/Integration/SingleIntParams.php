@@ -10,10 +10,10 @@ use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
 use VarMap\VarMap;
-
 use Params\ProcessRule\IntegerInput;
+use Params\InputParameterList;
 
-class SingleIntParams
+class SingleIntParams implements InputParameterList
 {
     use SafeAccess;
 
@@ -25,7 +25,7 @@ class SingleIntParams
         $this->limit = $limit;
     }
 
-    public static function getInputToParamInfoList()
+    public static function getInputParameterList()
     {
         return [
             new Param(

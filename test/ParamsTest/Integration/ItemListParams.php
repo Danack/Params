@@ -9,13 +9,15 @@ use Params\ExtractRule\GetString;
 use Params\Param;
 use Params\ProcessRule\MaxLength;
 use Params\SafeAccess;
-use VarMap\VarMap;
+use Params\Create\CreateFromVarMap;
 use Params\Create\CreateOrErrorFromVarMap;
 use Params\ExtractRule\GetArrayOfType;
+use Params\InputParameterList;
 
-class ItemListParams
+class ItemListParams implements InputParameterList
 {
     use SafeAccess;
+    use CreateFromVarMap;
     use CreateOrErrorFromVarMap;
 
     /** @var \ParamsTest\Integration\ItemParams[]  */
@@ -35,6 +37,11 @@ class ItemListParams
     }
 
     public static function getInputToParamInfoList()
+    {
+        return self::getInputParameterList();
+    }
+
+    public static function getInputParameterList()
     {
         return [
             new Param(

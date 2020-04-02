@@ -5,7 +5,7 @@ set -e
 
 sh runCodeSniffer.sh
 
-sh runUnitTests.sh
+sh runUnitTests.sh --no-coverage
 
 php ./phpstan.phar analyze -c ./phpstan.neon -l 7 lib
 
@@ -15,7 +15,10 @@ sh runMutationTests.sh
 
 sh runExamples.sh
 
+echo ""
 echo "Tests completed without problem"
 
 # rerun unit tests to get the stats again, to save scrolling...
-# php vendor/bin/phpunit -c test/phpunit.xml
+sh runUnitTests.sh
+
+echo "Tests completed without problem"

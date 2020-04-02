@@ -38,7 +38,6 @@ class GetArrayOfTypeTest extends BaseTestCase
         );
 
         $this->assertFalse($result->isFinalResult());
-//        $this->assertEquals("Value not set for 'items'.", $result->getProblemMessages());
 
         $this->assertCount(1, $result->getValue());
         $item = ($result->getValue())[0];
@@ -61,6 +60,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $rule = new GetArrayOfType(ItemParams::class);
         $validator = new ParamsValuesImpl();
+
         $result = $rule->process(
             Path::fromName('items'),
             new ArrayVarMap($data),

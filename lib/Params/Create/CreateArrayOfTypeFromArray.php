@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\ParamsExecutor;
+use Params\Exception\ValidationException;
+use Params\Path;
 use VarMap\VarMap;
+use function Params\createArrayForTypeWithRules;
 
 /**
  * Use this trait when the parameters arrive as named parameters e.g
  * either as query string parameters, form elements, or other form body.
  */
-trait CreateFromVarMap
+trait CreateArrayOfTypeFromArray
 {
     /**
      * @param VarMap $variableMap
-     * @return self
+     * @return self[]
      * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
-    public static function createFromVarMap(VarMap $variableMap)
+    public static function createArrayOfTypeFromArray(array $data)
     {
         // @TODO - check interface is implemented here.
 
@@ -33,8 +35,20 @@ trait CreateFromVarMap
             throw new \Exception("Borken.");
         }
 
-        $object = ParamsExecutor::create(static::class, $rules, $variableMap);
-        /** @var $object self */
-        return $object;
+        // TODO - this should be a root path?
+        $path = Path::initial();
+        $validationResult = createArrayForTypeWithRules($path, self::class, $data, $rules);
+
+        if (count($validationResult->anyErrorsFound()) !== 0) {
+            throw new ValidationException(
+                "Validation problems",
+                $validationResult->getValidationProblems()
+            );
+        }
+
+        $objects = $validationResult->getValue();
+
+        /** @var self[] self */
+        return $objects;
     }
 }
