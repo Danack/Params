@@ -3,17 +3,17 @@
 set -e
 # set -x
 
-sh runCodeSniffer.sh
+bash runCodeSniffer.sh
 
-sh runUnitTests.sh --no-coverage
+bash runUnitTests.sh --no-coverage
 
 php ./phpstan.phar analyze -c ./phpstan.neon -l 7 lib
 
 php ./psalm.phar
 
-sh runMutationTests.sh
+bash runMutationTests.sh
 
-sh runExamples.sh
+bash runExamples.sh
 
 echo ""
 echo "Tests completed without problem"
