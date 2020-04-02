@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="3.9.5@0cfe565d0afbcd31eadcc281b9017b5692911661">
+  <file src="lib/Params/ProcessRule/Order.php">
+    <MixedArgument occurrences="1">
+      <code>$value</code>
+    </MixedArgument>
+  </file>
+  <file src="lib/Params/ProcessRule/SaneCharacters.php">
+    <MixedArgument occurrences="1">
+      <code>$badCharPosition</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="1">
+      <code>$matches[0][1]</code>
+    </MixedArrayAccess>
+  </file>
+  <file src="lib/Params/ProcessRule/ValidCharacters.php">
+    <MixedArgument occurrences="2">
+      <code>$value</code>
+      <code>$badCharPosition</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="1">
+      <code>$matches[0][1]</code>
+    </MixedArrayAccess>
+  </file>
+  <file src="lib/Params/ValidationResult.php">
+    <DocblockTypeContradiction occurrences="1">
+      <code>$validationProblem instanceof ValidationProblem</code>
+    </DocblockTypeContradiction>
+  </file>
+  <file src="lib/Params/Value/Ordering.php">
+    <MixedInferredReturnType occurrences="1">
+      <code>array&lt;string, string&gt;</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>array_reduce($this-&gt;orderElements, [self::class, 'reduce'], [])</code>
+    </MixedReturnStatement>
+  </file>
+</files>
