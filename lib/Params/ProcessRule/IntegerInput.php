@@ -11,7 +11,8 @@ use Params\ParamValues;
 use Params\Path;
 
 /**
- * Checks a value is an integer that has a sane value
+ * Takes user input and converts it to an int value, or
+ * generates appropriate validationProblems.
  */
 class IntegerInput implements ProcessRule
 {

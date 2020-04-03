@@ -1,41 +1,40 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use VarMap\VarMap;
+use Params\ProcessRule\BoolInput;
 use Params\ValidationResult;
+use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
 use Params\Path;
 
-class GetArrayOfTypeOrNull extends GetArrayOfType implements ExtractRule
+/**
+ *
+ * If a parameter is not set, then the value is null, otherwise
+ * it must be a valid integer.
+ *
+ */
+class GetOptionalBool implements ExtractRule
 {
-    /**
-     * @param class-string $className
-     */
-    public function __construct(string $className)
-    {
-        parent::__construct($className);
-    }
-
     public function process(
         Path $path,
         VarMap $varMap,
         ParamValues $paramValues
     ): ValidationResult {
-
-        if ($varMap->has($path->getCurrentName()) === false) {
+        if ($varMap->has($path->toString()) !== true) {
             return ValidationResult::valueResult(null);
         }
 
-        return parent::process($path, $varMap, $paramValues);
+        $intRule = new BoolInput();
+        return $intRule->process($path, $varMap->get($path->toString()), $paramValues);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
-        parent::updateParamDescription($paramDescription);
+        $paramDescription->setType(ParamDescription::TYPE_INTEGER);
         $paramDescription->setRequired(false);
     }
 }

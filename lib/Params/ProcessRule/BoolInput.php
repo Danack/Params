@@ -11,7 +11,8 @@ use Params\ParamValues;
 use Params\Path;
 
 /**
- * Takes some input and converts it to a bool in a mostly sane way.
+ * Takes input data and converts it to a bool value, or
+ * generates appropriate validationProblems.
  */
 class BoolInput implements ProcessRule
 {

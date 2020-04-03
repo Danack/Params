@@ -15,7 +15,6 @@ use Params\Path;
 
 class GetBool implements ExtractRule
 {
-
     public function process(
         Path $path,
         VarMap $varMap,

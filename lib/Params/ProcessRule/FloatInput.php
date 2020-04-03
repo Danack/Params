@@ -11,7 +11,8 @@ use Params\ParamValues;
 use Params\Path;
 
 /**
- * Checks a value is an float
+ * Takes user input and converts it to an float value, or
+ * generates appropriate validationProblems.
  */
 class FloatInput implements ProcessRule
 {

@@ -17,7 +17,6 @@ use Params\Path;
 
 class GetInt implements ExtractRule
 {
-
     public function process(
         Path $path,
         VarMap $varMap,

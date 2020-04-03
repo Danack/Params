@@ -32,16 +32,14 @@ class GetBoolTest extends BaseTestCase
 
     public function provideTestWorksCases()
     {
-        return [
-            ['true', true],
-            ['truuue', false],
-            [null, false],
+        yield ['true', true];
+        yield ['truuue', false];
+        yield [null, false];
 
-            [0, false],
-            [1, true],
-            [2, true],
-            [-5000, true],
-        ];
+        yield [0, false];
+        yield [1, true];
+        yield [2, true];
+        yield [-5000, true];
     }
 
     /**
