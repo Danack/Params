@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\Messages;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaximumCount;
@@ -77,7 +78,7 @@ class MaximumCountTest extends BaseTestCase
         $this->assertCount(1, $validationResult->getValidationProblems());
         $this->assertValidationProblemRegexp(
             'foo',
-            MaximumCount::ERROR_TOO_MANY_ELEMENTS,
+            Messages::ERROR_TOO_MANY_ELEMENTS,
             $validationResult->getValidationProblems()
         );
     }
@@ -88,7 +89,7 @@ class MaximumCountTest extends BaseTestCase
     public function testMinimimCountZero()
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(MaximumCount::ERROR_MAXIMUM_COUNT_MINIMUM);
+        $this->expectExceptionMessage(Messages::ERROR_MAXIMUM_COUNT_MINIMUM);
         new MaximumCount(-2);
     }
 
@@ -102,7 +103,7 @@ class MaximumCountTest extends BaseTestCase
 
         $validator = new ParamsValuesImpl();
         $this->expectErrorMessageMatches(
-            stringToRegexp(MaximumCount::ERROR_WRONG_TYPE)
+            stringToRegexp(Messages::ERROR_WRONG_TYPE_VARIANT_1)
         );
 
         $rule->process(

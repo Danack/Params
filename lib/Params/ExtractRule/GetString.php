@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
+use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
 use Params\ValidationResult;
@@ -12,7 +13,6 @@ use Params\Path;
 
 class GetString implements ExtractRule
 {
-    const ERROR_MESSAGE = 'Value is not set.';
 
     public function process(
         Path $path,
@@ -20,7 +20,7 @@ class GetString implements ExtractRule
         ParamValues $paramValues
     ): ValidationResult {
         if ($varMap->has($path->getCurrentName()) !== true) {
-            return ValidationResult::errorResult($path, self::ERROR_MESSAGE);
+            return ValidationResult::errorResult($path, Messages::VALUE_NOT_SET);
         }
         // TODO - reject bools/ints?
 

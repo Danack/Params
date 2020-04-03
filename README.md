@@ -149,18 +149,16 @@ JSON Patch - https://tools.ietf.org/html/rfc6902
 Some people care whether a parameter is in the query string or body. This library currently doesn't support differentiating them.
 
 
-
 ## Release 'plan' 
+
 
 
 
 0.7 Complete all basic Extract rules
 
-I
+0.8 Complete all basic Process Rules
 
+0.9 Error message standardisation
 
-0.7.5 Complete all basic Process Rules
-
-0.8 Error message standardisation and cleanup
-
+0.10 Convert error messages to use esprintf...?
 

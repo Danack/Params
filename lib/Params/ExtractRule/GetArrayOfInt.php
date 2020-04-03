@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
+use Params\Messages;
 use Params\ProcessRule\ProcessRule;
 use VarMap\VarMap;
 use Params\ValidationResult;
@@ -18,12 +19,6 @@ class GetArrayOfInt implements ExtractRule
     /** @var ProcessRule[] */
     private array $subsequentRules;
 
-    const ERROR_MESSAGE_NOT_SET = "Value not set for '%s'.";
-
-    const ERROR_MESSAGE_NOT_ARRAY = "Value set for '%s' must be an array.";
-
-    const ERROR_MESSAGE_ITEM_NOT_ARRAY = "Error for '%s'. Values for type '%s' must be an array, but got '%s'. Use GetArrayOfInt|String for single values.";
-
     public function __construct(ProcessRule ...$rules)
     {
         $this->subsequentRules = $rules;
@@ -37,14 +32,14 @@ class GetArrayOfInt implements ExtractRule
 
         // Check its set
         if ($varMap->has($path->getCurrentName()) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE_NOT_SET, $path->getCurrentName());
+            $message = sprintf(Messages::ERROR_MESSAGE_NOT_SET, $path->getCurrentName());
             return ValidationResult::errorResult($path, $message);
         }
 
         // Check its an array
         $itemData = $varMap->get($path->getCurrentName());
         if (is_array($itemData) !== true) {
-            $message = sprintf(self::ERROR_MESSAGE_NOT_ARRAY, $path->getCurrentName());
+            $message = sprintf(Messages::ERROR_MESSAGE_NOT_ARRAY, $path->getCurrentName());
             return ValidationResult::errorResult($path, $message);
         }
 

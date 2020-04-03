@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ItemParams;
@@ -129,16 +130,11 @@ class GetArrayOfTypeTest extends BaseTestCase
             $validator
         );
         $this->assertTrue($result->isFinalResult());
-
-//        $expectedKey = 'items';
-
         $validationProblems = $result->getValidationProblems();
-
         $this->assertCount(1, $validationProblems);
-
         $this->assertValidationProblemRegexp(
             'items',
-            GetArrayOfType::ERROR_MESSAGE_ITEM_NOT_ARRAY,
+            Messages::ERROR_MESSAGE_ITEM_NOT_ARRAY,
             $validationProblems
         );
 

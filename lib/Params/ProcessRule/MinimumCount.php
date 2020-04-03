@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
+use Params\Messages;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\Exception\LogicException;
@@ -15,19 +16,13 @@ class MinimumCount implements ProcessRule
 {
     private int $minimumCount;
 
-    public const ERROR_TOO_FEW_ELEMENTS = "Number of elements in %s is too small. Min allowed is %d but only got %d.";
-
-    public const ERROR_MINIMUM_COUNT_MINIMUM = "Minimum count must be zero or above.";
-
-    public const ERROR_WRONG_TYPE = "Minimum count can only be applied to an array but tried to operate on %s.";
-
     /**
      * @param int $minimumCount the minimum number (inclusive) of elements.
      */
     public function __construct(int $minimumCount)
     {
         if ($minimumCount < 0) {
-            throw new LogicException(self::ERROR_MINIMUM_COUNT_MINIMUM);
+            throw new LogicException(Messages::ERROR_MINIMUM_COUNT_MINIMUM);
         }
 
         $this->minimumCount = $minimumCount;
@@ -37,7 +32,7 @@ class MinimumCount implements ProcessRule
     {
         if (is_array($value) !== true) {
             $message = sprintf(
-                self::ERROR_WRONG_TYPE,
+                Messages::ERROR_WRONG_TYPE,
                 gettype($value)
             );
 
@@ -48,7 +43,7 @@ class MinimumCount implements ProcessRule
 
         if ($actualCount < $this->minimumCount) {
             $message = sprintf(
-                self::ERROR_TOO_FEW_ELEMENTS,
+                Messages::ERROR_TOO_FEW_ELEMENTS,
                 $path->toString(),
                 $this->minimumCount,
                 $actualCount

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
+use Params\Messages;
 use Params\Param;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
@@ -22,12 +23,6 @@ class GetArrayOfType implements ExtractRule
     /** @var \Params\Param[] */
     private array $inputParameterList;
 
-    const ERROR_MESSAGE_NOT_SET = "Value must be set.";
-
-    const ERROR_MESSAGE_NOT_ARRAY = "Value must be an array.";
-
-    const ERROR_MESSAGE_ITEM_NOT_ARRAY = "Values for type '%s' must be an array, but got '%s'. Use GetArrayOfInt|String for single values.";
-
     /**
      * @param class-string $className
      */
@@ -45,13 +40,13 @@ class GetArrayOfType implements ExtractRule
 
         // Check its set
         if ($varMap->has($path->getCurrentName()) !== true) {
-            return ValidationResult::errorResult($path, self::ERROR_MESSAGE_NOT_SET);
+            return ValidationResult::errorResult($path, Messages::ERROR_MESSAGE_NOT_SET_VARIANT_1);
         }
 
         // Check its an array
         $itemData = $varMap->get($path->getCurrentName());
         if (is_array($itemData) !== true) {
-            return ValidationResult::errorResult($path, self::ERROR_MESSAGE_NOT_ARRAY);
+            return ValidationResult::errorResult($path, Messages::ERROR_MESSAGE_NOT_ARRAY_VARIANT_1);
         }
 
         return createArrayForTypeWithRules(

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
+use Params\Messages;
 use Params\ValidationResult;
 use Params\ParamsValuesImpl;
 use Params\OpenApi\ParamDescription;
@@ -13,12 +14,6 @@ use Params\Path;
 class DuplicatesParam implements ProcessRule
 {
     private string $paramToDuplicate;
-
-    public const ERROR_NO_PREVIOUS_PARAM = "Param named %s was not previously processed.";
-
-    public const ERROR_DIFFERENT_TYPES = "Parameter %s cannot by the same as %s as different types, %s and %s.";
-
-    public const ERROR_DIFFERENT_VALUE = "Parameter named '%s' is different to parameter '%s'.";
 
     /**
      * @param string $paramToDuplicate The name of the param this one should be the same as.
@@ -32,7 +27,7 @@ class DuplicatesParam implements ProcessRule
     {
         if ($validator->hasParam($this->paramToDuplicate) !== true) {
             $message = sprintf(
-                self::ERROR_NO_PREVIOUS_PARAM,
+                Messages::ERROR_NO_PREVIOUS_PARAM,
                 $this->paramToDuplicate
             );
 
@@ -46,7 +41,7 @@ class DuplicatesParam implements ProcessRule
 
         if ($previousType !== $currentType) {
             $message = sprintf(
-                self::ERROR_DIFFERENT_TYPES,
+                Messages::ERROR_DIFFERENT_TYPES,
                 $path->toString(),
                 $this->paramToDuplicate,
                 $previousType,
@@ -58,7 +53,7 @@ class DuplicatesParam implements ProcessRule
 
         if ($value !== $previousValue) {
             $message = sprintf(
-                self::ERROR_DIFFERENT_VALUE,
+                Messages::ERROR_DIFFERENT_VALUE,
                 $path->toString(),
                 $this->paramToDuplicate
             );

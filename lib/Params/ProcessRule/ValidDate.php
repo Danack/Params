@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\Messages;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
@@ -12,7 +13,6 @@ use Params\Path;
 
 class ValidDate implements ProcessRule
 {
-    const ERROR_INVALID_DATETIME = 'Value was not a valid RFC3339 date apparently';
 
     public function process(Path $path, $value, ParamValues $validator) : ValidationResult
     {
@@ -24,7 +24,7 @@ class ValidDate implements ProcessRule
             return ValidationResult::valueResult($dateTime);
         }
 
-        return ValidationResult::errorResult($path, self::ERROR_INVALID_DATETIME);
+        return ValidationResult::errorResult($path, Messages::ERROR_INVALID_DATETIME);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

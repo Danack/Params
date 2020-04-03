@@ -4,10 +4,10 @@ declare(strict_types = 1);
 
 namespace ParamsTest\Integration;
 
+use Params\Messages;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\ValidationErrors;
-use Params\ProcessRule\DuplicatesParam as DuplicatesParamRule;
+use Params\Messages as DuplicatesParamRule;
 use ParamsTest\Integration\DuplicateButWrongTypeParams;
 
 /**
@@ -48,7 +48,7 @@ class DuplicateParamsTest extends BaseTestCase
                 [
                     'days' => 6,
                     'password_repeat' => 'zyx12345',
-                    DuplicatesParamRule::ERROR_DIFFERENT_TYPES
+                    Messages::ERROR_DIFFERENT_TYPES
                 ],
 
                 [
@@ -103,7 +103,7 @@ class DuplicateParamsTest extends BaseTestCase
 
         $this->assertValidationProblem(
             'password',
-            'Value is not set.',
+            Messages::VALUE_NOT_SET,
             $validationProblems
         );
 
@@ -135,7 +135,7 @@ class DuplicateParamsTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             'days_repeat',
-            DuplicatesParamRule::ERROR_DIFFERENT_TYPES,
+            Messages::ERROR_DIFFERENT_TYPES,
             $validationProblems
         );
     }

@@ -16,8 +16,6 @@ use Params\Path;
 
 class GetFloatOrDefault implements ExtractRule
 {
-    const ERROR_MESSAGE = 'Value not set.';
-
     private ?float $default;
 
     /**

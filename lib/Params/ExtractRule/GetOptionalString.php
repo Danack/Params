@@ -14,8 +14,6 @@ use Params\Path;
 
 class GetOptionalString implements ExtractRule
 {
-    const ERROR_MESSAGE = 'Value not set for %s.';
-
     public function process(
         Path $path,
         VarMap $varMap,

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Params\ProcessRule;
 
 use Params\Exception\LogicException;
+use Params\Messages;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
@@ -21,8 +22,6 @@ use Params\Path;
 class ValidCharacters implements ProcessRule
 {
     private string $patternValidCharacters;
-
-    const INVALID_CHAR_MESSAGE = "Invalid character at position %d. Allowed characters are %s";
 
     public function __construct(string $patternValidCharacters)
     {
@@ -42,7 +41,7 @@ class ValidCharacters implements ProcessRule
         if ($count !== 0) {
             $badCharPosition = $matches[0][1];
             $message = sprintf(
-                self::INVALID_CHAR_MESSAGE,
+                Messages::INVALID_CHAR_MESSAGE,
                 $badCharPosition,
                 $this->patternValidCharacters
             );

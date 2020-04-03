@@ -52,7 +52,7 @@ function createArrayForTypeWithRules(Path $path, string $classname, $itemData, a
 
         if (is_array($itemDatum) !== true) {
             $message = sprintf(
-                GetArrayOfType::ERROR_MESSAGE_ITEM_NOT_ARRAY,
+                Messages::ERROR_MESSAGE_ITEM_NOT_ARRAY,
                 $classname,
                 gettype($itemDatum)
             );

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\Messages;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\Exception\LogicException;
@@ -76,7 +77,7 @@ class MinimumCountTest extends BaseTestCase
         $this->assertCount(1, $validationResult->getValidationProblems());
         $this->assertValidationProblemRegexp(
             'foo',
-            MinimumCount::ERROR_TOO_FEW_ELEMENTS,
+            Messages::ERROR_TOO_FEW_ELEMENTS,
             $validationResult->getValidationProblems()
         );
     }
@@ -87,7 +88,7 @@ class MinimumCountTest extends BaseTestCase
     public function testMinimimCountZero()
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(MinimumCount::ERROR_MINIMUM_COUNT_MINIMUM);
+        $this->expectExceptionMessage(Messages::ERROR_MINIMUM_COUNT_MINIMUM);
         new MinimumCount(-2);
     }
 
@@ -101,7 +102,7 @@ class MinimumCountTest extends BaseTestCase
 
         $validator = new ParamsValuesImpl();
         $this->expectErrorMessageMatches(
-            stringToRegexp(MinimumCount::ERROR_WRONG_TYPE)
+            stringToRegexp(Messages::ERROR_WRONG_TYPE)
         );
 
         $rule->process(

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
+use Params\Messages;
 use Params\ProcessRule\BoolInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
@@ -14,7 +15,6 @@ use Params\Path;
 
 class GetBool implements ExtractRule
 {
-    const ERROR_MESSAGE = 'Value not set.';
 
     public function process(
         Path $path,
@@ -22,7 +22,7 @@ class GetBool implements ExtractRule
         ParamValues $paramValues
     ): ValidationResult {
         if ($varMap->has($path->getCurrentName()) !== true) {
-            return ValidationResult::errorResult($path, self::ERROR_MESSAGE);
+            return ValidationResult::errorResult($path, Messages::VALUE_NOT_SET);
         }
 
         $intRule = new BoolInput();
