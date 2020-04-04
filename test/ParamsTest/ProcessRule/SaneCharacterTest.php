@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\StandardDataLocator;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SaneCharacters;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 function getRawCharacters($string)
 {
@@ -58,10 +60,12 @@ class SaneCharacterTest extends BaseTestCase
     {
         $rule = new SaneCharacters();
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $testValue,
-            $validator
+            $validator,
+            $dataLocator
         );
         $this->assertEmpty($validationResult->getValidationProblems());
     }
@@ -74,10 +78,12 @@ class SaneCharacterTest extends BaseTestCase
     {
         $rule = new SaneCharacters();
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $testValue,
-            $validator
+            $validator,
+            $dataLocator
         );
 
 //        $bytesString = "Bytes were[" . getRawCharacters($testValue) . "]";
@@ -94,10 +100,12 @@ class SaneCharacterTest extends BaseTestCase
         $testValue = "danack_a̧͈͖r͒͑_more_a̧͈͖r͒͑";
         $rule = new SaneCharacters();
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $testValue,
-            $validator
+            $validator,
+            $dataLocator
         );
 //        $messages = $validationResult->getValidationProblems();
 
@@ -109,7 +117,7 @@ class SaneCharacterTest extends BaseTestCase
         $this->assertCount(1, $validationResult->getValidationProblems());
 
         $this->assertValidationProblem(
-            'foo',
+            '/',
             "Invalid combining characters found at position 8",
             $validationResult->getValidationProblems()
         );

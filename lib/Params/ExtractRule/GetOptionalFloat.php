@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ProcessRule\FloatInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
@@ -22,14 +23,20 @@ class GetOptionalFloat implements ExtractRule
     public function process(
         Path $path,
         VarMap $varMap,
-        ParamValues $paramValues
+        ParamValues $paramValues,
+        DataLocator $dataLocator
     ): ValidationResult {
-        if ($varMap->has($path->toString()) !== true) {
+        if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::valueResult(null);
         }
 
         $intRule = new FloatInput();
-        return $intRule->process($path, $varMap->get($path->toString()), $paramValues);
+        return $intRule->process(
+            $path,
+            $dataLocator->getCurrentValue(),
+            $paramValues,
+            $dataLocator
+        );
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

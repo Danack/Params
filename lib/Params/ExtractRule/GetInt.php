@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
+use Params\DataLocator\DataLocator;
 use Params\Messages;
 use Params\ProcessRule;
 use Params\ExtractRule\ExtractRule;
@@ -20,15 +21,21 @@ class GetInt implements ExtractRule
     public function process(
         Path $path,
         VarMap $varMap,
-        ParamValues $paramValues
+        ParamValues $paramValues,
+        DataLocator $dataLocator
     ) : ValidationResult {
-        if ($varMap->has($path->getCurrentName()) !== true) {
-            return ValidationResult::errorResult($path, Messages::VALUE_NOT_SET);
+//        if ($varMap->has($path->getCurrentName()) !== true) {
+//            return ValidationResult::errorResult($dataLocator, Messages::VALUE_NOT_SET);
+//        }
+
+        if ($dataLocator->valueAvailable() !== true) {
+            return ValidationResult::errorResult($dataLocator, Messages::VALUE_NOT_SET);
         }
 
         $intRule = new IntegerInput();
-
-        return $intRule->process($path, $varMap->get($path->getCurrentName()), $paramValues);
+        $value = $dataLocator->getCurrentValue();
+//        $value = $varMap->get($path->getCurrentName());
+        return $intRule->process($path, $value, $paramValues, $dataLocator);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

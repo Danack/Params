@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\Exception\LogicException;
 use Params\OpenApi\ParamDescription;
 use Params\ValidationResult;
@@ -81,9 +82,9 @@ class SaneCharacters implements ProcessRule
         $this->validCharacters = new ValidCharacters($pattern);
     }
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
-        $validationResult = $this->validCharacters->process($path, $value, $validator);
+        $validationResult = $this->validCharacters->process($path, $value, $validator, $dataLocator);
 
         // If validation has already failed, return it.
         if ($validationResult->anyErrorsFound()) {
@@ -106,7 +107,7 @@ class SaneCharacters implements ProcessRule
                 "Invalid combining characters found at position %s",
                 $badCharPosition
             );
-            return ValidationResult::errorResult($path, $message);
+            return ValidationResult::errorResult($dataLocator, $message);
         }
         return ValidationResult::valueResult($value);
     }

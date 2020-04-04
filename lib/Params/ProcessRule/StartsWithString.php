@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
@@ -23,7 +24,7 @@ class StartsWithString implements ProcessRule
         $this->prefix = $prefix;
     }
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         if (strpos((string)$value, $this->prefix) !== 0) {
             $message = sprintf(
@@ -32,7 +33,7 @@ class StartsWithString implements ProcessRule
                 $this->prefix
             );
 
-            return ValidationResult::errorResult($path, $message);
+            return ValidationResult::errorResult($dataLocator, $message);
         }
 
         // This rule does not modify the value

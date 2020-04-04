@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\StandardDataLocator;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidCharacters;
 use Params\ProcessRule\SaneCharacters;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -34,11 +36,13 @@ class ValidCharactersTest extends BaseTestCase
     {
         $rule = new ValidCharacters($validCharactersPattern);
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
 
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $testValue,
-            $validator
+            $validator,
+            $dataLocator
         );
         if ($expectedErrorPosition !== null) {
             $this->assertExpectedValidationProblems(
@@ -47,7 +51,7 @@ class ValidCharactersTest extends BaseTestCase
             );
 
             $this->assertValidationProblemRegexp(
-                'foo',
+                '/',
                 $validCharactersPattern,
                 $validationResult->getValidationProblems()
             );

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\StandardDataLocator;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\RangeIntValue;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -65,10 +67,12 @@ class RangeIntValueTest extends BaseTestCase
     {
         $rule = new RangeIntValue($minValue, $maxValue);
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $inputValue,
-            $validator
+            $validator,
+            $dataLocator
         );
 
         if ($expectError === false) {

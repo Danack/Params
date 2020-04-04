@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\DataLocator\SingleValueDataLocator;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalFloat;
@@ -18,32 +19,34 @@ class GetOptionalFloatTest extends BaseTestCase
     public function provideTestCases()
     {
         // Test value is read as string
-        yield [['foo' => '5'], 5];
+        yield ['5', 5];
 
-        // Test value is read as int
-        yield [['foo' => 5], 5];
+        // Testread as int
+        yield [5, 5];
 
-        yield [['foo' => '5'], 5];
-        yield [['foo' => '555555'], 555555];
-        yield [['foo' => '1000.1'], 1000.1];
-        yield [['foo' => '-1000.1'], -1000.1];
+        yield ['5', 5];
+        yield ['555555', 555555];
+        yield ['1000.1', 1000.1];
+        yield ['-1000.1', -1000.1];
 
         // Test missing param is null
-        yield [[], null];
+        // TODO test missing as separate case.
+//        yield [[], null];
     }
 
     /**
      * @covers \Params\ExtractRule\GetOptionalFloat
      * @dataProvider provideTestCases
      */
-    public function testValidation($data, $expectedValue)
+    public function testValidation($input, $expectedValue)
     {
         $rule = new GetOptionalFloat();
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             Path::fromName('foo'),
-            new ArrayVarMap($data),
-            $validator
+            new ArrayVarMap([]),
+            $validator,
+            SingleValueDataLocator::create($input)
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
@@ -75,7 +78,8 @@ class GetOptionalFloatTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName($variableName),
             new ArrayVarMap($variables),
-            $validator
+            $validator,
+            SingleValueDataLocator::create($inputValue)
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
+use Params\DataLocator\DataLocator;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
@@ -17,13 +18,13 @@ class GetString implements ExtractRule
     public function process(
         Path $path,
         VarMap $varMap,
-        ParamValues $paramValues
+        ParamValues $paramValues,
+        DataLocator $dataLocator
     ): ValidationResult {
         if ($varMap->has($path->getCurrentName()) !== true) {
-            return ValidationResult::errorResult($path, Messages::VALUE_NOT_SET);
+            return ValidationResult::errorResult($dataLocator, Messages::VALUE_NOT_SET);
         }
         // TODO - reject bools/ints?
-
         $value = (string)$varMap->get($path->getCurrentName());
 
         return ValidationResult::valueResult($value);

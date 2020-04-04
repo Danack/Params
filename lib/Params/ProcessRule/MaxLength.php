@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
@@ -22,7 +23,7 @@ class MaxLength implements ProcessRule
     {
         $this->maxLength = $maxLength;
     }
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         // TODO - handle to string conversion better.
 
@@ -32,7 +33,7 @@ class MaxLength implements ProcessRule
                 $path->toString(),
                 $this->maxLength
             );
-            return ValidationResult::errorResult($path, $message);
+            return ValidationResult::errorResult($dataLocator, $message);
         }
 
         return ValidationResult::valueResult($value);

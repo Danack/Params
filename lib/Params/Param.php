@@ -35,7 +35,7 @@ class Param
      * @param ProcessRule ...$subsequent_rules
      */
     public function __construct(
-        string $input_name,
+        string $input_name, // TODO - this should be a locator component...
         ExtractRule $first_rule,
         ProcessRule ...$subsequent_rules
     ) {

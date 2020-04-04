@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\StandardDataLocator;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MinIntValue;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -39,10 +41,12 @@ class MinIntValueTest extends BaseTestCase
     {
         $rule = new MinIntValue($minValue);
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $inputValue,
-            $validator
+            $validator,
+            $dataLocator
         );
 
         if ($expectError === false) {

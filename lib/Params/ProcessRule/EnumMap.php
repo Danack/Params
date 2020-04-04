@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
@@ -38,7 +39,7 @@ class EnumMap implements ProcessRule
         $this->allowedValues = $allowedValues;
     }
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         if (is_int($value) === false && is_string($value) === false) {
             throw InvalidRulesException::badTypeForArrayAccess($value);
@@ -48,7 +49,7 @@ class EnumMap implements ProcessRule
             $allowedInputValues = implode(', ', array_keys($this->allowedValues));
 
             return ValidationResult::errorResult(
-                $path,
+                $dataLocator,
                 "Value is not known. Please use one of " . $allowedInputValues
             );
         }

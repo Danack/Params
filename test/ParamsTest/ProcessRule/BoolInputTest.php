@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\StandardDataLocator;
 use Params\ProcessRule\BoolInput;
 use ParamsTest\BaseTestCase;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -38,7 +41,8 @@ class BoolInputValidatorTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $inputValue,
-            $validator
+            $validator,
+            SingleValueDataLocator::create($inputValue)
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
@@ -66,7 +70,8 @@ class BoolInputValidatorTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $inputValue,
-            $validator
+            $validator,
+            SingleValueDataLocator::create($inputValue)
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

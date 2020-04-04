@@ -4,24 +4,26 @@ declare(strict_types = 1);
 
 namespace Params;
 
+use Params\DataLocator\DataLocator;
+
 class ValidationProblem
 {
     /**
      * The path of the parameter that was being validated.
      */
-    private Path $path;
+    private DataLocator $dataLocator;
 
     private string $problemMessage;
 
-    public function __construct(Path $path, string $description)
+    public function __construct(DataLocator $dataLocator, string $description)
     {
-        $this->path = $path;
+        $this->dataLocator = $dataLocator;
         $this->problemMessage = $description;
     }
 
-    public function getPath(): Path
+    public function getDataLocator(): DataLocator
     {
-        return $this->path;
+        return $this->dataLocator;
     }
 
     /**
@@ -38,6 +40,6 @@ class ValidationProblem
      */
     public function toString(): string
     {
-        return $this->path->toString() . " " . $this->problemMessage;
+        return $this->dataLocator->toString() . " " . $this->problemMessage;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\DataLocator\StandardDataLocator;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetBool;
@@ -25,7 +26,8 @@ class GetBoolTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             new ArrayVarMap([]),
-            $validator
+            $validator,
+            StandardDataLocator::fromArray([])
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
@@ -54,7 +56,8 @@ class GetBoolTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName($variableName),
             new ArrayVarMap([$variableName => $input]),
-            $validator
+            $validator,
+            StandardDataLocator::fromArray(['foo' => $input])
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
@@ -84,7 +87,8 @@ class GetBoolTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName($variableName),
             new ArrayVarMap($variables),
-            $validator
+            $validator,
+            StandardDataLocator::fromArray(['foo' => $variables])
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

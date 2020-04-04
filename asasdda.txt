@@ -1,0 +1,8 @@
+
+
+
+[0, 1, 2] = GetArray Of Int - path is '/'
+[foo => [0, 1, 2]] = GetArray Of Int - path is '/foo'
+
+1 = getInt  - path is '/'
+[foo => 2] = GetInt - path is '/foo'

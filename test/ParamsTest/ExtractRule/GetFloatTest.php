@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\DataLocator\StandardDataLocator;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetFloat;
@@ -25,7 +26,8 @@ class GetFloatTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             new ArrayVarMap([]),
-            $validator
+            $validator,
+            StandardDataLocator::fromArray([])
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
@@ -52,7 +54,8 @@ class GetFloatTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName($variableName),
             new ArrayVarMap([$variableName => $input]),
-            $validator
+            $validator,
+            StandardDataLocator::fromArray([$variableName => $input])
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
@@ -82,7 +85,8 @@ class GetFloatTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName($variableName),
             new ArrayVarMap($variables),
-            $validator
+            $validator,
+            StandardDataLocator::fromArray($variables)
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
@@ -26,7 +27,7 @@ class IntegerInput implements ProcessRule
      * @param ParamValues $validator
      * @return ValidationResult
      */
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         // TODO - check is null
         if (is_int($value) !== true) {
@@ -34,7 +35,7 @@ class IntegerInput implements ProcessRule
             // check string length is not zero length.
             if (strlen($value) === 0) {
                 return ValidationResult::errorResult(
-                    $path,
+                    $dataLocator,
                     "Value is an empty string - must be an integer."
                 );
             }
@@ -51,7 +52,7 @@ class IntegerInput implements ProcessRule
             );
 
             if ($match !== 1) {
-                return ValidationResult::errorResult($path, "Value must contain only digits.");
+                return ValidationResult::errorResult($dataLocator, "Value must contain only digits.");
             }
         }
 
@@ -64,7 +65,7 @@ class IntegerInput implements ProcessRule
                 $maxSaneLength
             );
 
-            return ValidationResult::errorResult($path, $message);
+            return ValidationResult::errorResult($dataLocator, $message);
         }
 
         return ValidationResult::valueResult(intval($value));

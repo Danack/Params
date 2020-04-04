@@ -2,6 +2,7 @@
 
 namespace Params;
 
+use Params\DataLocator\StandardDataLocator;
 use Params\Exception\InputParameterListException;
 use Params\Exception\LogicException;
 use Params\Exception\MissingClassException;
@@ -13,6 +14,7 @@ use Params\PatchOperation\PatchOperation;
 use Params\Value\Ordering;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
+use Params\DataLocator\DataLocator;
 
 /**
  * @param mixed $value
@@ -78,7 +80,7 @@ function createArrayForTypeWithRules(Path $path, string $classname, $itemData, a
     }
 
     if (count($allValidationProblems) !== 0) {
-        return ValidationResult::thisIsMultipleErrorResult($allValidationProblems);
+        return ValidationResult::fromValidationProblems($allValidationProblems);
     }
 
     return ValidationResult::valueResult($items);
@@ -114,6 +116,7 @@ function getInputParameterListForClass(string $className)
         throw InputParameterListException::notArray($className);
     }
 
+    // Validate all entries are InputParameters
     $index = 0;
     foreach ($inputParameterList as $inputParameter) {
         if (!$inputParameter instanceof Param) {
@@ -312,11 +315,13 @@ function create($classname, $params, VarMap $sourceData)
 {
     $paramsValuesImpl = new ParamsValuesImpl();
     $path = Path::initial();
+    $dataLocator = StandardDataLocator::fromVarMap($sourceData);
 
     $validationProblems = $paramsValuesImpl->executeRulesWithValidator(
         $params,
         $sourceData,
-        $path
+        $path,
+        $dataLocator
     );
 
     if (count($validationProblems) !== 0) {
@@ -344,7 +349,14 @@ function createOrError($classname, $params, VarMap $sourceData)
 {
     $paramsValuesImpl = new ParamsValuesImpl();
     $path = Path::initial();
-    $validationProblems = $paramsValuesImpl->executeRulesWithValidator($params, $sourceData, $path);
+    $dataLocator = StandardDataLocator::fromVarMap($sourceData);
+
+    $validationProblems = $paramsValuesImpl->executeRulesWithValidator(
+        $params,
+        $sourceData,
+        $path,
+        $dataLocator
+    );
 
     if (count($validationProblems) !== 0) {
         return [null, $validationProblems];
@@ -453,3 +465,29 @@ function normalise_order_parameter(string $part)
 
     return [$part, Ordering::ASC];
 }
+
+
+
+function createPath(array $pathParts)
+{
+    $path = '';
+
+    if (count($pathParts) === 0) {
+        return '/';
+    }
+
+    foreach ($pathParts as $type => $value) {
+        if ($type === 'index') {
+            $path .= '/[' . $value . ']';
+        }
+        else if ($type === 'name') {
+            $path .= '/' . $value;
+        }
+        else {
+            throw new \LogicException("Unknown type " . $type);
+        }
+    }
+
+    return $path;
+}
+

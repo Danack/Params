@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\StandardDataLocator;
 use Params\Value\MultipleEnums;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -31,10 +34,12 @@ class CheckFilterStringTest extends BaseTestCase
     {
         $rule = new MultipleEnum(['foo', 'bar']);
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $validationResult = $rule->process(
             Path::fromName('someFilter'),
             $inputString,
-            $validator
+            $validator,
+            $dataLocator
         );
         $this->assertEmpty($validationResult->getValidationProblems());
 
@@ -57,7 +62,8 @@ class CheckFilterStringTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('someFilter'),
             $expectedValue,
-            $validator
+            $validator,
+            SingleValueDataLocator::create(['foo', 'bar'])
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

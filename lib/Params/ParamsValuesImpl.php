@@ -7,6 +7,7 @@ namespace Params;
 use Params\Exception\LogicException;
 use Params\ProcessRule\ProcessRule;
 use VarMap\VarMap;
+use Params\DataLocator\DataLocator;
 
 /**
  * Class ParamsValidator
@@ -14,6 +15,9 @@ use VarMap\VarMap;
  * Validates an input parameter according to a set of rules.
  * If there are any errors, they will be stored in this object,
  * and can be retrieved via the method ParamsValidator::getValidationProblems
+ *
+ * This is inadequate. We should support full paths and relative paths
+ * so that people can validate across objects, and also within arrays.
  */
 class ParamsValuesImpl implements ParamValues
 {
@@ -60,10 +64,11 @@ class ParamsValuesImpl implements ParamValues
     public function validateSubsequentRules(
         $value,
         Path $path,
+        DataLocator $dataLocator,
         ProcessRule ...$subsequentRules
     ) {
         foreach ($subsequentRules as $rule) {
-            $validationResult = $rule->process($path, $value, $this);
+            $validationResult = $rule->process($path, $value, $this, $dataLocator);
             if ($validationResult->anyErrorsFound()) {
                 return $validationResult->getValidationProblems();
             }
@@ -93,14 +98,18 @@ class ParamsValuesImpl implements ParamValues
     public function validateParam(
         Param $param,
         VarMap $varMap,
-        Path $path
+        Path $path,
+        DataLocator $dataLocator
     ) {
         $pathForParam = $path->addNamePathFragment($param->getInputName());
 
+        $dataLocatorForItem = $dataLocator->moveKey($param->getInputName());
+
         $firstRule = $param->getFirstRule();
 
-
-        $validationResult = $firstRule->process($pathForParam, $varMap, $this);
+        $validationResult = $firstRule->process(
+            $pathForParam, $varMap, $this, $dataLocatorForItem
+        );
 
         if ($validationResult->anyErrorsFound()) {
             return $validationResult->getValidationProblems();
@@ -117,6 +126,7 @@ class ParamsValuesImpl implements ParamValues
         return $this->validateSubsequentRules(
             $value,
             $pathForParam,
+            $dataLocatorForItem,
             ...$subsequentRules
         );
     }
@@ -130,7 +140,8 @@ class ParamsValuesImpl implements ParamValues
     public function executeRulesWithValidator(
         $params,
         VarMap $sourceData,
-        Path $path
+        Path $path,
+        DataLocator $dataLocator
     ) {
         $validationProblems = [];
 
@@ -138,7 +149,8 @@ class ParamsValuesImpl implements ParamValues
             $newValidationProblems = $this->validateParam(
                 $param,
                 $sourceData,
-                $path
+                $path,
+                $dataLocator
             );
 
             $validationProblems = [...$validationProblems, ...$newValidationProblems];

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Params;
 
+use Params\DataLocator\DataLocator;
+
 /**
  *
  */
@@ -34,20 +36,21 @@ class ValidationResult
      * this is for a single value processing.
      *
      */
-    public static function errorResult(Path $path, string $message): ValidationResult
+    public static function errorResult(DataLocator $dataLocator, string $message): ValidationResult
     {
         return new self(
             null,
-            [new ValidationProblem($path, $message)],
+            [new ValidationProblem($dataLocator, $message)],
             true
         );
     }
+
 
     /**
      * @param \Params\ValidationProblem[] $validationProblems
      * @return ValidationResult
      */
-    public static function thisIsMultipleErrorResult(array $validationProblems)
+    public static function fromValidationProblems(array $validationProblems)
     {
         foreach ($validationProblems as $key => $validationProblem) {
             if (is_int($key)  === false) {

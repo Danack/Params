@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ProcessRule;
 use Params\ValidationResult;
 use VarMap\VarMap;
@@ -17,13 +18,15 @@ class GetOptionalString implements ExtractRule
     public function process(
         Path $path,
         VarMap $varMap,
-        ParamValues $paramValues
+        ParamValues $paramValues,
+        DataLocator $dataLocator
     ): ValidationResult {
-        if ($varMap->has($path->toString()) !== true) {
+        if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::valueResult(null);
         }
 
-        $value = (string)$varMap->get($path->toString());
+        // TODO - convert strings better.
+        $value = (string)$dataLocator->getCurrentValue();
 
         return ValidationResult::valueResult($value);
     }

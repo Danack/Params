@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
@@ -35,11 +36,11 @@ class Enum implements ProcessRule
      * @param ParamValues $validator
      * @return ValidationResult
      */
-    public function process(Path $path, $value, ParamValues $validator): ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator): ValidationResult
     {
         if (in_array($value, $this->allowedValues, true) !== true) {
             return ValidationResult::errorResult(
-                $path,
+                $dataLocator,
                 "Value is not known. Please use one of " . implode(', ', $this->allowedValues)
             );
         }

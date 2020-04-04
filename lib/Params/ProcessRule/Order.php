@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\Value\OrderElement;
 use Params\Value\Ordering;
@@ -34,7 +35,7 @@ class Order implements ProcessRule
         $this->knownOrderNames = $knownOrderNames;
     }
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         $parts = explode(',', $value);
         $orderElements = [];
@@ -49,7 +50,7 @@ class Order implements ProcessRule
                     implode(', ', $this->knownOrderNames)
                 );
 
-                return ValidationResult::errorResult($path, $message);
+                return ValidationResult::errorResult($dataLocator, $message);
             }
             $orderElements[] = new OrderElement($partName, $partOrder);
         }

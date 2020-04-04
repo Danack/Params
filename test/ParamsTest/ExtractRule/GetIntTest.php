@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\DataLocator\StandardDataLocator;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetInt;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\NotAvailableDataLocator;
 
 /**
  * @coversNothing
@@ -25,7 +28,8 @@ class GetIntTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             new ArrayVarMap([]),
-            $validator
+            $validator,
+            new NotAvailableDataLocator()
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
@@ -47,10 +51,13 @@ class GetIntTest extends BaseTestCase
         $variableName = 'foo';
         $validator = new ParamsValuesImpl();
         $rule = new GetInt();
+        $dataLocator  = SingleValueDataLocator::create($input);
+
         $validationResult = $rule->process(
             Path::fromName($variableName),
             new ArrayVarMap([$variableName => $input]),
-            $validator
+            $validator,
+            $dataLocator
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
@@ -60,28 +67,30 @@ class GetIntTest extends BaseTestCase
 
     public function provideTestErrorCases()
     {
-        return [
-            [['foo', null]],
-            [['foo', '']],
-            [['foo', '6 apples']],
-            [['foo', 'banana']],
-        ];
+        yield [null];
+        yield [''];
+        yield ['6 apples'];
+        yield ['banana'];
+        // TODO add expected error string
     }
 
     /**
      * @covers \Params\ExtractRule\GetInt
      * @dataProvider provideTestErrorCases
      */
-    public function testErrors($variables)
+    public function testErrors($input)
     {
         $variableName = 'foo';
 
         $rule = new GetInt();
         $validator = new ParamsValuesImpl();
+        $dataLocator  = SingleValueDataLocator::create($input);
+
         $validationResult = $rule->process(
             Path::fromName($variableName),
-            new ArrayVarMap($variables),
-            $validator
+            new ArrayVarMap([]),
+            $validator,
+            $dataLocator
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

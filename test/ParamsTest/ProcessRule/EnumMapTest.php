@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\EmptyDataLocator;
+use Params\DataLocator\SingleValueDataLocator;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\EnumMap;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
  */
-class KnownEnumValidatorTest extends BaseTestCase
+class EnumMapTest extends BaseTestCase
 {
     public function provideTestCases()
     {
@@ -38,7 +41,8 @@ class KnownEnumValidatorTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName($name),
             'unknown value',
-            $validator
+            $validator,
+            EmptyDataLocator::fromPath(['foo'])
         );
 
         $problems = $validationResult->getValidationProblems();
@@ -50,7 +54,10 @@ class KnownEnumValidatorTest extends BaseTestCase
             'input1, input2',
             $firstProblem->getProblemMessage()
         );
-        $this->assertSame($name, $firstProblem->getPath()->toString());
+        $this->assertSame(
+            createPath(['name' => $name]),
+            $firstProblem->getDataLocator()->toString()
+        );
     }
 
     /**
@@ -71,7 +78,8 @@ class KnownEnumValidatorTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $testValue,
-            $validator
+            $validator,
+            SingleValueDataLocator::create($testValue)
         );
 
         if ($expectError) {

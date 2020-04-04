@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ProcessRule\BoolInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
@@ -28,7 +29,8 @@ class GetBoolOrDefault implements ExtractRule
     public function process(
         Path $path,
         VarMap $varMap,
-        ParamValues $paramValues
+        ParamValues $paramValues,
+        DataLocator $dataLocator
     ): ValidationResult {
         if ($varMap->has($path->getCurrentName()) === true) {
             $value = $varMap->get($path->getCurrentName());

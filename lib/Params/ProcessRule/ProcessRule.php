@@ -9,6 +9,7 @@ use Params\Rule;
 use Params\ValidationResult;
 use Params\ParamValues;
 use Params\Path;
+use Params\DataLocator\DataLocator;
 
 /**
  * A rule that is not the first rule. It should process the value that is passed to it.
@@ -23,5 +24,5 @@ interface ProcessRule extends Rule
      * @return ValidationResult
      * @throws \Params\Exception\ParamMissingException
      */
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult;
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult;
 }

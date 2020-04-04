@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ProcessRule\BoolInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
@@ -22,14 +23,25 @@ class GetOptionalBool implements ExtractRule
     public function process(
         Path $path,
         VarMap $varMap,
-        ParamValues $paramValues
+        ParamValues $paramValues,
+        DataLocator $dataLocator
     ): ValidationResult {
-        if ($varMap->has($path->toString()) !== true) {
+
+        if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::valueResult(null);
         }
+//        if ($varMap->has($path->toString()) !== true) {
+//            return ValidationResult::valueResult(null);
+//        }
 
         $intRule = new BoolInput();
-        return $intRule->process($path, $varMap->get($path->toString()), $paramValues);
+        return $intRule->process(
+            $path,
+//            $varMap->get($path->toString()),
+            $dataLocator->getCurrentValue(),
+            $paramValues,
+            $dataLocator
+        );
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

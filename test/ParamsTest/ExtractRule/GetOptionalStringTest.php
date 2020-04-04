@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\DataLocator\SingleValueDataLocator;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalString;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use Params\DataLocator\NotAvailableDataLocator;
 
 /**
  * @coversNothing
@@ -26,7 +28,8 @@ class GetOptionalStringTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             new ArrayVarMap([]),
-            $validator
+            $validator,
+            new NotAvailableDataLocator()
         );
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertNull($validationResult->getValue());
@@ -40,10 +43,15 @@ class GetOptionalStringTest extends BaseTestCase
         $variableName = 'foo';
         $expectedValue = 'bar';
 
-        $varMap = new ArrayVarMap([$variableName => $expectedValue]);
+        $varMap = new ArrayVarMap([]);
         $rule = new GetOptionalString();
         $validator = new ParamsValuesImpl();
-        $validationResult = $rule->process(Path::fromName($variableName), $varMap, $validator);
+        $validationResult = $rule->process(
+            Path::fromName($variableName),
+            $varMap,
+            $validator,
+            SingleValueDataLocator::create($expectedValue)
+            );
 
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);

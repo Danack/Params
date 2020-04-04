@@ -20,14 +20,14 @@ class ItemListParams implements InputParameterList
     use CreateFromVarMap;
     use CreateOrErrorFromVarMap;
 
-    /** @var \ParamsTest\Integration\ItemParams[]  */
+    /** @var \ParamsTest\Integration\ReviewScore[]  */
     private $items;
 
     /** @var string */
     private $description;
 
     /**
-     * @param \ParamsTest\Integration\ItemParams[] $items
+     * @param \ParamsTest\Integration\ReviewScore[] $items
      * @param string $description
      */
     public function __construct(array $items, string $description)
@@ -41,7 +41,7 @@ class ItemListParams implements InputParameterList
         return [
             new Param(
                 'items',
-                new GetArrayOfType(ItemParams::class)
+                new GetArrayOfType(ReviewScore::class)
             ),
             new Param(
                 'description',
@@ -52,7 +52,7 @@ class ItemListParams implements InputParameterList
     }
 
     /**
-     * @return ItemParams[]
+     * @return ReviewScore[]
      */
     public function getItems(): array
     {

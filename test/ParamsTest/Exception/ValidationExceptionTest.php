@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception\Validator;
 
+use Params\DataLocator\StandardDataLocator;
 use ParamsTest\BaseTestCase;
 use Params\Exception\ValidationException;
 use Params\Exception\ParamsException;
@@ -17,12 +18,15 @@ class ValidationExceptionTest extends BaseTestCase
 {
     /**
      * @covers \Params\Exception\ValidationException
+
      */
     public function testGetting()
     {
+        $dataLocator = StandardDataLocator::fromArray([]);
+
         $validationMessages = [
-            new ValidationProblem(Path::fromName('foo'), 'foo was invalid'),
-            new ValidationProblem(Path::fromName('bar'), 'bar was invalid')
+            new ValidationProblem($dataLocator, 'foo was invalid'),
+            new ValidationProblem($dataLocator, 'bar was invalid')
         ];
 
         $exception = new ValidationException(

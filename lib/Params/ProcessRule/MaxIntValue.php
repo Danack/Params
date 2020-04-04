@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
@@ -19,12 +20,12 @@ class MaxIntValue implements ProcessRule
         $this->maxValue = $maxValue;
     }
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         $value = intval($value);
         if ($value > $this->maxValue) {
             return ValidationResult::errorResult(
-                $path,
+                $dataLocator,
                 "Value too large. Max allowed is " . $this->maxValue
             );
         }

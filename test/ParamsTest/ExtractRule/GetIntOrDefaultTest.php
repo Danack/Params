@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\DataLocator\StandardDataLocator;
 use Params\ExtractRule\GetIntOrDefault;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
@@ -47,7 +48,8 @@ class GetIntOrDefaultTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $varMap,
-            $validator
+            $validator,
+            StandardDataLocator::fromVarMap($varMap)
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
@@ -82,7 +84,8 @@ class GetIntOrDefaultTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName($variableName),
             new ArrayVarMap($variables),
-            $validator
+            $validator,
+            StandardDataLocator::fromArray($variables)
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

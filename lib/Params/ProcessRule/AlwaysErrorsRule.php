@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
@@ -20,9 +21,9 @@ class AlwaysErrorsRule implements ProcessRule
     }
 
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
-        return ValidationResult::errorResult($path, $this->message);
+        return ValidationResult::errorResult($dataLocator, $this->message);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

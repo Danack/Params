@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
@@ -26,13 +27,14 @@ class GetStringOrDefault implements ExtractRule
     public function process(
         Path $path,
         VarMap $varMap,
-        ParamValues $paramValues
+        ParamValues $paramValues,
+        DataLocator $dataLocator
     ): ValidationResult {
-        if ($varMap->has($path->toString()) !== true) {
+        if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::valueResult($this->default);
         }
 
-        $value = (string)$varMap->get($path->toString());
+        $value = (string)$dataLocator->getCurrentValue();
 
         return ValidationResult::valueResult($value);
     }

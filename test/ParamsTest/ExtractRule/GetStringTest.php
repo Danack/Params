@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\DataLocator\NotAvailableDataLocator;
+use Params\DataLocator\SingleValueDataLocator;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetString;
@@ -25,7 +27,8 @@ class GetStringTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             new ArrayVarMap([]),
-            $validator
+            $validator,
+            new NotAvailableDataLocator()
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
@@ -43,7 +46,8 @@ class GetStringTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName($variableName),
             new ArrayVarMap([$variableName => $expectedValue]),
-            $validator
+            $validator,
+            SingleValueDataLocator::create('John')
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());

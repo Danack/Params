@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\StandardDataLocator;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\PositiveInt;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -35,10 +37,12 @@ class PositiveIntTest extends BaseTestCase
     {
         $rule = new PositiveInt();
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $testValue,
-            $validator
+            $validator,
+            $dataLocator
         );
         if ($expectError == true) {
             $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

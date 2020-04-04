@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\StandardDataLocator;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\Value\MultipleEnums;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -31,10 +33,12 @@ class MultipleEnumTest extends BaseTestCase
     {
         $enumRule = new MultipleEnum(['foo', 'bar']);
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $result = $enumRule->process(
             Path::fromName('unused'),
             $input,
-            $validator
+            $validator,
+            $dataLocator
         );
 
         $this->assertEmpty($result->getValidationProblems());
@@ -60,10 +64,12 @@ class MultipleEnumTest extends BaseTestCase
     {
         $rule = new MultipleEnum(['time', 'distance']);
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $testValue,
-            $validator
+            $validator,
+            $dataLocator
         );
 
         if ($expectError === true) {

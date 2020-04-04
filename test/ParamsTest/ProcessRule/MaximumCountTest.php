@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\SingleValueDataLocator;
 use Params\Messages;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
@@ -11,6 +12,8 @@ use Params\ProcessRule\MaximumCount;
 use Params\Exception\LogicException;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use Params\DataLocator\StandardDataLocator;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -37,7 +40,8 @@ class MaximumCountTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $values,
-            $validator
+            $validator,
+            SingleValueDataLocator::create($values)
         );
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertFalse($validationResult->isFinalResult());
@@ -63,7 +67,8 @@ class MaximumCountTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $values,
-            $validator
+            $validator,
+            SingleValueDataLocator::create($values)
         );
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
@@ -77,7 +82,7 @@ class MaximumCountTest extends BaseTestCase
 
         $this->assertCount(1, $validationResult->getValidationProblems());
         $this->assertValidationProblemRegexp(
-            'foo',
+            createPath([]),
             Messages::ERROR_TOO_MANY_ELEMENTS,
             $validationResult->getValidationProblems()
         );
@@ -106,10 +111,13 @@ class MaximumCountTest extends BaseTestCase
             stringToRegexp(Messages::ERROR_WRONG_TYPE_VARIANT_1)
         );
 
+        $dataLocator = StandardDataLocator::fromArray([]);
+
         $rule->process(
             Path::fromName('foo'),
             'a banana',
-            $validator
+            $validator,
+            $dataLocator
         );
     }
 }

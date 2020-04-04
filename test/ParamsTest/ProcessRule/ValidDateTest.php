@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\StandardDataLocator;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDate;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -38,10 +41,12 @@ class ValidDateTest extends BaseTestCase
     {
         $rule = new ValidDate();
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $input,
-            $validator
+            $validator,
+            $dataLocator
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
@@ -67,7 +72,8 @@ class ValidDateTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $input,
-            $validator
+            $validator,
+            SingleValueDataLocator::create($input)
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

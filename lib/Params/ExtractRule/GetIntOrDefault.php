@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ProcessRule\IntegerInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
@@ -27,7 +28,8 @@ class GetIntOrDefault implements ExtractRule
     public function process(
         Path $path,
         VarMap $varMap,
-        ParamValues $paramValues
+        ParamValues $paramValues,
+        DataLocator $dataLocator
     ): ValidationResult {
         if ($varMap->has($path->toString()) === true) {
             $value = $varMap->get($path->toString());
@@ -37,7 +39,7 @@ class GetIntOrDefault implements ExtractRule
         }
 
         $intRule = new IntegerInput();
-        return $intRule->process($path, $value, $paramValues);
+        return $intRule->process($path, $value, $paramValues, $dataLocator);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

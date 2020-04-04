@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
@@ -24,14 +25,18 @@ class FloatInput implements ProcessRule
      * @param ParamValues $validator
      * @return ValidationResult
      */
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
-    {
+    public function process(
+        Path $path,
+        $value,
+        ParamValues $validator,
+        DataLocator $dataLocator
+    ) : ValidationResult {
         // TODO - check is null
         if (is_int($value) !== true) {
             $value = (string)$value;
             if (strlen($value) === 0) {
                 return ValidationResult::errorResult(
-                    $path,
+                    $dataLocator,
                     "Value is an empty string - must be a floating point number."
                 );
             }
@@ -53,7 +58,10 @@ class FloatInput implements ProcessRule
 
             if ($match !== 1) {
                 // TODO - says what position bad character is at.
-                return ValidationResult::errorResult($path, "Value must be a floating point number.");
+                return ValidationResult::errorResult(
+                    $dataLocator,
+                    "Value must be a floating point number."
+                );
             }
         }
 

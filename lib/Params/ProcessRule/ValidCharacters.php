@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\Exception\LogicException;
 use Params\Messages;
 use Params\ValidationResult;
@@ -11,6 +12,7 @@ use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
 use Params\ParamValues;
 use Params\Path;
+
 
 /**
  * Class ValidCharacters
@@ -28,7 +30,7 @@ class ValidCharacters implements ProcessRule
         $this->patternValidCharacters = $patternValidCharacters;
     }
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         $patternInvalidCharacters = "/[^" . $this->patternValidCharacters . "]+/xu";
         $matches = [];
@@ -45,7 +47,7 @@ class ValidCharacters implements ProcessRule
                 $badCharPosition,
                 $this->patternValidCharacters
             );
-            return ValidationResult::errorResult($path, $message);
+            return ValidationResult::errorResult($dataLocator, $message);
         }
         return ValidationResult::valueResult($value);
     }

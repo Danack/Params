@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\Messages;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
@@ -28,7 +29,7 @@ class MinimumCount implements ProcessRule
         $this->minimumCount = $minimumCount;
     }
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         if (is_array($value) !== true) {
             $message = sprintf(
@@ -49,7 +50,7 @@ class MinimumCount implements ProcessRule
                 $actualCount
             );
 
-            return ValidationResult::errorResult($path, $message);
+            return ValidationResult::errorResult($dataLocator, $message);
         }
 
         return ValidationResult::valueResult($value);

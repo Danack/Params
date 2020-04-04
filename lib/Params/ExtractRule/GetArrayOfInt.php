@@ -13,6 +13,7 @@ use Params\ParamsValuesImpl;
 use Params\ProcessRule\IntegerInput;
 use Params\ParamValues;
 use Params\Path;
+use Params\DataLocator\DataLocator;
 
 class GetArrayOfInt implements ExtractRule
 {
@@ -27,20 +28,23 @@ class GetArrayOfInt implements ExtractRule
     public function process(
         Path $path,
         VarMap $varMap,
-        ParamValues $paramValues
+        ParamValues $paramValues,
+        DataLocator $dataLocator
     ): ValidationResult {
 
         // Check its set
-        if ($varMap->has($path->getCurrentName()) !== true) {
-            $message = sprintf(Messages::ERROR_MESSAGE_NOT_SET, $path->getCurrentName());
-            return ValidationResult::errorResult($path, $message);
-        }
+//        if ($varMap->has($path->getCurrentName()) !== true) {
+//            $message = sprintf(Messages::ERROR_MESSAGE_NOT_SET, $path->getCurrentName());
+//            return ValidationResult::errorResult($dataLocator, $message);
+//        }
+
+        $itemData = $dataLocator->getCurrentValue();
 
         // Check its an array
-        $itemData = $varMap->get($path->getCurrentName());
+//        $itemData = $varMap->get($path->getCurrentName());
         if (is_array($itemData) !== true) {
             $message = sprintf(Messages::ERROR_MESSAGE_NOT_ARRAY, $path->getCurrentName());
-            return ValidationResult::errorResult($path, $message);
+            return ValidationResult::errorResult($dataLocator, $message);
         }
 
         // Setup stuff
@@ -55,8 +59,10 @@ class GetArrayOfInt implements ExtractRule
             // Create the new path.
             $pathForItem = $path->addArrayIndexPathFragment($index);
 
+            $dataLocatorForItem = $dataLocator->moveIndex($index);
+
             // Process the int rule for the item
-            $result = $intRule->process($pathForItem, $itemDatum, $paramValues);
+            $result = $intRule->process($pathForItem, $itemDatum, $paramValues, $dataLocatorForItem);
 
             // If error, add it and attempt next entry in array
             if ($result->anyErrorsFound()) {
@@ -76,6 +82,7 @@ class GetArrayOfInt implements ExtractRule
             $newValidationProblems =  $validator2->validateSubsequentRules(
                 $result->getValue(),
                 $pathForItem,
+                $dataLocatorForItem,
                 ...$this->subsequentRules
             );
 
@@ -90,7 +97,7 @@ class GetArrayOfInt implements ExtractRule
         }
 
         if (count($validationProblems) !== 0) {
-            return ValidationResult::thisIsMultipleErrorResult($validationProblems);
+            return ValidationResult::fromValidationProblems($validationProblems);
         }
 
         return ValidationResult::valueResult($items);

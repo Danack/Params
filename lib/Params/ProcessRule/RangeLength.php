@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
@@ -26,7 +27,7 @@ class RangeLength implements ProcessRule
         $this->maxLength = $maxLength;
     }
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         // TODO - handle to string conversion better.
         $value = (string)$value;
@@ -34,7 +35,7 @@ class RangeLength implements ProcessRule
         // Check min length
         if (mb_strlen($value) < $this->minLength) {
             return ValidationResult::errorResult(
-                $path,
+                $dataLocator,
                 "String too short, min chars is " . $this->minLength
             );
         }
@@ -46,7 +47,7 @@ class RangeLength implements ProcessRule
                 $path->toString(),
                 $this->maxLength
             );
-            return ValidationResult::errorResult($path, $message);
+            return ValidationResult::errorResult($dataLocator, $message);
         }
 
         return ValidationResult::valueResult($value);

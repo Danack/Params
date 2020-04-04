@@ -9,6 +9,7 @@ use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\Messages as DuplicatesParamRule;
 use ParamsTest\Integration\DuplicateButWrongTypeParams;
+use function Params\createPath;
 
 /**
  * @group v2
@@ -78,7 +79,7 @@ class DuplicateParamsTest extends BaseTestCase
         $this->assertCount(1, $validationProblems);
 
         $this->assertValidationProblem(
-            'password_repeat',
+            createPath(['name' => 'password_repeat']),
             "Parameter named 'password_repeat' is different to parameter 'password'.",
             $validationProblems
         );
@@ -102,13 +103,13 @@ class DuplicateParamsTest extends BaseTestCase
         $this->assertCount(2, $validationProblems);
 
         $this->assertValidationProblem(
-            'password',
+            createPath(['name' => 'password']),
             Messages::VALUE_NOT_SET,
             $validationProblems
         );
 
         $this->assertValidationProblemRegexp(
-            'password_repeat',
+            createPath(['name' => 'password_repeat']),
             DuplicatesParamRule::ERROR_NO_PREVIOUS_PARAM,
             $validationProblems
         );
@@ -134,7 +135,7 @@ class DuplicateParamsTest extends BaseTestCase
         $this->assertCount(1, $validationProblems);
 
         $this->assertValidationProblemRegexp(
-            'days_repeat',
+            createPath(['name' => 'days_repeat']),
             Messages::ERROR_DIFFERENT_TYPES,
             $validationProblems
         );

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use ParamsTest\BaseTestCase;
-use Params\ValueInput;
 use Params\PatchOperation\PatchOperation;
 use Params\PatchOperation\AddPatchOperation;
 use Params\PatchOperation\CopyPatchOperation;
@@ -14,6 +13,7 @@ use Params\PatchOperation\RemovePatchOperation;
 use Params\PatchOperation\ReplacePatchOperation;
 use Params\PatchOperation\TestPatchOperation;
 use Params\Value\PatchOperations;
+use function Params\createPath;
 
 /**
  * @coversNothing

@@ -10,6 +10,8 @@ use VarMap\ArrayVarMap;
 use Params\ParamsValuesImpl;
 use Params\ProcessRule\MaxIntValue;
 use Params\Path;
+use Params\DataLocator\StandardDataLocator;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -18,27 +20,25 @@ class GetArrayOfIntTest extends BaseTestCase
 {
     /**
      * @covers  \Params\ExtractRule\GetArrayOfInt
-     * @group debug
      */
     public function testWorks()
     {
-        $values = [5, 6, 7];
+        $data = [5, 6, 7];
 
-        $data = [
-            'items' => $values,
-        ];
+        $dataLocator = StandardDataLocator::fromArray($data);
 
         $rule = new GetArrayOfInt();
         $validator = new ParamsValuesImpl();
         $result = $rule->process(
             Path::fromName('items'),
             new ArrayVarMap($data),
-            $validator
+            $validator,
+            $dataLocator
         );
 
         $this->assertFalse($result->isFinalResult());
         $this->assertCount(0, $result->getValidationProblems());
-        $this->assertSame($values, $result->getValue());
+        $this->assertSame($data, $result->getValue());
     }
 
     /**
@@ -46,18 +46,16 @@ class GetArrayOfIntTest extends BaseTestCase
      */
     public function testErrorsOnType()
     {
-        $values = [5, 6, 7, 'banana'];
+        $data = [5, 6, 7, 'banana'];
 
-        $data = [
-            'items' => $values,
-        ];
 
         $rule = new GetArrayOfInt();
         $validator = new ParamsValuesImpl();
         $result = $rule->process(
             Path::fromName('items'),
             new ArrayVarMap($data),
-            $validator
+            $validator,
+            StandardDataLocator::fromArray($data)
         );
 
         $this->assertTrue($result->isFinalResult());
@@ -66,7 +64,8 @@ class GetArrayOfIntTest extends BaseTestCase
 
         $this->assertCount(1, $validationProblems);
         $this->assertValidationProblem(
-            'items[3]',
+//            '/[3]', //'items[3]',
+            createPath(['index' => 3]),
             'Value must contain only digits.',
             $validationProblems
         );
@@ -82,20 +81,18 @@ class GetArrayOfIntTest extends BaseTestCase
      */
     public function testErrorsOnSubsequentRule()
     {
-        $values = [5, 6, 7, 5001];
-
-        $data = [
-            'items' => $values,
-        ];
+        $data = [5, 6, 7, 5001];
 
         $rule = new GetArrayOfInt(
             new MaxIntValue(20)
         );
         $validator = new ParamsValuesImpl();
+
         $result = $rule->process(
             Path::fromName('items'),
             new ArrayVarMap($data),
-            $validator
+            $validator,
+            StandardDataLocator::fromArray($data)
         );
 
         $this->assertTrue($result->isFinalResult());
@@ -103,7 +100,7 @@ class GetArrayOfIntTest extends BaseTestCase
         $problemMessages = $result->getValidationProblems();
 
         $this->assertValidationProblem(
-            'items[3]',
+            createPath(['index'=> 3]),
             'Value too large. Max allowed is 20',
             $problemMessages
         );

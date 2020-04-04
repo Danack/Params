@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\StandardDataLocator;
 use Params\ProcessRule\FloatInput;
 use ParamsTest\BaseTestCase;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -32,10 +35,12 @@ class FloatInputTest extends BaseTestCase
     {
         $rule = new FloatInput();
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $inputValue,
-            $validator
+            $validator,
+            $dataLocator
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
@@ -65,7 +70,8 @@ class FloatInputTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $inputValue,
-            $validator
+            $validator,
+            SingleValueDataLocator::create($inputValue)
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

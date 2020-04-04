@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ProcessRule;
 use Params\ExtractRule\ExtractRule;
 use Params\ProcessRule\FloatInput;
@@ -29,7 +30,8 @@ class GetFloatOrDefault implements ExtractRule
     public function process(
         Path $path,
         VarMap $varMap,
-        ParamValues $paramValues
+        ParamValues $paramValues,
+        DataLocator $dataLocator
     ) : ValidationResult {
 
         if ($varMap->has($path->toString()) !== true) {
@@ -38,7 +40,12 @@ class GetFloatOrDefault implements ExtractRule
 
         $floatInput = new FloatInput();
 
-        return $floatInput->process($path, $varMap->get($path->toString()), $paramValues);
+        return $floatInput->process(
+            $path,
+            $varMap->get($path->toString()),
+            $paramValues,
+            $dataLocator
+        );
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

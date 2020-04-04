@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\DataLocator\SingleValueDataLocator;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetStringOrDefault;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use Params\DataLocator\NotAvailableDataLocator;
 
 /**
  * @coversNothing
@@ -20,25 +22,49 @@ class GetStringOrDefaultTest extends BaseTestCase
         return [
             [new ArrayVarMap(['foo' => 'bar']), 'john', 'bar'],
             [new ArrayVarMap([]), 'john', 'john'],
-            [new ArrayVarMap([]), null, null],
+
+
+//            [new ArrayVarMap([]), null, null],
         ];
     }
 
     /**
-     * @dataProvider provideTestCases
      * @covers \Params\ExtractRule\GetStringOrDefault
      */
-    public function testValidation(ArrayVarMap $varMap, $default, $expectedValue)
+    public function testValidation()
     {
+        $default = 'bar';
+
         $rule = new GetStringOrDefault($default);
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             Path::fromName('foo'),
-            $varMap,
-            $validator
+            new ArrayVarMap([]),
+            $validator,
+            SingleValueDataLocator::create('John')
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
-        $this->assertEquals($validationResult->getValue(), $expectedValue);
+        $this->assertEquals($validationResult->getValue(), 'John');
+    }
+
+    /**
+     * @covers \Params\ExtractRule\GetStringOrDefault
+     */
+    public function testValidationForMissing()
+    {
+        $default = 'bar';
+
+        $rule = new GetStringOrDefault($default);
+        $validator = new ParamsValuesImpl();
+        $validationResult = $rule->process(
+            Path::fromName('foo'),
+            new ArrayVarMap([]),
+            $validator,
+            new NotAvailableDataLocator()
+        );
+
+        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertEquals($validationResult->getValue(), $default);
     }
 }

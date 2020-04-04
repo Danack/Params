@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception\Validator;
 
+use Params\DataLocator\SingleValueDataLocator;
 use Params\ExtractRule\GetInt;
 use Params\Param;
 use Params\ProcessRule\MaxIntValue;
@@ -12,6 +13,7 @@ use VarMap\ArrayVarMap;
 use Params\ParamsValuesImpl;
 use Params\ProcessRule\AlwaysEndsRule;
 use Params\Path;
+use Params\DataLocator\StandardDataLocator;
 
 /**
  * @coversNothing
@@ -69,7 +71,8 @@ class ParamsValidatorTest extends BaseTestCase
         $errors = $validator->validateParam(
             $param,
             $arrayVarMap,
-            Path::initial()
+            Path::initial(),
+            StandardDataLocator::fromVarMap($arrayVarMap)
         );
 
         $this->assertTrue($validator->hasParam('foo'));

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception\Validator;
 
+use Params\DataLocator\DataLocator;
+use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\StandardDataLocator;
 use Params\Exception\ValidationException;
 use Params\ExtractRule\GetInt;
 use Params\ExtractRule\GetIntOrDefault;
@@ -21,6 +24,7 @@ use Params\Param;
 use Params\Path;
 use function Params\create;
 use function Params\createOrError;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -42,7 +46,9 @@ class ParamsTest extends BaseTestCase
         $validator = new ParamsValuesImpl();
         $path = Path::initial();
 
-        $validator->executeRulesWithValidator($rules, new ArrayVarMap([]), $path);
+        $dataLocator = StandardDataLocator::fromArray([]);
+
+        $validator->executeRulesWithValidator($rules, new ArrayVarMap([]), $path, $dataLocator);
 
 //        $validator = \Params\ParamsExecutor::executeRules($rules, new ArrayVarMap([]));
         $this->assertSame(['foo' => 5], $validator->getParamsValues());
@@ -85,6 +91,7 @@ class ParamsTest extends BaseTestCase
     public function testInvalidInputThrows()
     {
         $arrayVarMap = new ArrayVarMap([]);
+        $dataLocator = StandardDataLocator::fromArray([]);
 
         $rules = [
             new Param(
@@ -105,8 +112,10 @@ class ParamsTest extends BaseTestCase
     public function testFinalResultStopsProcessing()
     {
         $finalValue = 123;
+        $data = ['foo' => 5];
+        $arrayVarMap = new ArrayVarMap($data);
+        $dataLocator = StandardDataLocator::fromArray($data);
 
-        $arrayVarMap = new ArrayVarMap(['foo' => 5]);
         $rules = [
             new Param(
                 'foo',
@@ -121,7 +130,7 @@ class ParamsTest extends BaseTestCase
         $validator = new ParamsValuesImpl();
         $path = Path::initial();
 
-        $validator->executeRulesWithValidator($rules, $arrayVarMap, $path);
+        $validator->executeRulesWithValidator($rules, $arrayVarMap, $path, $dataLocator);
 
 //        $validator = ParamsExecutor::executeRules($rules, $arrayVarMap);
         $this->assertEquals($finalValue, ($validator->getParamsValues())['foo']);
@@ -136,12 +145,12 @@ class ParamsTest extends BaseTestCase
                 $this->test = $test;
             }
 
-            public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+            public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
             {
                 $this->test->fail("This shouldn't be reached.");
                 $key = "foo";
                 //this code won't be executed.
-                return ValidationResult::errorResult(Path::fromName($key), "Shouldn't be called");
+                return ValidationResult::errorResult($dataLocator, "Shouldn't be called");
             }
 
             public function updateParamDescription(ParamDescription $paramDescription): void
@@ -151,8 +160,9 @@ class ParamsTest extends BaseTestCase
         };
 
         $errorMessage = 'deliberately stopped';
-
-        $arrayVarMap = new ArrayVarMap(['foo' => 100]);
+        $data = ['foo' => 100];
+        $dataLocator =  SingleValueDataLocator::create(100);
+        $arrayVarMap = new ArrayVarMap($data);
         $rules = [
             new Param(
                 'foo',
@@ -164,6 +174,7 @@ class ParamsTest extends BaseTestCase
             )
         ];
 
+
         try {
             create('Foo', $rules, $arrayVarMap);
 
@@ -171,7 +182,7 @@ class ParamsTest extends BaseTestCase
         }
         catch (ValidationException $validationException) {
             $this->assertValidationProblem(
-                'foo',
+                createPath(['name' => 'foo']),
                 $errorMessage,
                 $validationException->getValidationProblems()
             );
@@ -203,7 +214,11 @@ class ParamsTest extends BaseTestCase
         $arrayVarMap = new ArrayVarMap([]);
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         $this->expectException(\Params\Exception\ParamsException::class);
-        create(\ParamsTest\Integration\FooParams::class, $rules, $arrayVarMap);
+
+        $dataLocator =  StandardDataLocator::fromArray([]);
+
+
+        create(\ParamsTest\Integration\FooParams::class, $rules, $arrayVarMap, $dataLocator);
     }
 
     /**
@@ -211,7 +226,12 @@ class ParamsTest extends BaseTestCase
      */
     public function testWorks()
     {
-        $arrayVarMap = new ArrayVarMap(['limit' => 5]);
+        $data = ['limit' => 5];
+
+        $arrayVarMap = new ArrayVarMap($data);
+
+        $dataLocator =  StandardDataLocator::fromArray($data);
+
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         $fooParams = create(
             \ParamsTest\Integration\FooParams::class,
@@ -241,7 +261,7 @@ class ParamsTest extends BaseTestCase
         $this->assertCount(1, $validationProblems);
 
         $this->assertValidationProblem(
-            'limit',
+            createPath(['name' => 'limit']),
             'Value not set.',
             $validationProblems
         );

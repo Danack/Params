@@ -6,7 +6,7 @@ namespace ParamsExample;
 
 use Params\ExtractRule\GetArrayOfType;
 use VarMap\ArrayVarMap;
-use ParamsTest\Integration\ItemParams;
+use ParamsTest\Integration\ReviewScore;
 use ParamsTest\Integration\ItemListParams;
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -19,11 +19,11 @@ $data = [
 
 // $varMap = new ArrayVarMap($data);
 
-$items = ItemParams::createArrayOfTypeFromArray($data);
+$items = ReviewScore::createArrayOfTypeFromArray($data);
 
 
 foreach ($items as $item) {
-    echo "Foo: " . $item->getFoo() . " bar: " . $item->getBar() . "\n";
+    echo "Foo: " . $item->getScore() . " bar: " . $item->getComment() . "\n";
 }
 
 

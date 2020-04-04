@@ -6,6 +6,7 @@ namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
 use Params\Value\Ordering;
+use function Params\createPath;
 use function Params\unescapeJsonPointer;
 use function Params\array_value_exists;
 use function Params\check_only_digits;
@@ -132,4 +133,25 @@ class FunctionsTest extends BaseTestCase
 //
 //        $this->assertSame($expectedResult, $problems);
 //    }
+
+    public function providesCreatePath()
+    {
+        yield ['/', []];
+        yield ['/foo', ['name' => 'foo']];
+        yield ['/[3]', ['index' => 3]];
+        yield ['/foo/[3]', ['name' => 'foo', 'index' => 3]];
+    }
+
+
+    /**
+     * @dataProvider providesCreatePath()
+     * @param array $pathParts
+     * @param string $expectedOutput
+     * @group new
+     */
+    public function testCreatePath(string $expectedOutput, array $pathParts)
+    {
+        $actual = createPath($pathParts);
+        $this->assertSame($expectedOutput, $actual);
+    }
 }

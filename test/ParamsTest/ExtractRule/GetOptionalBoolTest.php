@@ -9,6 +9,7 @@ use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalBool;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use Params\DataLocator\SingleValueDataLocator;
 
 /**
  * @coversNothing
@@ -18,30 +19,32 @@ class GetOptionalBoolTest extends BaseTestCase
     public function provideTestCases()
     {
         // Test sane juggling works
-        yield [new ArrayVarMap(['foo' => 'true']), true];
-        yield [new ArrayVarMap(['foo' => 'truuue']), false];
-        yield [new ArrayVarMap(['foo' => null]), false];
-        yield [new ArrayVarMap(['foo' => 0]), false];
-        yield [new ArrayVarMap(['foo' => 1]), true];
-        yield [new ArrayVarMap(['foo' => 2]), true];
-        yield [new ArrayVarMap(['foo' => -5000]), true];
+        yield ['true', true];
+        yield ['truuue', false];
+        yield [null, false];
+        yield [0, false];
+        yield [1, true];
+        yield [2, true];
+        yield [-5000, true];
 
         // Test missing param is null
-        yield [new ArrayVarMap([]), null];
+        // TODO test missing
+//        yield [new ArrayVarMap([]), null];
     }
 
     /**
      * @covers \Params\ExtractRule\GetOptionalInt
      * @dataProvider provideTestCases
      */
-    public function testValidation(ArrayVarMap $varMap, $expectedValue)
+    public function testValidation($input, $expectedValue)
     {
         $rule = new GetOptionalBool();
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             Path::fromName('foo'),
-            $varMap,
-            $validator
+            new ArrayVarMap([]),
+            $validator,
+            SingleValueDataLocator::create($input)
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
@@ -51,16 +54,16 @@ class GetOptionalBoolTest extends BaseTestCase
     public function provideTestErrorCases()
     {
         // TODO - test exact error messages
-        yield [fopen('php://memory', 'r+')];
-        yield [[1, 2, 3]];
-        yield [new \StdClass()];
+        yield [fopen('php://memory', 'r+')]; // a stream is not a bool
+        yield [[1, 2, 3]];  // an array is not a bool
+        yield [new \StdClass()]; // A stdClass is not a bool
     }
 
     /**
      * @covers \Params\ExtractRule\GetOptionalBool
      * @dataProvider provideTestErrorCases
      */
-    public function testErrors($inputValue)
+    public function testBadInputErrors($inputValue)
     {
         $variableName = 'foo';
         $variables = [$variableName => $inputValue];
@@ -70,7 +73,8 @@ class GetOptionalBoolTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName($variableName),
             new ArrayVarMap($variables),
-            $validator
+            $validator,
+            SingleValueDataLocator::create($inputValue)
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

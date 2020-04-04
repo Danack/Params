@@ -2,6 +2,7 @@
 
 namespace ParamsTest;
 
+use Params\ValidationResult;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -55,7 +56,7 @@ class BaseTestCase extends TestCase
     protected function assertValidationProblem(string $identifier, string $expectedProblem, $validationProblems)
     {
         foreach ($validationProblems as $validationProblem) {
-            if ($validationProblem->getPath()->toString() !== $identifier) {
+            if ($validationProblem->getDataLocator()->toString() !== $identifier) {
                 continue;
             }
 
@@ -78,7 +79,7 @@ class BaseTestCase extends TestCase
         // Identifier not found
         $identifiers = [];
         foreach ($validationProblems as $validationProblem) {
-            $identifiers[] = $validationProblem->getPath()->toString();
+            $identifiers[] = $validationProblem->getDataLocator()->toString();
         }
 
         $missingIndentifierText = sprintf(
@@ -100,7 +101,7 @@ class BaseTestCase extends TestCase
         $expectedProblemRegexp = stringToRegexp($expectedProblem);
 
         foreach ($validationProblems as $validationProblem) {
-            if ($validationProblem->getPath()->toString() !== $identifier) {
+            if ($validationProblem->getDataLocator()->toString() !== $identifier) {
                 continue;
             }
 
@@ -122,7 +123,7 @@ class BaseTestCase extends TestCase
         // Identifier not found
         $pathsAsStrings = [];
         foreach ($validationProblems as $validationProblem) {
-            $pathsAsStrings[] = $validationProblem->getPath()->toString();
+            $pathsAsStrings[] = $validationProblem->getDataLocator()->toString();
         }
 
         $missingIndentifierText = sprintf(
@@ -220,4 +221,26 @@ class BaseTestCase extends TestCase
             $this->fail($failureMessage);
         }
     }
+
+    public function assertNoErrors(ValidationResult $validationResult)
+    {
+        $validationProblems = $validationResult->getValidationProblems();
+
+        $message = '';
+
+        if (count($validationProblems) !== 0) {
+            foreach ($validationProblems as $validationProblem) {
+                $message .= $validationProblem->toString();
+            }
+
+            $this->fail("Unexpected problems: " . $message);
+        }
+
+//        if ($validationResult->isFinalResult() !== true) {
+//            $this->fail("Validation Result should be final, but isn't");
+//        }
+    }
+
+
+
 }

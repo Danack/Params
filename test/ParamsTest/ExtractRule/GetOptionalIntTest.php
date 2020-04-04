@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\DataLocator\SingleValueDataLocator;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalInt;
@@ -19,12 +20,13 @@ class GetOptionalIntTest extends BaseTestCase
     {
         return [
             // Test value is read as string
-            [new ArrayVarMap(['foo' => '5']), 5],
+            ['5', 5],
             // Test value is read as int
-            [new ArrayVarMap(['foo' => 5]), 5],
+            [5, 5],
 
             // Test missing param is null
-            [new ArrayVarMap([]), null],
+            // TODO - test missing separately
+            //[new ArrayVarMap([]), null],
         ];
     }
 
@@ -32,14 +34,15 @@ class GetOptionalIntTest extends BaseTestCase
      * @covers \Params\ExtractRule\GetOptionalInt
      * @dataProvider provideTestCases
      */
-    public function testValidation(ArrayVarMap $varMap, $expectedValue)
+    public function testValidation($input, $expectedValue)
     {
         $rule = new GetOptionalInt();
         $validator = new ParamsValuesImpl();
         $validationResult = $rule->process(
             Path::fromName('foo'),
-            $varMap,
-            $validator
+            new ArrayVarMap([]),
+            $validator,
+            SingleValueDataLocator::create($input)
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
@@ -70,7 +73,8 @@ class GetOptionalIntTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName($variableName),
             new ArrayVarMap($variables),
-            $validator
+            $validator,
+            SingleValueDataLocator::create($inputValue)
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

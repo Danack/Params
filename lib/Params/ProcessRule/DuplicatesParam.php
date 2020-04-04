@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\Messages;
 use Params\ValidationResult;
 use Params\ParamsValuesImpl;
@@ -23,7 +24,7 @@ class DuplicatesParam implements ProcessRule
         $this->paramToDuplicate = $paramToDuplicate;
     }
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         if ($validator->hasParam($this->paramToDuplicate) !== true) {
             $message = sprintf(
@@ -31,7 +32,7 @@ class DuplicatesParam implements ProcessRule
                 $this->paramToDuplicate
             );
 
-            return ValidationResult::errorResult($path, $message);
+            return ValidationResult::errorResult($dataLocator, $message);
         }
 
         $previousValue = $validator->getParam($this->paramToDuplicate);
@@ -48,7 +49,7 @@ class DuplicatesParam implements ProcessRule
                 $currentType
             );
 
-            return ValidationResult::errorResult($path, $message);
+            return ValidationResult::errorResult($dataLocator, $message);
         }
 
         if ($value !== $previousValue) {
@@ -57,7 +58,7 @@ class DuplicatesParam implements ProcessRule
                 $path->toString(),
                 $this->paramToDuplicate
             );
-            return ValidationResult::errorResult($path, $message);
+            return ValidationResult::errorResult($dataLocator, $message);
         }
 
         return ValidationResult::valueResult($value);

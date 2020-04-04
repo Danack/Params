@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ParamsValuesImpl;
@@ -27,19 +28,19 @@ class RangeIntValue implements ProcessRule
         $this->maxValue = $maxValue;
     }
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         $value = intval($value);
         if ($value < $this->minValue) {
             return ValidationResult::errorResult(
-                $path,
+                $dataLocator,
                 "Value too small. Min allowed is " . $this->minValue
             );
         }
 
         if ($value > $this->maxValue) {
             return ValidationResult::errorResult(
-                $path,
+                $dataLocator,
                 "Value too large. Max allowed is " . $this->maxValue
             );
         }

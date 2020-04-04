@@ -14,27 +14,27 @@ use Params\ProcessRule\MinLength;
 use Params\SafeAccess;
 use Params\InputParameterList;
 
-class ItemParams implements InputParameterList
+class ReviewScore implements InputParameterList
 {
     use SafeAccess;
     use CreateFromVarMap;
     use CreateArrayOfTypeFromArray;
 
     /** @var int  */
-    private $foo;
+    private $score;
 
     /** @var string */
-    private $bar;
+    private $comment;
 
     /**
      *
      * @param int $foo
      * @param string $bar
      */
-    public function __construct(int $foo, string $bar)
+    public function __construct(int $score, string $comment)
     {
-        $this->foo = $foo;
-        $this->bar = $bar;
+        $this->score = $score;
+        $this->comment = $comment;
     }
 
     /**
@@ -44,12 +44,12 @@ class ItemParams implements InputParameterList
     {
         return [
             new Param(
-                'foo',
+                'score',
                 new GetInt(),
                 new MaxIntValue(100)
             ),
             new Param(
-                'bar',
+                'comment',
                 new GetString(),
                 new MinLength(4)
             ),
@@ -59,16 +59,16 @@ class ItemParams implements InputParameterList
     /**
      * @return int
      */
-    public function getFoo(): int
+    public function getScore(): int
     {
-        return $this->foo;
+        return $this->score;
     }
 
     /**
      * @return string
      */
-    public function getBar(): string
+    public function getComment(): string
     {
-        return $this->bar;
+        return $this->comment;
     }
 }

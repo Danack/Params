@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\SingleValueDataLocator;
 use Params\ProcessRule\IntegerInput;
 use ParamsTest\BaseTestCase;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
- * @group wip
  */
 class IntegerInputTest extends BaseTestCase
 {
@@ -36,7 +37,8 @@ class IntegerInputTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $inputValue,
-            $validator
+            $validator,
+            SingleValueDataLocator::create($inputValue)
         );
 
         $this->assertEmpty($validationResult->getValidationProblems());
@@ -66,7 +68,8 @@ class IntegerInputTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $inputValue,
-            $validator
+            $validator,
+            SingleValueDataLocator::create($inputValue)
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

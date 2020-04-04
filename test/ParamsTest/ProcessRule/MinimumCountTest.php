@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\StandardDataLocator;
 use Params\Messages;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\Exception\LogicException;
 use Params\ParamsValuesImpl;
 use Params\Path;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -34,10 +37,12 @@ class MinimumCountTest extends BaseTestCase
     {
         $rule = new MinimumCount($minimumCount);
         $validator = new ParamsValuesImpl();
+        $dataLocator = StandardDataLocator::fromArray([]);
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $values,
-            $validator
+            $validator,
+            $dataLocator
         );
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertFalse($validationResult->isFinalResult());
@@ -64,7 +69,8 @@ class MinimumCountTest extends BaseTestCase
         $validationResult = $rule->process(
             Path::fromName('foo'),
             $values,
-            $validator
+            $validator,
+            SingleValueDataLocator::create($values)
         );
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
@@ -76,7 +82,7 @@ class MinimumCountTest extends BaseTestCase
 
         $this->assertCount(1, $validationResult->getValidationProblems());
         $this->assertValidationProblemRegexp(
-            'foo',
+            createPath([]),
             Messages::ERROR_TOO_FEW_ELEMENTS,
             $validationResult->getValidationProblems()
         );
@@ -108,7 +114,8 @@ class MinimumCountTest extends BaseTestCase
         $rule->process(
             Path::fromName('foo'),
             'a banana',
-            $validator
+            $validator,
+            SingleValueDataLocator::create('a banana')
         );
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ProcessRule;
 
+use Params\DataLocator\DataLocator;
 use Params\ValidationResult;
 use Params\Value\MultipleEnums;
 use Params\OpenApi\ParamDescription;
@@ -33,7 +34,7 @@ class MultipleEnum implements ProcessRule
         $this->allowedValues = $allowedValues;
     }
 
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
     {
         // TODO - handle to string conversion better.
         $value = trim((string)$value);
@@ -55,7 +56,7 @@ class MultipleEnum implements ProcessRule
                     implode(', ', $this->allowedValues)
                 );
 
-                return ValidationResult::errorResult($path, $message);
+                return ValidationResult::errorResult($dataLocator, $message);
             }
             $filterElements[] = $filterStringPart;
         }

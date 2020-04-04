@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ParamsTest\Integration;
 
+use Params\DataLocator\DataLocator;
 use Params\OpenApi\ParamDescription;
 use Params\ParamValues;
 use Params\ProcessRule\ProcessRule;
@@ -36,7 +37,7 @@ class ArrayAllMultiplesOf implements ProcessRule
      * @param ParamValues $validator
      * @return ValidationResult
      */
-    public function process(Path $path, $value, ParamValues $validator): ValidationResult
+    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator): ValidationResult
     {
         $errors = [];
 
@@ -52,13 +53,13 @@ class ArrayAllMultiplesOf implements ProcessRule
                     $item
                 );
 
-                $errors[] = new ValidationProblem($path, $message);
+                $errors[] = new ValidationProblem($dataLocator, $message);
             }
             $index += 1;
         }
 
         if (count($errors) !== 0) {
-            return ValidationResult::thisIsMultipleErrorResult($errors);
+            return ValidationResult::fromValidationProblems($errors);
         }
 
         return ValidationResult::valueResult($value);
