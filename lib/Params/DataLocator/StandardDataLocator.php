@@ -47,7 +47,6 @@ class StandardDataLocator implements DataLocator
         $data = $this->data;
 
         foreach ($this->currentLocation as $location) {
-
             if (is_array($data) === false) {
                 return false;
             }
@@ -77,9 +76,6 @@ class StandardDataLocator implements DataLocator
 
         return $clone;
     }
-
-
-
 
     public function toString(): string
     {

@@ -240,7 +240,4 @@ class BaseTestCase extends TestCase
 //            $this->fail("Validation Result should be final, but isn't");
 //        }
     }
-
-
-
 }

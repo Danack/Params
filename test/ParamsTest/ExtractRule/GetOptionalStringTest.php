@@ -51,7 +51,7 @@ class GetOptionalStringTest extends BaseTestCase
             $varMap,
             $validator,
             SingleValueDataLocator::create($expectedValue)
-            );
+        );
 
         $this->assertEmpty($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);

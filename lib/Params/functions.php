@@ -490,4 +490,3 @@ function createPath(array $pathParts)
 
     return $path;
 }
-

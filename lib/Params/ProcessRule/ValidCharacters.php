@@ -13,7 +13,6 @@ use Params\ParamsValuesImpl;
 use Params\ParamValues;
 use Params\Path;
 
-
 /**
  * Class ValidCharacters
  *

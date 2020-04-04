@@ -30,14 +30,10 @@ class GetOptionalBool implements ExtractRule
         if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::valueResult(null);
         }
-//        if ($varMap->has($path->toString()) !== true) {
-//            return ValidationResult::valueResult(null);
-//        }
 
         $intRule = new BoolInput();
         return $intRule->process(
             $path,
-//            $varMap->get($path->toString()),
             $dataLocator->getCurrentValue(),
             $paramValues,
             $dataLocator

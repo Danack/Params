@@ -18,7 +18,6 @@ use function Params\createOrErrorFromPath;
 use function Params\getInputParameterListForClass;
 use function Params\createArrayForTypeWithRules;
 
-
 class GetArrayOfType implements ExtractRule
 {
     /** @var class-string */
