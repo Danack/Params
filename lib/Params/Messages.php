@@ -60,5 +60,4 @@ class Messages
     public const VALUE_MUST_BE_SCALAR = "Value must be scalar.";
 
     public const STRING_EXPECTED_BUT_FOUND_NON_SCALAR = "String expected but found non-scalar.";
-
 }

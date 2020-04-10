@@ -9,7 +9,6 @@ use Params\ProcessedValues;
 use Params\Rule;
 use Params\ValidationResult;
 
-
 /**
  * A rule that is not the first rule. It should process the value that is passed to it.
  * @package Params

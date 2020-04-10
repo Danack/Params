@@ -591,7 +591,6 @@ function processInputParameters(
     $validationProblems = [];
 
     foreach ($inputParameters as $inputParameter) {
-
         [$newValidationProblems, $value] = processInputParameter(
             $inputParameter,
             $paramValues,

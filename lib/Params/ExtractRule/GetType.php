@@ -19,7 +19,6 @@ use function Params\createOrErrorFromPath;
 use function Params\getInputParameterListForClass;
 use function Params\processInputParameters;
 
-
 class GetType implements ExtractRule
 {
     /** @var class-string */
