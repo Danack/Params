@@ -87,8 +87,6 @@ class GetArrayOfTypeTest extends BaseTestCase
         $this->assertNoValidationProblems($result->getValidationProblems());
         /** @var SingleIntParams $item */
         $this->assertSame(5, $item->getLimit());
-
-
     }
 
 

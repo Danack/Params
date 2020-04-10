@@ -252,5 +252,4 @@ class BaseTestCase extends TestCase
 
         $this->assertSame($expectedValue, $actualValue, "ProcessedValues contained wrong value.");
     }
-
 }
