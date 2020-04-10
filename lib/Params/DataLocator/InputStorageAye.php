@@ -11,8 +11,6 @@ interface InputStorageAye
 
     public function getPath(): string;
 
-    public function moveIndex(int $index): self;
-
     /**
      * @param int|string $name
      * @return $this
@@ -20,7 +18,4 @@ interface InputStorageAye
     public function moveKey($name): self;
 
     public function valueAvailable(): bool;
-
-    // todo - need a get by absolute path
-//    public function getResultByRelativeKey($relativeKey);
 }

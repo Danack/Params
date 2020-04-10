@@ -28,17 +28,16 @@ class GetString implements ExtractRule
             return ValidationResult::errorResult($dataLocator, Messages::STRING_EXPECTED_BUT_FOUND_NON_SCALAR);
         }
 
-
-        // TODO - reject bools/ints?
-        // TODO - needs string input
-        $value = (string)$dataLocator->getCurrentValue();
-
         if (is_scalar($value) !== true) {
             return ValidationResult::errorResult(
                 $dataLocator,
                 Messages::STRING_EXPECTED_BUT_FOUND_NON_SCALAR,
             );
         }
+
+        // TODO - reject bools/ints?
+        // TODO - needs string input
+        $value = (string)$dataLocator->getCurrentValue();
 
         return ValidationResult::valueResult($value);
     }

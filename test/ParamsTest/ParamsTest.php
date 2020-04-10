@@ -48,12 +48,13 @@ class ParamsTest extends BaseTestCase
         $processedValues = new ProcessedValuesImpl();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
 
-        processInputParameters(
+        $problems = processInputParameters(
             $rules,
             $processedValues,
             $dataLocator
         );
 
+        $this->assertNoValidationProblems($problems);
 //        $processedValues = \Params\ParamsExecutor::executeRules($rules, new ArrayVarMap([]));
         $this->assertSame(['foo' => 5], $processedValues->getAllValues());
     }
@@ -133,7 +134,7 @@ class ParamsTest extends BaseTestCase
 
         $processedValues = new ProcessedValuesImpl();
 
-        [$validationProblems, $paramValues] = processInputParameters($rules, $processedValues, $dataLocator);
+        $validationProblems = processInputParameters($rules, $processedValues, $dataLocator);
         $this->assertNoValidationProblems($validationProblems);
 
         $this->assertHasValue($finalValue, 'foo', $processedValues);

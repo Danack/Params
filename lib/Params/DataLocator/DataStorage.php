@@ -12,7 +12,7 @@ class DataStorage implements InputStorageAye
 
     private array $currentLocation = [];
 
-    public static function fromArray(array $data)
+    public static function fromArray(array $data): self
     {
         $instance = new self();
         $instance->data = $data;
@@ -20,6 +20,11 @@ class DataStorage implements InputStorageAye
         return $instance;
     }
 
+    /**
+     * @param int|string $key
+     * @param mixed $value
+     * @return self
+     */
     public static function fromSingleValue($key, $value): self
     {
         $data = [$key => $value];
@@ -28,7 +33,7 @@ class DataStorage implements InputStorageAye
         return $instance->moveKey($key);
     }
 
-    public static function fromArraySetFirstValue(array $data)
+    public static function fromArraySetFirstValue(array $data): self
     {
         $instance = new self();
         $instance->data = $data;
@@ -40,12 +45,12 @@ class DataStorage implements InputStorageAye
         return $instance;
     }
 
-    public static function fromVarMap(VarMap $varMap)
+    public static function fromVarMap(VarMap $varMap): self
     {
         return self::fromArray($varMap->hackGetRawData());
     }
 
-    public static function fromVarMapAndSetFirstValue(VarMap $varMap)
+    public static function fromVarMapAndSetFirstValue(VarMap $varMap): self
     {
         return self::fromArraySetFirstValue($varMap->hackGetRawData());
     }
@@ -83,14 +88,6 @@ class DataStorage implements InputStorageAye
         }
 
         return true;
-    }
-
-    public function moveIndex($index): self
-    {
-        $clone = clone $this;
-        $clone->currentLocation[] = $index;
-
-        return $clone;
     }
 
     /**

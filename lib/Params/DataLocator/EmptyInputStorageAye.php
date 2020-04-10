@@ -6,13 +6,15 @@ namespace Params\DataLocator;
 
 class EmptyInputStorageAye implements InputStorageAye
 {
-//    use StandardDataStorage;
-
     private array $data;
 
     private array $currentLocation = [];
 
-    public static function fromPath($pathPieces)
+    /**
+     * @param mixed $pathPieces
+     * @return self
+     */
+    public static function fromPath($pathPieces): self
     {
         $instance = new self();
         $instance->currentLocation = $pathPieces;

@@ -40,6 +40,6 @@ class ValidationProblem
      */
     public function toString(): string
     {
-        return $this->dataLocator->toString() . " " . $this->problemMessage;
+        return $this->dataLocator->getPath() . " " . $this->problemMessage;
     }
 }

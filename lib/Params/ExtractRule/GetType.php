@@ -38,13 +38,13 @@ class GetType implements ExtractRule
     }
 
     /**
-     * @param class-string $className
+     * @param class-string $classname
      */
-    public static function fromClass(string $className)
+    public static function fromClass(string $classname): self
     {
         return new self(
-            $className,
-            getInputParameterListForClass($className)
+            $classname,
+            getInputParameterListForClass($classname)
         );
     }
 
@@ -53,7 +53,7 @@ class GetType implements ExtractRule
      * @param class-string $className
      * @param \Params\InputParameter[] $inputParameterList
      */
-    public static function fromClassAndRules(string $className, $inputParameterList)
+    public static function fromClassAndRules(string $className, $inputParameterList): self
     {
         return new self(
             $className,
@@ -78,7 +78,7 @@ class GetType implements ExtractRule
 //        }
 
         $paramsValuesImpl = new ProcessedValuesImpl();
-        [$validationProblems, $value] = processInputParameters(
+        $validationProblems = processInputParameters(
             $this->inputParameterList,
             $paramsValuesImpl,
             $dataLocator

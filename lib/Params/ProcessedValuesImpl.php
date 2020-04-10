@@ -58,6 +58,7 @@ class ProcessedValuesImpl implements ProcessedValues
 
     /**
      * @param string|int $name
+     * @param mixed $value
      */
     public function setValue($name, $value): void
     {

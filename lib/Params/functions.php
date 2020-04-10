@@ -61,6 +61,8 @@ function createArrayForTypeWithRules(Path $path, string $classname, $itemData, a
                 gettype($itemDatum)
             );
 
+            throw new \Exception("needs fixing.");
+
             return ValidationResult::errorResult($path, $message);
         }
 
@@ -292,8 +294,9 @@ function createPatch($namedRules, array $sourceData): array
 function createOrErrorFromPath($classname, $params, VarMap $sourceData, Path $path)
 {
     $paramsValuesImpl = new ProcessedValuesImpl();
+    $dataLocator = DataStorage::fromVarMap($sourceData);
 
-    [$validationProblems, $value] = processInputParameters($params, $sourceData, $path);
+    $validationProblems = processInputParameters($params, $paramsValuesImpl, $dataLocator);
 
     if (count($validationProblems) !== 0) {
         return [null, $validationProblems];
@@ -324,7 +327,7 @@ function create(
 //    $path = Path::initial();
 //    $dataLocator = DataStorage::fromVarMap($sourceData);
 
-    [$validationProblems, $value] = processInputParameters(
+    $validationProblems = processInputParameters(
         $params,
         $paramsValuesImpl,
         $dataLocator
@@ -357,7 +360,7 @@ function createOrError($classname, $params, VarMap $sourceData)
     $path = Path::initial();
     $dataLocator = DataStorage::fromVarMap($sourceData);
 
-    [$validationProblems, $value] = processInputParameters(
+    $validationProblems = processInputParameters(
         $params,
         $paramsValuesImpl,
         $dataLocator
@@ -473,7 +476,7 @@ function normalise_order_parameter(string $part)
 
 
 
-function createPath(array $pathParts)
+function createPath(array $pathParts): string
 {
     $path = '';
 
@@ -495,26 +498,44 @@ function createPath(array $pathParts)
 
     return $path;
 }
+// *
+// * @TODO - less 'yo dawg' in function name...
+// *
+// ProcessRule[] $subsequentRules>
+
+/**
+ * @param ProcessRule ...$processRules
+ */
+function blah(ProcessRule ...$processRules): void
+{
+
+
+}
+
+/**
+ * @return mixed
+ */
+function foo()
+{
+    return null;
+}
 
 
 /**
- *
- * @TODO - less 'yo dawg' in function name...
- *
  * @param mixed $value
  * @param InputStorageAye $dataLocator
- * @param array<ProcessRule ...$subsequentRules, mixed>
- * @return array<0:Params\ValidationProblem[], 1:mixed>
+ * @param ProcessRule ...$processRules
+ * @return array{0:\Params\ValidationProblem[], 1:?mixed}
  * @throws Exception\ParamMissingException
  */
 function processProcessingRules(
     $value,
     InputStorageAye $dataLocator,
     ProcessedValues $processedValues,
-    ProcessRule ...$subsequentRules
+    ProcessRule ...$processRules
 ) {
-    foreach ($subsequentRules as $rule) {
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+    foreach ($processRules as $processRule) {
+        $validationResult = $processRule->process($value, $processedValues, $dataLocator);
         if ($validationResult->anyErrorsFound()) {
             return [$validationResult->getValidationProblems(), null];
         }
@@ -542,7 +563,7 @@ function processProcessingRules(
  * @param \Params\InputParameter $param
  * @param ProcessedValuesImpl $paramValues
  * @param InputStorageAye $dataLocator
- * @return array|ValidationProblem[]
+ * @return array{0:ValidationProblem[], 1:mixed}
  * @throws Exception\ParamMissingException
  */
 function processInputParameter(
@@ -580,8 +601,10 @@ function processInputParameter(
 
 /**
  * @param \Params\InputParameter[] $inputParameters
- * @param VarMap $sourceData
- * @return array<0:\Params\ValidationProblem[], 1:\Params\ParamsValuesImpl>
+ * @param ProcessedValuesImpl $paramValues
+ * @param InputStorageAye $dataLocator
+ * @return \Params\ValidationProblem[]
+ * @throws Exception\ParamMissingException
  */
 function processInputParameters(
     $inputParameters,
@@ -606,5 +629,5 @@ function processInputParameters(
     }
 
     // TODO - why does this return values as well?
-    return [$validationProblems, $paramValues];
+    return $validationProblems;
 }
