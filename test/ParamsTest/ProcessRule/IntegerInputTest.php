@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\DataStorage;
 use Params\DataLocator\SingleValueInputStorageAye;
 use Params\ProcessRule\IntegerInput;
 use ParamsTest\BaseTestCase;
@@ -37,7 +38,7 @@ class IntegerInputTest extends BaseTestCase
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            SingleValueInputStorageAye::create($inputValue)
+            DataStorage::fromArraySetFirstValue([$inputValue])
         );
 
         $this->assertNoValidationProblems($validationResult->getValidationProblems());
@@ -67,7 +68,7 @@ class IntegerInputTest extends BaseTestCase
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            SingleValueInputStorageAye::create($inputValue)
+            DataStorage::fromArraySetFirstValue([$inputValue])
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

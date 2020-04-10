@@ -47,12 +47,12 @@ class GetBoolTest extends BaseTestCase
      */
     public function testWorks($input, $expectedValue)
     {
-//        $variableName = 'foo';
+
         $validator = new ProcessedValuesImpl();
         $rule = new GetBool();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::fromArraySetFirstValue(['foo' => $input])
+            DataStorage::fromSingleValue('foo', $input)
         );
 
         $this->assertNoValidationProblems($validationResult->getValidationProblems());

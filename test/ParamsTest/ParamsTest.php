@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use Params\DataLocator\InputStorageAye;
-use Params\DataLocator\SingleValueInputStorageAye;
 use Params\DataLocator\DataStorage;
 use Params\Exception\ValidationException;
 use Params\ExtractRule\GetInt;

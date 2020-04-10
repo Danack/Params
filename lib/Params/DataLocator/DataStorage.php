@@ -12,13 +12,6 @@ class DataStorage implements InputStorageAye
 
     private array $currentLocation = [];
 
-    private ResultStorage $resultStorage;
-
-    private function __construct()
-    {
-        $this->resultStorage  = new ResultStorage();
-    }
-
     public static function fromArray(array $data)
     {
         $instance = new self();
@@ -27,18 +20,21 @@ class DataStorage implements InputStorageAye
         return $instance;
     }
 
+    public static function fromSingleValue($key, $value): self
+    {
+        $data = [$key => $value];
+        $instance = self::fromArray($data);
+
+        return $instance->moveKey($key);
+    }
+
     public static function fromArraySetFirstValue(array $data)
     {
         $instance = new self();
         $instance->data = $data;
 
         foreach ($data as $key => $value) {
-            if (is_int($key)) {
-                return $instance->moveIndex($key);
-            }
-            else {
-                return $instance->moveKey($key);
-            }
+            return $instance->moveKey($key);
         }
 
         return $instance;
@@ -97,7 +93,11 @@ class DataStorage implements InputStorageAye
         return $clone;
     }
 
-    public function moveKey(string $name): self
+    /**
+     * @param int|string $name
+     * @return $this
+     */
+    public function moveKey($name): self
     {
         $clone = clone $this;
         $clone->currentLocation[] = $name;
@@ -109,8 +109,6 @@ class DataStorage implements InputStorageAye
     {
         return $this->getPath();
     }
-
-
 
     public function getPath(): string
     {
@@ -133,18 +131,4 @@ class DataStorage implements InputStorageAye
 
         return $path;
     }
-
-//
-//    public function getResultByRelativeKey($relativeKey)
-//    {
-//        return $this->resultStorage->getResultByRelativeKey($relativeKey);
-//    }
-
-//    public function storeCurrentResult($value)
-//    {
-//        return $this->resultStorage->storeCurrentResult(
-//            $this->currentLocation,
-//            $value
-//        );
-//    }
 }

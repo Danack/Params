@@ -54,10 +54,7 @@ class GetArrayOfInt implements ExtractRule
         $intRule = new IntegerInput();
 
         foreach ($itemData as $itemDatum) {
-            // Create the new path.
-//            $pathForItem = $path->addArrayIndexPathFragment($index);
-
-            $dataLocatorForItem = $dataLocator->moveIndex($index);
+            $dataLocatorForItem = $dataLocator->moveKey($index);
 
             // Process the int rule for the item
             $result = $intRule->process($itemDatum, $processedValues, $dataLocatorForItem);

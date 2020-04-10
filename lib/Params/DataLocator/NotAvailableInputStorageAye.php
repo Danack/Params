@@ -21,7 +21,7 @@ class NotAvailableInputStorageAye implements InputStorageAye
         return $this;
     }
 
-    public function moveKey(string $name): InputStorageAye
+    public function moveKey($name): InputStorageAye
     {
         return $this;
     }

@@ -43,7 +43,8 @@ class GetStringTest extends BaseTestCase
         $rule = new GetString();
         $validator = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            $validator, SingleValueInputStorageAye::create($expectedValue)
+            $validator,
+            DataStorage::fromArraySetFirstValue([$expectedValue])
         );
 
         $this->assertNoValidationProblems($validationResult->getValidationProblems());

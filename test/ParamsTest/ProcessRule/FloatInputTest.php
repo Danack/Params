@@ -67,7 +67,7 @@ class FloatInputTest extends BaseTestCase
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            SingleValueInputStorageAye::create($inputValue)
+            DataStorage::fromArraySetFirstValue([$inputValue])
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

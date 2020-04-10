@@ -73,7 +73,7 @@ class GetArrayOfType implements ExtractRule
         foreach ($itemData as $itemDatum) {
 //            $pathForItem = $path->addArrayIndexPathFragment($index);
 
-            $dataLocatorForItem = $dataLocator->moveIndex($index);
+            $dataLocatorForItem = $dataLocator->moveKey($index);
 
 //            if (is_array($itemDatum) !== true) {
 //                $message = sprintf(

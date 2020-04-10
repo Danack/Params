@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception\Validator;
 
-use Params\DataLocator\SingleValueInputStorageAye;
 use Params\ExtractRule\GetInt;
 use Params\InputParameter;
 use Params\ProcessRule\MaxIntValue;

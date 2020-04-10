@@ -67,7 +67,7 @@ class ValidDateTest extends BaseTestCase
         $rule = new ValidDate();
         $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            $input, $processedValues, SingleValueInputStorageAye::create($input)
+            $input, $processedValues, DataStorage::fromArraySetFirstValue([$input])
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

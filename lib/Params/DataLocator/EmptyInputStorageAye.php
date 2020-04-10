@@ -53,7 +53,7 @@ class EmptyInputStorageAye implements InputStorageAye
         throw new \Exception("moveIndex not implemented yet.");
     }
 
-    public function moveKey(string $name): InputStorageAye
+    public function moveKey($name): InputStorageAye
     {
         throw new \Exception("moveKey not implemented yet.");
     }

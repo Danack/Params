@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\DataLocator\DataStorage;
 use Params\DataLocator\SingleValueInputStorageAye;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
@@ -39,7 +40,8 @@ class GetOptionalIntTest extends BaseTestCase
         $rule = new GetOptionalInt();
         $validator = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            $validator, SingleValueInputStorageAye::create($input)
+            $validator,
+            DataStorage::fromSingleValue('foo', $input)
         );
 
         $this->assertNoValidationProblems($validationResult->getValidationProblems());
@@ -62,13 +64,14 @@ class GetOptionalIntTest extends BaseTestCase
      */
     public function testErrors($inputValue)
     {
-        $variableName = 'foo';
-        $variables = [$variableName => $inputValue];
+//        $variableName = 'foo';
+//        $variables = [$variableName => $inputValue];
 
         $validator = new ProcessedValuesImpl();
         $rule = new GetOptionalInt();
         $validationResult = $rule->process(
-            $validator, SingleValueInputStorageAye::create($inputValue)
+            $validator,
+            DataStorage::fromSingleValue('foo', $inputValue)
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

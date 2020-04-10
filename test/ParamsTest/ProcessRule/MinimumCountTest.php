@@ -64,7 +64,7 @@ class MinimumCountTest extends BaseTestCase
         $rule = new MinimumCount($minimumCount);
         $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            $values, $processedValues, SingleValueInputStorageAye::create($values)
+            $values, $processedValues, DataStorage::fromArray([$values])
         );
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
@@ -106,7 +106,7 @@ class MinimumCountTest extends BaseTestCase
         );
 
         $rule->process(
-            'a banana', $processedValues, SingleValueInputStorageAye::create('a banana')
+            'a banana', $processedValues, DataStorage::fromArraySetFirstValue(['a banana'])
         );
     }
 }

@@ -7,50 +7,36 @@ namespace ParamsTest\DataLocator;
 use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 
+/**
+ * @covers \Params\DataLocator\DataStorage
+ */
 class StandardDataLocatorTest extends BaseTestCase
 {
 
-//    /**
-//     * @group data_locator
-//     */
-//    public function testPreviousMissingCorrect()
-//    {
-//        $this->markTestSkipped("Needs fixing");
-//
-//        $dataLocator = DataStorage::fromArraySetFirstValue([]);
-//        [$available, $value] = $dataLocator->getResultByRelativeKey('foo');
-//
-//        $this->assertFalse($available);
-//        $this->assertNull($value);
-//    }
+    /**
+     * @group data_locator
+     */
+    public function testValueNotAvailable()
+    {
+        $dataLocator = DataStorage::fromArray([]);
+        $dataLocatorAtFoo = $dataLocator->moveKey('foo');
 
+        $available = $dataLocatorAtFoo->valueAvailable();
+        $this->assertFalse($available);
+    }
 
+    /**
+     * @group data_locator
+     */
+    public function testValueCorrect()
+    {
+        $this->markTestSkipped("Needs fixing");
 
-//    /**
-//     * @group data_locator
-//     */
-//    public function testPreviousSetCorrect()
-//    {
-//        $this->markTestSkipped("Needs fixing");
-//
-//
-//        $previousValue = 'bar';
-//        $dataLocator = DataStorage::fromArraySetFirstValue([]);
-//        $fooDataLocator = $dataLocator->moveKey('foo');
-//        $fooDataLocator->storeCurrentResult($previousValue);
-//
-//        [$available, $value] = $fooDataLocator->getResultByRelativeKey('foo');
-//
-//        $this->assertTrue($available);
-//        $this->assertSame($previousValue, $value);
-//
-//        $dataLocator->moveKey('foo');
-//
-//        [$available, $value] = $dataLocator->getResultByRelativeKey('foo');
-//
-//        $this->assertTrue($available);
-//        $this->assertSame($previousValue, $value);
-//
-//    }
+        $dataLocator = DataStorage::fromArray(['foo' => 'bar']);
+        $dataLocatorAtFoo = $dataLocator->moveKey('foo');
 
+        $available = $dataLocatorAtFoo->valueAvailable();
+        $this->assertTrue($available);
+        $this->assertSame('bar', $dataLocatorAtFoo->getCurrentValue());
+    }
 }

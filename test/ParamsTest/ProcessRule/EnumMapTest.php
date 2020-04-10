@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\DataStorage;
 use Params\DataLocator\EmptyInputStorageAye;
 use Params\DataLocator\SingleValueInputStorageAye;
 use ParamsTest\BaseTestCase;
@@ -77,7 +78,7 @@ class EnumMapTest extends BaseTestCase
         $validationResult = $rule->process(
             $testValue,
             $processedValues,
-            SingleValueInputStorageAye::create($testValue)
+            DataStorage::fromArraySetFirstValue([$testValue])
         );
 
         if ($expectError) {

@@ -13,7 +13,11 @@ interface InputStorageAye
 
     public function moveIndex(int $index): self;
 
-    public function moveKey(string $name): self;
+    /**
+     * @param int|string $name
+     * @return $this
+     */
+    public function moveKey($name): self;
 
     public function valueAvailable(): bool;
 

@@ -38,7 +38,7 @@ class MaximumCountTest extends BaseTestCase
         $rule = new MaximumCount($maximumCount);
         $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            $values, $processedValues, SingleValueInputStorageAye::create($values)
+            $values, $processedValues, DataStorage::fromArray([$values])
         );
         $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertFalse($validationResult->isFinalResult());
@@ -62,7 +62,7 @@ class MaximumCountTest extends BaseTestCase
         $rule = new MaximumCount($maximumCount);
         $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            $values, $processedValues, SingleValueInputStorageAye::create($values)
+            $values, $processedValues, DataStorage::fromArray([$values])
         );
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());

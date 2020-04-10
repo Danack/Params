@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\DataLocator\DataStorage;
 use Params\DataLocator\SingleValueInputStorageAye;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
@@ -38,7 +39,7 @@ class GetStringOrDefaultTest extends BaseTestCase
         $rule = new GetStringOrDefault($default);
         $validator = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            $validator, SingleValueInputStorageAye::create('John')
+            $validator, DataStorage::fromArraySetFirstValue(['John'])
         );
 
         $this->assertNoValidationProblems($validationResult->getValidationProblems());

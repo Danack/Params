@@ -59,7 +59,7 @@ class CheckFilterStringTest extends BaseTestCase
         $validationResult = $rule->process(
             $expectedValue,
             $processedValues,
-            SingleValueInputStorageAye::create(['foo', 'bar'])
+            DataStorage::fromArray(['foo', 'bar'])
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

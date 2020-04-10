@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
+use Params\DataLocator\DataStorage;
 use Params\DataLocator\SingleValueInputStorageAye;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Trim;
@@ -24,7 +25,7 @@ class TrimTest extends BaseTestCase
         $rule = new Trim();
         $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            ' bar ', $processedValues, SingleValueInputStorageAye::create(' bar ')
+            ' bar ', $processedValues, DataStorage::fromArraySetFirstValue([' bar '])
         );
         $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), 'bar');

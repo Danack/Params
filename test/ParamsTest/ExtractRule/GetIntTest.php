@@ -45,10 +45,9 @@ class GetIntTest extends BaseTestCase
      */
     public function testWorks($input, $expectedValue)
     {
-        $variableName = 'foo';
         $validator = new ProcessedValuesImpl();
         $rule = new GetInt();
-        $dataLocator  = SingleValueInputStorageAye::create($input);
+        $dataLocator  = DataStorage::fromSingleValue('foo', $input);
 
         $validationResult = $rule->process(
             $validator, $dataLocator
@@ -74,11 +73,9 @@ class GetIntTest extends BaseTestCase
      */
     public function testErrors($input)
     {
-        $variableName = 'foo';
-
         $rule = new GetInt();
         $validator = new ProcessedValuesImpl();
-        $dataLocator  = SingleValueInputStorageAye::create($input);
+        $dataLocator = DataStorage::fromSingleValue('foo', $input);
 
         $validationResult = $rule->process(
             $validator, $dataLocator
