@@ -10,12 +10,12 @@ use Params\ProcessRule\ProcessRule;
 /**
  * @todo rename this to InputParameter?
  */
-class Param
+class InputParameter
 {
     /**
      * The name of the input to use.
      */
-    private string $input_name;
+    private string $inputName;
 
     /**
      * The rule to extract the parameter from the input.
@@ -39,7 +39,7 @@ class Param
         ExtractRule $first_rule,
         ProcessRule ...$subsequent_rules
     ) {
-        $this->input_name = $input_name;
+        $this->inputName = $input_name;
         $this->extractRule = $first_rule;
         $this->processRules = $subsequent_rules;
     }
@@ -77,13 +77,13 @@ class Param
      */
     public function getInputName(): string
     {
-        return $this->input_name;
+        return $this->inputName;
     }
 
     /**
      * @return ExtractRule
      */
-    public function getFirstRule(): ExtractRule
+    public function getExtractRule(): ExtractRule
     {
         return $this->extractRule;
     }
@@ -91,7 +91,7 @@ class Param
     /**
      * @return ProcessRule[]
      */
-    public function getSubsequentRules(): array
+    public function getProcessRules(): array
     {
         return $this->processRules;
     }

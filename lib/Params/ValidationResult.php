@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 
 /**
  *
@@ -36,7 +36,7 @@ class ValidationResult
      * this is for a single value processing.
      *
      */
-    public static function errorResult(DataLocator $dataLocator, string $message): ValidationResult
+    public static function errorResult(InputStorageAye $dataLocator, string $message): ValidationResult
     {
         return new self(
             null,

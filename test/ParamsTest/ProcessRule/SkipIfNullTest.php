@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SkipIfNull;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -35,13 +35,10 @@ class SkipIfNullTest extends BaseTestCase
     public function testValidation($testValue, $expectIsFinalResult)
     {
         $rule = new SkipIfNull();
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $testValue,
-            $validator,
-            $dataLocator
+            $testValue, $processedValues, $dataLocator
         );
         $this->assertEquals($validationResult->isFinalResult(), $expectIsFinalResult);
     }

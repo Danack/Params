@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace ParamsExample;
 
 use Params\ExtractRule\GetString;
-use Params\Param;
+use Params\InputParameter;
 
 class MacAddressType
 {
@@ -29,9 +29,9 @@ class MacAddressType
         return $this->value;
     }
 
-    public static function getParamInfo(string $inputName): Param
+    public static function getParamInfo(string $inputName): InputParameter
     {
-        return new Param(
+        return new InputParameter(
             $inputName,
             new GetString(),
             new RespectMacRule()

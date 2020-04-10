@@ -4,11 +4,11 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use VarMap\VarMap;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
+use Params\ProcessedValues;
 use Params\Path;
 
 /**
@@ -25,17 +25,14 @@ class GetArrayOfTypeOrNull extends GetArrayOfType implements ExtractRule
     }
 
     public function process(
-        Path $path,
-        VarMap $varMap,
-        ParamValues $paramValues,
-        DataLocator $dataLocator
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
     ): ValidationResult {
-
-        if ($varMap->has($path->getCurrentName()) === false) {
+        if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::valueResult(null);
         }
 
-        return parent::process($path, $varMap, $paramValues, $dataLocator);
+        return parent::process($processedValues, $dataLocator);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\StartsWithString;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -31,15 +31,12 @@ class StartsWithStringTest extends BaseTestCase
     public function testValidationWorks(string $prefix, $testValue)
     {
         $rule = new StartsWithString($prefix);
-        $dataLocator = StandardDataLocator::fromArray([]);
-        $validator = new ParamsValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $testValue,
-            $validator,
-            $dataLocator
+            $testValue, $processedValues, $dataLocator
         );
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertSame($validationResult->getValue(), $testValue);
     }
 
@@ -58,13 +55,10 @@ class StartsWithStringTest extends BaseTestCase
     public function testValidationErrors(string $prefix, $testValue)
     {
         $rule = new StartsWithString($prefix);
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $testValue,
-            $validator,
-            $dataLocator
+            $testValue, $processedValues, $dataLocator
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

@@ -10,7 +10,7 @@ use Params\InputParameterList;
 use Params\ProcessRule\MinLength;
 use Params\ProcessRule\MaxLength;
 use Params\SafeAccess;
-use Params\Param;
+use Params\InputParameter;
 use ParamsExample\MacAddressType;
 
 class ComputerDetailsParams implements InputParameterList
@@ -36,12 +36,12 @@ class ComputerDetailsParams implements InputParameterList
     }
 
     /**
-     * @return \Params\Param[]
+     * @return \Params\InputParameter[]
      */
     public static function getInputParameterList()
     {
         return [
-            new Param(
+            new InputParameter(
                 'name',
                 new GetString(),
                 new MinLength(2),

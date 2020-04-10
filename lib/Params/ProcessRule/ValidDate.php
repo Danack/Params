@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use Params\Messages;
-use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValuesImpl;
-use Params\ParamValues;
-use Params\Path;
+use Params\ProcessedValues;
+use Params\ValidationResult;
 
 class ValidDate implements ProcessRule
 {
 
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
         // TODO - should we handle this better?
         $value = (string)$value;
         $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d', $value);

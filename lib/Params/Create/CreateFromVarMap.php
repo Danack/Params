@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
+use Params\DataLocator\DataStorage;
 use VarMap\VarMap;
 use function Params\create;
 
@@ -29,7 +30,9 @@ trait CreateFromVarMap
             throw new \Exception("Borken.");
         }
 
-        $object = create(static::class, $rules, $variableMap);
+        $dataLocator = DataStorage::fromVarMap($variableMap);
+
+        $object = create(static::class, $rules, $variableMap, $dataLocator);
         /** @var $object self */
         return $object;
     }

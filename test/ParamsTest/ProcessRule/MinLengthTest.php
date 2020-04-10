@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MinLength;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -55,13 +55,10 @@ class MinLengthTest extends BaseTestCase
     public function testValidation(int $minLength, string $string, bool $expectError)
     {
         $rule = new MinLength($minLength);
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $string,
-            $validator,
-            $dataLocator
+            $string, $processedValues, $dataLocator
         );
 
         if ($expectError === false) {

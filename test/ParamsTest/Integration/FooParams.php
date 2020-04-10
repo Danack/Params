@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Integration;
 
 use Params\ExtractRule\GetInt;
-use Params\Param;
+use Params\InputParameter;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
@@ -31,7 +31,7 @@ class FooParams
     public static function getInputParameterList()
     {
         return [
-            new Param(
+            new InputParameter(
                 'limit',
                 new GetInt(),
                 new IntegerInput(),

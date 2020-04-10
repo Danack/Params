@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception\Validator;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ValidationResult;
 use Params\Path;
@@ -20,14 +20,14 @@ class ValidationResultTest extends BaseTestCase
         $validationResult = ValidationResult::valueResult($value);
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertEquals($value, $validationResult->getValue());
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
     }
 
     public function testErrorResult()
     {
         $path = 'foo';
 //        $path = Path::fromName($name);
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $dataLocatorForPath = $dataLocator->moveKey($path);
 
         $validationMessage = 'Something went wrong';
@@ -52,6 +52,6 @@ class ValidationResultTest extends BaseTestCase
         $validationResult = ValidationResult::finalValueResult($value);
         $this->assertTrue($validationResult->isFinalResult());
         $this->assertEquals($value, $validationResult->getValue());
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
     }
 }

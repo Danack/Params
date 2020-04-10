@@ -45,17 +45,18 @@ class FunctionsTest extends BaseTestCase
     public function testCheckOnlyDigits()
     {
         // An integer gets short circuited
-        $errorMsg = check_only_digits('Foo', 12345);
+        $errorMsg = check_only_digits(12345);
         $this->assertNull($errorMsg);
 
         // Correct string passes through
-        $errorMsg = check_only_digits('Foo', '12345');
+        $errorMsg = check_only_digits('12345');
         $this->assertNull($errorMsg);
 
         // Incorrect string passes through
-        $errorMsg = check_only_digits('Foo', '123X45');
+        $errorMsg = check_only_digits('123X45');
+
+        // TODO - update string matching.
         $this->assertStringMatchesFormat("%sposition 3%s", $errorMsg);
-        $this->assertStringMatchesFormat("%sFoo%s", $errorMsg);
     }
 
     /**

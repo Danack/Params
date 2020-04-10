@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\SingleValueInputStorageAye;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalString;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
-use Params\DataLocator\NotAvailableDataLocator;
+use Params\DataLocator\NotAvailableInputStorageAye;
 
 /**
  * @coversNothing
@@ -23,15 +23,12 @@ class GetOptionalStringTest extends BaseTestCase
     public function testMissingGivesNull()
     {
         $rule = new GetOptionalString();
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
 
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            new ArrayVarMap([]),
-            $validator,
-            new NotAvailableDataLocator()
+            $validator, new NotAvailableInputStorageAye()
         );
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertNull($validationResult->getValue());
     }
 
@@ -45,15 +42,12 @@ class GetOptionalStringTest extends BaseTestCase
 
         $varMap = new ArrayVarMap([]);
         $rule = new GetOptionalString();
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName($variableName),
-            $varMap,
-            $validator,
-            SingleValueDataLocator::create($expectedValue)
+            $validator, SingleValueInputStorageAye::create($expectedValue)
         );
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 }

@@ -9,9 +9,9 @@ use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ReviewScore;
 use VarMap\ArrayVarMap;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 
 /**
  * @coversNothing
@@ -33,12 +33,9 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfTypeOrNull(ReviewScore::class);
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $result = $rule->process(
-            Path::fromName('items'),
-            new ArrayVarMap($data),
-            $validator,
-            StandardDataLocator::fromArray($data)
+            $validator, DataStorage::fromArraySetFirstValue($data)
         );
 
         $this->assertFalse($result->isFinalResult());
@@ -64,9 +61,9 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
         $data = [];
 
         $rule = new GetArrayOfTypeOrNull(ReviewScore::class);
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $result = $rule->process(
-            Path::fromName('items'), new ArrayVarMap($data), $validator,
+            $validator,
         );
 
 //        $this->assertTrue($result->isFinalResult());

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use Params\ProcessRule\IntegerInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValuesImpl;
-use Params\ParamValues;
+use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 
 class GetIntOrDefault implements ExtractRule
@@ -26,20 +26,20 @@ class GetIntOrDefault implements ExtractRule
     }
 
     public function process(
-        Path $path,
-        VarMap $varMap,
-        ParamValues $paramValues,
-        DataLocator $dataLocator
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
     ): ValidationResult {
-        if ($varMap->has($path->toString()) === true) {
-            $value = $varMap->get($path->toString());
-        }
-        else {
+        if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::valueResult($this->default);
         }
 
         $intRule = new IntegerInput();
-        return $intRule->process($path, $value, $paramValues, $dataLocator);
+
+        return $intRule->process(
+            $dataLocator->getCurrentValue(),
+            $processedValues,
+            $dataLocator
+        );
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

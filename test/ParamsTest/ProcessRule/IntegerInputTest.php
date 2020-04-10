@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\SingleValueInputStorageAye;
 use Params\ProcessRule\IntegerInput;
 use ParamsTest\BaseTestCase;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -33,15 +33,14 @@ class IntegerInputTest extends BaseTestCase
     public function testValidationWorks(string $inputValue, int $expectedValue)
     {
         $rule = new IntegerInput();
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
             $inputValue,
-            $validator,
-            SingleValueDataLocator::create($inputValue)
+            $processedValues,
+            SingleValueInputStorageAye::create($inputValue)
         );
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($expectedValue, $validationResult->getValue());
     }
 
@@ -64,12 +63,11 @@ class IntegerInputTest extends BaseTestCase
     public function testDetectsErrorsCorrectly(string $inputValue)
     {
         $rule = new IntegerInput();
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
             $inputValue,
-            $validator,
-            SingleValueDataLocator::create($inputValue)
+            $processedValues,
+            SingleValueInputStorageAye::create($inputValue)
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

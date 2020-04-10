@@ -14,7 +14,7 @@ class PatchCopy implements PatchRule
     private string $className;
 
     /**
-     * @var \Params\Param[]
+     * @var \Params\InputParameter[]
      */
     private array $rules;
 
@@ -22,7 +22,7 @@ class PatchCopy implements PatchRule
      *
      * @param string $pathRegex
      * @param class-string $className
-     * @param \Params\Param[] $rules
+     * @param \Params\InputParameter[] $rules
      */
     public function __construct(string $pathRegex, string $className, array $rules)
     {
@@ -53,7 +53,7 @@ class PatchCopy implements PatchRule
     }
 
     /**
-     * @return \Params\Param[]
+     * @return \Params\InputParameter[]
      */
     public function getRules(): array
     {

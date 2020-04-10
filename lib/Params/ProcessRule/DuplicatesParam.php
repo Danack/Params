@@ -4,13 +4,11 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use Params\Messages;
-use Params\ValidationResult;
-use Params\ParamsValuesImpl;
 use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
-use Params\Path;
+use Params\ProcessedValues;
+use Params\ValidationResult;
 
 class DuplicatesParam implements ProcessRule
 {
@@ -24,9 +22,13 @@ class DuplicatesParam implements ProcessRule
         $this->paramToDuplicate = $paramToDuplicate;
     }
 
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
-        if ($validator->hasParam($this->paramToDuplicate) !== true) {
+
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
+        if ($processedValues->hasValue($this->paramToDuplicate) !== true) {
             $message = sprintf(
                 Messages::ERROR_NO_PREVIOUS_PARAM,
                 $this->paramToDuplicate
@@ -35,15 +37,14 @@ class DuplicatesParam implements ProcessRule
             return ValidationResult::errorResult($dataLocator, $message);
         }
 
-        $previousValue = $validator->getParam($this->paramToDuplicate);
+        $previousValue = $processedValues->getValue($this->paramToDuplicate);
 
         $previousType = gettype($previousValue);
-        $currentType =  gettype($value);
+        $currentType = gettype($value);
 
         if ($previousType !== $currentType) {
             $message = sprintf(
                 Messages::ERROR_DIFFERENT_TYPES,
-                $path->toString(),
                 $this->paramToDuplicate,
                 $previousType,
                 $currentType
@@ -55,7 +56,6 @@ class DuplicatesParam implements ProcessRule
         if ($value !== $previousValue) {
             $message = sprintf(
                 Messages::ERROR_DIFFERENT_VALUE,
-                $path->toString(),
                 $this->paramToDuplicate
             );
             return ValidationResult::errorResult($dataLocator, $message);

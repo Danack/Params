@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Integration;
 
 use Params\ExtractRule\GetInt;
-use Params\Param;
+use Params\InputParameter;
 use Params\SafeAccess;
 use Params\ExtractRule\GetString;
 use Params\ProcessRule\MinLength;
@@ -33,11 +33,11 @@ class DuplicateButWrongTypeParams
     public static function getInputParameterList()
     {
         return [
-            new Param(
+            new InputParameter(
                 'days',
                 new GetInt()
             ),
-            new Param(
+            new InputParameter(
                 'days_repeat',
                 new GetString(),
                 new DuplicatesParam('days')

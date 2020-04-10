@@ -9,7 +9,7 @@ use Params\Path;
 use Params\ProcessRule\ProcessRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
+use Params\ProcessedValues;
 
 /**
  * This is an example of using a validator from
@@ -17,7 +17,7 @@ use Params\ParamValues;
  */
 class RespectMacRule implements ProcessRule
 {
-    public function process(Path $path, $value, ParamValues $validator) : ValidationResult
+    public function process($value, ProcessedValues $processedValues, InputStorageAye $dataLocator) : ValidationResult
     {
         if (v::macAddress()->validate($value) === true) {
             return ValidationResult::valueResult($value);

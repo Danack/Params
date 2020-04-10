@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetInt;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
-use Params\DataLocator\SingleValueDataLocator;
-use Params\DataLocator\NotAvailableDataLocator;
+use Params\DataLocator\SingleValueInputStorageAye;
+use Params\DataLocator\NotAvailableInputStorageAye;
 
 /**
  * @coversNothing
@@ -24,12 +24,9 @@ class GetIntTest extends BaseTestCase
     public function testMissingGivesError()
     {
         $rule = new GetInt();
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            new ArrayVarMap([]),
-            $validator,
-            new NotAvailableDataLocator()
+            $validator, new NotAvailableInputStorageAye()
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
@@ -49,18 +46,15 @@ class GetIntTest extends BaseTestCase
     public function testWorks($input, $expectedValue)
     {
         $variableName = 'foo';
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $rule = new GetInt();
-        $dataLocator  = SingleValueDataLocator::create($input);
+        $dataLocator  = SingleValueInputStorageAye::create($input);
 
         $validationResult = $rule->process(
-            Path::fromName($variableName),
-            new ArrayVarMap([$variableName => $input]),
-            $validator,
-            $dataLocator
+            $validator, $dataLocator
         );
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -83,14 +77,11 @@ class GetIntTest extends BaseTestCase
         $variableName = 'foo';
 
         $rule = new GetInt();
-        $validator = new ParamsValuesImpl();
-        $dataLocator  = SingleValueDataLocator::create($input);
+        $validator = new ProcessedValuesImpl();
+        $dataLocator  = SingleValueInputStorageAye::create($input);
 
         $validationResult = $rule->process(
-            Path::fromName($variableName),
-            new ArrayVarMap([]),
-            $validator,
-            $dataLocator
+            $validator, $dataLocator
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

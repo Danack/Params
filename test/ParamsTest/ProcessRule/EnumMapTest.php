@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\EmptyDataLocator;
-use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\EmptyInputStorageAye;
+use Params\DataLocator\SingleValueInputStorageAye;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\EnumMap;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -37,12 +37,11 @@ class EnumMapTest extends BaseTestCase
         $name = 'foo';
 
         $rule = new EnumMap($enumMap);
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName($name),
             'unknown value',
-            $validator,
-            EmptyDataLocator::fromPath(['foo'])
+            $processedValues,
+            EmptyInputStorageAye::fromPath(['foo'])
         );
 
         $problems = $validationResult->getValidationProblems();
@@ -74,12 +73,11 @@ class EnumMapTest extends BaseTestCase
         ];
 
         $rule = new EnumMap($enumMap);
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
             $testValue,
-            $validator,
-            SingleValueDataLocator::create($testValue)
+            $processedValues,
+            SingleValueInputStorageAye::create($testValue)
         );
 
         if ($expectError) {
@@ -87,7 +85,7 @@ class EnumMapTest extends BaseTestCase
             return;
         }
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 }

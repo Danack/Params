@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
-use Params\ValidationResult;
+use Params\DataLocator\InputStorageAye;
+use Params\Messages;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValuesImpl;
-use Params\ParamValues;
-use Params\Path;
+use Params\ProcessedValues;
+use Params\ValidationResult;
 
 class RangeLength implements ProcessRule
 {
@@ -21,14 +20,20 @@ class RangeLength implements ProcessRule
      * MaxLengthValidator constructor.
      * @param int $maxLength
      */
-    public function __construct(int $minLength, int $maxLength)
-    {
+    public function __construct(
+        int $minLength,
+        int $maxLength
+    ) {
         $this->minLength = $minLength;
         $this->maxLength = $maxLength;
     }
 
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
+
         // TODO - handle to string conversion better.
         $value = (string)$value;
 
@@ -43,8 +48,7 @@ class RangeLength implements ProcessRule
         // Check max length
         if (mb_strlen($value) > $this->maxLength) {
             $message = sprintf(
-                "String too long for '%s', max chars is %d.",
-                $path->toString(),
+                Messages::STRING_TOO_LONG,
                 $this->maxLength
             );
             return ValidationResult::errorResult($dataLocator, $message);

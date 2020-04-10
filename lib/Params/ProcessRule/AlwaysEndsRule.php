@@ -1,14 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
-use Params\ValidationResult;
+use Params\DataLocator\InputStorageAye;
 use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
-use Params\Path;
+use Params\ProcessedValues;
+use Params\ValidationResult;
 
 /**
  * Used for testing.
@@ -27,13 +26,16 @@ class AlwaysEndsRule implements ProcessRule
     }
 
     /**
-     * @param Path $path
      * @param mixed $value
-     * @param ParamValues $validator
+     * @param ProcessedValues $processedValues
+     * @param InputStorageAye $dataLocator
      * @return ValidationResult
      */
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
         return ValidationResult::finalValueResult($this->finalValue);
     }
 

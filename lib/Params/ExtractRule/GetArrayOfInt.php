@@ -9,11 +9,12 @@ use Params\ProcessRule\ProcessRule;
 use VarMap\VarMap;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\ProcessRule\IntegerInput;
-use Params\ParamValues;
+use Params\ProcessedValues;
 use Params\Path;
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
+use function Params\processProcessingRules;
 
 class GetArrayOfInt implements ExtractRule
 {
@@ -26,24 +27,21 @@ class GetArrayOfInt implements ExtractRule
     }
 
     public function process(
-        Path $path,
-        VarMap $varMap,
-        ParamValues $paramValues,
-        DataLocator $dataLocator
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
     ): ValidationResult {
 
         // Check its set
-//        if ($varMap->has($path->getCurrentName()) !== true) {
-//            $message = sprintf(Messages::ERROR_MESSAGE_NOT_SET, $path->getCurrentName());
-//            return ValidationResult::errorResult($dataLocator, $message);
-//        }
+        if ($dataLocator->valueAvailable() !== true) {
+            $message = sprintf(Messages::ERROR_MESSAGE_NOT_SET);
+            return ValidationResult::errorResult($dataLocator, $message);
+        }
 
         $itemData = $dataLocator->getCurrentValue();
 
         // Check its an array
-//        $itemData = $varMap->get($path->getCurrentName());
         if (is_array($itemData) !== true) {
-            $message = sprintf(Messages::ERROR_MESSAGE_NOT_ARRAY, $path->getCurrentName());
+            $message = sprintf(Messages::ERROR_MESSAGE_NOT_ARRAY);
             return ValidationResult::errorResult($dataLocator, $message);
         }
 
@@ -57,12 +55,12 @@ class GetArrayOfInt implements ExtractRule
 
         foreach ($itemData as $itemDatum) {
             // Create the new path.
-            $pathForItem = $path->addArrayIndexPathFragment($index);
+//            $pathForItem = $path->addArrayIndexPathFragment($index);
 
             $dataLocatorForItem = $dataLocator->moveIndex($index);
 
             // Process the int rule for the item
-            $result = $intRule->process($pathForItem, $itemDatum, $paramValues, $dataLocatorForItem);
+            $result = $intRule->process($itemDatum, $processedValues, $dataLocatorForItem);
 
             // If error, add it and attempt next entry in array
             if ($result->anyErrorsFound()) {
@@ -78,11 +76,11 @@ class GetArrayOfInt implements ExtractRule
 //                continue;
 //            }
 
-            $validator2 = new ParamsValuesImpl();
-            $newValidationProblems =  $validator2->validateSubsequentRules(
+            $validator2 = new ProcessedValuesImpl();
+            [$newValidationProblems, $processedValue] = processProcessingRules(
                 $result->getValue(),
-                $pathForItem,
                 $dataLocatorForItem,
+                $validator2,
                 ...$this->subsequentRules
             );
 
@@ -92,7 +90,7 @@ class GetArrayOfInt implements ExtractRule
                 continue;
             }
 
-            $items[] = $validator2->getParam($index);
+            $items[] = $processedValue; // $validator2->getParam($index);
             $index += 1;
         }
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\SingleValueDataLocator;
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\SingleValueInputStorageAye;
+use Params\DataLocator\DataStorage;
 use Params\Value\MultipleEnums;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -33,15 +33,12 @@ class CheckFilterStringTest extends BaseTestCase
     public function testKnownFilterCorrect($inputString, $expectedResult)
     {
         $rule = new MultipleEnum(['foo', 'bar']);
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('someFilter'),
-            $inputString,
-            $validator,
-            $dataLocator
+            $inputString, $processedValues, $dataLocator
         );
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
 
         $validationValue = $validationResult->getValue();
 
@@ -58,12 +55,11 @@ class CheckFilterStringTest extends BaseTestCase
     {
         $expectedValue = 'zot';
         $rule = new MultipleEnum(['foo', 'bar']);
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('someFilter'),
             $expectedValue,
-            $validator,
-            SingleValueDataLocator::create(['foo', 'bar'])
+            $processedValues,
+            SingleValueInputStorageAye::create(['foo', 'bar'])
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

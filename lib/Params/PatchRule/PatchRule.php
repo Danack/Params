@@ -22,7 +22,7 @@ interface PatchRule
     public function getOpType(): string;
 
     /**
-     * @return \Params\Param[]
+     * @return \Params\InputParameter[]
      */
     public function getRules(): array;
 }

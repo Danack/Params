@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
-use Params\ValidationResult;
+use http\Message;
+use Params\DataLocator\InputStorageAye;
+use Params\Messages;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValuesImpl;
-use Params\ParamValues;
-use Params\Path;
+use Params\ProcessedValues;
+use Params\ValidationResult;
 
 /**
  * Takes user input and converts it to an float value, or
@@ -20,17 +20,24 @@ class FloatInput implements ProcessRule
     /**
      * Convert a generic input value to an integer
      *
-     * @param Path $path
      * @param mixed $value
-     * @param ParamValues $validator
+     * @param ProcessedValues $processedValues
+     * @param InputStorageAye $dataLocator
      * @return ValidationResult
      */
     public function process(
-        Path $path,
         $value,
-        ParamValues $validator,
-        DataLocator $dataLocator
-    ) : ValidationResult {
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
+
+        if (is_scalar($value) !== true) {
+            return ValidationResult::errorResult(
+                $dataLocator,
+                Messages::VALUE_MUST_BE_SCALAR,
+            );
+        }
+
         // TODO - check is null
         if (is_int($value) !== true) {
             $value = (string)$value;

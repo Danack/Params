@@ -4,28 +4,41 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
+use Params\ProcessedValues;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\Path;
 
 class GetString implements ExtractRule
 {
-
     public function process(
-        Path $path,
-        VarMap $varMap,
-        ParamValues $paramValues,
-        DataLocator $dataLocator
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
     ): ValidationResult {
-        if ($varMap->has($path->getCurrentName()) !== true) {
+        if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::errorResult($dataLocator, Messages::VALUE_NOT_SET);
         }
+
+        $value = $dataLocator->getCurrentValue();
+
+        if (is_array($value) === true) {
+            return ValidationResult::errorResult($dataLocator, Messages::STRING_EXPECTED_BUT_FOUND_NON_SCALAR);
+        }
+
+
         // TODO - reject bools/ints?
-        $value = (string)$varMap->get($path->getCurrentName());
+        // TODO - needs string input
+        $value = (string)$dataLocator->getCurrentValue();
+
+        if (is_scalar($value) !== true) {
+            return ValidationResult::errorResult(
+                $dataLocator,
+                Messages::STRING_EXPECTED_BUT_FOUND_NON_SCALAR,
+            );
+        }
 
         return ValidationResult::valueResult($value);
     }

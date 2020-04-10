@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\SingleValueDataLocator;
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\SingleValueInputStorageAye;
+use Params\DataLocator\DataStorage;
 use Params\Messages;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\Exception\LogicException;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -36,15 +36,12 @@ class MinimumCountTest extends BaseTestCase
     public function testWorks(int $minimumCount, $values)
     {
         $rule = new MinimumCount($minimumCount);
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $values,
-            $validator,
-            $dataLocator
+            $values, $processedValues, $dataLocator
         );
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertSame($values, $validationResult->getValue());
     }
@@ -65,12 +62,9 @@ class MinimumCountTest extends BaseTestCase
     public function testFails(int $minimumCount, $values)
     {
         $rule = new MinimumCount($minimumCount);
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $values,
-            $validator,
-            SingleValueDataLocator::create($values)
+            $values, $processedValues, SingleValueInputStorageAye::create($values)
         );
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
@@ -106,16 +100,13 @@ class MinimumCountTest extends BaseTestCase
         $rule = new MinimumCount(3);
         $this->expectException(LogicException::class);
 
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $this->expectErrorMessageMatches(
             stringToRegexp(Messages::ERROR_WRONG_TYPE)
         );
 
         $rule->process(
-            Path::fromName('foo'),
-            'a banana',
-            $validator,
-            SingleValueDataLocator::create('a banana')
+            'a banana', $processedValues, SingleValueInputStorageAye::create('a banana')
         );
     }
 }

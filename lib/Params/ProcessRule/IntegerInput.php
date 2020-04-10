@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
-use Params\ValidationResult;
+use Params\DataLocator\InputStorageAye;
+use Params\Messages;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValuesImpl;
-use Params\ParamValues;
-use Params\Path;
+use Params\ProcessedValues;
+use Params\ValidationResult;
 
 /**
  * Takes user input and converts it to an int value, or
@@ -22,13 +21,16 @@ class IntegerInput implements ProcessRule
     /**
      * Convert a generic input value to an integer
      *
-     * @param Path $path
      * @param mixed $value
-     * @param ParamValues $validator
+     * @param ProcessedValues $processedValues
+     * @param InputStorageAye $dataLocator
      * @return ValidationResult
      */
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
         // TODO - check is null
         if (is_int($value) !== true) {
             $value = (string)$value;
@@ -60,8 +62,7 @@ class IntegerInput implements ProcessRule
 
         if (strlen((string)$value) > $maxSaneLength) {
             $message = sprintf(
-                "Value for %s too long, max %s digits",
-                $path->toString(),
+                Messages::INTEGER_TOO_LONG,
                 $maxSaneLength
             );
 

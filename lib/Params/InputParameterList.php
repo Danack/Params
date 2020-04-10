@@ -8,7 +8,7 @@ namespace Params;
 interface InputParameterList
 {
     /**
-     * @return \Params\Param[]
+     * @return \Params\InputParameter[]
      */
     public static function getInputParameterList();
 }

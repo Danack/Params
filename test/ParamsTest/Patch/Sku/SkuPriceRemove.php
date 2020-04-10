@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace ParamsTest\Patch\Sku;
 
 use Params\ExtractRule\GetInt;
-use Params\Param;
+use Params\InputParameter;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
@@ -28,7 +28,7 @@ class SkuPriceRemove
     public static function getInputParameterList()
     {
         return [
-            new Param(
+            new InputParameter(
                 'sku_id',
                 new GetInt()
             ),

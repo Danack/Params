@@ -80,7 +80,7 @@ class DuplicateParamsTest extends BaseTestCase
 
         $this->assertValidationProblem(
             createPath(['name' => 'password_repeat']),
-            "Parameter named 'password_repeat' is different to parameter 'password'.",
+            "Parameter is different to parameter 'password'.",
             $validationProblems
         );
     }

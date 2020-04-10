@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
-use Params\ValidationResult;
+use Params\DataLocator\InputStorageAye;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValuesImpl;
-use Params\ParamValues;
-use Params\Path;
+use Params\ProcessedValues;
+use Params\ValidationResult;
 
 class MinIntValue implements ProcessRule
 {
@@ -20,8 +18,11 @@ class MinIntValue implements ProcessRule
         $this->minValue = $minValue;
     }
 
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
         $value = intval($value);
         if ($value < $this->minValue) {
             return ValidationResult::errorResult(

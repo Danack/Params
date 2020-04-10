@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use Params\ExtractRule\GetFloatOrDefault;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 
 /**
@@ -23,19 +23,19 @@ class GetFloatOrDefaultTest extends BaseTestCase
 //            [new ArrayVarMap(['foo' => '5']), 'john', 5.0],
 
             // Test value is read as float
-            [new ArrayVarMap(['foo' => 5]), 20, 5.0],
+            [['foo' => 5], 20, 5.0],
 
 //            // Test default is used as string
 //            [new ArrayVarMap([]), '5', 5.0],
 
             // Test default is used as float
-            [new ArrayVarMap([]), 5, 5.0],
+            [[], 5, 5.0],
 
             // Test default is used as null
-            [new ArrayVarMap([]), null, null],
+            [[], null, null],
 
             // Extra checks
-            [new ArrayVarMap([]), -1000.1, -1000.1],
+            [[], -1000.1, -1000.1],
         ];
     }
 
@@ -43,18 +43,20 @@ class GetFloatOrDefaultTest extends BaseTestCase
      * @covers \Params\ExtractRule\GetIntOrDefault
      * @dataProvider provideTestCases
      */
-    public function testValidation(ArrayVarMap $varMap, $default, $expectedValue)
+    public function testValidation($data, $default, $expectedValue)
     {
         $rule = new GetFloatOrDefault($default);
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
+
+        $dataStorage = DataStorage::fromArray($data);
+        $dataStorage = $dataStorage->moveKey('foo');
+
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $varMap,
             $validator,
-            StandardDataLocator::fromVarMap($varMap)
+            $dataStorage
         );
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -81,13 +83,10 @@ class GetFloatOrDefaultTest extends BaseTestCase
 
         $variables = [$variableName => $inputValue];
 
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $rule = new GetFloatOrDefault($default);
         $validationResult = $rule->process(
-            Path::fromName($variableName),
-            new ArrayVarMap($variables),
-            $validator,
-            StandardDataLocator::fromArray($variables)
+            $validator, DataStorage::fromArraySetFirstValue($variables)
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

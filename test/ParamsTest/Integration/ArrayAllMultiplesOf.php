@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace ParamsTest\Integration;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
+use Params\ProcessedValues;
 use Params\ProcessRule\ProcessRule;
 use Params\ValidationProblem;
 use Params\ValidationResult;
@@ -32,12 +32,12 @@ class ArrayAllMultiplesOf implements ProcessRule
     }
 
     /**
-     * @param Path $path
      * @param mixed $value
-     * @param ParamValues $validator
+     * @param ProcessedValues $processedValues
+     * @param InputStorageAye $dataLocator
      * @return ValidationResult
      */
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator): ValidationResult
+    public function process($value, ProcessedValues $processedValues, InputStorageAye $dataLocator): ValidationResult
     {
         $errors = [];
 

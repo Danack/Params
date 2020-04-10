@@ -4,14 +4,12 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
-use Params\Messages;
-use Params\ValidationResult;
-use Params\OpenApi\ParamDescription;
+use Params\DataLocator\InputStorageAye;
 use Params\Exception\LogicException;
-use Params\ParamsValuesImpl;
-use Params\ParamValues;
-use Params\Path;
+use Params\Messages;
+use Params\OpenApi\ParamDescription;
+use Params\ProcessedValues;
+use Params\ValidationResult;
 
 class MaximumCount implements ProcessRule
 {
@@ -30,8 +28,11 @@ class MaximumCount implements ProcessRule
         $this->maximumCount = $maximumCount;
     }
 
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
         if (is_array($value) !== true) {
             $message = sprintf(
                 Messages::ERROR_WRONG_TYPE_VARIANT_1,
@@ -46,7 +47,6 @@ class MaximumCount implements ProcessRule
         if ($actualCount > $this->maximumCount) {
             $message = sprintf(
                 Messages::ERROR_TOO_MANY_ELEMENTS,
-                $path->toString(),
                 $this->maximumCount,
                 $actualCount
             );

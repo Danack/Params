@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetBool;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 
 /**
@@ -22,12 +22,9 @@ class GetBoolTest extends BaseTestCase
     public function testMissingGivesError()
     {
         $rule = new GetBool();
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            new ArrayVarMap([]),
-            $validator,
-            StandardDataLocator::fromArray([])
+            $validator, DataStorage::fromArraySetFirstValue([])
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
@@ -50,17 +47,15 @@ class GetBoolTest extends BaseTestCase
      */
     public function testWorks($input, $expectedValue)
     {
-        $variableName = 'foo';
-        $validator = new ParamsValuesImpl();
+//        $variableName = 'foo';
+        $validator = new ProcessedValuesImpl();
         $rule = new GetBool();
         $validationResult = $rule->process(
-            Path::fromName($variableName),
-            new ArrayVarMap([$variableName => $input]),
             $validator,
-            StandardDataLocator::fromArray(['foo' => $input])
+            DataStorage::fromArraySetFirstValue(['foo' => $input])
         );
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -68,9 +63,9 @@ class GetBoolTest extends BaseTestCase
     {
         return [
             // todo - we should test the exact error.
-            [['foo' => fopen('php://memory', 'r+')]],
-            [['foo' => [1, 2, 3]]],
-            [['foo' => new \StdClass()]]
+            [fopen('php://memory', 'r+')],
+            [[1, 2, 3]],
+            [new \StdClass()]
         ];
     }
 
@@ -78,17 +73,13 @@ class GetBoolTest extends BaseTestCase
      * @covers \Params\ExtractRule\GetBool
      * @dataProvider provideTestErrorCases
      */
-    public function testErrors($variables)
+    public function testErrors($value)
     {
-        $variableName = 'foo';
-
         $rule = new GetBool();
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName($variableName),
-            new ArrayVarMap($variables),
             $validator,
-            StandardDataLocator::fromArray(['foo' => $variables])
+            DataStorage::fromArraySetFirstValue(['foo' => $value])
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

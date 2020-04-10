@@ -1,16 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use Params\Exception\LogicException;
 use Params\OpenApi\ParamDescription;
+use Params\ProcessedValues;
 use Params\ValidationResult;
-use Params\ParamValues;
-use Params\Path;
-use Params\ProcessRule\ValidCharacters;
 
 class SaneCharacters implements ProcessRule
 {
@@ -82,9 +80,12 @@ class SaneCharacters implements ProcessRule
         $this->validCharacters = new ValidCharacters($pattern);
     }
 
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
-        $validationResult = $this->validCharacters->process($path, $value, $validator, $dataLocator);
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
+        $validationResult = $this->validCharacters->process($value, $processedValues, $dataLocator);
 
         // If validation has already failed, return it.
         if ($validationResult->anyErrorsFound()) {

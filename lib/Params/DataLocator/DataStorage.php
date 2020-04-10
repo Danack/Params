@@ -6,12 +6,18 @@ namespace Params\DataLocator;
 
 use VarMap\VarMap;
 
-class StandardDataLocator implements DataLocator
+class DataStorage implements InputStorageAye
 {
     private array $data;
 
     private array $currentLocation = [];
 
+    private ResultStorage $resultStorage;
+
+    private function __construct()
+    {
+        $this->resultStorage  = new ResultStorage();
+    }
 
     public static function fromArray(array $data)
     {
@@ -21,9 +27,31 @@ class StandardDataLocator implements DataLocator
         return $instance;
     }
 
+    public static function fromArraySetFirstValue(array $data)
+    {
+        $instance = new self();
+        $instance->data = $data;
+
+        foreach ($data as $key => $value) {
+            if (is_int($key)) {
+                return $instance->moveIndex($key);
+            }
+            else {
+                return $instance->moveKey($key);
+            }
+        }
+
+        return $instance;
+    }
+
     public static function fromVarMap(VarMap $varMap)
     {
         return self::fromArray($varMap->hackGetRawData());
+    }
+
+    public static function fromVarMapAndSetFirstValue(VarMap $varMap)
+    {
+        return self::fromArraySetFirstValue($varMap->hackGetRawData());
     }
 
     /**
@@ -82,6 +110,8 @@ class StandardDataLocator implements DataLocator
         return $this->getPath();
     }
 
+
+
     public function getPath(): string
     {
         $path = '';
@@ -103,4 +133,18 @@ class StandardDataLocator implements DataLocator
 
         return $path;
     }
+
+//
+//    public function getResultByRelativeKey($relativeKey)
+//    {
+//        return $this->resultStorage->getResultByRelativeKey($relativeKey);
+//    }
+
+//    public function storeCurrentResult($value)
+//    {
+//        return $this->resultStorage->storeCurrentResult(
+//            $this->currentLocation,
+//            $value
+//        );
+//    }
 }

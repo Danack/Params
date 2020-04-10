@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\SingleValueDataLocator;
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\SingleValueInputStorageAye;
+use Params\DataLocator\DataStorage;
 use Params\ProcessRule\FloatInput;
 use ParamsTest\BaseTestCase;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -34,16 +34,13 @@ class FloatInputTest extends BaseTestCase
     public function testValidationWorks(string $inputValue, float $expectedValue)
     {
         $rule = new FloatInput();
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $inputValue,
-            $validator,
-            $dataLocator
+            $inputValue, $processedValues, $dataLocator
         );
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($expectedValue, $validationResult->getValue());
     }
 
@@ -66,12 +63,11 @@ class FloatInputTest extends BaseTestCase
     public function testValidationErrors(string $inputValue)
     {
         $rule = new FloatInput();
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
             $inputValue,
-            $validator,
-            SingleValueDataLocator::create($inputValue)
+            $processedValues,
+            SingleValueInputStorageAye::create($inputValue)
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

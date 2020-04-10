@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\DataLocator;
 
-class SingleValueDataLocator implements DataLocator
+class SingleValueInputStorageAye implements InputStorageAye
 {
     /** @var mixed */
     private $value;
@@ -38,13 +38,13 @@ class SingleValueDataLocator implements DataLocator
 //        throw new \Exception("getPath not implemented yet.");
     }
 
-    public function moveIndex(int $index): DataLocator
+    public function moveIndex(int $index): InputStorageAye
     {
         throw new \Exception("moveIndex not implemented yet.");
 //        return clone $this;
     }
 
-    public function moveKey(string $name): DataLocator
+    public function moveKey(string $name): InputStorageAye
     {
         throw new \Exception("moveKey not implemented yet.");
     }

@@ -8,9 +8,9 @@ use ParamsTest\Integration\ReviewScore;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetType;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 
 /**
  * @coversNothing
@@ -46,20 +46,16 @@ class GetTypeTest extends BaseTestCase
      */
     public function testWorks()
     {
-        $variableName = 'foo';
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
 
         $data = ['score' => 5, 'comment' => 'Hello world'];
 
         $rule = GetType::fromClass(ReviewScore::class);
         $validationResult = $rule->process(
-            Path::fromName($variableName),
-            new ArrayVarMap($data), $validator,
-            StandardDataLocator::fromArray($data)
+            $validator, DataStorage::fromArray($data)
         );
 
         $this->assertNoErrors($validationResult);
-
 
         $item = $validationResult->getValue();
         $this->assertInstanceOf(ReviewScore::class, $item);

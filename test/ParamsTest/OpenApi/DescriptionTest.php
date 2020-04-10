@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\OpenApi;
 
-use Params\Param;
+use Params\InputParameter;
 use Params\OpenApi\ShouldNeverBeCalledParamDescription;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\Enum;
@@ -48,7 +48,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules =  [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetString(),
                 new Enum($values)
@@ -97,7 +97,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetInt()
             ),
@@ -118,7 +118,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetIntOrDefault($default)
             ),
@@ -139,7 +139,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetStringOrDefault($default)
             ),
@@ -158,7 +158,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetOptionalInt()
             ),
@@ -177,7 +177,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetOptionalString()
             ),
@@ -195,7 +195,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetInt(),
                 new MinIntValue($maxValue)
@@ -213,7 +213,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetString(),
                 new MaxLength($maxLength)
@@ -238,7 +238,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetString(),
                 new MinLength($minLength)
@@ -260,7 +260,7 @@ class DescriptionTest extends BaseTestCase
     public function testInvalidMininumLength($minLength)
     {
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetString(),
                 new MinLength($minLength)
@@ -284,7 +284,7 @@ class DescriptionTest extends BaseTestCase
     public function testInvalidMaximumLength($maxLength)
     {
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetString(),
                 new MaxLength($maxLength)
@@ -307,7 +307,7 @@ class DescriptionTest extends BaseTestCase
     public function testValidMaximumLength($maxLength)
     {
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetString(),
                 new MaxLength($maxLength)
@@ -338,7 +338,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetInt(),
                 new MaxIntValue($maxValue)
@@ -357,7 +357,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetInt(),
                 new PositiveInt()
@@ -373,7 +373,7 @@ class DescriptionTest extends BaseTestCase
             'nullable' => true
         ];
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetStringOrDefault(null),
                 new SkipIfNull()
@@ -390,7 +390,7 @@ class DescriptionTest extends BaseTestCase
             'format' => 'date'
         ];
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetString(),
                 new ValidDate()
@@ -407,7 +407,7 @@ class DescriptionTest extends BaseTestCase
             'format' => 'date-time'
         ];
         $rules = [
-            new Param(
+            new InputParameter(
                 'value',
                 new GetString(),
                 new ValidDatetime()
@@ -420,7 +420,7 @@ class DescriptionTest extends BaseTestCase
 
     /**
      * @param $schemaExpectations
-     * @param Param[] $rules
+     * @param InputParameter[] $rules
      * @throws OpenApiException
  */
     private function performSchemaTest($schemaExpectations, $rules)

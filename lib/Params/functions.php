@@ -2,7 +2,7 @@
 
 namespace Params;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use Params\Exception\InputParameterListException;
 use Params\Exception\LogicException;
 use Params\Exception\MissingClassException;
@@ -11,10 +11,12 @@ use Params\Exception\TypeNotInputParameterListException;
 use Params\Exception\ValidationException;
 use Params\ExtractRule\GetArrayOfType;
 use Params\PatchOperation\PatchOperation;
+use Params\ProcessRule\ProcessRule;
 use Params\Value\Ordering;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
+use Params\Messages;
 
 /**
  * @param mixed $value
@@ -34,7 +36,7 @@ function getTypeForErrorMessage($value): string
  * @param Path $path
  * @param class-string $classname
  * @param mixed $itemData
- * @param \Params\Param[] $inputParameterList
+ * @param \Params\InputParameter[] $inputParameterList
  * @return ValidationResult
  * @throws \Params\Exception\ParamsException
  * @throws \Params\Exception\ValidationException
@@ -88,7 +90,7 @@ function createArrayForTypeWithRules(Path $path, string $classname, $itemData, a
 
 /**
  * @param string $className
- * @return \Params\Param[]
+ * @return \Params\InputParameter[]
  * @throws InputParameterListException
  * @throws MissingClassException
  * @throws TypeNotInputParameterListException
@@ -119,7 +121,7 @@ function getInputParameterListForClass(string $className)
     // Validate all entries are InputParameters
     $index = 0;
     foreach ($inputParameterList as $inputParameter) {
-        if (!$inputParameter instanceof Param) {
+        if (!$inputParameter instanceof InputParameter) {
             throw InputParameterListException::notInputParameter($index, $className);
         }
 
@@ -127,7 +129,7 @@ function getInputParameterListForClass(string $className)
     }
 
     // All okay, array contains only Param items.
-    /** @var \Params\Param[] $inputParameterList */
+    /** @var \Params\InputParameter[] $inputParameterList */
     return $inputParameterList;
 }
 
@@ -278,7 +280,7 @@ function createPatch($namedRules, array $sourceData): array
 /**
  * @template T
  * @param class-string<T> $classname
- * @param \Params\Param[] $params
+ * @param \Params\InputParameter[] $params
  * @param Path $path
  * @return array{0:?object, 1:\Params\ValidationProblem[]}
  * @throws Exception\ParamsException
@@ -289,14 +291,15 @@ function createPatch($namedRules, array $sourceData): array
  */
 function createOrErrorFromPath($classname, $params, VarMap $sourceData, Path $path)
 {
-    $paramsValuesImpl = new ParamsValuesImpl();
-    $validationProblems = $paramsValuesImpl->executeRulesWithValidator($params, $sourceData, $path);
+    $paramsValuesImpl = new ProcessedValuesImpl();
+
+    [$validationProblems, $value] = processInputParameters($params, $sourceData, $path);
 
     if (count($validationProblems) !== 0) {
         return [null, $validationProblems];
     }
 
-    $object = createObjectFromParams($classname, $paramsValuesImpl->getParamsValues());
+    $object = createObjectFromParams($classname, $paramsValuesImpl->getAllValues());
 
     return [$object, []];
 }
@@ -305,29 +308,32 @@ function createOrErrorFromPath($classname, $params, VarMap $sourceData, Path $pa
 /**
  * @template T
  * @param class-string<T> $classname
- * @param \Params\Param[] $params
+ * @param \Params\InputParameter[] $params
  * @param VarMap $sourceData
  * @return T of object
  * @throws ValidationException
  * @throws \ReflectionException
  */
-function create($classname, $params, VarMap $sourceData)
-{
-    $paramsValuesImpl = new ParamsValuesImpl();
-    $path = Path::initial();
-    $dataLocator = StandardDataLocator::fromVarMap($sourceData);
+function create(
+    $classname,
+    $params,
+    VarMap $sourceData,
+    DataStorage $dataLocator
+) {
+    $paramsValuesImpl = new ProcessedValuesImpl();
+//    $path = Path::initial();
+//    $dataLocator = DataStorage::fromVarMap($sourceData);
 
-    $validationProblems = $paramsValuesImpl->executeRulesWithValidator(
+    [$validationProblems, $value] = processInputParameters(
         $params,
-        $sourceData,
-        $path,
+        $paramsValuesImpl,
         $dataLocator
     );
 
     if (count($validationProblems) !== 0) {
         throw new ValidationException("Validation problems", $validationProblems);
     }
-    $object = createObjectFromParams($classname, $paramsValuesImpl->getParamsValues());
+    $object = createObjectFromParams($classname, $paramsValuesImpl->getAllValues());
 
     /** @var T $object */
     return $object;
@@ -337,7 +343,7 @@ function create($classname, $params, VarMap $sourceData)
 /**
  * @template T
  * @param class-string<T> $classname
- * @param \Params\Param[] $params
+ * @param \Params\InputParameter[] $params
  * @return array{0:?object, 1:\Params\ValidationProblem[]}
  * @throws Exception\ParamsException
  * @throws ValidationException
@@ -347,14 +353,13 @@ function create($classname, $params, VarMap $sourceData)
  */
 function createOrError($classname, $params, VarMap $sourceData)
 {
-    $paramsValuesImpl = new ParamsValuesImpl();
+    $paramsValuesImpl = new ProcessedValuesImpl();
     $path = Path::initial();
-    $dataLocator = StandardDataLocator::fromVarMap($sourceData);
+    $dataLocator = DataStorage::fromVarMap($sourceData);
 
-    $validationProblems = $paramsValuesImpl->executeRulesWithValidator(
+    [$validationProblems, $value] = processInputParameters(
         $params,
-        $sourceData,
-        $path,
+        $paramsValuesImpl,
         $dataLocator
     );
 
@@ -362,7 +367,7 @@ function createOrError($classname, $params, VarMap $sourceData)
         return [null, $validationProblems];
     }
 
-    $object = createObjectFromParams($classname, $paramsValuesImpl->getParamsValues());
+    $object = createObjectFromParams($classname, $paramsValuesImpl->getAllValues());
 
     // TODO - wrap this in an ResultObject.
     return [$object, []];
@@ -419,11 +424,11 @@ function array_value_exists(array $array, $value): bool
 
 
 /**
- * @param string $name string The name of the variable
+
  * @param mixed $value  The value of the variable
  * @return null|string returns an error string, when there is an error
  */
-function check_only_digits(string $name, $value)
+function check_only_digits($value)
 {
     if (is_int($value) === true) {
         return null;
@@ -438,7 +443,7 @@ function check_only_digits(string $name, $value)
     if ($count !== 0) {
         $badCharPosition = $matches[0][1];
         $message = sprintf(
-            "Value for '$name' must contain only digits. Non-digit found at position %d.",
+            Messages::ONLY_DIGITS_ALLOWED,
             $badCharPosition
         );
         return $message;
@@ -489,4 +494,118 @@ function createPath(array $pathParts)
     }
 
     return $path;
+}
+
+
+/**
+ *
+ * @TODO - less 'yo dawg' in function name...
+ *
+ * @param mixed $value
+ * @param InputStorageAye $dataLocator
+ * @param array<ProcessRule ...$subsequentRules, mixed>
+ * @return array<0:Params\ValidationProblem[], 1:mixed>
+ * @throws Exception\ParamMissingException
+ */
+function processProcessingRules(
+    $value,
+    InputStorageAye $dataLocator,
+    ProcessedValues $processedValues,
+    ProcessRule ...$subsequentRules
+) {
+    foreach ($subsequentRules as $rule) {
+        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        if ($validationResult->anyErrorsFound()) {
+            return [$validationResult->getValidationProblems(), null];
+        }
+
+        $value = $validationResult->getValue();
+        // Set this here in case the rule happens to need to refer to the
+        // current item by name
+//            $this->paramValues[$path->getCurrentName()] = $value;
+//            $dataLocator->storeCurrentResult($value);
+
+        if ($validationResult->isFinalResult() === true) {
+            break;
+        }
+    }
+
+    // Set this here in case the subsequent rules are empty.
+//        $this->paramValues[$path->getCurrentName()] = $value;
+//        $dataLocator->storeCurrentResult($value);
+
+    return [[], $value];
+}
+
+
+/**
+ * @param \Params\InputParameter $param
+ * @param ProcessedValuesImpl $paramValues
+ * @param InputStorageAye $dataLocator
+ * @return array|ValidationProblem[]
+ * @throws Exception\ParamMissingException
+ */
+function processInputParameter(
+    InputParameter $param,
+    ProcessedValuesImpl $paramValues,
+    InputStorageAye $dataLocator
+) {
+
+    $dataLocatorForItem = $dataLocator->moveKey($param->getInputName());
+    $extractRule = $param->getExtractRule();
+    $validationResult = $extractRule->process(
+        $paramValues, $dataLocatorForItem
+    );
+
+    if ($validationResult->anyErrorsFound()) {
+        return [$validationResult->getValidationProblems(), null];
+    }
+
+    $value = $validationResult->getValue();
+
+    // Process has already ended.
+    if ($validationResult->isFinalResult() === true) {
+        return [[], $value];
+    }
+
+    // Extract rule wasn't a final result, so process
+    return processProcessingRules(
+        $value,
+        $dataLocatorForItem,
+        $paramValues,
+        ...$param->getProcessRules()
+    );
+}
+
+
+/**
+ * @param \Params\InputParameter[] $inputParameters
+ * @param VarMap $sourceData
+ * @return array<0:\Params\ValidationProblem[], 1:\Params\ParamsValuesImpl>
+ */
+function processInputParameters(
+    $inputParameters,
+    ProcessedValuesImpl $paramValues,
+    InputStorageAye $dataLocator
+) {
+    $validationProblems = [];
+
+    foreach ($inputParameters as $inputParameter) {
+
+        [$newValidationProblems, $value] = processInputParameter(
+            $inputParameter,
+            $paramValues,
+            $dataLocator
+        );
+
+        if (count($newValidationProblems) !== 0) {
+            $validationProblems = [...$validationProblems, ...$newValidationProblems];
+            continue;
+        }
+
+        $paramValues->setValue($inputParameter->getInputName(), $value);
+    }
+
+    // TODO - why does this return values as well?
+    return [$validationProblems, $paramValues];
 }

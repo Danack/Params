@@ -8,7 +8,7 @@ use Params\Create\CreateFromVarMap;
 use Params\Create\CreateArrayOfTypeFromArray;
 use Params\ExtractRule\GetInt;
 use Params\ExtractRule\GetString;
-use Params\Param;
+use Params\InputParameter;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinLength;
 use Params\SafeAccess;
@@ -38,17 +38,17 @@ class ReviewScore implements InputParameterList
     }
 
     /**
-     * @return \Params\Param[]
+     * @return \Params\InputParameter[]
      */
     public static function getInputParameterList()
     {
         return [
-            new Param(
+            new InputParameter(
                 'score',
                 new GetInt(),
                 new MaxIntValue(100)
             ),
-            new Param(
+            new InputParameter(
                 'comment',
                 new GetString(),
                 new MinLength(4)

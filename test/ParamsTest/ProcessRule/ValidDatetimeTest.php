@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDatetime;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -51,16 +51,13 @@ class ValidDatetimeTest extends BaseTestCase
     public function testValidationWorks($input, $expectedTime)
     {
         $rule = new ValidDatetime();
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $input,
-            $validator,
-            $dataLocator
+            $input, $processedValues, $dataLocator
         );
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedTime);
     }
 
@@ -79,15 +76,12 @@ class ValidDatetimeTest extends BaseTestCase
     public function testValidationErrors($input)
     {
         $rule = new ValidDatetime();
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
 
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
 
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $input,
-            $validator,
-            $dataLocator
+            $input, $processedValues, $dataLocator
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

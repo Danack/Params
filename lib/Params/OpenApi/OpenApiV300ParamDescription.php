@@ -53,7 +53,7 @@ class OpenApiV300ParamDescription implements ParamDescription
      * OpenApi 3.0.0 spec
      *
      * https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md
-     * @param \Params\Param[] $allRules
+     * @param \Params\InputParameter[] $allRules
      * @return self[]
      * @throws OpenApiException
      */
@@ -64,10 +64,10 @@ class OpenApiV300ParamDescription implements ParamDescription
         foreach ($allRules as $rules) {
             $description = new self($rules->getInputName());
 
-            $firstRule = $rules->getFirstRule();
+            $firstRule = $rules->getExtractRule();
             $firstRule->updateParamDescription($description);
 
-            foreach ($rules->getSubsequentRules() as $subsequentRules) {
+            foreach ($rules->getProcessRules() as $subsequentRules) {
                 /** @var $rule \Params\Rule */
                 $subsequentRules->updateParamDescription($description);
             }

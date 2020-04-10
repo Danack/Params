@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\SingleValueDataLocator;
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\SingleValueInputStorageAye;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDate;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -40,16 +40,13 @@ class ValidDateTest extends BaseTestCase
     public function testValidationWorks($input, $expectedTime)
     {
         $rule = new ValidDate();
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $input,
-            $validator,
-            $dataLocator
+            $input, $processedValues, $dataLocator
         );
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedTime);
     }
 
@@ -68,12 +65,9 @@ class ValidDateTest extends BaseTestCase
     public function testValidationErrors($input)
     {
         $rule = new ValidDate();
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $input,
-            $validator,
-            SingleValueDataLocator::create($input)
+            $input, $processedValues, SingleValueInputStorageAye::create($input)
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

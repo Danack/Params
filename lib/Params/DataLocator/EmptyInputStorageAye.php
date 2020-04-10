@@ -4,8 +4,9 @@ declare(strict_types = 1);
 
 namespace Params\DataLocator;
 
-class EmptyDataLocator implements DataLocator
+class EmptyInputStorageAye implements InputStorageAye
 {
+//    use StandardDataStorage;
 
     private array $data;
 
@@ -47,12 +48,12 @@ class EmptyDataLocator implements DataLocator
         return $path;
     }
 
-    public function moveIndex(int $index): DataLocator
+    public function moveIndex(int $index): InputStorageAye
     {
         throw new \Exception("moveIndex not implemented yet.");
     }
 
-    public function moveKey(string $name): DataLocator
+    public function moveKey(string $name): InputStorageAye
     {
         throw new \Exception("moveKey not implemented yet.");
     }

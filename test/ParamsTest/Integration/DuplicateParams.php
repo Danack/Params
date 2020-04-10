@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Integration;
 
 use Params\ExtractRule\GetInt;
-use Params\Param;
+use Params\InputParameter;
 use Params\SafeAccess;
 use Params\ExtractRule\GetString;
 use Params\ProcessRule\MinLength;
@@ -33,13 +33,13 @@ class DuplicateParams
     public static function getInputParameterList()
     {
         return [
-            new Param(
+            new InputParameter(
                 'password',
                 new GetString(),
                 new MinLength(6),
                 new MaxLength(60)
             ),
-            new Param(
+            new InputParameter(
                 'password_repeat',
                 new GetString(),
                 new DuplicatesParam('password')

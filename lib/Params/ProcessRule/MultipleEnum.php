@@ -1,16 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
+use Params\Messages;
+use Params\OpenApi\ParamDescription;
+use Params\ProcessedValues;
 use Params\ValidationResult;
 use Params\Value\MultipleEnums;
-use Params\OpenApi\ParamDescription;
-use Params\ParamsValuesImpl;
-use Params\ParamValues;
-use Params\Path;
 use function Params\array_value_exists;
 
 /**
@@ -34,8 +33,11 @@ class MultipleEnum implements ProcessRule
         $this->allowedValues = $allowedValues;
     }
 
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
         // TODO - handle to string conversion better.
         $value = trim((string)$value);
         $filterStringParts = explode(',', $value);
@@ -50,9 +52,8 @@ class MultipleEnum implements ProcessRule
 
             if (array_value_exists($this->allowedValues, $filterStringPart) !== true) {
                 $message = sprintf(
-                    "Cannot filter by [%s] for [%s], as not known for this operation. Known are [%s]",
+                    Messages::MULTIPLE_ENUM_INVALID,
                     $filterStringPart,
-                    $path->toString(),
                     implode(', ', $this->allowedValues)
                 );
 

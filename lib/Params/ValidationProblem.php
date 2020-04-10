@@ -4,24 +4,24 @@ declare(strict_types = 1);
 
 namespace Params;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 
 class ValidationProblem
 {
     /**
      * The path of the parameter that was being validated.
      */
-    private DataLocator $dataLocator;
+    private InputStorageAye $dataLocator;
 
     private string $problemMessage;
 
-    public function __construct(DataLocator $dataLocator, string $description)
+    public function __construct(InputStorageAye $dataLocator, string $description)
     {
         $this->dataLocator = $dataLocator;
         $this->problemMessage = $description;
     }
 
-    public function getDataLocator(): DataLocator
+    public function getDataLocator(): InputStorageAye
     {
         return $this->dataLocator;
     }

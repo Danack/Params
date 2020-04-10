@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\StandardDataLocator;
-use Params\ParamsValuesImpl;
+use Params\DataLocator\DataStorage;
+use Params\ProcessedValuesImpl;
 use Params\ProcessRule\MaximumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysErrorsRule;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\Path;
 use function Params\createPath;
-use Params\DataLocator\EmptyDataLocator;
+use Params\DataLocator\EmptyInputStorageAye;
 
 /**
  * @coversNothing
@@ -26,12 +26,11 @@ class AlwaysErrorsRuleTest extends BaseTestCase
     {
         $message = 'test message';
         $rule = new AlwaysErrorsRule($message);
-        $validator = new ParamsValuesImpl();
-        $dataLocator = EmptyDataLocator::fromPath(['foo']);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = EmptyInputStorageAye::fromPath(['foo']);
         $result = $rule->process(
-            Path::fromName('foo'),
-            5,
-            $validator,
+            $unused_input = 5,
+            $processedValues,
             $dataLocator
         );
 

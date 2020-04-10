@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\SingleValueInputStorageAye;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Trim;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -22,14 +22,11 @@ class TrimTest extends BaseTestCase
     public function testValidation()
     {
         $rule = new Trim();
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            ' bar ',
-            $validator,
-            SingleValueDataLocator::create(' bar ')
+            ' bar ', $processedValues, SingleValueInputStorageAye::create(' bar ')
         );
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), 'bar');
     }
 }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\Value\MultipleEnums;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -32,13 +32,10 @@ class MultipleEnumTest extends BaseTestCase
     public function testMultipleEnum_emptySegments($input, $expectedOutput)
     {
         $enumRule = new MultipleEnum(['foo', 'bar']);
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $result = $enumRule->process(
-            Path::fromName('unused'),
-            $input,
-            $validator,
-            $dataLocator
+            $input, $processedValues, $dataLocator
         );
 
         $this->assertEmpty($result->getValidationProblems());
@@ -63,13 +60,10 @@ class MultipleEnumTest extends BaseTestCase
     public function testValidation($testValue, $expectedFilters, $expectError)
     {
         $rule = new MultipleEnum(['time', 'distance']);
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $testValue,
-            $validator,
-            $dataLocator
+            $testValue, $processedValues, $dataLocator
         );
 
         if ($expectError === true) {

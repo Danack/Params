@@ -6,7 +6,7 @@ namespace ParamsTest\Patch\Email;
 
 use Params\ExtractRule\GetInt;
 use Params\ExtractRule\GetString;
-use Params\Param;
+use Params\InputParameter;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
@@ -36,7 +36,7 @@ class CheckAdminEmailMatches
     public static function getInputParameterList()
     {
         return [
-            new Param(
+            new InputParameter(
                 'email',
                 new GetString()
             ),

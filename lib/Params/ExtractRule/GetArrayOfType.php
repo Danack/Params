@@ -5,15 +5,15 @@ declare(strict_types = 1);
 namespace Params\ExtractRule;
 
 use Params\Messages;
-use Params\Param;
-use Params\ParamsValuesImpl;
+use Params\InputParameter;
+use Params\ProcessedValuesImpl;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
+use Params\ProcessedValues;
 use Params\Path;
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use function Params\createOrErrorFromPath;
 use function Params\getInputParameterListForClass;
 use function Params\createArrayForTypeWithRules;
@@ -23,7 +23,7 @@ class GetArrayOfType implements ExtractRule
     /** @var class-string */
     private string $className;
 
-    /** @var \Params\Param[] */
+    /** @var \Params\InputParameter[] */
     private array $inputParameterList;
 
 
@@ -44,10 +44,8 @@ class GetArrayOfType implements ExtractRule
     }
 
     public function process(
-        Path $path,
-        VarMap $varMap,
-        ParamValues $paramValues,
-        DataLocator $dataLocator
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
     ): ValidationResult {
 
         // Check it is set
@@ -73,7 +71,7 @@ class GetArrayOfType implements ExtractRule
 
         // TODO - why don't we use the key here?
         foreach ($itemData as $itemDatum) {
-            $pathForItem = $path->addArrayIndexPathFragment($index);
+//            $pathForItem = $path->addArrayIndexPathFragment($index);
 
             $dataLocatorForItem = $dataLocator->moveIndex($index);
 
@@ -97,10 +95,11 @@ class GetArrayOfType implements ExtractRule
 //            );
 
             // This appears to be wrong - why would
-            $paramsValuesImpl = new ParamsValuesImpl();
+            $paramsValuesImpl = new ProcessedValuesImpl();
 
             $result = $this->typeExtractor->process(
-                $pathForItem, new ArrayVarMap($itemDatum), $paramsValuesImpl, $dataLocatorForItem
+                $paramsValuesImpl,
+                $dataLocatorForItem
             );
 
             if ($result->anyErrorsFound() === true) {

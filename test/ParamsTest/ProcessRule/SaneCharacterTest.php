@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SaneCharacters;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -59,15 +59,12 @@ class SaneCharacterTest extends BaseTestCase
     public function testValidationSuccess($testValue)
     {
         $rule = new SaneCharacters();
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $testValue,
-            $validator,
-            $dataLocator
+            $testValue, $processedValues, $dataLocator
         );
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
     }
 
     /**
@@ -77,13 +74,10 @@ class SaneCharacterTest extends BaseTestCase
     public function testValidationErrors($testValue)
     {
         $rule = new SaneCharacters();
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $testValue,
-            $validator,
-            $dataLocator
+            $testValue, $processedValues, $dataLocator
         );
 
 //        $bytesString = "Bytes were[" . getRawCharacters($testValue) . "]";
@@ -99,13 +93,10 @@ class SaneCharacterTest extends BaseTestCase
     {
         $testValue = "danack_a̧͈͖r͒͑_more_a̧͈͖r͒͑";
         $rule = new SaneCharacters();
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $testValue,
-            $validator,
-            $dataLocator
+            $testValue, $processedValues, $dataLocator
         );
 //        $messages = $validationResult->getValidationProblems();
 

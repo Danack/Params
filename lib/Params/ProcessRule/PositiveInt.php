@@ -1,14 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
-use Params\ValidationResult;
+use Params\DataLocator\InputStorageAye;
 use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
-use Params\Path;
+use Params\ProcessedValues;
+use Params\ValidationResult;
 use function Params\check_only_digits;
 
 /**
@@ -20,11 +19,14 @@ class PositiveInt implements ProcessRule
 {
     const MAX_SANE_VALUE = 1_024 * 1_024 * 1_024 * 1_024;
 
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
         $matches = null;
 
-        $errorMessage = check_only_digits($path->toString(), $value);
+        $errorMessage = check_only_digits($value);
         if ($errorMessage !== null) {
             return ValidationResult::errorResult($dataLocator, $errorMessage);
         }

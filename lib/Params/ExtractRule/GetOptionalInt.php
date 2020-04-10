@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use Params\ProcessRule;
 use Params\ProcessRule\IntegerInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
-use Params\ParamsValuesImpl;
-use Params\ParamValues;
+use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 
 /**
@@ -24,10 +24,8 @@ use Params\Path;
 class GetOptionalInt implements ExtractRule
 {
     public function process(
-        Path $path,
-        VarMap $varMap,
-        ParamValues $paramValues,
-        DataLocator $dataLocator
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
     ): ValidationResult {
         if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::valueResult(null);
@@ -35,9 +33,8 @@ class GetOptionalInt implements ExtractRule
 
         $intRule = new IntegerInput();
         return $intRule->process(
-            $path,
             $dataLocator->getCurrentValue(),
-            $paramValues,
+            $processedValues,
             $dataLocator
         );
     }

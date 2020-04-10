@@ -7,10 +7,10 @@ namespace ParamsTest\ExtractRule;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfInt;
 use VarMap\ArrayVarMap;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\ProcessRule\MaxIntValue;
 use Params\Path;
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use function Params\createPath;
 
 /**
@@ -25,19 +25,19 @@ class GetArrayOfIntTest extends BaseTestCase
     {
         $data = [5, 6, 7];
 
-        $dataLocator = StandardDataLocator::fromArray($data);
+        $input = ['foo' => $data];
+
+        $dataLocator = DataStorage::fromArraySetFirstValue($input);
 
         $rule = new GetArrayOfInt();
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $result = $rule->process(
-            Path::fromName('items'),
-            new ArrayVarMap($data),
             $validator,
             $dataLocator
         );
 
+        $this->assertNoValidationProblems($result->getValidationProblems());
         $this->assertFalse($result->isFinalResult());
-        $this->assertCount(0, $result->getValidationProblems());
         $this->assertSame($data, $result->getValue());
     }
 
@@ -50,12 +50,9 @@ class GetArrayOfIntTest extends BaseTestCase
 
 
         $rule = new GetArrayOfInt();
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $result = $rule->process(
-            Path::fromName('items'),
-            new ArrayVarMap($data),
-            $validator,
-            StandardDataLocator::fromArray($data)
+            $validator, DataStorage::fromArray($data)
         );
 
         $this->assertTrue($result->isFinalResult());
@@ -86,13 +83,10 @@ class GetArrayOfIntTest extends BaseTestCase
         $rule = new GetArrayOfInt(
             new MaxIntValue(20)
         );
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
 
         $result = $rule->process(
-            Path::fromName('items'),
-            new ArrayVarMap($data),
-            $validator,
-            StandardDataLocator::fromArray($data)
+            $validator, DataStorage::fromArray($data)
         );
 
         $this->assertTrue($result->isFinalResult());

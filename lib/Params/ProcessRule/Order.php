@@ -1,16 +1,16 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
+use Params\Messages;
+use Params\OpenApi\ParamDescription;
+use Params\ProcessedValues;
 use Params\ValidationResult;
 use Params\Value\OrderElement;
 use Params\Value\Ordering;
-use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
-use Params\Path;
 use function Params\array_value_exists;
 use function Params\normalise_order_parameter;
 
@@ -35,8 +35,11 @@ class Order implements ProcessRule
         $this->knownOrderNames = $knownOrderNames;
     }
 
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
         $parts = explode(',', $value);
         $orderElements = [];
 
@@ -44,9 +47,8 @@ class Order implements ProcessRule
             list($partName, $partOrder) = normalise_order_parameter($part);
             if (array_value_exists($this->knownOrderNames, $partName) !== true) {
                 $message = sprintf(
-                    "Cannot order by [%s] for [%s], as not known for this operation. Known are [%s]",
+                    Messages::UNKNOWN_ORDERING,
                     $partName,
-                    $path->toString(),
                     implode(', ', $this->knownOrderNames)
                 );
 

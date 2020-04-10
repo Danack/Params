@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use Params\ExtractRule\GetIntOrDefault;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetStringOrDefault;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 
 /**
@@ -24,16 +24,16 @@ class GetIntOrDefaultTest extends BaseTestCase
 //            // Test value is read as string
 //            [new ArrayVarMap(['foo' => '5']), 'john', 5],
             // Test value is read as int
-            [new ArrayVarMap(['foo' => 5]), 20, 5],
+            [['foo' => 5], 20, 5],
 
 //            // Test default is used as string
 //            [new ArrayVarMap([]), '5', 5],
 
             // Test default is used as int
-            [new ArrayVarMap([]), 5, 5],
+            [[], 5, 5],
 
             // Test default is used as null
-            [new ArrayVarMap([]), null, null],
+            [[], null, null],
         ];
     }
 
@@ -41,18 +41,20 @@ class GetIntOrDefaultTest extends BaseTestCase
      * @covers \Params\ExtractRule\GetIntOrDefault
      * @dataProvider provideTestCases
      */
-    public function testValidation(ArrayVarMap $varMap, $default, $expectedValue)
+    public function testValidation($data, $default, $expectedValue)
     {
         $rule = new GetIntOrDefault($default);
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
+
+        $dataStorage = DataStorage::fromArray($data);
+        $dataStorage = $dataStorage->moveKey('foo');
+
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $varMap,
             $validator,
-            StandardDataLocator::fromVarMap($varMap)
+            $dataStorage
         );
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -79,13 +81,10 @@ class GetIntOrDefaultTest extends BaseTestCase
 
         $variables = [$variableName => $inputValue];
 
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $rule = new GetIntOrDefault($default);
         $validationResult = $rule->process(
-            Path::fromName($variableName),
-            new ArrayVarMap($variables),
-            $validator,
-            StandardDataLocator::fromArray($variables)
+            $validator, DataStorage::fromArraySetFirstValue($variables)
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

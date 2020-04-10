@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\DataLocator;
 
-class NotAvailableDataLocator implements DataLocator
+class NotAvailableInputStorageAye implements InputStorageAye
 {
     public function getCurrentValue()
     {
@@ -16,12 +16,12 @@ class NotAvailableDataLocator implements DataLocator
         throw new \Exception("getPath not implemented yet.");
     }
 
-    public function moveIndex(int $index): DataLocator
+    public function moveIndex(int $index): InputStorageAye
     {
         return $this;
     }
 
-    public function moveKey(string $name): DataLocator
+    public function moveKey(string $name): InputStorageAye
     {
         return $this;
     }

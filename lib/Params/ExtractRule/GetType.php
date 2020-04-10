@@ -4,31 +4,33 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use Params\Messages;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\ProcessRule\IntegerInput;
 use Params\ValidationResult;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
+use Params\ProcessedValues;
 use Params\Path;
 use function Params\createObjectFromParams;
 use function Params\createOrErrorFromPath;
 use function Params\getInputParameterListForClass;
+use function Params\processInputParameters;
+
 
 class GetType implements ExtractRule
 {
     /** @var class-string */
     private string $className;
 
-    /** @var \Params\Param[] */
+    /** @var \Params\InputParameter[] */
     private array $inputParameterList;
 
     /**
      * @param class-string $className
-     * @param \Params\Param[] $inputParameterList
+     * @param \Params\InputParameter[] $inputParameterList
      */
     protected function __construct(string $className, $inputParameterList)
     {
@@ -50,7 +52,7 @@ class GetType implements ExtractRule
 
     /**
      * @param class-string $className
-     * @param \Params\Param[] $inputParameterList
+     * @param \Params\InputParameter[] $inputParameterList
      */
     public static function fromClassAndRules(string $className, $inputParameterList)
     {
@@ -62,10 +64,8 @@ class GetType implements ExtractRule
 
 
     public function process(
-        Path $path,
-        VarMap $varMap,
-        ParamValues $paramValues,
-        DataLocator $dataLocator
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
     ) : ValidationResult {
 //        if ($varMap->has($path->getCurrentName()) !== true) {
 //            return ValidationResult::errorResult($path, Messages::VALUE_NOT_SET);
@@ -78,11 +78,10 @@ class GetType implements ExtractRule
 //            return ValidationResult::errorResult($path, Messages::ERROR_MESSAGE_NOT_ARRAY_VARIANT_1);
 //        }
 
-        $paramsValuesImpl = new ParamsValuesImpl();
-        $validationProblems = $paramsValuesImpl->executeRulesWithValidator(
+        $paramsValuesImpl = new ProcessedValuesImpl();
+        [$validationProblems, $value] = processInputParameters(
             $this->inputParameterList,
-            $varMap,
-            $path,
+            $paramsValuesImpl,
             $dataLocator
         );
 
@@ -90,7 +89,7 @@ class GetType implements ExtractRule
             return ValidationResult::fromValidationProblems($validationProblems);
         }
 
-        $item = createObjectFromParams($this->className, $paramsValuesImpl->getParamsValues());
+        $item = createObjectFromParams($this->className, $paramsValuesImpl->getAllValues());
 
 //        return [$object, []];
 

@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\DataLocator;
-use Params\ValidationResult;
-use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
+use Params\DataLocator\InputStorageAye;
 use Params\Exception\InvalidRulesException;
-use Params\Path;
+use Params\OpenApi\ParamDescription;
+use Params\ProcessedValues;
+use Params\ValidationResult;
 
 /**
  * Checks that the value is one of a known set of input values and
@@ -28,7 +27,7 @@ use Params\Path;
  */
 class EnumMap implements ProcessRule
 {
-    /** @var array<mixed>  */
+    /** @var array<mixed> */
     private array $allowedValues;
 
     /**
@@ -39,8 +38,11 @@ class EnumMap implements ProcessRule
         $this->allowedValues = $allowedValues;
     }
 
-    public function process(Path $path, $value, ParamValues $validator, DataLocator $dataLocator) : ValidationResult
-    {
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
         if (is_int($value) === false && is_string($value) === false) {
             throw InvalidRulesException::badTypeForArrayAccess($value);
         }

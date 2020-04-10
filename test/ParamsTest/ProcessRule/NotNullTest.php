@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\NotNull;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -22,25 +22,19 @@ class NotNullTest extends BaseTestCase
     public function testValidation()
     {
         $rule1 = new NotNull();
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule1->process(
-            Path::fromName('foo'),
-            null,
-            $validator,
-            $dataLocator
+            null, $processedValues, $dataLocator
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
 
         $rule2 = new NotNull();
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule2->process(
-            Path::fromName('foo'),
-            5,
-            $validator,
-            $dataLocator
+            5, $processedValues, $dataLocator
         );
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
     }
 }

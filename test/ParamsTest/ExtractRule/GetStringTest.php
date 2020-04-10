@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\NotAvailableDataLocator;
-use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\NotAvailableInputStorageAye;
+use Params\DataLocator\SingleValueInputStorageAye;
+use Params\Messages;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetString;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
+use Params\DataLocator\DataStorage;
+use function Params\createPath;
 
 /**
  * @coversNothing
@@ -23,12 +26,9 @@ class GetStringTest extends BaseTestCase
     public function testMissingGivesError()
     {
         $rule = new GetString();
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            new ArrayVarMap([]),
-            $validator,
-            new NotAvailableDataLocator()
+            $validator, new NotAvailableInputStorageAye()
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }
@@ -38,19 +38,38 @@ class GetStringTest extends BaseTestCase
      */
     public function testValidation()
     {
-        $variableName = 'foo';
-        $expectedValue = 'bar';
+        $expectedValue = 'John';
 
         $rule = new GetString();
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName($variableName),
-            new ArrayVarMap([$variableName => $expectedValue]),
-            $validator,
-            SingleValueDataLocator::create('John')
+            $validator, SingleValueInputStorageAye::create($expectedValue)
         );
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
+    }
+
+    /**
+     * @covers \Params\ExtractRule\GetString
+     */
+    public function testFromArrayErrors()
+    {
+        $index = 'foo';
+
+        $data = [$index => [1, 2, 3]];
+
+        $rule = new GetString();
+        $validator = new ProcessedValuesImpl();
+        $validationResult = $rule->process(
+            $validator,
+            DataStorage::fromArraySetFirstValue($data)
+        );
+
+        $this->assertValidationProblemRegexp(
+            '/' . $index,
+            Messages::STRING_EXPECTED_BUT_FOUND_NON_SCALAR,
+            $validationResult->getValidationProblems()
+        );
     }
 }

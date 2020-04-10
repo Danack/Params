@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaxIntValue;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -41,17 +41,16 @@ class MaxIntValueValidatorTest extends BaseTestCase
     public function testValidation(int $maxValue, string $inputValue, bool $expectError)
     {
         $rule = new MaxIntValue($maxValue);
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
             $inputValue,
-            $validator,
+            $processedValues,
             $dataLocator
         );
 
         if ($expectError === false) {
-            $this->assertEmpty($validationResult->getValidationProblems());
+            $this->assertNoValidationProblems($validationResult->getValidationProblems());
         }
         else {
             $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

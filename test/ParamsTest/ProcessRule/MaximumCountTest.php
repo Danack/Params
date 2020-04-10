@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\SingleValueInputStorageAye;
 use Params\Messages;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaximumCount;
 use Params\Exception\LogicException;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use function Params\createPath;
 
 /**
@@ -36,14 +36,11 @@ class MaximumCountTest extends BaseTestCase
     public function testWorks(int $maximumCount, $values)
     {
         $rule = new MaximumCount($maximumCount);
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $values,
-            $validator,
-            SingleValueDataLocator::create($values)
+            $values, $processedValues, SingleValueInputStorageAye::create($values)
         );
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertSame($values, $validationResult->getValue());
     }
@@ -63,12 +60,9 @@ class MaximumCountTest extends BaseTestCase
     public function testFails(int $maximumCount, $values)
     {
         $rule = new MaximumCount($maximumCount);
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $values,
-            $validator,
-            SingleValueDataLocator::create($values)
+            $values, $processedValues, SingleValueInputStorageAye::create($values)
         );
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
@@ -106,18 +100,15 @@ class MaximumCountTest extends BaseTestCase
         $rule = new MaximumCount(3);
         $this->expectException(LogicException::class);
 
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $this->expectErrorMessageMatches(
             stringToRegexp(Messages::ERROR_WRONG_TYPE_VARIANT_1)
         );
 
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
 
         $rule->process(
-            Path::fromName('foo'),
-            'a banana',
-            $validator,
-            $dataLocator
+            'a banana', $processedValues, $dataLocator
         );
     }
 }

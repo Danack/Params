@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\SingleValueDataLocator;
+use Params\DataLocator\SingleValueInputStorageAye;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalInt;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 
 /**
@@ -37,15 +37,12 @@ class GetOptionalIntTest extends BaseTestCase
     public function testValidation($input, $expectedValue)
     {
         $rule = new GetOptionalInt();
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            new ArrayVarMap([]),
-            $validator,
-            SingleValueDataLocator::create($input)
+            $validator, SingleValueInputStorageAye::create($input)
         );
 
-        $this->assertEmpty($validationResult->getValidationProblems());
+        $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -68,13 +65,10 @@ class GetOptionalIntTest extends BaseTestCase
         $variableName = 'foo';
         $variables = [$variableName => $inputValue];
 
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $rule = new GetOptionalInt();
         $validationResult = $rule->process(
-            Path::fromName($variableName),
-            new ArrayVarMap($variables),
-            $validator,
-            SingleValueDataLocator::create($inputValue)
+            $validator, SingleValueInputStorageAye::create($inputValue)
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

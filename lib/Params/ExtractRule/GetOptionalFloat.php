@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use Params\ProcessRule\FloatInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
+use Params\ProcessedValues;
 use Params\Path;
 
 /**
@@ -21,10 +21,8 @@ use Params\Path;
 class GetOptionalFloat implements ExtractRule
 {
     public function process(
-        Path $path,
-        VarMap $varMap,
-        ParamValues $paramValues,
-        DataLocator $dataLocator
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
     ): ValidationResult {
         if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::valueResult(null);
@@ -32,9 +30,8 @@ class GetOptionalFloat implements ExtractRule
 
         $intRule = new FloatInput();
         return $intRule->process(
-            $path,
             $dataLocator->getCurrentValue(),
-            $paramValues,
+            $processedValues,
             $dataLocator
         );
     }

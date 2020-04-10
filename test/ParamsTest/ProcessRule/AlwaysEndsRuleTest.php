@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysEndsRule;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use VarMap\ArrayVarMap;
 use Params\Path;
 use function Params\createPath;
@@ -24,17 +24,16 @@ class AlwaysEndsRuleTest extends BaseTestCase
     {
         $finalValue = 123;
         $rule = new AlwaysEndsRule($finalValue);
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $result = $rule->process(
-            Path::fromName('foo'),
-            new ArrayVarMap([]),
-            $validator,
+            $unused_input = 4,
+            $processedValues,
             $dataLocator
         );
 
+        $this->assertNoValidationProblems($result->getValidationProblems());
         $this->assertTrue($result->isFinalResult());
         $this->assertEquals($finalValue, $result->getValue());
-        $this->assertCount(0, $result->getValidationProblems());
     }
 }

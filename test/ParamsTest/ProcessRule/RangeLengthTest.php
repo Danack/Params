@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\RangeLength;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use Params\Path;
 use function Params\createPath;
 
@@ -83,13 +83,10 @@ class RangeLengthTest extends BaseTestCase
     public function testValidation(int $minLength, int $maxLength, string $string, bool $expectError)
     {
         $rule = new RangeLength($minLength, $maxLength);
-        $validator = new ParamsValuesImpl();
-        $dataLocator = StandardDataLocator::fromArray([]);
+        $processedValues = new ProcessedValuesImpl();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            Path::fromName('foo'),
-            $string,
-            $validator,
-            $dataLocator
+            $string, $processedValues, $dataLocator
         );
 
         if ($expectError === false) {

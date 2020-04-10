@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use Params\ProcessRule\BoolInput;
 use Params\ValidationResult;
 use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
-use Params\ParamValues;
+use Params\ProcessedValues;
 use Params\Path;
 
 /**
@@ -21,10 +21,8 @@ use Params\Path;
 class GetOptionalBool implements ExtractRule
 {
     public function process(
-        Path $path,
-        VarMap $varMap,
-        ParamValues $paramValues,
-        DataLocator $dataLocator
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
     ): ValidationResult {
 
         if ($dataLocator->valueAvailable() !== true) {
@@ -33,9 +31,8 @@ class GetOptionalBool implements ExtractRule
 
         $intRule = new BoolInput();
         return $intRule->process(
-            $path,
             $dataLocator->getCurrentValue(),
-            $paramValues,
+            $processedValues,
             $dataLocator
         );
     }

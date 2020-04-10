@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\Exception;
 
-use Params\Param;
+use Params\InputParameter;
 
 class InputParameterListException extends ParamsException
 {
@@ -13,7 +13,7 @@ class InputParameterListException extends ParamsException
         $message = sprintf(
             'Static function %s::getInputParameterList did not return an array. Must return %s[] ',
             $classname,
-            Param::class
+            InputParameter::class
         );
 
         return new self($message);
@@ -24,7 +24,7 @@ class InputParameterListException extends ParamsException
         $message = sprintf(
             'Static function %s::getInputParameterList Must return %s[]. Item at index %d is wrong type.',
             $classname,
-            Param::class,
+            InputParameter::class,
             $index
         );
 

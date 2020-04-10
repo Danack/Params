@@ -4,10 +4,10 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\DataLocator;
+use Params\DataLocator\InputStorageAye;
 use Params\Rule;
 use Params\ValidationResult;
-use Params\ParamValues;
+use Params\ProcessedValues;
 use VarMap\VarMap;
 use Params\Path;
 
@@ -19,16 +19,12 @@ use Params\Path;
 interface ExtractRule extends Rule
 {
     /**
-     * @param \Params\Path $path
-     * @param VarMap $varMap The variable map containing the variables
-     * @param ParamValues $paramValues
-     * @param DataLocator $dataLocator
+     * @param ProcessedValues $processedValues
+     * @param InputStorageAye $dataLocator
      * @return ValidationResult
      */
     public function process(
-        Path $path,
-        VarMap $varMap,
-        ParamValues $paramValues,
-        DataLocator $dataLocator
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
     ) : ValidationResult;
 }

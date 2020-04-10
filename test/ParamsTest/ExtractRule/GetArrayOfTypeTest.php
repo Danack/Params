@@ -9,10 +9,10 @@ use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ReviewScore;
 use VarMap\ArrayVarMap;
-use Params\ParamsValuesImpl;
+use Params\ProcessedValuesImpl;
 use ParamsTest\Integration\SingleIntParams;
 use Params\Path;
-use Params\DataLocator\StandardDataLocator;
+use Params\DataLocator\DataStorage;
 use function Params\createPath;
 
 /**
@@ -24,6 +24,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
     /**
      * @covers \Params\ExtractRule\GetArrayOfType
+     * @group debug
      */
     public function testWorksForComplexType()
     {
@@ -36,13 +37,14 @@ class GetArrayOfTypeTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfType(ReviewScore::class);
-        $validator = new ParamsValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $result = $rule->process(
-            Path::fromName('items'), new ArrayVarMap($data), $validator, StandardDataLocator::fromArray($data)
+            $processedValues,
+            DataStorage::fromArray($data)
         );
 
+        $this->assertNoValidationProblems($result->getValidationProblems());
         $this->assertFalse($result->isFinalResult());
-        $this->assertCount(0, $result->getValidationProblems());
 
         $this->assertCount(2, $result->getValue());
 
@@ -71,12 +73,9 @@ class GetArrayOfTypeTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfType(SingleIntParams::class);
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $result = $rule->process(
-            Path::fromName('items'),
-            new ArrayVarMap($data),
-            $validator,
-            StandardDataLocator::fromArray($data)
+            $validator, DataStorage::fromArray($data)
         );
 
         $this->assertFalse($result->isFinalResult());
@@ -84,10 +83,12 @@ class GetArrayOfTypeTest extends BaseTestCase
         $this->assertCount(1, $result->getValue());
         $item = ($result->getValue())[0];
         $this->assertInstanceOf(SingleIntParams::class, $item);
+
+        $this->assertNoValidationProblems($result->getValidationProblems());
         /** @var SingleIntParams $item */
         $this->assertSame(5, $item->getLimit());
 
-        $this->assertCount(0, $result->getValidationProblems());
+
     }
 
 
@@ -102,10 +103,10 @@ class GetArrayOfTypeTest extends BaseTestCase
         $data = [];
 
         $rule = new GetArrayOfType(ReviewScore::class);
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
 
         $result = $rule->process(
-            Path::fromName('items'), new ArrayVarMap($data), $validator, StandardDataLocator::fromArray($data)
+            $validator, DataStorage::fromArraySetFirstValue($data)
         );
         $this->assertTrue($result->isFinalResult());
 //        $expectedKey = '/items';
@@ -132,12 +133,9 @@ class GetArrayOfTypeTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfType(ReviewScore::class);
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $result = $rule->process(
-            Path::fromName('items'),
-            new ArrayVarMap($data),
-            $validator,
-            StandardDataLocator::fromArray($data)
+            $validator, DataStorage::fromArraySetFirstValue($data)
         );
         $this->assertTrue($result->isFinalResult());
         $expectedKey = 'items';
@@ -170,9 +168,9 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $rule = new GetArrayOfType(SingleIntParams::class);
 
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $result = $rule->process(
-            Path::fromName('items'), new ArrayVarMap([]), $validator, StandardDataLocator::fromArray($data)
+            $validator, DataStorage::fromArraySetFirstValue($data)
         );
         $this->assertTrue($result->isFinalResult());
         $validationProblems = $result->getValidationProblems();
@@ -204,9 +202,9 @@ class GetArrayOfTypeTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfType(ReviewScore::class);
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $result = $rule->process(
-            Path::fromName('items'), new ArrayVarMap($data), $validator, StandardDataLocator::fromArray($data)
+            $validator, DataStorage::fromArraySetFirstValue($data)
         );
 
         $this->assertTrue($result->isFinalResult());
@@ -233,13 +231,10 @@ class GetArrayOfTypeTest extends BaseTestCase
             ['score' => 101, 'comment' => 'world']
         ];
 
-        $validator = new ParamsValuesImpl();
+        $validator = new ProcessedValuesImpl();
         $rule = new GetArrayOfType(ReviewScore::class);
         $result = $rule->process(
-            Path::fromName('items'),
-            new ArrayVarMap($data),
-            $validator,
-            StandardDataLocator::fromArray($data)
+            $validator, DataStorage::fromArray($data)
         );
 
         $this->assertTrue($result->isFinalResult());
