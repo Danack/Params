@@ -6,8 +6,9 @@ namespace Params\DataLocator;
 
 class EmptyInputStorageAye implements InputStorageAye
 {
-    private array $data;
-
+    /**
+     * @var array<string|int>
+     */
     private array $currentLocation = [];
 
     /**

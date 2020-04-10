@@ -475,7 +475,10 @@ function normalise_order_parameter(string $part)
 }
 
 
-
+/**
+ * @param array {0: string, 1:int|string} $pathParts
+ * @return string
+ */
 function createPath(array $pathParts): string
 {
     $path = '';
@@ -508,8 +511,6 @@ function createPath(array $pathParts): string
  */
 function blah(ProcessRule ...$processRules): void
 {
-
-
 }
 
 /**

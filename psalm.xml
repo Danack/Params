@@ -115,11 +115,41 @@
         </MissingReturnType>
 
         <!-- TODO - this needs to be re-enabled -->
-        <MixedReturnTypeCoercion>
+        <MixedOperand>
             <errorLevel type="suppress">
-                <file name="lib/Params/ParamsValuesImpl.php"/>
+                <file name="lib/Params/functions.php"/>
             </errorLevel>
-        </MixedReturnTypeCoercion>
+        </MixedOperand>
+
+
+        <MixedArrayOffset>
+            <errorLevel type="suppress">
+                <file name="lib/Params/DataLocator/DataStorage.php"/>
+            </errorLevel>
+        </MixedArrayOffset>
+
+        <MixedArgument>
+            <errorLevel type="suppress">
+                <file name="lib/Params/DataLocator/DataStorage.php"/>
+                <file name="lib/Params/PatchFactory.php"/>
+                <file name="lib/Params/functions.php"/>
+            </errorLevel>
+        </MixedArgument>
+
+        <MixedArrayAccess>
+            <errorLevel type="suppress">
+                <file name="lib/Params/DataLocator/DataStorage.php"/>
+                <file name="lib/Params/functions.php"/>
+            </errorLevel>
+        </MixedArrayAccess>
+
+
+
+
+
+
+
+
     </issueHandlers>
 
 

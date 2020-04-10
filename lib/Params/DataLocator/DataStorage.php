@@ -12,10 +12,14 @@ class DataStorage implements InputStorageAye
 
     private array $currentLocation = [];
 
+    private function __construct(array $data)
+    {
+        $this->data = $data;
+    }
+
     public static function fromArray(array $data): self
     {
-        $instance = new self();
-        $instance->data = $data;
+        $instance = new self($data);
 
         return $instance;
     }
@@ -35,8 +39,7 @@ class DataStorage implements InputStorageAye
 
     public static function fromArraySetFirstValue(array $data): self
     {
-        $instance = new self();
-        $instance->data = $data;
+        $instance = new self($data);
 
         foreach ($data as $key => $value) {
             return $instance->moveKey($key);
