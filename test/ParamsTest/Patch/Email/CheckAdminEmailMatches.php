@@ -12,8 +12,9 @@ use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
 use Params\ProcessRule\MinLength;
 use Params\ProcessRule\MaxLength;
+use Params\ScalarPatchInput;
 
-class CheckAdminEmailMatches
+class CheckAdminEmailMatches implements \Params\PatchInputParameterList
 {
     use SafeAccess;
 
@@ -33,11 +34,10 @@ class CheckAdminEmailMatches
         $this->email = $email;
     }
 
-    public static function getInputParameterList()
+    public static function getPatchInputParameterList()
     {
         return [
-            new InputParameter(
-                'email',
+            new ScalarPatchInput(
                 new GetString()
             ),
         ];

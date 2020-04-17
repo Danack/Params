@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ParamsTest\Patch\Email;
 
-use function Params\createPatch;
+use function Params\createOperationsFromPatch;
 use ParamsTest\Patch\Email\CheckUserEmailMatches;
 use ParamsTest\BaseTestCase;
 
@@ -13,20 +13,27 @@ use ParamsTest\BaseTestCase;
  */
 class EmailPatchTest extends BaseTestCase
 {
+    /**
+     * @group debug
+     */
     public function testVeryBasic()
     {
-        $email = "john@example.com";
+        $emailOld = "john@example.com";
+        $emailNew = "jane@example.com";
 
         $data = [[
             "op" => "test",
             "path" => "/email/user",
-            "value" => $email
-        ]];
+            "value" => $emailOld
+        ],
+        [
+        "op" => "replace",
+            "path" => "/email/user",
+            "value" => $emailNew
+        ]
+        ];
 
-        $this->markTestSkipped("Patch param values can be values, not VarMaps so need different way of processing 'FirstRules'");
-        return;
-
-        $operations = createPatch(
+        $operations = createOperationsFromPatch(
             EmailPatchParams::getInputParameterList(),
             json_decode_safe(json_encode($data))
         );
@@ -37,6 +44,6 @@ class EmailPatchTest extends BaseTestCase
         $userEmailMatches = $operations[0];
 
         $this->assertInstanceOf(CheckUserEmailMatches::class, $userEmailMatches);
-        $this->assertSame($email, $userEmailMatches->getEmail());
+        $this->assertSame($emailOld, $userEmailMatches->getEmail());
     }
 }

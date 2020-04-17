@@ -15,8 +15,8 @@ require __DIR__ . "/../vendor/autoload.php";
 
 $varMap = new ArrayVarMap([
     'items' => [
-        ['foo' => 5, 'bar' => 'Hello world'],
-        ['foo' => 6, 'bar' => 'Hello world2']
+        ['score' => 5, 'comment' => 'Hello world'],
+        ['score' => 6, 'comment' => 'This is a test.']
     ],
     'description' => 'This is some test data.'
 ]);
@@ -26,7 +26,7 @@ $itemList = ItemListParams::createFromVarMap($varMap);
 echo "Description: " . $itemList->getDescription() . "\n";
 
 foreach ($itemList->getItems() as $item) {
-    echo "Foo: " . $item->getScore() . " bar: " . $item->getComment() . "\n";
+    echo "Score: " . $item->getScore() . " comment: " . $item->getComment() . "\n";
 }
 
 echo "\nExample behaved as expected.\n";

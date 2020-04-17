@@ -8,7 +8,7 @@ use ParamsTest\Patch\Sku\SkuPatchParams;
 use ParamsTest\Patch\Sku\SkuPriceAdd;
 use ParamsTest\Patch\Sku\SkuPriceReplace;
 use ParamsTest\Patch\Sku\SkuPriceRemove;
-use function Params\createPatch;
+use function Params\createOperationsFromPatch;
 
 /**
  * @coversNothing
@@ -36,7 +36,7 @@ class SkuPatchTest extends BaseTestCase
             ]
         ]];
 
-        $operations = createPatch(
+        $operations = createOperationsFromPatch(
             SkuPatchParams::getInputParameterList(),
             json_decode_safe(json_encode($data))
         );
@@ -56,6 +56,11 @@ class SkuPatchTest extends BaseTestCase
         $this->assertSame($priceInUsd, $skuPriceAdd->getPriceUsd());
     }
 
+    /**
+     * @group hmhmmm
+     * @throws \Params\Exception\PatchFormatException
+     * @throws \Params\Exception\ValidationException
+     */
     public function testMultipleOps()
     {
         $name = 'Prod name';
@@ -75,44 +80,39 @@ class SkuPatchTest extends BaseTestCase
             [
                 "op" => "add",
                 "path" => "/sku_with_price",
-                "value" => [
+                "value" => json_encode([
                     'name' => $name,
                     'description' => $description,
                     'price_eur' => $priceInEur,
                     'price_gbp' => $priceInGbp,
                     'price_usd' => $priceInUsd,
-                ]
+                ])
             ],
 
             [
                 "op" => "replace",
                 "path" => "/sku_with_price",
-                "value" => [
+                "value" => json_encode([
                     'sku_id' => $replaceId,
                     'name' => $replaceName,
                     'description' => $replaceDescription,
                     'price_eur' => $replacePriceInEur,
                     'price_gbp' => $replacePriceInGbp,
                     'price_usd' => $replacePriceInUsd,
-                ]
+                ])
             ],
 
 
+//            $this->markTestSkipped("Path matching not implemented yet");
 
-
-
-
-
-
-
-            // Path not implemented yet
+//            // Path not implemented yet
 //            [
 //                "op" => "remove",
 //                "path" => "/sku_with_price/4",
 //            ],
         ];
 
-        $operations = createPatch(
+        $operations = createOperationsFromPatch(
             SkuPatchParams::getInputParameterList(),
             json_decode_safe(json_encode($data))
         );
@@ -130,7 +130,6 @@ class SkuPatchTest extends BaseTestCase
         $this->assertInstanceOf(SkuPriceReplace::class, $skuPriceReplace);
 //        $this->assertInstanceOf(SkuPriceRemove::class, $skuPriceRemove);
 
-        // asserting $skuPriceAdd
         $this->assertSame($name, $skuPriceAdd->getName());
         $this->assertSame($description, $skuPriceAdd->getDescription());
         $this->assertSame($priceInEur, $skuPriceAdd->getPriceEur());

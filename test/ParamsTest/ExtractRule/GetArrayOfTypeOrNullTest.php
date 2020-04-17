@@ -25,18 +25,18 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
      */
     public function testWorks()
     {
-        $this->markTestSkipped("GetArrayOfTypeOrNull is doing the wrong thing. It looks for a key when there isn't meant to be any currently.");
-        return;
-
         $data = [
-            ['foo' => 5, 'bar' => 'Hello world']
+            ['score' => 5, 'comment' => 'Hello world']
         ];
 
         $rule = new GetArrayOfTypeOrNull(ReviewScore::class);
-        $validator = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValuesImpl();
         $result = $rule->process(
-            $validator, DataStorage::fromArraySetFirstValue($data)
+            $processedValues,
+            DataStorage::fromArray($data)
         );
+
+        $this->assertNoValidationProblems($result->getValidationProblems());
 
         $this->assertFalse($result->isFinalResult());
 
@@ -46,8 +46,6 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
         /** @var ReviewScore $item */
         $this->assertSame(5, $item->getScore());
         $this->assertSame('Hello world', $item->getComment());
-
-        $this->assertCount(0, $result->getValidationProblems());
     }
 
     /**
@@ -55,15 +53,14 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
      */
     public function testWorksWhenNotSet()
     {
-        $this->markTestSkipped("GetArrayOfTypeOrNull is doing the wrong thing. It looks for a key when there isn't meant to be any currently.");
-        return;
-
-        $data = [];
-
+        $dataStorage = DataStorage::fromArray([]);
+        $dataStorageAtItems = $dataStorage->moveKey('items');
         $rule = new GetArrayOfTypeOrNull(ReviewScore::class);
-        $validator = new ProcessedValuesImpl();
+
+        $processedValues = new ProcessedValuesImpl();
         $result = $rule->process(
-            $validator,
+            $processedValues,
+            $dataStorageAtItems
         );
 
 //        $this->assertTrue($result->isFinalResult());

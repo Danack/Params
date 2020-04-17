@@ -24,9 +24,6 @@ class IntArrayParamsTest extends BaseTestCase
             'counts' => $values
         ];
 
-        $this->markTestSkipped("needs fixing.");
-        return;
-
         $intArrayParams = IntArrayParams::createFromArray($data);
 
         $this->assertInstanceOf(IntArrayParams::class, $intArrayParams);
@@ -52,7 +49,7 @@ class IntArrayParamsTest extends BaseTestCase
         $this->assertCount(1, $errors);
 
         $this->assertValidationProblem(
-            createPath(['name' => 'counts', 'index' => 2]),
+            '/counts[2]',
             "Value must contain only digits.",
             $errors
         );

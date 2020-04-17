@@ -19,10 +19,22 @@ class InputParameterListException extends ParamsException
         return new self($message);
     }
 
-    public static function notInputParameter(int $index, string $classname): self
+    public static function nonInputParameter(string $classname): self
     {
         $message = sprintf(
-            'Static function %s::getInputParameterList Must return %s[]. Item at index %d is wrong type.',
+            'class [%s] does not implement interface [%s]. Cannot use it for',
+            $classname,
+            InputParameter::class,
+        );
+
+        return new self($message);
+    }
+
+
+    public static function foundNonInputParameter(int $index, string $classname): self
+    {
+        $message = sprintf(
+            'Static function %s::getInputParameterList Must return array of %s. Item at index %d is wrong type.',
             $classname,
             InputParameter::class,
             $index

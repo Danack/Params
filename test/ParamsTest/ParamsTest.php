@@ -36,8 +36,6 @@ class ParamsTest extends BaseTestCase
      */
     public function testWorksBasic()
     {
-        $this->markTestSkipped("This needs fixing.");
-
         $rules = [
             new InputParameter(
                 'foo',

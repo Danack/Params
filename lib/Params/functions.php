@@ -9,14 +9,14 @@ use Params\Exception\MissingClassException;
 use Params\Exception\PatchFormatException;
 use Params\Exception\TypeNotInputParameterListException;
 use Params\Exception\ValidationException;
-use Params\ExtractRule\GetArrayOfType;
+use Params\ExtractRule\GetType;
 use Params\PatchOperation\PatchOperation;
 use Params\ProcessRule\ProcessRule;
 use Params\Value\Ordering;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use Params\DataLocator\InputStorageAye;
-use Params\Messages;
+use Params\Exception\InvalidJsonPointer;
 
 /**
  * @param mixed $value
@@ -32,6 +32,48 @@ function getTypeForErrorMessage($value): string
 }
 
 
+function createArrayOfTypeDja(
+    InputStorageAye $dataLocator,
+    $itemData,
+    GetType $typeExtractor
+) {
+
+    // Setup stuff
+    $items = [];
+
+    /** @var \Params\ValidationProblem[] $allValidationProblems */
+    $allValidationProblems = [];
+    $index = 0;
+
+    // TODO - why don't we use the key here?
+    foreach ($itemData as $itemDatum) {
+        $dataLocatorForItem = $dataLocator->moveKey($index);
+
+        // This appears to be wrong - why would
+        $paramsValuesImpl = new ProcessedValuesImpl();
+
+        $result = $typeExtractor->process(
+            $paramsValuesImpl,
+            $dataLocatorForItem
+        );
+
+        if ($result->anyErrorsFound() === true) {
+            $allValidationProblems = [...$allValidationProblems, ...$result->getValidationProblems()];
+        }
+        else {
+            $items[$index] = $result->getValue();
+        }
+
+        $index += 1;
+    }
+
+    if (count($allValidationProblems) !== 0) {
+        return ValidationResult::fromValidationProblems($allValidationProblems);
+    }
+
+    return ValidationResult::valueResult($items);
+}
+
 /**
  * @param Path $path
  * @param class-string $classname
@@ -41,8 +83,12 @@ function getTypeForErrorMessage($value): string
  * @throws \Params\Exception\ParamsException
  * @throws \Params\Exception\ValidationException
  */
-function createArrayForTypeWithRules(Path $path, string $classname, $itemData, array $inputParameterList)
-{
+function createArrayForTypeWithRules(
+    Path $path,
+    string $classname,
+    $itemData,
+    array $inputParameterList
+) {
     // Setup stuff
     $items = [];
 
@@ -124,7 +170,7 @@ function getInputParameterListForClass(string $className)
     $index = 0;
     foreach ($inputParameterList as $inputParameter) {
         if (!$inputParameter instanceof InputParameter) {
-            throw InputParameterListException::notInputParameter($index, $className);
+            throw InputParameterListException::foundNonInputParameter($index, $className);
         }
 
         $index += 1;
@@ -221,7 +267,6 @@ function applyRulesToPatchOperation(
     $patchRules
 ) {
     foreach ($patchRules as $patchRule) {
-
         /** @var \Params\PatchRule\PatchRule $patchRule */
         if ($patchObject->getOpType() !== $patchRule->getOpType()) {
             continue;
@@ -237,10 +282,10 @@ function applyRulesToPatchOperation(
         }
 
         // TODO - pass in $params here also
-        return createOrError(
+        return createOrErrorFromDataStorageFromPatchInputArray(
             $patchRule->getClassName(),
             $patchRule->getRules(),
-            new ArrayVarMap($patchObject->getValue())
+            DataStorage::fromSingleValueButRoot($patchObject->getPath(), $patchObject->getValue())
         );
     }
 
@@ -265,7 +310,7 @@ function applyRulesToPatchOperation(
  * @throws PatchFormatException
  * @throws ValidationException
  */
-function createPatch($namedRules, array $sourceData): array
+function createOperationsFromPatch($namedRules, array $sourceData): array
 {
     [$operations, $validationProblems] = processOperations($namedRules, $sourceData);
 
@@ -357,7 +402,6 @@ function create(
 function createOrError($classname, $params, VarMap $sourceData)
 {
     $paramsValuesImpl = new ProcessedValuesImpl();
-    $path = Path::initial();
     $dataLocator = DataStorage::fromVarMap($sourceData);
 
     $validationProblems = processInputParameters(
@@ -375,6 +419,28 @@ function createOrError($classname, $params, VarMap $sourceData)
     // TODO - wrap this in an ResultObject.
     return [$object, []];
 }
+
+
+function createOrErrorFromDataStorage($classname, $params, DataStorage $dataLocator)
+{
+    $paramsValuesImpl = new ProcessedValuesImpl();
+
+    $validationProblems = processInputParameters(
+        $params,
+        $paramsValuesImpl,
+        $dataLocator
+    );
+
+    if (count($validationProblems) !== 0) {
+        return [null, $validationProblems];
+    }
+
+    $object = createObjectFromParams($classname, $paramsValuesImpl->getAllValues());
+
+    // TODO - wrap this in an ResultObject.
+    return [$object, []];
+}
+
 
 
 /**
@@ -412,6 +478,44 @@ function unescapeJsonPointer(string $pointer): string
 
     return $result;
 }
+
+
+/**
+ * @param string $pointer
+ * @return array<string|int>
+ */
+function getJsonPointerParts(string $pointer): array
+{
+    if ($pointer === '') {
+        return [];
+    }
+
+    if ($pointer[0] !== '/') {
+        throw InvalidJsonPointer::invalidFirstCharacter();
+    }
+
+    $remainingString = substr($pointer, 1);
+
+    $parts = explode('/', $remainingString);
+
+    $partsDecoded = [];
+
+    foreach ($parts as $part) {
+        $int = intval($part);
+
+        // It was an int, use as int
+        if ((string)$int === $part) {
+            $partsDecoded[] = $int;
+        }
+        else {
+            $partsDecoded[] = unescapeJsonPointer($part);
+        }
+    }
+
+    // TODO - normalise digits to integers?
+    return $partsDecoded;
+}
+
 
 
 
@@ -476,7 +580,7 @@ function normalise_order_parameter(string $part)
 
 
 /**
- * @param array {0: string, 1:int|string} $pathParts
+ * @param array{0: string, 1:int|string} $pathParts
  * @return string
  */
 function createPath(array $pathParts): string
@@ -576,27 +680,35 @@ function processInputParameter(
     $dataLocatorForItem = $dataLocator->moveKey($param->getInputName());
     $extractRule = $param->getExtractRule();
     $validationResult = $extractRule->process(
-        $paramValues, $dataLocatorForItem
+        $paramValues,
+        $dataLocatorForItem
     );
 
     if ($validationResult->anyErrorsFound()) {
-        return [$validationResult->getValidationProblems(), null];
+        return $validationResult->getValidationProblems();
     }
 
     $value = $validationResult->getValue();
 
     // Process has already ended.
     if ($validationResult->isFinalResult() === true) {
-        return [[], $value];
+        $paramValues->setValue($param->getInputName(), $value);
+        return [];
     }
 
     // Extract rule wasn't a final result, so process
-    return processProcessingRules(
+    [$validationProblems, $value] = processProcessingRules(
         $value,
         $dataLocatorForItem,
         $paramValues,
         ...$param->getProcessRules()
     );
+
+    if (count($validationProblems) === 0) {
+        $paramValues->setValue($param->getInputName(), $value);
+    }
+
+    return $validationProblems;
 }
 
 
@@ -615,7 +727,7 @@ function processInputParameters(
     $validationProblems = [];
 
     foreach ($inputParameters as $inputParameter) {
-        [$newValidationProblems, $value] = processInputParameter(
+        $newValidationProblems = processInputParameter(
             $inputParameter,
             $paramValues,
             $dataLocator
@@ -625,7 +737,119 @@ function processInputParameters(
             $validationProblems = [...$validationProblems, ...$newValidationProblems];
             continue;
         }
+//        $paramValues->setValue($inputParameter->getInputName(), $value);
+    }
 
+    // TODO - why does this return values as well?
+    return $validationProblems;
+}
+
+
+/**
+ * @param $classname
+ * @param PatchInputParameter[] $params
+ * @param DataStorage $dataLocator
+ * @return array
+ * @throws Exception\ParamMissingException
+ * @throws \ReflectionException
+ */
+function createOrErrorFromDataStorageFromPatchInputArray(
+    $classname,
+    $params,
+    DataStorage $dataLocator
+) {
+    $paramsValuesImpl = new ProcessedValuesImpl();
+
+    $validationProblems = processPatchInputParameters(
+        $params,
+        $paramsValuesImpl,
+        $dataLocator
+    );
+
+    if (count($validationProblems) !== 0) {
+        return [null, $validationProblems];
+    }
+
+    $object = createObjectFromParams($classname, $paramsValuesImpl->getAllValues());
+
+    // TODO - wrap this in an ResultObject.
+    return [$object, []];
+}
+
+
+/**
+ * @param \Params\PatchInputParameter $param
+ * @param ProcessedValuesImpl $paramValues
+ * @param InputStorageAye $dataLocator
+ * @return array{0:ValidationProblem[], 1:mixed}
+ * @throws Exception\ParamMissingException
+ */
+function processPatchInputParameter(
+    PatchInputParameter $param,
+    ProcessedValuesImpl $paramValues,
+    InputStorageAye $dataLocator
+) {
+
+    $dataLocatorForItem = $param->setDataStoragePlace($dataLocator);
+    $extractRule = $param->getExtractRule();
+    $validationResult = $extractRule->process(
+        $paramValues,
+        $dataLocatorForItem
+    );
+
+    if ($validationResult->anyErrorsFound()) {
+        return $validationResult->getValidationProblems();
+    }
+
+    $value = $validationResult->getValue();
+
+    // Process has already ended.
+    if ($validationResult->isFinalResult() === true) {
+        $paramValues->setValue($param->getInputName(), $value);
+        return [];
+    }
+
+    // Extract rule wasn't a final result, so process
+    [$validationProblems, $value] = processProcessingRules(
+        $value,
+        $dataLocatorForItem,
+        $paramValues,
+        ...$param->getProcessRules()
+    );
+
+    if (count($validationProblems) === 0) {
+        $paramValues->setValue($param->getInputName(), $value);
+    }
+
+    return $validationProblems;
+}
+
+
+/**
+ * @param \Params\PatchInputParameter[] $inputParameters
+ * @param ProcessedValuesImpl $paramValues
+ * @param InputStorageAye $dataLocator
+ * @return \Params\ValidationProblem[]
+ * @throws Exception\ParamMissingException
+ */
+function processPatchInputParameters(
+    $inputParameters,
+    ProcessedValuesImpl $paramValues,
+    InputStorageAye $dataLocator
+) {
+    $validationProblems = [];
+
+    foreach ($inputParameters as $inputParameter) {
+        $newValidationProblems = processPatchInputParameter(
+            $inputParameter,
+            $paramValues,
+            $dataLocator
+        );
+
+        if (count($newValidationProblems) !== 0) {
+            $validationProblems = [...$validationProblems, ...$newValidationProblems];
+            continue;
+        }
         $paramValues->setValue($inputParameter->getInputName(), $value);
     }
 

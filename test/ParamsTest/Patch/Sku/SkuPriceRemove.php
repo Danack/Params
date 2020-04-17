@@ -6,11 +6,12 @@ namespace ParamsTest\Patch\Sku;
 
 use Params\ExtractRule\GetInt;
 use Params\InputParameter;
+use Params\JsonPatchInputParameter;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
 
-class SkuPriceRemove
+class SkuPriceRemove implements \Params\PatchInputParameterList
 {
     use SafeAccess;
 
@@ -25,10 +26,10 @@ class SkuPriceRemove
         return $this->sku_id;
     }
 
-    public static function getInputParameterList()
+    public static function getPatchInputParameterList()
     {
         return [
-            new InputParameter(
+            new JsonPatchInputParameter(
                 'sku_id',
                 new GetInt()
             ),

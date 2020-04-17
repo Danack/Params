@@ -6,6 +6,7 @@ namespace ParamsTest\Patch\Sku;
 
 use Params\ExtractRule\GetInt;
 use Params\InputParameter;
+use Params\JsonPatchInputParameter;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
@@ -13,15 +14,13 @@ use Params\ExtractRule\GetString;
 use Params\ProcessRule\MinLength;
 use Params\ProcessRule\MaxLength;
 
-class SkuPriceReplace
+class SkuPriceReplace implements \Params\PatchInputParameterList
 {
     use SafeAccess;
 
     /** @var int */
     private $sku_id;
 
-//    /** @var int */
-//    private $sku_price_id;
 
     /** @var string */
     private $name;
@@ -63,11 +62,10 @@ class SkuPriceReplace
         $this->price_usd = $price_usd;
     }
 
-
-    public static function getInputParameterList()
+    public static function getPatchInputParameterList()
     {
         return [
-            new InputParameter(
+            new JsonPatchInputParameter(
                 'sku_id',
                 new GetInt()
             ),
@@ -75,31 +73,31 @@ class SkuPriceReplace
 //            'sku_price_id' => [
 //                new GetInt(),
 //            ],
-            new InputParameter(
+            new JsonPatchInputParameter(
                 'name',
                 new GetString(),
                 new MinLength(8),
                 new MaxLength(256)
             ),
-            new InputParameter(
+            new JsonPatchInputParameter(
                 'description',
                 new GetString(),
                 new MinLength(8),
                 new MaxLength(256)
             ),
-            new InputParameter(
+            new JsonPatchInputParameter(
                 'price_eur',
                 new GetInt(),
                 new MinIntValue(10000),
                 new MaxIntValue(1000000)
             ),
-            new InputParameter(
+            new JsonPatchInputParameter(
                 'price_gbp',
                 new GetInt(),
                 new MinIntValue(10000),
                 new MaxIntValue(1000000)
             ),
-            new InputParameter(
+            new JsonPatchInputParameter(
                 'price_usd',
                 new GetInt(),
                 new MinIntValue(10000),

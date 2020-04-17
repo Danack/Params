@@ -24,7 +24,6 @@ class GetArrayOfTypeTest extends BaseTestCase
 
     /**
      * @covers \Params\ExtractRule\GetArrayOfType
-     * @group debug
      */
     public function testWorksForComplexType()
     {
@@ -41,6 +40,51 @@ class GetArrayOfTypeTest extends BaseTestCase
         $result = $rule->process(
             $processedValues,
             DataStorage::fromArray($data)
+        );
+
+        $this->assertNoValidationProblems($result->getValidationProblems());
+        $this->assertFalse($result->isFinalResult());
+
+        $this->assertCount(2, $result->getValue());
+
+        $item1 = ($result->getValue())[0];
+        $this->assertInstanceOf(ReviewScore::class, $item1);
+        /** @var ReviewScore $item1 */
+        $this->assertSame(5, $item1->getScore());
+        $this->assertSame($niceComment, $item1->getComment());
+
+
+        $item2 = ($result->getValue())[1];
+        $this->assertInstanceOf(ReviewScore::class, $item2);
+        /** @var ReviewScore $item2 */
+        $this->assertSame(2, $item2->getScore());
+        $this->assertSame($badComment, $item2->getComment());
+    }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetArrayOfType
+     */
+    public function testWorksForComplexTypeForKey()
+    {
+        $niceComment = "This is great.";
+        $badComment = "Not so good.";
+
+        $data = [
+            'items' => [
+                ['score' => 5, 'comment' => $niceComment],
+                ['score' => 2, 'comment' => $badComment],
+            ]
+        ];
+
+        $dataStorage = DataStorage::fromArray($data);
+        $dataStorage = $dataStorage->moveKey('items');
+
+        $rule = new GetArrayOfType(ReviewScore::class);
+        $processedValues = new ProcessedValuesImpl();
+        $result = $rule->process(
+            $processedValues,
+            $dataStorage
         );
 
         $this->assertNoValidationProblems($result->getValidationProblems());
@@ -93,11 +137,8 @@ class GetArrayOfTypeTest extends BaseTestCase
     /**
      * @covers \Params\ExtractRule\GetArrayOfType
      */
-    public function testMissingArrayErrors()
+    public function testEmptyInputProducesEmptyOutput()
     {
-        $this->markTestSkipped("Need to check this is doing the right thing.");
-        return;
-
         $data = [];
 
         $rule = new GetArrayOfType(ReviewScore::class);
@@ -106,15 +147,14 @@ class GetArrayOfTypeTest extends BaseTestCase
         $result = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue($data)
         );
-        $this->assertTrue($result->isFinalResult());
-//        $expectedKey = '/items';
+
 
         $problems = $result->getValidationProblems();
-        $this->assertCount(1, $problems);
-        $firstProblem = $problems[0];
+        $this->assertNoValidationProblems($problems);
 
-        $this->assertEquals("Value must be set.", $firstProblem->getProblemMessage());
-        $this->assertNull($result->getValue());
+        $arrayOfType = $result->getValue();
+        $this->assertIsArray($arrayOfType);
+        $this->assertEmpty($arrayOfType);
     }
 
 
@@ -123,8 +163,6 @@ class GetArrayOfTypeTest extends BaseTestCase
      */
     public function testScalarInsteadOfArrayErrors()
     {
-        $this->markTestSkipped("Needs fixing.");
-        return;
 
         $data = [
             'items' => 'a banana'
@@ -136,13 +174,12 @@ class GetArrayOfTypeTest extends BaseTestCase
             $validator, DataStorage::fromArraySetFirstValue($data)
         );
         $this->assertTrue($result->isFinalResult());
-        $expectedKey = 'items';
 
         $problems = $result->getValidationProblems();
 
         $this->assertCount(1, $problems);
         $this->assertValidationProblem(
-            $expectedKey,
+            '/items',
             "Value must be an array.",
             $problems
         );
@@ -155,10 +192,6 @@ class GetArrayOfTypeTest extends BaseTestCase
      */
     public function testScalarInsteadOfEntryArrayErrors()
     {
-        $this->markTestSkipped("Needs fixing.");
-        return;
-
-
         $data = [
             // wrong - should be ['limit' => 5]
             5
@@ -174,8 +207,9 @@ class GetArrayOfTypeTest extends BaseTestCase
         $validationProblems = $result->getValidationProblems();
         $this->assertCount(1, $validationProblems);
         $this->assertValidationProblemRegexp(
-            'items',
-            Messages::ERROR_MESSAGE_ITEM_NOT_ARRAY,
+            '/[0]',
+//            Messages::ERROR_MESSAGE_ITEM_NOT_ARRAY,
+            Messages::ERROR_MESSAGE_NOT_ARRAY,
             $validationProblems
         );
 
@@ -189,13 +223,9 @@ class GetArrayOfTypeTest extends BaseTestCase
      */
     public function testSingleError()
     {
-        $this->markTestSkipped("Needs fixing.");
-        return;
-
-
         $data = [
             'items' => [
-                ['foo' => 5, 'bar' => false]
+                ['score' => 5, 'comment' => false]
             ],
         ];
 
@@ -210,10 +240,8 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $this->assertCount(1, $result->getValidationProblems());
 
-//        $this->markTestSkipped("This needs fixing");
-
         $this->assertValidationProblem(
-            'items[0]/bar',
+            '/items[0]/comment',
             "String too short, min chars is 4",
             $result->getValidationProblems()
         );

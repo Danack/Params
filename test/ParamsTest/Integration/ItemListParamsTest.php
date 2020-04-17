@@ -55,9 +55,6 @@ class ItemListParamsTest extends BaseTestCase
      */
     public function testItemsMissing()
     {
-        $this->markTestSkipped("needs fixing");
-        return;
-
         $description = 'This is a test';
 
         $data = [
@@ -73,7 +70,7 @@ class ItemListParamsTest extends BaseTestCase
         $this->assertCount(1, $validationProblems);
 
         $this->assertValidationProblem(
-            'items',
+            '/items',
             "Value must be set.",
             $validationProblems
         );

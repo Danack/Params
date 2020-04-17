@@ -27,6 +27,19 @@ class CheckUserEmailMatches implements \Params\PatchInputParameterList
         $this->email = $email;
     }
 
+    public static function getInputParameterList()
+    {
+        return [
+            new InputParameter(
+                'email',
+                new GetString()
+            ),
+        ];
+    }
+
+    /**
+     * @return \Params\PatchInputParameter[]
+     */
     public static function getPatchInputParameterList()
     {
         return [

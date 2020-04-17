@@ -15,22 +15,17 @@ class EmailPatchParams
     {
         // TODO - allow regexes in paths
         // e.g. $pattern =  '#/projects/(?P<project_name>.+)#iux';
-
         $rules = [
             new PatchTest(
                 '/email/user',
                 CheckUserEmailMatches::class,
-                CheckUserEmailMatches::getInputParameterList()
+                CheckUserEmailMatches::getPatchInputParameterList()
             ),
             new PatchTest(
                 '/email/admin',
                 CheckAdminEmailMatches::class,
-                CheckAdminEmailMatches::getInputParameterList()
+                CheckAdminEmailMatches::getPatchInputParameterList()
             ),
-
-
-//            new PatchReplace('/sku/prices', SkuPriceReplace::class, SkuPriceReplace::getInputParameterList()),
-//            new PatchRemove('/sku/prices', SkuPriceRemove::class, SkuPriceRemove::getInputParameterList()),
         ];
 
         return $rules;

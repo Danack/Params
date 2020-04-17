@@ -30,8 +30,6 @@ class ErrorPathsTest extends BaseTestCase
 
     private function executeTest($data, $expectedErrors)
     {
-        $this->markTestSkipped("needs fixing.");
-        return;
 
         [$intArrayParams, $errors] = IntArrayParams::createOrErrorFromArray($data);
 

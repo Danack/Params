@@ -12,8 +12,9 @@ use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
 use Params\ProcessRule\MinLength;
 use Params\ProcessRule\MaxLength;
+use Params\JsonPatchInputParameter;
 
-class SkuPriceAdd
+class SkuPriceAdd implements \Params\PatchInputParameterList
 {
     use SafeAccess;
 
@@ -54,38 +55,36 @@ class SkuPriceAdd
         $this->price_usd = $price_usd;
     }
 
-    /**
-     * @return \Params\InputParameter[]
-     */
-    public static function getInputParameterList()
+    public static function getPatchInputParameterList()
     {
         return [
-            new InputParameter(
+            new JsonPatchInputParameter(
+                /// These are paths into the json of value
                 'name',
                 new GetString(),
                 new MinLength(8),
                 new MaxLength(256)
             ),
-            new InputParameter(
+            new JsonPatchInputParameter(
                 'description',
                 new GetString(),
                 new MinLength(8),
                 new MaxLength(256)
             ),
-            new InputParameter(
+            new JsonPatchInputParameter(
                 'price_eur',
                 new GetInt(),
                 new MinIntValue(10000),
                 new MaxIntValue(1000000)
             ),
 
-            new InputParameter(
+            new JsonPatchInputParameter(
                 'price_gbp',
                 new GetInt(),
                 new MinIntValue(10000),
                 new MaxIntValue(1000000)
             ),
-            new InputParameter(
+            new JsonPatchInputParameter(
                 'price_usd',
                 new GetInt(),
                 new MinIntValue(10000),

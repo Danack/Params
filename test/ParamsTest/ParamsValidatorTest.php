@@ -53,11 +53,6 @@ class ParamsValidatorTest extends BaseTestCase
     public function testFinalResultStopsProcessing()
     {
         $finalValue = 123;
-        $this->markTestSkipped("Needs fixing.");
-        return;
-
-
-        $arrayVarMap = new ArrayVarMap(['foo' => 5]);
 
         $param = new InputParameter(
             'foo',
@@ -73,13 +68,14 @@ class ParamsValidatorTest extends BaseTestCase
         $errors = processInputParameter(
             $param,
             $processedValues,
-            DataStorage::fromVarMapAndSetFirstValue($arrayVarMap)
+            DataStorage::fromArray(['foo' => 5])
         );
 
-        $this->assertTrue($validator->hasValue('foo'));
-        $value = $validator->getValue('foo');
+        $this->assertNoValidationProblems($errors);
+
+        $this->assertTrue($processedValues->hasValue('foo'));
+        $value = $processedValues->getValue('foo');
 
         $this->assertEquals($finalValue, $value);
-        $this->assertEmpty($errors);
     }
 }

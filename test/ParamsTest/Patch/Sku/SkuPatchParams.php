@@ -17,19 +17,20 @@ class SkuPatchParams
 
         $rules = [
             new PatchAdd(
+                // This is the path to the patch path
                 '/sku/prices',
                 SkuPriceAdd::class,
-                SkuPriceAdd::getInputParameterList()
+                SkuPriceAdd::getPatchInputParameterList()
             ),
             new PatchReplace(
                 '/sku/prices',
                 SkuPriceReplace::class,
-                SkuPriceReplace::getInputParameterList()
+                SkuPriceReplace::getPatchInputParameterList()
             ),
             new PatchRemove(
                 '/sku/prices',
                 SkuPriceRemove::class,
-                SkuPriceRemove::getInputParameterList()
+                SkuPriceRemove::getPatchInputParameterList()
             ),
         ];
 

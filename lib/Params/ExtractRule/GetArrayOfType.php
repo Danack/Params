@@ -17,6 +17,8 @@ use Params\DataLocator\InputStorageAye;
 use function Params\createOrErrorFromPath;
 use function Params\getInputParameterListForClass;
 use function Params\createArrayForTypeWithRules;
+use function Params\createArrayOfTypeDja;
+
 
 class GetArrayOfType implements ExtractRule
 {
@@ -25,7 +27,6 @@ class GetArrayOfType implements ExtractRule
 
     /** @var \Params\InputParameter[] */
     private array $inputParameterList;
-
 
     private GetType $typeExtractor;
 
@@ -53,70 +54,17 @@ class GetArrayOfType implements ExtractRule
             return ValidationResult::errorResult($dataLocator, Messages::ERROR_MESSAGE_NOT_SET_VARIANT_1);
         }
 
-
         $itemData = $dataLocator->getCurrentValue();
 
-        // Check its an array
-//        $itemData = $varMap->get($path->getCurrentName());
         if (is_array($itemData) !== true) {
             return ValidationResult::errorResult($dataLocator, Messages::ERROR_MESSAGE_NOT_ARRAY_VARIANT_1);
         }
 
-        // Setup stuff
-        $items = [];
-
-        /** @var \Params\ValidationProblem[] $allValidationProblems */
-        $allValidationProblems = [];
-        $index = 0;
-
-        // TODO - why don't we use the key here?
-        foreach ($itemData as $itemDatum) {
-//            $pathForItem = $path->addArrayIndexPathFragment($index);
-
-            $dataLocatorForItem = $dataLocator->moveKey($index);
-
-//            if (is_array($itemDatum) !== true) {
-//                $message = sprintf(
-//                    Messages::ERROR_MESSAGE_ITEM_NOT_ARRAY,
-//                    $classname,
-//                    gettype($itemDatum)
-//                );
-//
-//                return ValidationResult::errorResult($path, $message);
-//            }
-//
-//            $dataVarMap = new ArrayVarMap($itemDatum);
-////
-//            [$item, $validationProblems] = createOrErrorFromPath(
-//                $classname,
-//                $inputParameterList,
-//                $dataVarMap,
-//                $pathForItem
-//            );
-
-            // This appears to be wrong - why would
-            $paramsValuesImpl = new ProcessedValuesImpl();
-
-            $result = $this->typeExtractor->process(
-                $paramsValuesImpl,
-                $dataLocatorForItem
-            );
-
-            if ($result->anyErrorsFound() === true) {
-                $allValidationProblems = [...$allValidationProblems, ...$result->getValidationProblems()];
-            }
-            else {
-                $items[$index] = $result->getValue();
-            }
-
-            $index += 1;
-        }
-
-        if (count($allValidationProblems) !== 0) {
-            return ValidationResult::fromValidationProblems($allValidationProblems);
-        }
-
-        return ValidationResult::valueResult($items);
+        return createArrayOfTypeDja(
+            $dataLocator,
+            $itemData,
+            $this->typeExtractor
+        );
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

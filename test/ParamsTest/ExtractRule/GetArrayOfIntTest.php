@@ -61,7 +61,6 @@ class GetArrayOfIntTest extends BaseTestCase
 
         $this->assertCount(1, $validationProblems);
         $this->assertValidationProblem(
-//            '/[3]', //'items[3]',
             createPath(['index' => 3]),
             'Value must contain only digits.',
             $validationProblems

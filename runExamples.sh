@@ -10,8 +10,8 @@ examples+=('example/2_basic_usage_bad_input.php')
 examples+=('example/3_errors_returned_acceptable_input.php')
 examples+=('example/4_errors_returned_bad_input.php')
 examples+=('example/5_other_validator.php')
-examples+=('example/6_array_of_type_validator.php')
-examples+=('example/7_array_of_type_validator_also.php')
+examples+=('example/6_array_of_type_as_items.php')
+examples+=('example/7_array_of_type_as_root.php')
 examples+=('example/8_open_api_descriptions.php')
 
 for example in "${examples[@]}"

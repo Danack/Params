@@ -5,6 +5,8 @@ declare(strict_types = 1);
 namespace Params\DataLocator;
 
 use VarMap\VarMap;
+use Params\Exception\InvalidLocationException;
+use function Params\getJsonPointerParts;
 
 class DataStorage implements InputStorageAye
 {
@@ -35,6 +37,19 @@ class DataStorage implements InputStorageAye
         $instance = self::fromArray($data);
 
         return $instance->moveKey($key);
+    }
+
+    /**
+     * @param int|string $key
+     * @param mixed $value
+     * @return self
+     */
+    public static function fromSingleValueButRoot($key, $value): self
+    {
+        $data = [$key => $value];
+        $instance = self::fromArray($data);
+
+        return $instance;
     }
 
     public static function fromArraySetFirstValue(array $data): self
@@ -68,6 +83,11 @@ class DataStorage implements InputStorageAye
         foreach ($this->currentLocation as $key) {
             // TODO - check not set...
             // TODO - we'll be yielding in the future.
+
+            if (array_key_exists($key, $data) !== true) {
+                throw new InvalidLocationException();
+            }
+
             $data = $data[$key];
         }
 
@@ -118,17 +138,37 @@ class DataStorage implements InputStorageAye
             return '/';
         }
 
-        foreach ($this->currentLocation as $location) {
-            $path .= '/';
+        $separator_needed = true;
 
+        foreach ($this->currentLocation as $location) {
             if (is_int($location) === true) {
+                if ($separator_needed === true) {
+                    $path .= "/";
+                }
+
                 $path .= "[$location]";
             }
             if (is_string($location) === true) {
+                $path .= '/';
                 $path .= "$location";
+//                $separator_needed = true;
             }
+
+            $separator_needed = false;
         }
 
         return $path;
+    }
+
+
+    public function setLocationFromJsonPointer(string $jsonPointer): self
+    {
+        $parts = getJsonPointerParts($jsonPointer);
+        $clone = clone $this;
+        foreach ($parts as $part) {
+            $clone->currentLocation[] = $part;
+        }
+
+        return $clone;
     }
 }
