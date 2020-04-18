@@ -81,10 +81,9 @@ class DataStorage implements InputStorageAye
         $data = $this->data;
 
         foreach ($this->currentLocation as $key) {
-            // TODO - check not set...
-            // TODO - we'll be yielding in the future.
-
             if (array_key_exists($key, $data) !== true) {
+                // This would only happen if this was called
+
                 throw new InvalidLocationException();
             }
 

@@ -104,7 +104,7 @@ class ParamsTest extends BaseTestCase
         $this->expectException(\Params\Exception\ValidationException::class);
         // TODO - we should output the keys as well.
         $this->expectExceptionMessage("Value not set.");
-        create('Foo', $rules, $arrayVarMap, $dataLocator);
+        create('Foo', $rules, $dataLocator);
     }
 
     /**
@@ -178,7 +178,7 @@ class ParamsTest extends BaseTestCase
         ];
 
         try {
-            create('Foo', $inputParameters, $arrayVarMap, $dataLocator);
+            create('Foo', $inputParameters, $dataLocator);
 
             $this->fail("This shouldn't be reached, as an exception should have been thrown.");
         }
@@ -220,7 +220,7 @@ class ParamsTest extends BaseTestCase
         $dataLocator =  DataStorage::fromArraySetFirstValue([]);
 
 
-        create(\ParamsTest\Integration\FooParams::class, $rules, $arrayVarMap, $dataLocator);
+        create(\ParamsTest\Integration\FooParams::class, $rules, $dataLocator);
     }
 
     /**
@@ -236,10 +236,7 @@ class ParamsTest extends BaseTestCase
 
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         $fooParams = create(
-            \ParamsTest\Integration\FooParams::class,
-            $rules,
-            $arrayVarMap,
-            $dataLocator
+            \ParamsTest\Integration\FooParams::class, $rules, $dataLocator
         );
         $this->assertEquals(5, $fooParams->getLimit());
     }
@@ -249,12 +246,13 @@ class ParamsTest extends BaseTestCase
      */
     public function testCreateOrError_ErrorIsReturned()
     {
-        $arrayVarMap = new ArrayVarMap([]);
+        $dataStorage = DataStorage::fromArray([]);
+
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         [$params, $validationProblems] = createOrError(
             \ParamsTest\Integration\FooParams::class,
             $rules,
-            $arrayVarMap
+            $dataStorage
         );
         $this->assertNull($params);
 
@@ -275,12 +273,13 @@ class ParamsTest extends BaseTestCase
      */
     public function testcreateOrError_Works()
     {
-        $arrayVarMap = new ArrayVarMap(['limit' => 5]);
+        $dataStorage = DataStorage::fromArray(['limit' => 5]);
+
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         [$fooParams, $errors] = createOrError(
             \ParamsTest\Integration\FooParams::class,
             $rules,
-            $arrayVarMap
+            $dataStorage
         );
 
         $this->assertNoValidationProblems($errors);

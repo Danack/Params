@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
+use Params\DataLocator\DataStorage;
 use Params\Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use VarMap\Psr7VarMap;
@@ -21,7 +22,10 @@ trait CreateOrErrorFromRequest
     {
         $variableMap = new Psr7VarMap($request);
 
-        $namedRules = static::getInputParameterList();
+        $rules = static::getInputParameterList();
+
+        // TODO - fix
+        $dataLocator = DataStorage::fromArray($data);
 
         return createOrError(static::class, $namedRules, $variableMap);
     }

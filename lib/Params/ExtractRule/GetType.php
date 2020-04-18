@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Params\ExtractRule;
 
 use Params\DataLocator\InputStorageAye;
+use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ProcessedValuesImpl;
@@ -60,16 +61,9 @@ class GetType implements ExtractRule
         ProcessedValues $processedValues,
         InputStorageAye $dataLocator
     ) : ValidationResult {
-//        if ($varMap->has($path->getCurrentName()) !== true) {
-//            return ValidationResult::errorResult($path, Messages::VALUE_NOT_SET);
-//        }
-//
-//        // Check its an array - why is this required? We should support both array and
-//        // single value types...
-//        $itemData = $varMap->get($path->getCurrentName());
-//        if (is_array($itemData) !== true) {
-//            return ValidationResult::errorResult($path, Messages::ERROR_MESSAGE_NOT_ARRAY_VARIANT_1);
-//        }
+        if ($dataLocator->valueAvailable() !== true) {
+            return ValidationResult::errorResult($dataLocator, Messages::VALUE_NOT_SET);
+        }
 
         $paramsValuesImpl = new ProcessedValuesImpl();
         $validationProblems = processInputParameters(
@@ -83,19 +77,6 @@ class GetType implements ExtractRule
         }
 
         $item = createObjectFromParams($this->className, $paramsValuesImpl->getAllValues());
-
-//        return [$object, []];
-
-//        [$item, $validationProblems] = createOrErrorFromPath(
-//            $this->className,
-//            $this->inputParameterList,
-//            $varMap,
-//            $path
-//        );
-
-//        if (count($validationProblems) !== 0) {
-//
-//        }
 
         return ValidationResult::valueResult($item);
     }

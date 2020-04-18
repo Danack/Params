@@ -66,7 +66,7 @@ class DuplicatesParam implements ProcessRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
-//        $paramDescription->setDescription("must be duplicate of $this->paramToDuplicate");
+        $paramDescription->setDescription("must be duplicate of $this->paramToDuplicate");
         $paramDescription->setExclusiveMaximum(false);
     }
 }

@@ -7,6 +7,7 @@ namespace Params\Create;
 use Params\DataLocator\DataStorage;
 use VarMap\VarMap;
 use function Params\create;
+use function Params\getInputParameterListForClass;
 
 /**
  * Use this trait when the parameters arrive as named parameters e.g
@@ -21,17 +22,11 @@ trait CreateFromVarMap
      */
     public static function createFromVarMap(VarMap $variableMap)
     {
-        // @TODO - check interface is implemented here.
-        if (method_exists(self::class, 'getInputParameterList') === true) {
-            $rules = static::getInputParameterList();
-        }
-        else {
-            throw new \Exception("Borken.");
-        }
+        $rules = getInputParameterListForClass(self::class);
 
         $dataLocator = DataStorage::fromVarMap($variableMap);
 
-        $object = create(static::class, $rules, $variableMap, $dataLocator);
+        $object = create(static::class, $rules, $dataLocator);
         /** @var $object self */
         return $object;
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
+use Params\DataLocator\DataStorage;
 use Psr\Http\Message\ServerRequestInterface;
 use VarMap\Psr7VarMap;
 use function Params\create;
@@ -21,11 +22,11 @@ trait CreateFromRequest
      */
     public static function createFromRequest(ServerRequestInterface $request)
     {
-        $variableMap = new Psr7VarMap($request);
-
         $rules = static::getInputParameterList();
 
-        $object = create(static::class, $rules, $variableMap);
+        $dataLocator = DataStorage::fromArray($request->getQueryParams());
+
+        $object = create(static::class, $rules, $dataLocator);
         /** @var $object self */
         return $object;
     }

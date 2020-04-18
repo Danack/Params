@@ -13,21 +13,6 @@ use Params\Exception\ValidationException;
 use Params\ExtractRule\GetType;
 use Params\ProcessRule\ProcessRule;
 use Params\Value\Ordering;
-use VarMap\VarMap;
-
-/**
- * @param mixed $value
- * @return string
- */
-function getTypeForErrorMessage($value): string
-{
-    if (is_object($value) === true) {
-        return get_class($value);
-    }
-
-    return gettype($value);
-}
-
 
 /**
  * TODO - make itemData not mixed.
@@ -142,12 +127,11 @@ function createObjectFromParams($classname, $values)
 }
 
 
-
 /**
  * @template T
  * @param class-string<T> $classname
  * @param \Params\InputParameter[] $params
- * @param VarMap $sourceData
+ * @param DataStorage $dataLocator
  * @return T of object
  * @throws ValidationException
  * @throws \ReflectionException
@@ -155,7 +139,6 @@ function createObjectFromParams($classname, $values)
 function create(
     $classname,
     $params,
-    VarMap $sourceData,
     DataStorage $dataLocator
 ) {
     $paramsValuesImpl = new ProcessedValuesImpl();
@@ -187,10 +170,10 @@ function create(
  * The rules are passed separately to the classname so that we can
  * support rules coming both from static info and from factory objects.
  */
-function createOrError($classname, $params, VarMap $sourceData)
+function createOrError($classname, $params, DataStorage $dataLocator)
 {
     $paramsValuesImpl = new ProcessedValuesImpl();
-    $dataLocator = DataStorage::fromVarMap($sourceData);
+
 
     $validationProblems = processInputParameters(
         $params,
@@ -207,28 +190,6 @@ function createOrError($classname, $params, VarMap $sourceData)
     // TODO - wrap this in an ResultObject.
     return [$object, []];
 }
-
-
-//function createOrErrorFromDataStorage($classname, $params, DataStorage $dataLocator)
-//{
-//    $paramsValuesImpl = new ProcessedValuesImpl();
-//
-//    $validationProblems = processInputParameters(
-//        $params,
-//        $paramsValuesImpl,
-//        $dataLocator
-//    );
-//
-//    if (count($validationProblems) !== 0) {
-//        return [null, $validationProblems];
-//    }
-//
-//    $object = createObjectFromParams($classname, $paramsValuesImpl->getAllValues());
-//
-//    // TODO - wrap this in an ResultObject.
-//    return [$object, []];
-//}
-
 
 
 /**
@@ -387,19 +348,10 @@ function processProcessingRules(
         }
 
         $value = $validationResult->getValue();
-        // Set this here in case the rule happens to need to refer to the
-        // current item by name
-//            $this->paramValues[$path->getCurrentName()] = $value;
-//            $dataLocator->storeCurrentResult($value);
-
         if ($validationResult->isFinalResult() === true) {
             break;
         }
     }
-
-    // Set this here in case the subsequent rules are empty.
-//        $this->paramValues[$path->getCurrentName()] = $value;
-//        $dataLocator->storeCurrentResult($value);
 
     return [[], $value];
 }
@@ -478,10 +430,8 @@ function processInputParameters(
             $validationProblems = [...$validationProblems, ...$newValidationProblems];
             continue;
         }
-//        $paramValues->setValue($inputParameter->getInputName(), $value);
     }
 
-    // TODO - why does this return values as well?
     return $validationProblems;
 }
 

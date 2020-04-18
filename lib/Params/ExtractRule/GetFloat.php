@@ -17,8 +17,6 @@ class GetFloat implements ExtractRule
         ProcessedValues $processedValues,
         InputStorageAye $dataLocator
     ) : ValidationResult {
-        // TODO - this is an error. It should be getCurrentName
-        // Fix this after writing a test to detect this type of issue.
         if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::errorResult($dataLocator, Messages::VALUE_NOT_SET);
         }

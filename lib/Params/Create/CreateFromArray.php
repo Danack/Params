@@ -30,7 +30,6 @@ trait CreateFromArray
         $object = create(
             static::class,
             $rules,
-            $variableMap,
             $dataLocator
         );
 

@@ -44,34 +44,6 @@ class InputParameter
         $this->processRules = $subsequent_rules;
     }
 
-
-//    public static function fromType(
-//        string $input_name,
-//        string $type_name
-//    ) {
-//        $is_correct_type = is_subclass_of(
-//            $type_name,
-//            ParamAware::class,
-//            $allow_string = true
-//        );
-//
-//        if ($is_correct_type !== true) {
-//            throw BadTypeException::fromClassname($type_name);
-//        }
-//
-//        /** @var \Params\ParamAware $rulesForParam  */
-//        $rulesForParam = call_user_func([$type_name, 'getParamInfo'], $input_name);
-//
-//        var_dump($rulesForParam);
-//        exit(0);
-//
-//        return new self(
-//            $input_name,
-//            $rulesForParam->getExtractRule(),
-//            ...$rulesForParam->getProcessRules()
-//        );
-//    }
-
     /**
      * @return string
      */

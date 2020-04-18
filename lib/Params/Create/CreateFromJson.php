@@ -30,7 +30,6 @@ trait CreateFromJson
         $object = create(
             static::class,
             $rules,
-            $variableMap,
             $dataLocator
         );
 

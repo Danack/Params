@@ -9,11 +9,10 @@ use Params\InputParameter;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
-use VarMap\VarMap;
-
+use Params\InputParameterList;
 use Params\ProcessRule\IntegerInput;
 
-class FooParams
+class FooParams implements InputParameterList
 {
     use SafeAccess;
 
