@@ -8,7 +8,7 @@ use Params\DataLocator\NotAvailableInputStorageAye;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetString;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\DataLocator\DataStorage;
 
 /**
@@ -22,7 +22,7 @@ class GetStringTest extends BaseTestCase
     public function testMissingGivesError()
     {
         $rule = new GetString();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator, new NotAvailableInputStorageAye()
         );
@@ -37,7 +37,7 @@ class GetStringTest extends BaseTestCase
         $expectedValue = 'John';
 
         $rule = new GetString();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
             DataStorage::fromArraySetFirstValue([$expectedValue])
@@ -57,7 +57,7 @@ class GetStringTest extends BaseTestCase
         $data = [$index => [1, 2, 3]];
 
         $rule = new GetString();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
             DataStorage::fromArraySetFirstValue($data)

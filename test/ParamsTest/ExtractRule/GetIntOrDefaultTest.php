@@ -9,7 +9,7 @@ use Params\ExtractRule\GetIntOrDefault;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetStringOrDefault;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 
 /**
@@ -44,7 +44,7 @@ class GetIntOrDefaultTest extends BaseTestCase
     public function testValidation($data, $default, $expectedValue)
     {
         $rule = new GetIntOrDefault($default);
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
 
         $dataStorage = DataStorage::fromArray($data);
         $dataStorage = $dataStorage->moveKey('foo');
@@ -81,7 +81,7 @@ class GetIntOrDefaultTest extends BaseTestCase
 
         $variables = [$variableName => $inputValue];
 
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $rule = new GetIntOrDefault($default);
         $validationResult = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue($variables)

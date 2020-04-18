@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Params\Create;
 
 use Params\DataLocator\DataStorage;
-use VarMap\ArrayVarMap;
 use function Params\createOrError;
 
 trait CreateOrErrorFromArray

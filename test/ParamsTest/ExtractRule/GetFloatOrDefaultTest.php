@@ -8,7 +8,7 @@ use Params\DataLocator\DataStorage;
 use Params\ExtractRule\GetFloatOrDefault;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 
 /**
@@ -46,7 +46,7 @@ class GetFloatOrDefaultTest extends BaseTestCase
     public function testValidation($data, $default, $expectedValue)
     {
         $rule = new GetFloatOrDefault($default);
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
 
         $dataStorage = DataStorage::fromArray($data);
         $dataStorage = $dataStorage->moveKey('foo');
@@ -83,7 +83,7 @@ class GetFloatOrDefaultTest extends BaseTestCase
 
         $variables = [$variableName => $inputValue];
 
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $rule = new GetFloatOrDefault($default);
         $validationResult = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue($variables)

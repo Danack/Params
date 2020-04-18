@@ -6,7 +6,6 @@ namespace Params\Create;
 
 use Params\DataLocator\DataStorage;
 use Psr\Http\Message\ServerRequestInterface;
-use VarMap\Psr7VarMap;
 use function Params\create;
 
 /**

@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaxIntValue;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -39,7 +39,7 @@ class MaxIntValueValidatorTest extends BaseTestCase
     public function testValidation(int $maxValue, string $inputValue, bool $expectError)
     {
         $rule = new MaxIntValue($maxValue);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $inputValue,

@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaxLength;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -54,7 +54,7 @@ class MaxLengthTest extends BaseTestCase
     public function testValidation(int $maxLength, string $string, bool $expectError)
     {
         $rule = new MaxLength($maxLength);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $string,

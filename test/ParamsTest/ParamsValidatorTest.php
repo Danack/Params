@@ -9,7 +9,7 @@ use Params\InputParameter;
 use Params\ProcessRule\MaxIntValue;
 use ParamsTest\BaseTestCase;
 use VarMap\ArrayVarMap;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\ProcessRule\AlwaysEndsRule;
 use Params\Path;
 use Params\DataLocator\DataStorage;
@@ -48,7 +48,7 @@ class ParamsValidatorTest extends BaseTestCase
 //    }
 
     /**
-     * @covers \Params\ProcessedValuesImpl
+     * @covers \Params\ProcessedValues
      */
     public function testFinalResultStopsProcessing()
     {
@@ -63,7 +63,7 @@ class ParamsValidatorTest extends BaseTestCase
             new MaxIntValue($finalValue - 5)
         );
 
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
 
         $errors = processInputParameter(
             $param,

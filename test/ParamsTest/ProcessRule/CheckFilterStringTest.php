@@ -8,7 +8,7 @@ use Params\DataLocator\DataStorage;
 use Params\Value\MultipleEnums;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -30,7 +30,7 @@ class CheckFilterStringTest extends BaseTestCase
     public function testKnownFilterCorrect($inputString, $expectedResult)
     {
         $rule = new MultipleEnum(['foo', 'bar']);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $inputString, $processedValues, $dataLocator
@@ -52,7 +52,7 @@ class CheckFilterStringTest extends BaseTestCase
     {
         $expectedValue = 'zot';
         $rule = new MultipleEnum(['foo', 'bar']);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $expectedValue,
             $processedValues,

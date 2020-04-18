@@ -8,7 +8,7 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Order;
 use Params\Value\Ordering;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -32,7 +32,7 @@ class OrderTest extends BaseTestCase
         $orderParams = ['time', 'distance'];
 
         $rule = new Order($orderParams);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
 
         $validationResult = $rule->process(

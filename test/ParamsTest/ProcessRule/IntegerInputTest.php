@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use Params\ProcessRule\IntegerInput;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -31,7 +31,7 @@ class IntegerInputTest extends BaseTestCase
     public function testValidationWorks(string $inputValue, int $expectedValue)
     {
         $rule = new IntegerInput();
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
@@ -61,7 +61,7 @@ class IntegerInputTest extends BaseTestCase
     public function testDetectsErrorsCorrectly(string $inputValue)
     {
         $rule = new IntegerInput();
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,

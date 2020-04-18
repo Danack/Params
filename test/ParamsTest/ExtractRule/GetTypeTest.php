@@ -8,7 +8,7 @@ use ParamsTest\Integration\ReviewScore;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetType;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 use Params\DataLocator\DataStorage;
 
@@ -23,7 +23,7 @@ class GetTypeTest extends BaseTestCase
      */
     public function testWorks()
     {
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
 
         $data = ['score' => 5, 'comment' => 'Hello world'];
 

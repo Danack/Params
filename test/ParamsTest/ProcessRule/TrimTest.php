@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Trim;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -20,7 +20,7 @@ class TrimTest extends BaseTestCase
     public function testValidation()
     {
         $rule = new Trim();
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             ' bar ', $processedValues, DataStorage::fromArraySetFirstValue([' bar '])
         );

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysErrorsRule;
 use Params\OpenApi\OpenApiV300ParamDescription;
@@ -22,7 +22,7 @@ class AlwaysErrorsRuleTest extends BaseTestCase
     {
         $message = 'test message';
         $rule = new AlwaysErrorsRule($message);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = EmptyInputStorageAye::fromPath(['foo']);
         $result = $rule->process(
             $unused_input = 5,

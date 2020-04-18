@@ -9,7 +9,7 @@ use Params\DataLocator\SingleValueInputStorageAye;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalInt;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 
 /**
@@ -38,7 +38,7 @@ class GetOptionalIntTest extends BaseTestCase
     public function testValidation($input, $expectedValue)
     {
         $rule = new GetOptionalInt();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
             DataStorage::fromSingleValue('foo', $input)
@@ -67,7 +67,7 @@ class GetOptionalIntTest extends BaseTestCase
 //        $variableName = 'foo';
 //        $variables = [$variableName => $inputValue];
 
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $rule = new GetOptionalInt();
         $validationResult = $rule->process(
             $validator,

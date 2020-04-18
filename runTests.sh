@@ -3,9 +3,10 @@
 set -e
 # set -x
 
-bash runCodeSniffer.sh
 
 bash runUnitTests.sh --no-coverage
+
+bash runCodeSniffer.sh
 
 echo "Running PHPStan"
 php ./phpstan.phar analyze -c ./phpstan.neon -l 7 lib

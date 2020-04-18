@@ -6,7 +6,7 @@ namespace ParamsTest\ExtractRule;
 
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfInt;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\ProcessRule\MaxIntValue;
 use Params\DataLocator\DataStorage;
 
@@ -27,7 +27,7 @@ class GetArrayOfIntTest extends BaseTestCase
         $dataLocator = DataStorage::fromArraySetFirstValue($input);
 
         $rule = new GetArrayOfInt();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $result = $rule->process(
             $validator,
             $dataLocator
@@ -47,7 +47,7 @@ class GetArrayOfIntTest extends BaseTestCase
 
 
         $rule = new GetArrayOfInt();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $result = $rule->process(
             $validator, DataStorage::fromArray($data)
         );
@@ -74,7 +74,7 @@ class GetArrayOfIntTest extends BaseTestCase
         $rule = new GetArrayOfInt(
             new MaxIntValue(20)
         );
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
 
         $result = $rule->process(
             $validator, DataStorage::fromArray($data)

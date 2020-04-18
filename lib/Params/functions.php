@@ -40,7 +40,7 @@ function createArrayOfType(
         $dataLocatorForItem = $dataLocator->moveKey($index);
 
         // This appears to be wrong - why would
-        $paramsValuesImpl = new ProcessedValuesImpl();
+        $paramsValuesImpl = new ProcessedValues();
 
         $result = $typeExtractor->process(
             $paramsValuesImpl,
@@ -141,7 +141,7 @@ function create(
     $params,
     DataStorage $dataLocator
 ) {
-    $paramsValuesImpl = new ProcessedValuesImpl();
+    $paramsValuesImpl = new ProcessedValues();
 
     $validationProblems = processInputParameters(
         $params,
@@ -172,7 +172,7 @@ function create(
  */
 function createOrError($classname, $params, DataStorage $dataLocator)
 {
-    $paramsValuesImpl = new ProcessedValuesImpl();
+    $paramsValuesImpl = new ProcessedValues();
 
 
     $validationProblems = processInputParameters(
@@ -359,14 +359,14 @@ function processProcessingRules(
 
 /**
  * @param \Params\InputParameter $param
- * @param ProcessedValuesImpl $paramValues
+ * @param ProcessedValues $paramValues
  * @param InputStorageAye $dataLocator
  * @return ValidationProblem[]
  * @throws Exception\ParamMissingException
  */
 function processInputParameter(
     InputParameter $param,
-    ProcessedValuesImpl $paramValues,
+    ProcessedValues $paramValues,
     InputStorageAye $dataLocator
 ) {
 
@@ -407,14 +407,14 @@ function processInputParameter(
 
 /**
  * @param \Params\InputParameter[] $inputParameters
- * @param ProcessedValuesImpl $paramValues
+ * @param ProcessedValues $paramValues
  * @param InputStorageAye $dataLocator
  * @return \Params\ValidationProblem[]
  * @throws Exception\ParamMissingException
  */
 function processInputParameters(
     $inputParameters,
-    ProcessedValuesImpl $paramValues,
+    ProcessedValues $paramValues,
     InputStorageAye $dataLocator
 ) {
     $validationProblems = [];

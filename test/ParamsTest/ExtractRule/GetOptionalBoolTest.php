@@ -8,7 +8,7 @@ use Params\DataLocator\DataStorage;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalBool;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 use Params\DataLocator\SingleValueInputStorageAye;
 
@@ -40,7 +40,7 @@ class GetOptionalBoolTest extends BaseTestCase
     public function testValidation($input, $expectedValue)
     {
         $rule = new GetOptionalBool();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator, DataStorage::fromSingleValue('foo', $input)
         );
@@ -66,7 +66,7 @@ class GetOptionalBoolTest extends BaseTestCase
 //        $variableName = 'foo';
 //        $variables = [$variableName => $inputValue];
 
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $rule = new GetOptionalBool();
         $validationResult = $rule->process(
             $validator, DataStorage::fromSingleValue('foo', $inputValue)

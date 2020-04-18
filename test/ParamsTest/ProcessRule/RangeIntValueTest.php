@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\RangeIntValue;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -64,7 +64,7 @@ class RangeIntValueTest extends BaseTestCase
     public function testValidation(int $minValue, int $maxValue, string $inputValue, bool $expectError)
     {
         $rule = new RangeIntValue($minValue, $maxValue);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $inputValue, $processedValues, $dataLocator

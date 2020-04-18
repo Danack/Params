@@ -4,7 +4,7 @@ namespace ParamsTest;
 
 use Params\ValidationResult;
 use PHPUnit\Framework\TestCase;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -206,7 +206,7 @@ class BaseTestCase extends TestCase
 //        }
     }
 
-    public function assertHasValue($expectedValue, $key, ProcessedValuesImpl $processedValues)
+    public function assertHasValue($expectedValue, $key, ProcessedValues $processedValues)
     {
         if ($processedValues->hasValue($key) !== true) {
             $this->fail("ProcessedValues does not contain a value for [$key]");

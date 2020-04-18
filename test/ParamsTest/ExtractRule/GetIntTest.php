@@ -8,7 +8,7 @@ use Params\DataLocator\DataStorage;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetInt;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 use Params\DataLocator\SingleValueInputStorageAye;
 use Params\DataLocator\NotAvailableInputStorageAye;
@@ -24,7 +24,7 @@ class GetIntTest extends BaseTestCase
     public function testMissingGivesError()
     {
         $rule = new GetInt();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator, new NotAvailableInputStorageAye()
         );
@@ -45,7 +45,7 @@ class GetIntTest extends BaseTestCase
      */
     public function testWorks($input, $expectedValue)
     {
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $rule = new GetInt();
         $dataLocator  = DataStorage::fromSingleValue('foo', $input);
 
@@ -74,7 +74,7 @@ class GetIntTest extends BaseTestCase
     public function testErrors($input)
     {
         $rule = new GetInt();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $dataLocator = DataStorage::fromSingleValue('foo', $input);
 
         $validationResult = $rule->process(

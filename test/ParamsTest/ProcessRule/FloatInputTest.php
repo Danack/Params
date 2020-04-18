@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use Params\ProcessRule\FloatInput;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -31,7 +31,7 @@ class FloatInputTest extends BaseTestCase
     public function testValidationWorks(string $inputValue, float $expectedValue)
     {
         $rule = new FloatInput();
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $inputValue, $processedValues, $dataLocator
@@ -60,7 +60,7 @@ class FloatInputTest extends BaseTestCase
     public function testValidationErrors(string $inputValue)
     {
         $rule = new FloatInput();
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,

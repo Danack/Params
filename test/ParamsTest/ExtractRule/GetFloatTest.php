@@ -8,7 +8,7 @@ use Params\DataLocator\DataStorage;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetFloat;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 
 /**
@@ -22,7 +22,7 @@ class GetFloatTest extends BaseTestCase
     public function testMissingGivesError()
     {
         $rule = new GetFloat();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue([])
         );
@@ -46,7 +46,7 @@ class GetFloatTest extends BaseTestCase
     public function testWorks($input, $expectedValue)
     {
         $variableName = 'foo';
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $rule = new GetFloat();
         $validationResult = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue([$variableName => $input])
@@ -75,7 +75,7 @@ class GetFloatTest extends BaseTestCase
         $variableName = 'foo';
 
         $rule = new GetFloat();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue($variables)
         );

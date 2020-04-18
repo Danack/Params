@@ -8,7 +8,7 @@ use Params\DataLocator\DataStorage;
 use Params\DataLocator\EmptyInputStorageAye;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\EnumMap;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -35,7 +35,7 @@ class EnumMapTest extends BaseTestCase
         $name = 'foo';
 
         $rule = new EnumMap($enumMap);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             'unknown value',
             $processedValues,
@@ -71,7 +71,7 @@ class EnumMapTest extends BaseTestCase
         ];
 
         $rule = new EnumMap($enumMap);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $testValue,
             $processedValues,

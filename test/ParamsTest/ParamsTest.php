@@ -17,7 +17,6 @@ use Params\ProcessRule\AlwaysErrorsRule;
 use Params\ProcessRule\ProcessRule;
 use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
-use Params\ProcessedValuesImpl;
 use Params\ProcessedValues;
 use Params\InputParameter;
 use function Params\create;
@@ -41,7 +40,7 @@ class ParamsTest extends BaseTestCase
             )
         ];
 
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
 
         $problems = processInputParameters(
@@ -128,7 +127,7 @@ class ParamsTest extends BaseTestCase
             )
         ];
 
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
 
         $validationProblems = processInputParameters($rules, $processedValues, $dataLocator);
         $this->assertNoValidationProblems($validationProblems);

@@ -8,7 +8,7 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidCharacters;
 use Params\ProcessRule\SaneCharacters;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -33,7 +33,7 @@ class ValidCharactersTest extends BaseTestCase
     public function testValidation($validCharactersPattern, $testValue, $expectedErrorPosition)
     {
         $rule = new ValidCharacters($validCharactersPattern);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
 
         $validationResult = $rule->process(

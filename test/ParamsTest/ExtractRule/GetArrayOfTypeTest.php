@@ -8,7 +8,7 @@ use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ReviewScore;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use ParamsTest\Integration\SingleIntParams;
 use Params\DataLocator\DataStorage;
 
@@ -33,7 +33,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfType(ReviewScore::class);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $result = $rule->process(
             $processedValues,
             DataStorage::fromArray($data)
@@ -78,7 +78,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $dataStorage = $dataStorage->moveKey('items');
 
         $rule = new GetArrayOfType(ReviewScore::class);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $result = $rule->process(
             $processedValues,
             $dataStorage
@@ -114,7 +114,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfType(SingleIntParams::class);
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $result = $rule->process(
             $validator, DataStorage::fromArray($data)
         );
@@ -139,7 +139,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $data = [];
 
         $rule = new GetArrayOfType(ReviewScore::class);
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
 
         $result = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue($data)
@@ -166,7 +166,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfType(ReviewScore::class);
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $result = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue($data)
         );
@@ -196,7 +196,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $rule = new GetArrayOfType(SingleIntParams::class);
 
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $result = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue($data)
         );
@@ -227,7 +227,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfType(ReviewScore::class);
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $result = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue($data)
         );
@@ -254,7 +254,7 @@ class GetArrayOfTypeTest extends BaseTestCase
             ['score' => 101, 'comment' => 'world']
         ];
 
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $rule = new GetArrayOfType(ReviewScore::class);
         $result = $rule->process(
             $validator, DataStorage::fromArray($data)

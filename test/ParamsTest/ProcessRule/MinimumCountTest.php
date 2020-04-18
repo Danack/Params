@@ -9,7 +9,7 @@ use Params\Messages;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\Exception\LogicException;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -33,7 +33,7 @@ class MinimumCountTest extends BaseTestCase
     public function testWorks(int $minimumCount, $values)
     {
         $rule = new MinimumCount($minimumCount);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $values, $processedValues, $dataLocator
@@ -59,7 +59,7 @@ class MinimumCountTest extends BaseTestCase
     public function testFails(int $minimumCount, $values)
     {
         $rule = new MinimumCount($minimumCount);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $values, $processedValues, DataStorage::fromArray([$values])
         );
@@ -97,7 +97,7 @@ class MinimumCountTest extends BaseTestCase
         $rule = new MinimumCount(3);
         $this->expectException(LogicException::class);
 
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $this->expectErrorMessageMatches(
             stringToRegexp(Messages::ERROR_WRONG_TYPE)
         );

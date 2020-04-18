@@ -8,7 +8,7 @@ use Params\DataLocator\DataStorage;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetBool;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 
 /**
@@ -22,7 +22,7 @@ class GetBoolTest extends BaseTestCase
     public function testMissingGivesError()
     {
         $rule = new GetBool();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue([])
         );
@@ -48,7 +48,7 @@ class GetBoolTest extends BaseTestCase
     public function testWorks($input, $expectedValue)
     {
 
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $rule = new GetBool();
         $validationResult = $rule->process(
             $validator,
@@ -76,7 +76,7 @@ class GetBoolTest extends BaseTestCase
     public function testErrors($value)
     {
         $rule = new GetBool();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
             DataStorage::fromArraySetFirstValue(['foo' => $value])

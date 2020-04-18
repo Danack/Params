@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\RangeLength;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -81,7 +81,7 @@ class RangeLengthTest extends BaseTestCase
     public function testValidation(int $minLength, int $maxLength, string $string, bool $expectError)
     {
         $rule = new RangeLength($minLength, $maxLength);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $string, $processedValues, $dataLocator

@@ -8,7 +8,7 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\Value\MultipleEnums;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -30,7 +30,7 @@ class MultipleEnumTest extends BaseTestCase
     public function testMultipleEnum_emptySegments($input, $expectedOutput)
     {
         $enumRule = new MultipleEnum(['foo', 'bar']);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $result = $enumRule->process(
             $input, $processedValues, $dataLocator
@@ -58,7 +58,7 @@ class MultipleEnumTest extends BaseTestCase
     public function testValidation($testValue, $expectedFilters, $expectError)
     {
         $rule = new MultipleEnum(['time', 'distance']);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator

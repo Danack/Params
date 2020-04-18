@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDatetime;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -49,7 +49,7 @@ class ValidDatetimeTest extends BaseTestCase
     public function testValidationWorks($input, $expectedTime)
     {
         $rule = new ValidDatetime();
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $input, $processedValues, $dataLocator
@@ -74,7 +74,7 @@ class ValidDatetimeTest extends BaseTestCase
     public function testValidationErrors($input)
     {
         $rule = new ValidDatetime();
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
 
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
 

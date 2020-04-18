@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use Params\ProcessRule\BoolInput;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -34,7 +34,7 @@ class BoolInputValidatorTest extends BaseTestCase
     public function testValidationWorks($inputValue, bool $expectedValue)
     {
         $rule = new BoolInput();
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
@@ -62,7 +62,7 @@ class BoolInputValidatorTest extends BaseTestCase
     public function testValidationErrors($inputValue)
     {
         $rule = new BoolInput();
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,

@@ -9,7 +9,7 @@ use Params\DataLocator\SingleValueInputStorageAye;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalString;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 use Params\DataLocator\NotAvailableInputStorageAye;
 
@@ -24,7 +24,7 @@ class GetOptionalStringTest extends BaseTestCase
     public function testMissingGivesNull()
     {
         $rule = new GetOptionalString();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
 
         $validationResult = $rule->process(
             $validator,
@@ -44,7 +44,7 @@ class GetOptionalStringTest extends BaseTestCase
 
         $varMap = new ArrayVarMap([]);
         $rule = new GetOptionalString();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue([$expectedValue])
         );

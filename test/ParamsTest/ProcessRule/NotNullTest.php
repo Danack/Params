@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\NotNull;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -20,7 +20,7 @@ class NotNullTest extends BaseTestCase
     public function testValidation()
     {
         $rule1 = new NotNull();
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule1->process(
             null, $processedValues, $dataLocator
@@ -28,7 +28,7 @@ class NotNullTest extends BaseTestCase
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
 
         $rule2 = new NotNull();
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule2->process(
             5, $processedValues, $dataLocator

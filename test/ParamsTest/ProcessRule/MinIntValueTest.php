@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MinIntValue;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -38,7 +38,7 @@ class MinIntValueTest extends BaseTestCase
     public function testValidation(int $minValue, string $inputValue, bool $expectError)
     {
         $rule = new MinIntValue($minValue);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $inputValue, $processedValues, $dataLocator

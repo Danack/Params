@@ -9,7 +9,7 @@ use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ReviewScore;
 use VarMap\ArrayVarMap;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 use Params\DataLocator\DataStorage;
 
@@ -30,7 +30,7 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
         ];
 
         $rule = new GetArrayOfTypeOrNull(ReviewScore::class);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $result = $rule->process(
             $processedValues,
             DataStorage::fromArray($data)
@@ -57,7 +57,7 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
         $dataStorageAtItems = $dataStorage->moveKey('items');
         $rule = new GetArrayOfTypeOrNull(ReviewScore::class);
 
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $result = $rule->process(
             $processedValues,
             $dataStorageAtItems

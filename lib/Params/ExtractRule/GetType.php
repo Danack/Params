@@ -8,7 +8,6 @@ use Params\DataLocator\InputStorageAye;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\ProcessedValuesImpl;
 use Params\ValidationResult;
 use function Params\createObjectFromParams;
 use function Params\getInputParameterListForClass;
@@ -65,7 +64,7 @@ class GetType implements ExtractRule
             return ValidationResult::errorResult($dataLocator, Messages::VALUE_NOT_SET);
         }
 
-        $paramsValuesImpl = new ProcessedValuesImpl();
+        $paramsValuesImpl = new ProcessedValues();
         $validationProblems = processInputParameters(
             $this->inputParameterList,
             $paramsValuesImpl,

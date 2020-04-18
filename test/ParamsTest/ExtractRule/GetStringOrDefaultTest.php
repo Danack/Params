@@ -9,7 +9,7 @@ use Params\DataLocator\SingleValueInputStorageAye;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetStringOrDefault;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 use Params\DataLocator\NotAvailableInputStorageAye;
 
@@ -37,7 +37,7 @@ class GetStringOrDefaultTest extends BaseTestCase
         $default = 'bar';
 
         $rule = new GetStringOrDefault($default);
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator, DataStorage::fromArraySetFirstValue(['John'])
         );
@@ -54,7 +54,7 @@ class GetStringOrDefaultTest extends BaseTestCase
         $default = 'bar';
 
         $rule = new GetStringOrDefault($default);
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator, new NotAvailableInputStorageAye()
         );

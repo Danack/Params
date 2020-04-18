@@ -8,7 +8,6 @@ use Params\DataLocator\InputStorageAye;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\ProcessedValuesImpl;
 use Params\ProcessRule\IntegerInput;
 use Params\ProcessRule\ProcessRule;
 use Params\ValidationResult;
@@ -71,7 +70,7 @@ class GetArrayOfInt implements ExtractRule
 //                continue;
 //            }
 
-            $validator2 = new ProcessedValuesImpl();
+            $validator2 = new ProcessedValues();
             [$newValidationProblems, $processedValue] = processProcessingRules(
                 $result->getValue(),
                 $dataLocatorForItem,

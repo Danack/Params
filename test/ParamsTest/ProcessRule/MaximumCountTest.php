@@ -9,7 +9,7 @@ use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaximumCount;
 use Params\Exception\LogicException;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\DataLocator\DataStorage;
 
 /**
@@ -33,7 +33,7 @@ class MaximumCountTest extends BaseTestCase
     public function testWorks(int $maximumCount, $values)
     {
         $rule = new MaximumCount($maximumCount);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $values, $processedValues, DataStorage::fromArray([$values])
         );
@@ -57,7 +57,7 @@ class MaximumCountTest extends BaseTestCase
     public function testFails(int $maximumCount, $values)
     {
         $rule = new MaximumCount($maximumCount);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $values, $processedValues, DataStorage::fromArray([$values])
         );
@@ -97,7 +97,7 @@ class MaximumCountTest extends BaseTestCase
         $rule = new MaximumCount(3);
         $this->expectException(LogicException::class);
 
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $this->expectErrorMessageMatches(
             stringToRegexp(Messages::ERROR_WRONG_TYPE_VARIANT_1)
         );

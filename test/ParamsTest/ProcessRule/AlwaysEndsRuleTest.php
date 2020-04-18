@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysEndsRule;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 
 /**
  * @coversNothing
@@ -21,7 +21,7 @@ class AlwaysEndsRuleTest extends BaseTestCase
     {
         $finalValue = 123;
         $rule = new AlwaysEndsRule($finalValue);
-        $processedValues = new ProcessedValuesImpl();
+        $processedValues = new ProcessedValues();
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $result = $rule->process(
             $unused_input = 4,

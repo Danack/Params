@@ -9,7 +9,7 @@ use Params\DataLocator\SingleValueInputStorageAye;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalFloat;
-use Params\ProcessedValuesImpl;
+use Params\ProcessedValues;
 use Params\Path;
 
 /**
@@ -42,7 +42,7 @@ class GetOptionalFloatTest extends BaseTestCase
     public function testValidation($input, $expectedValue)
     {
         $rule = new GetOptionalFloat();
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
             DataStorage::fromSingleValue('foo', $input)
@@ -72,7 +72,7 @@ class GetOptionalFloatTest extends BaseTestCase
         // $variableName = 'foo';
 //        $variables = [$variableName => $inputValue];
 
-        $validator = new ProcessedValuesImpl();
+        $validator = new ProcessedValues();
         $rule = new GetOptionalFloat();
         $validationResult = $rule->process(
             $validator,
