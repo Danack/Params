@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\SingleValueInputStorageAye;
 use Params\Messages;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaximumCount;
 use Params\Exception\LogicException;
 use Params\ProcessedValuesImpl;
-use Params\Path;
 use Params\DataLocator\DataStorage;
-use function Params\createPath;
 
 /**
  * @coversNothing
@@ -76,7 +73,7 @@ class MaximumCountTest extends BaseTestCase
 
         $this->assertCount(1, $validationResult->getValidationProblems());
         $this->assertValidationProblemRegexp(
-            createPath([]),
+            '/',
             Messages::ERROR_TOO_MANY_ELEMENTS,
             $validationResult->getValidationProblems()
         );

@@ -20,10 +20,8 @@ use Params\OpenApi\ParamDescription;
 use Params\ProcessedValuesImpl;
 use Params\ProcessedValues;
 use Params\InputParameter;
-use Params\Path;
 use function Params\create;
 use function Params\createOrError;
-use function Params\createPath;
 use function Params\processInputParameters;
 
 /**
@@ -186,7 +184,7 @@ class ParamsTest extends BaseTestCase
         }
         catch (ValidationException $validationException) {
             $this->assertValidationProblem(
-                createPath(['name' => 'foo']),
+                '/foo',
                 $errorMessage,
                 $validationException->getValidationProblems()
             );
@@ -266,7 +264,7 @@ class ParamsTest extends BaseTestCase
         $this->assertCount(1, $validationProblems);
 
         $this->assertValidationProblem(
-            createPath(['name' => 'limit']),
+            '/limit',
             'Value not set.',
             $validationProblems
         );

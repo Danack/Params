@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Params\ExtractRule;
 
 use Params\DataLocator\InputStorageAye;
-use Params\ValidationResult;
-use VarMap\VarMap;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\Path;
+use Params\ValidationResult;
 
 class GetStringOrDefault implements ExtractRule
 {

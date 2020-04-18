@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\SingleValueInputStorageAye;
 use Params\DataLocator\DataStorage;
 use Params\Value\MultipleEnums;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\ProcessedValuesImpl;
-use Params\Path;
-use function Params\createPath;
 
 /**
  * @coversNothing

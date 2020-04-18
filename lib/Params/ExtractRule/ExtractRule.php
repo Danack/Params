@@ -5,11 +5,9 @@ declare(strict_types = 1);
 namespace Params\ExtractRule;
 
 use Params\DataLocator\InputStorageAye;
+use Params\ProcessedValues;
 use Params\Rule;
 use Params\ValidationResult;
-use Params\ProcessedValues;
-use VarMap\VarMap;
-use Params\Path;
 
 /**
  * The first rule for a parameter. It should extract the initial value

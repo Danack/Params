@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Params\DataLocator;
 
-use VarMap\VarMap;
 use Params\Exception\InvalidLocationException;
+use VarMap\VarMap;
 use function Params\getJsonPointerParts;
 
 class DataStorage implements InputStorageAye

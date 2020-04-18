@@ -6,12 +6,9 @@ namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
 use Params\DataLocator\EmptyInputStorageAye;
-use Params\DataLocator\SingleValueInputStorageAye;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\EnumMap;
 use Params\ProcessedValuesImpl;
-use Params\Path;
-use function Params\createPath;
 
 /**
  * @coversNothing
@@ -55,7 +52,7 @@ class EnumMapTest extends BaseTestCase
             $firstProblem->getProblemMessage()
         );
         $this->assertSame(
-            createPath(['name' => $name]),
+            '/' . $name,
             $firstProblem->getDataLocator()->toString()
         );
     }

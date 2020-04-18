@@ -8,8 +8,6 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MinIntValue;
 use Params\ProcessedValuesImpl;
-use Params\Path;
-use function Params\createPath;
 
 /**
  * @coversNothing

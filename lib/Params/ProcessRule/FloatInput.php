@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use http\Message;
 use Params\DataLocator\InputStorageAye;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;

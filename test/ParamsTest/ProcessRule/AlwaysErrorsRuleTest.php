@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
 use Params\ProcessedValuesImpl;
-use Params\ProcessRule\MaximumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysErrorsRule;
 use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\Path;
-use function Params\createPath;
 use Params\DataLocator\EmptyInputStorageAye;
 
 /**
@@ -36,7 +32,7 @@ class AlwaysErrorsRuleTest extends BaseTestCase
 
         $this->assertCount(1, $result->getValidationProblems());
         $this->assertValidationProblem(
-            createPath(['name' => 'foo']),
+            '/foo',
             $message,
             $result->getValidationProblems()
         );

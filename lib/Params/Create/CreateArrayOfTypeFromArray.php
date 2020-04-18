@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\DataLocator\InputStorageAye;
-use Params\Exception\InputParameterListException;
-use Params\Exception\ValidationException;
-use Params\InputParameter;
-use Params\Path;
-use VarMap\VarMap;
-use function Params\createArrayForTypeWithRules;
 use Params\DataLocator\DataStorage;
-use function Params\createArrayOfTypeDja;
+use Params\Exception\ValidationException;
 use Params\ExtractRule\GetType;
+use VarMap\VarMap;
+use function Params\createArrayOfType;
 
 /**
  * Use this trait when the parameters arrive as named parameters e.g
@@ -24,7 +19,6 @@ trait CreateArrayOfTypeFromArray
     /**
      * @param VarMap $variableMap
      * @return self[]
-     * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
     public static function createArrayOfTypeFromArray(array $data)
@@ -32,7 +26,7 @@ trait CreateArrayOfTypeFromArray
         $getType = GetType::fromClass(self::class);
         $dataStorage = DataStorage::fromArray($data);
 
-        $validationResult = createArrayOfTypeDja(
+        $validationResult = createArrayOfType(
             $dataStorage,
             $data,
             $getType

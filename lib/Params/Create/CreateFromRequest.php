@@ -17,7 +17,6 @@ trait CreateFromRequest
     /**
      * @param ServerRequestInterface $request
      * @return self
-     * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
     public static function createFromRequest(ServerRequestInterface $request)

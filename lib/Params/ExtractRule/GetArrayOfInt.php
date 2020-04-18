@@ -4,16 +4,14 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
+use Params\DataLocator\InputStorageAye;
 use Params\Messages;
-use Params\ProcessRule\ProcessRule;
-use VarMap\VarMap;
-use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
+use Params\ProcessedValues;
 use Params\ProcessedValuesImpl;
 use Params\ProcessRule\IntegerInput;
-use Params\ProcessedValues;
-use Params\Path;
-use Params\DataLocator\InputStorageAye;
+use Params\ProcessRule\ProcessRule;
+use Params\ValidationResult;
 use function Params\processProcessingRules;
 
 class GetArrayOfInt implements ExtractRule

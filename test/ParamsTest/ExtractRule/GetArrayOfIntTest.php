@@ -6,12 +6,9 @@ namespace ParamsTest\ExtractRule;
 
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfInt;
-use VarMap\ArrayVarMap;
 use Params\ProcessedValuesImpl;
 use Params\ProcessRule\MaxIntValue;
-use Params\Path;
 use Params\DataLocator\DataStorage;
-use function Params\createPath;
 
 /**
  * @coversNothing
@@ -61,15 +58,10 @@ class GetArrayOfIntTest extends BaseTestCase
 
         $this->assertCount(1, $validationProblems);
         $this->assertValidationProblem(
-            createPath(['index' => 3]),
+            '/[3]',
             'Value must contain only digits.',
             $validationProblems
         );
-
-//        /** @var \Params\ValidationProblem $firstProblem */
-//        $firstProblem = $validationProblems[0];
-//        $this->assertSame('/items/3', $firstProblem->getPath());
-//        $this->assertSame('Value must contain only digits.', $firstProblem->getProblemMessage());
     }
 
     /**
@@ -93,7 +85,7 @@ class GetArrayOfIntTest extends BaseTestCase
         $problemMessages = $result->getValidationProblems();
 
         $this->assertValidationProblem(
-            createPath(['index'=> 3]),
+            '/[3]',
             'Value too large. Max allowed is 20',
             $problemMessages
         );

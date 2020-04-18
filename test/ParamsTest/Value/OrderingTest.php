@@ -10,7 +10,6 @@ use Params\Value\Ordering;
 
 /**
  * @coversNothing
- * @group patch
  */
 class OrderingTest extends BaseTestCase
 {

@@ -8,21 +8,11 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SaneCharacters;
 use Params\ProcessedValuesImpl;
-use Params\Path;
-use function Params\createPath;
-
-function getRawCharacters($string)
-{
-    $resultInHex = bin2hex($string);
-    $resultSeparated = implode(', ', str_split($resultInHex, 2)); //byte safe
-
-    return $resultSeparated;
-}
 
 /**
  * @coversNothing
  */
-class SaneCharacterTest extends BaseTestCase
+class SaneCharactersTest extends BaseTestCase
 {
     public function provideSuccessCases()
     {

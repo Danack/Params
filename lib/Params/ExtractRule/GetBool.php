@@ -6,13 +6,10 @@ namespace Params\ExtractRule;
 
 use Params\DataLocator\InputStorageAye;
 use Params\Messages;
+use Params\OpenApi\ParamDescription;
+use Params\ProcessedValues;
 use Params\ProcessRule\BoolInput;
 use Params\ValidationResult;
-use VarMap\VarMap;
-use Params\OpenApi\ParamDescription;
-use Params\ProcessedValuesImpl;
-use Params\ProcessedValues;
-use Params\Path;
 
 class GetBool implements ExtractRule
 {

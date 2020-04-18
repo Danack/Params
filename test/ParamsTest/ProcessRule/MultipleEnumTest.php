@@ -9,8 +9,6 @@ use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\Value\MultipleEnums;
 use Params\ProcessedValuesImpl;
-use Params\Path;
-use function Params\createPath;
 
 /**
  * @coversNothing

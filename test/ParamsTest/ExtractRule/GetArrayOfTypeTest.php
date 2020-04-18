@@ -8,12 +8,9 @@ use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ReviewScore;
-use VarMap\ArrayVarMap;
 use Params\ProcessedValuesImpl;
 use ParamsTest\Integration\SingleIntParams;
-use Params\Path;
 use Params\DataLocator\DataStorage;
-use function Params\createPath;
 
 /**
  * @coversNothing
@@ -208,7 +205,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $this->assertCount(1, $validationProblems);
         $this->assertValidationProblemRegexp(
             '/[0]',
-//            Messages::ERROR_MESSAGE_ITEM_NOT_ARRAY,
+            //            Messages::ERROR_MESSAGE_ITEM_NOT_ARRAY,
             Messages::ERROR_MESSAGE_NOT_ARRAY,
             $validationProblems
         );
@@ -270,13 +267,13 @@ class GetArrayOfTypeTest extends BaseTestCase
         $this->assertCount(2, $validationProblems);
 
         $this->assertValidationProblem(
-            createPath(['index' => 0, 'name' => 'comment']),
+            '/[0]/comment',
             "String too short, min chars is 4",
             $validationProblems
         );
 
         $this->assertValidationProblem(
-            createPath(['index' => 1, 'name' => 'score']),
+            '/[1]/score',
             "Value too large. Max allowed is 100",
             $validationProblems
         );

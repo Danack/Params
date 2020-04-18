@@ -8,8 +8,6 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Enum;
 use Params\ProcessedValuesImpl;
-use Params\Path;
-use function Params\createPath;
 
 /**
  * @coversNothing

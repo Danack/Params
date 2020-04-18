@@ -5,11 +5,9 @@ declare(strict_types = 1);
 namespace Params\ExtractRule;
 
 use Params\DataLocator\InputStorageAye;
-use VarMap\VarMap;
-use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\Path;
+use Params\ValidationResult;
 
 /**
  * This is a useless clas

@@ -26,7 +26,6 @@ class ValidationResultTest extends BaseTestCase
     public function testErrorResult()
     {
         $path = 'foo';
-//        $path = Path::fromName($name);
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
         $dataLocatorForPath = $dataLocator->moveKey($path);
 

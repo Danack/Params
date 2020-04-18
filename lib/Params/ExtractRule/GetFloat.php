@@ -6,15 +6,10 @@ namespace Params\ExtractRule;
 
 use Params\DataLocator\InputStorageAye;
 use Params\Messages;
-use Params\ProcessRule;
-use Params\ExtractRule\ExtractRule;
+use Params\OpenApi\ParamDescription;
+use Params\ProcessedValues;
 use Params\ProcessRule\FloatInput;
 use Params\ValidationResult;
-use VarMap\VarMap;
-use Params\OpenApi\ParamDescription;
-use Params\ProcessedValuesImpl;
-use Params\ProcessedValues;
-use Params\Path;
 
 class GetFloat implements ExtractRule
 {

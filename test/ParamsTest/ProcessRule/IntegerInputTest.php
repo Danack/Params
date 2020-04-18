@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
-use Params\DataLocator\SingleValueInputStorageAye;
 use Params\ProcessRule\IntegerInput;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValuesImpl;
-use Params\Path;
-use function Params\createPath;
 
 /**
  * @coversNothing

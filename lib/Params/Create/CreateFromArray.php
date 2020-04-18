@@ -18,7 +18,6 @@ trait CreateFromArray
     /**
      * @param VarMap $variableMap
      * @return self
-     * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
     public static function createFromArray($data)

@@ -6,7 +6,7 @@ namespace Params\Exception;
 
 class InvalidJsonPointer extends ParamsException
 {
-    public static function invalidFirstCharacter()
+    public static function invalidFirstCharacter(): self
     {
         return new self("First character must be /");
     }

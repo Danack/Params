@@ -13,7 +13,6 @@ trait CreateOrErrorFromArray
      * @param array $data
      * TODO - ValidationErrors is incorrect.
      * @return array{0:self|null, 1:\Params\ValidationErrors|null}
-     * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
     public static function createOrErrorFromArray(array $data)

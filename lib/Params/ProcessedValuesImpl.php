@@ -5,19 +5,10 @@ declare(strict_types = 1);
 namespace Params;
 
 use Params\Exception\LogicException;
-use Params\ProcessRule\ProcessRule;
-use VarMap\VarMap;
-use Params\DataLocator\InputStorageAye;
 
 /**
- * Class ParamsValidator
+ * stores the processed values, so that they can be accessed by subsequent parameters.
  *
- * Validates an input parameter according to a set of rules.
- * If there are any errors, they will be stored in this object,
- * and can be retrieved via the method ParamsValidator::getValidationProblems
- *
- * This is inadequate. We should support full paths and relative paths
- * so that people can validate across objects, and also within arrays.
  */
 class ProcessedValuesImpl implements ProcessedValues
 {

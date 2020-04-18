@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\SingleValueInputStorageAye;
 use Params\DataLocator\DataStorage;
 use Params\ProcessRule\BoolInput;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValuesImpl;
-use Params\Path;
-use function Params\createPath;
 
 /**
  * @coversNothing

@@ -9,8 +9,6 @@ use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
-use VarMap\VarMap;
-use Params\Path;
 
 class GetString implements ExtractRule
 {

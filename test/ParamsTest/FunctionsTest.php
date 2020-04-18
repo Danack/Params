@@ -6,12 +6,12 @@ namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
 use Params\Value\Ordering;
-use function Params\createPath;
 use function Params\unescapeJsonPointer;
 use function Params\array_value_exists;
 use function Params\check_only_digits;
 use function Params\normalise_order_parameter;
 use function Params\escapeJsonPointer;
+use function Params\getRawCharacters;
 
 /**
  * @coversNothing
@@ -135,28 +135,21 @@ class FunctionsTest extends BaseTestCase
 //        $this->assertSame($expectedResult, $problems);
 //    }
 
-    public function providesCreatePath()
+    public function provides_getRawCharacters()
     {
-        yield ['/', []];
-        yield ['/foo', ['name' => 'foo']];
-        yield ['/[3]', ['index' => 3]];
-        yield ['/foo/[3]', ['name' => 'foo', 'index' => 3]];
+        yield ['Hello', '48, 65, 6c, 6c, 6f'];
+        yield ["ÁGUEDA", 'c3, 81, 47, 55, 45, 44, 41'];
+        yield ["☺😎😋😂", 'e2, 98, ba, f0, 9f, 98, 8e, f0, 9f, 98, 8b, f0, 9f, 98, 82'];
     }
-
 
     /**
-     * @dataProvider providesCreatePath()
-     * @param array $pathParts
-     * @param string $expectedOutput
-     * @group new
+     * @dataProvider provides_getRawCharacters
+     * @param string $inputString
+     * @param $expectedOutput
      */
-    public function testCreatePath(string $expectedOutput, array $pathParts)
+    function test_getRawCharacters(string $inputString, $expectedOutput)
     {
-        $actual = createPath($pathParts);
-        $this->assertSame($expectedOutput, $actual);
+        $actualOutput = getRawCharacters($inputString);
+        $this->assertSame($expectedOutput, $actualOutput);
     }
-
-
-
-
 }

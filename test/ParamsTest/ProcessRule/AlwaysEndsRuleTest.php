@@ -8,9 +8,6 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysEndsRule;
 use Params\ProcessedValuesImpl;
-use VarMap\ArrayVarMap;
-use Params\Path;
-use function Params\createPath;
 
 /**
  * @coversNothing

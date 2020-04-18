@@ -74,12 +74,5 @@ class ItemListParamsTest extends BaseTestCase
             "Value must be set.",
             $validationProblems
         );
-
-//        /** @var \Params\ValidationProblem $firstProblem */
-//        $firstProblem = $validationProblems[0];
-//
-//        $expectedKey = 'items';
-//        $this->assertSame($expectedKey, $firstProblem->getPath());
-//        $this->assertSame("Value must be set.", $firstProblem->getProblemMessage());
     }
 }

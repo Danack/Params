@@ -151,42 +151,6 @@ class BaseTestCase extends TestCase
 
 
     /**
-     * @param string $problem
-     * @param \Params\PatchObjectProblem[] $validationProblems
-     */
-    protected function assertPatchValidationProblem(string $expectedProblem, $validationProblems)
-    {
-        $messages = [];
-
-        foreach ($validationProblems as $validationProblem) {
-            if ($validationProblem->getProblemMessage() === $expectedProblem) {
-                // correct problem message found
-                return;
-            }
-            $messages[] = $validationProblem->getProblemMessage();
-        }
-
-
-        $missingIndentifierText = sprintf(
-            "Message '%s' not found in PatchValidationProblems. Messages are: [%s]",
-            $expectedProblem,
-            implode("\n", $messages)
-        );
-
-        $this->fail($missingIndentifierText);
-    }
-
-    /**
-     * @param string[] $problemMessages
-     */
-    public function assertPatchValidationProblems($problemMessages, $validationProblems)
-    {
-        foreach ($problemMessages as $problemMessage) {
-            $this->assertPatchValidationProblem($problemMessage, $validationProblems);
-        }
-    }
-
-    /**
      * @param \Params\ValidationProblem[] $validationProblems
      */
     public function assertNoValidationProblems(array $validationProblems)

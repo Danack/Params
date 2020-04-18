@@ -4,21 +4,13 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
+use Params\DataLocator\InputStorageAye;
 use Params\Messages;
-use Params\InputParameter;
-use Params\ProcessedValuesImpl;
-use VarMap\ArrayVarMap;
-use VarMap\VarMap;
-use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\Path;
-use Params\DataLocator\InputStorageAye;
-use function Params\createOrErrorFromPath;
+use Params\ValidationResult;
+use function Params\createArrayOfType;
 use function Params\getInputParameterListForClass;
-use function Params\createArrayForTypeWithRules;
-use function Params\createArrayOfTypeDja;
-
 
 class GetArrayOfType implements ExtractRule
 {
@@ -60,7 +52,7 @@ class GetArrayOfType implements ExtractRule
             return ValidationResult::errorResult($dataLocator, Messages::ERROR_MESSAGE_NOT_ARRAY_VARIANT_1);
         }
 
-        return createArrayOfTypeDja(
+        return createArrayOfType(
             $dataLocator,
             $itemData,
             $this->typeExtractor

@@ -11,7 +11,6 @@ use ParamsTest\Integration\FooParamsCreateOrErrorFromVarMap;
 
 /**
  * @coversNothing
- * @group patch
  */
 class TraitsTest extends BaseTestCase
 {

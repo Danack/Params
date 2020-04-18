@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\SingleValueInputStorageAye;
 use Params\DataLocator\DataStorage;
 use Params\Messages;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\Exception\LogicException;
 use Params\ProcessedValuesImpl;
-use Params\Path;
-use function Params\createPath;
 
 /**
  * @coversNothing
@@ -76,7 +73,7 @@ class MinimumCountTest extends BaseTestCase
 
         $this->assertCount(1, $validationResult->getValidationProblems());
         $this->assertValidationProblemRegexp(
-            createPath([]),
+            '/',
             Messages::ERROR_TOO_FEW_ELEMENTS,
             $validationResult->getValidationProblems()
         );

@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace Params\OpenApi;
 
-use Params\Exception\ParamsException;
-use Params\OpenApi\ItemsObject;
-use Params\OpenApi\ParamDescription;
-use Params\Exception\OpenApiException;
-
 /**
  * Used for testing that Rules that shouldn't affect
  * the parameter descriptions.

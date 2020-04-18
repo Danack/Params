@@ -12,7 +12,6 @@ trait CreateOrErrorFromVarMap
     /**
      * @param VarMap $variableMap
      * @return array<?object, \Params\ValidationProblem[]>
-     * @throws \Params\Exception\RulesEmptyException
      * @throws \Params\Exception\ValidationException
      */
     public static function createOrErrorFromVarMap(VarMap $variableMap)

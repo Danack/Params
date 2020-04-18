@@ -9,8 +9,6 @@ use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidCharacters;
 use Params\ProcessRule\SaneCharacters;
 use Params\ProcessedValuesImpl;
-use Params\Path;
-use function Params\createPath;
 
 /**
  * @coversNothing

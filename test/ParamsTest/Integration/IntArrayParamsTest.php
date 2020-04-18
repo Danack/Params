@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace ParamsTest\Integration;
 
 use ParamsTest\BaseTestCase;
-use function Params\createPath;
 
 /**
  * @coversNothing
