@@ -13,17 +13,14 @@ require __DIR__ . "/../vendor/autoload.php";
 
 
 $data = [
-    ['foo' => 5, 'bar' => 'Hello world'],
-    ['foo' => 6, 'bar' => 'Hello world2']
+    ['score' => 5, 'comment' => 'Hello world'],
+    ['score' => 6, 'comment' => 'Hello world2']
 ];
-
-// $varMap = new ArrayVarMap($data);
 
 $items = ReviewScore::createArrayOfTypeFromArray($data);
 
-
 foreach ($items as $item) {
-    echo "Foo: " . $item->getScore() . " bar: " . $item->getComment() . "\n";
+    echo "Score: " . $item->getScore() . " comment: " . $item->getComment() . "\n";
 }
 
 

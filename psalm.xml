@@ -17,17 +17,11 @@
             </errorLevel>
         </PossiblyInvalidArgument>
 
-        <!-- TODO - this needs to be re-enabled -->
-        <PossiblyInvalidArgument>
-            <errorLevel type="suppress">
-                <directory name="lib/Params/PatchRule"/>
-            </errorLevel>
-        </PossiblyInvalidArgument>
+
 
         <!-- TODO - this needs to be re-enabled -->
         <MixedArgument>
             <errorLevel type="suppress">
-                <file name="lib/Params/PatchFactory.php"/>
                 <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedArgument>
@@ -41,12 +35,6 @@
             </errorLevel>
         </MixedArrayAccess>
 
-        <!-- TODO - this needs to be re-enabled -->
-        <InvalidDocblock>
-            <errorLevel type="suppress">
-                <directory name="lib/Params/PatchRule"/>
-            </errorLevel>
-        </InvalidDocblock>
 
         <!-- TODO - this needs to be re-enabled -->
         <InvalidReturnStatement>
@@ -74,13 +62,6 @@
             </errorLevel>
         </PossiblyInvalidArgument>
 
-        <!-- TODO - this needs to be re-enabled -->
-        <MissingParamType>
-            <errorLevel type="suppress">
-                <file name="lib/Params/PatchFactory.php"/>
-            </errorLevel>
-        </MissingParamType>
-
 
         <!-- TODO - this needs to be re-enabled -->
         <MixedArgumentTypeCoercion>
@@ -93,7 +74,6 @@
         <!-- TODO - this needs to be re-enabled -->
         <MixedReturnStatement>
             <errorLevel type="suppress">
-                <file name="lib/Params/PatchFactory.php"/>
                 <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedReturnStatement>
@@ -101,18 +81,10 @@
         <!-- TODO - this needs to be re-enabled -->
         <MixedInferredReturnType>
             <errorLevel type="suppress">
-                <file name="lib/Params/PatchFactory.php"/>
                 <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedInferredReturnType>
 
-
-        <!-- TODO - this needs to be re-enabled -->
-        <MissingReturnType>
-            <errorLevel type="suppress">
-                <file name="lib/Params/PatchFactory.php"/>
-            </errorLevel>
-        </MissingReturnType>
 
         <!-- TODO - this needs to be re-enabled -->
         <MixedOperand>
@@ -131,7 +103,6 @@
         <MixedArgument>
             <errorLevel type="suppress">
                 <file name="lib/Params/DataLocator/DataStorage.php"/>
-                <file name="lib/Params/PatchFactory.php"/>
                 <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedArgument>
@@ -143,17 +114,7 @@
             </errorLevel>
         </MixedArrayAccess>
 
-
-
-
-
-
-
-
     </issueHandlers>
-
-
-
 
     <projectFiles>
         <directory name="lib"/>
