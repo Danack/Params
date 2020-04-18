@@ -8,10 +8,8 @@ use Params\ExtractRule\GetInt;
 use Params\InputParameter;
 use Params\ProcessRule\MaxIntValue;
 use ParamsTest\BaseTestCase;
-use VarMap\ArrayVarMap;
 use Params\ProcessedValues;
 use Params\ProcessRule\AlwaysEndsRule;
-use Params\Path;
 use Params\DataLocator\DataStorage;
 use function Params\processInputParameter;
 

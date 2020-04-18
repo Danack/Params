@@ -6,10 +6,8 @@ namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
 use Params\ExtractRule\GetFloatOrDefault;
-use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
-use Params\Path;
 
 /**
  * @coversNothing

@@ -6,11 +6,8 @@ namespace ParamsTest\ExtractRule;
 
 use Params\ExtractRule\GetArrayOfTypeOrNull;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ReviewScore;
-use VarMap\ArrayVarMap;
 use Params\ProcessedValues;
-use Params\Path;
 use Params\DataLocator\DataStorage;
 
 /**

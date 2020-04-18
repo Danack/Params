@@ -18,7 +18,6 @@ use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MaxLength;
 use Params\ProcessRule\MinIntValue;
 use Params\ProcessRule\MinLength;
-use Params\ProcessRule\MultipleEnum;
 use Params\ProcessRule\NotNull;
 use Params\ProcessRule\PositiveInt;
 use Params\ProcessRule\SkipIfNull;
@@ -29,7 +28,6 @@ use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysEndsRule;
 use Params\Exception\OpenApiException;
 use Params\ProcessRule\NullIfEmpty;
-use VarMap\ArrayVarMap;
 
 /**
  * @coversNothing

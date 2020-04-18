@@ -10,17 +10,14 @@ use Params\ProcessedValues;
 use Params\ProcessRule\ProcessRule;
 use Params\ValidationProblem;
 use Params\ValidationResult;
-use Params\Path;
 
 /**
- * @coversNothing
  * Example of processing an array, without processing each item individually
  * as a separate type.
  */
 class ArrayAllMultiplesOf implements ProcessRule
 {
-    /** @var int */
-    private $multiplicand;
+    private int $multiplicand;
 
     /**
      *
@@ -37,8 +34,11 @@ class ArrayAllMultiplesOf implements ProcessRule
      * @param InputStorageAye $dataLocator
      * @return ValidationResult
      */
-    public function process($value, ProcessedValues $processedValues, InputStorageAye $dataLocator): ValidationResult
-    {
+    public function process(
+        $value,
+        ProcessedValues $processedValues,
+        InputStorageAye $dataLocator
+    ): ValidationResult {
         $errors = [];
 
         $index = 0;

@@ -7,10 +7,7 @@ namespace ParamsTest\OpenApi;
 use Params\InputParameter;
 use Params\ProcessRule\MaxLength;
 use Params\ProcessRule\MinLength;
-use VarMap\VarMap;
-use Params\ExtractRule\GetStringOrDefault;
 use Params\ExtractRule\GetString;
-use Params\ProcessRule\Enum;
 use Params\SafeAccess;
 use Params\Create\CreateFromVarMap;
 

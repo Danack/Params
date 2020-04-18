@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
-use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetBool;
 use Params\ProcessedValues;
-use Params\Path;
 
 /**
  * @coversNothing

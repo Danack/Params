@@ -20,11 +20,9 @@ class ReviewScore implements InputParameterList
     use CreateFromVarMap;
     use CreateArrayOfTypeFromArray;
 
-    /** @var int  */
-    private $score;
+    private int $score;
 
-    /** @var string */
-    private $comment;
+    private string $comment;
 
     /**
      *

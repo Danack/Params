@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\Messages;
-use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaximumCount;
 use Params\Exception\LogicException;

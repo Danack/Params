@@ -9,7 +9,6 @@ use Params\InputParameter;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
-use VarMap\VarMap;
 use Params\ProcessRule\IntegerInput;
 use Params\InputParameterList;
 
@@ -17,8 +16,7 @@ class SingleIntParams implements InputParameterList
 {
     use SafeAccess;
 
-    /** @var int  */
-    private $limit;
+    private int $limit;
 
     public function __construct(int $limit)
     {

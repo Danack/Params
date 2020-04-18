@@ -8,8 +8,6 @@ use Params\ExtractRule\GetInt;
 use Params\InputParameter;
 use Params\SafeAccess;
 use Params\ExtractRule\GetString;
-use Params\ProcessRule\MinLength;
-use Params\ProcessRule\MaxLength;
 use Params\Create\CreateOrErrorFromVarMap;
 use Params\ProcessRule\DuplicatesParam;
 
@@ -18,11 +16,9 @@ class DuplicateButWrongTypeParams
     use SafeAccess;
     use CreateOrErrorFromVarMap;
 
-    /** @var int */
-    private $days;
+    private int $days;
 
-    /** @var string */
-    private $days_repeat;
+    private string $days_repeat;
 
     public function __construct(int $days, string $days_repeat)
     {

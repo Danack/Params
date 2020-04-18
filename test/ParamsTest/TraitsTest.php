@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use ParamsTest\BaseTestCase;
 use VarMap\ArrayVarMap;
 use ParamsTest\Integration\FooParamsCreateFromVarMap;
 use ParamsTest\Integration\FooParamsCreateOrErrorFromVarMap;

@@ -164,7 +164,6 @@ class ParamsTest extends BaseTestCase
         $data = ['foo' => 100];
         $dataLocator = DataStorage::fromArray($data);
 
-        $arrayVarMap = new ArrayVarMap($data);
         $inputParameters = [
             new InputParameter(
                 'foo',
@@ -212,7 +211,6 @@ class ParamsTest extends BaseTestCase
      */
     public function testException()
     {
-        $arrayVarMap = new ArrayVarMap([]);
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         $this->expectException(\Params\Exception\ParamsException::class);
 
@@ -228,9 +226,6 @@ class ParamsTest extends BaseTestCase
     public function testWorks()
     {
         $data = ['limit' => 5];
-
-        $arrayVarMap = new ArrayVarMap($data);
-
         $dataLocator =  DataStorage::fromArray($data);
 
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();

@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
-use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetFloat;
 use Params\ProcessedValues;
-use Params\Path;
 
 /**
  * @coversNothing
@@ -72,8 +70,6 @@ class GetFloatTest extends BaseTestCase
      */
     public function testErrors($variables)
     {
-        $variableName = 'foo';
-
         $rule = new GetFloat();
         $validator = new ProcessedValues();
         $validationResult = $rule->process(

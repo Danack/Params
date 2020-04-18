@@ -7,7 +7,6 @@ namespace ParamsTest\Exception\Validator;
 use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ValidationResult;
-use Params\Path;
 
 /**
  * @covers \Params\ValidationResult

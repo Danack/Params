@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
-use Params\ExtractRule\GetInt;
 use Params\InputParameter;
 use Params\SafeAccess;
 use Params\ExtractRule\GetString;

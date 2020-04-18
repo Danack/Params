@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
-use Params\DataLocator\SingleValueInputStorageAye;
-use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalInt;
 use Params\ProcessedValues;
-use Params\Path;
 
 /**
  * @coversNothing

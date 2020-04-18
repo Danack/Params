@@ -31,6 +31,7 @@ class ErrorPathsTest extends BaseTestCase
 
         $this->assertIsArray($errors);
         $this->assertCount(count($expectedErrors), $errors);
+        $this->assertNull($intArrayParams);
 
         foreach ($expectedErrors as $key => $expectedErrorMessage) {
             $this->assertValidationProblem(

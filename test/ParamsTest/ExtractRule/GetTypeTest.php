@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use ParamsTest\Integration\ReviewScore;
-use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetType;
 use Params\ProcessedValues;
-use Params\Path;
 use Params\DataLocator\DataStorage;
 
 /**

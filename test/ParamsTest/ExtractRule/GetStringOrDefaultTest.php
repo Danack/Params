@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
-use Params\DataLocator\SingleValueInputStorageAye;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetStringOrDefault;
 use Params\ProcessedValues;
-use Params\Path;
 use Params\DataLocator\NotAvailableInputStorageAye;
 
 /**

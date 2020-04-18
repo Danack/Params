@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
-use Params\DataLocator\SingleValueInputStorageAye;
-use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalString;
 use Params\ProcessedValues;
-use Params\Path;
 use Params\DataLocator\NotAvailableInputStorageAye;
 
 /**
@@ -42,7 +39,6 @@ class GetOptionalStringTest extends BaseTestCase
 
         $expectedValue = 'bar';
 
-        $varMap = new ArrayVarMap([]);
         $rule = new GetOptionalString();
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
