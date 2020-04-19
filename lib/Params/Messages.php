@@ -60,4 +60,18 @@ class Messages
     public const VALUE_MUST_BE_SCALAR = "Value must be scalar.";
 
     public const STRING_EXPECTED_BUT_FOUND_NON_SCALAR = "String expected but found non-scalar.";
+
+    public const GET_INPUT_PARAMETER_LIST_MUST_RETURN_ARRAY = 'Static function %s::getInputParameterList did not return an array. Must return %s[] ';
+
+    public const MUST_RETURN_ARRAY_OF__INPUT_PARAMETER = 'Static function %s::getInputParameterList Must return array of %s. Item at index %d is wrong type.';
+
+    public const INVALID_JSON_POINTER_FIRST = "First character must be /";
+
+    public const BAD_TYPE_FOR_ARRAY_ACCESS = "Cannot use type [%s] for array access";
+
+    public const CLASS_NOT_FOUND = "Class %s isn't available through auto-loader.";
+
+    public const CLASS_MUST_IMPLEMENT_INPUT_PARAMETER = "Class %s doesn't implement the %s interface. Cannot be used to get array of type.";
+
+    public const MUST_DUPLICATE_PARAMETER = "Must be duplicate of %s";
 }

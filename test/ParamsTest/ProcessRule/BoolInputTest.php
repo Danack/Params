@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\BoolInput;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
@@ -17,6 +18,10 @@ class BoolInputValidatorTest extends BaseTestCase
     public function provideBoolValueWorksCases()
     {
         return [
+
+            [true, true],
+            [false, false],
+            [null, false],
             ['true', true],
             ['truuue', false],
 
@@ -29,7 +34,7 @@ class BoolInputValidatorTest extends BaseTestCase
 
     /**
      * @dataProvider provideBoolValueWorksCases
-     * @covers \Params\ProcessRule\IntegerInput
+     * @covers \Params\ProcessRule\BoolInput
      */
     public function testValidationWorks($inputValue, bool $expectedValue)
     {
@@ -57,7 +62,7 @@ class BoolInputValidatorTest extends BaseTestCase
 
     /**
      * @dataProvider provideBoolValueErrorsCases
-     * @covers \Params\ProcessRule\IntegerInput
+     * @covers \Params\ProcessRule\BoolInput
      */
     public function testValidationErrors($inputValue)
     {
@@ -69,5 +74,16 @@ class BoolInputValidatorTest extends BaseTestCase
             DataStorage::fromArraySetFirstValue([$inputValue])
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+    }
+
+    /**
+     * @covers \Params\ProcessRule\BoolInput
+     */
+    public function testDescription()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+        $rule = new BoolInput();
+        $rule->updateParamDescription($description);
+        $this->assertSame('boolean', $description->getType());
     }
 }

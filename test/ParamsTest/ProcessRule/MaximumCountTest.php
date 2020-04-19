@@ -107,4 +107,20 @@ class MaximumCountTest extends BaseTestCase
             'a banana', $processedValues, $dataLocator
         );
     }
+
+    /**
+     * @covers \Params\ProcessRule\FloatInput
+     */
+    public function testDescription()
+    {
+        $this->markTestSkipped('needs implementing');
+
+//        $description = new OpenApiV300ParamDescription('John');
+//
+//        $rule = new FloatInput();
+//        $rule->updateParamDescription($description);
+//        $this->assertSame('float', $description->getType());
+//
+//        $description->getMinItems();
+    }
 }

@@ -5,26 +5,16 @@ declare(strict_types = 1);
 namespace Params\Exception;
 
 use Params\InputParameter;
+use Params\Messages;
 
 class InputParameterListException extends ParamsException
 {
     public static function notArray(string $classname): self
     {
         $message = sprintf(
-            'Static function %s::getInputParameterList did not return an array. Must return %s[] ',
+            Messages::GET_INPUT_PARAMETER_LIST_MUST_RETURN_ARRAY,
             $classname,
             InputParameter::class
-        );
-
-        return new self($message);
-    }
-
-    public static function nonInputParameter(string $classname): self
-    {
-        $message = sprintf(
-            'class [%s] does not implement interface [%s]. Cannot use it for',
-            $classname,
-            InputParameter::class,
         );
 
         return new self($message);
@@ -34,7 +24,7 @@ class InputParameterListException extends ParamsException
     public static function foundNonInputParameter(int $index, string $classname): self
     {
         $message = sprintf(
-            'Static function %s::getInputParameterList Must return array of %s. Item at index %d is wrong type.',
+            Messages::MUST_RETURN_ARRAY_OF__INPUT_PARAMETER,
             $classname,
             InputParameter::class,
             $index

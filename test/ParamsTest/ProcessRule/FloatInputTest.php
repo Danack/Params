@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\FloatInput;
+use Params\ProcessRule\IntegerInput;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
 
@@ -67,5 +69,17 @@ class FloatInputTest extends BaseTestCase
             DataStorage::fromArraySetFirstValue([$inputValue])
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+    }
+
+    /**
+     * @covers \Params\ProcessRule\FloatInput
+     */
+    public function testDescription()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+
+        $rule = new FloatInput();
+        $rule->updateParamDescription($description);
+        $this->assertSame('float', $description->getType());
     }
 }

@@ -10,6 +10,7 @@ use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
 
+
 class DuplicatesParam implements ProcessRule
 {
     private string $paramToDuplicate;
@@ -66,7 +67,11 @@ class DuplicatesParam implements ProcessRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
-        $paramDescription->setDescription("must be duplicate of $this->paramToDuplicate");
-        $paramDescription->setExclusiveMaximum(false);
+        $message = sprintf(
+            Messages::MUST_DUPLICATE_PARAMETER,
+            $this->paramToDuplicate
+        );
+
+        $paramDescription->setDescription($message);
     }
 }

@@ -5,7 +5,7 @@ namespace Params;
 use Params\DataLocator\DataStorage;
 use Params\DataLocator\InputStorageAye;
 use Params\Exception\InputParameterListException;
-use Params\Exception\InvalidJsonPointer;
+use Params\Exception\InvalidJsonPointerException;
 use Params\Exception\LogicException;
 use Params\Exception\MissingClassException;
 use Params\Exception\TypeNotInputParameterListException;
@@ -240,7 +240,7 @@ function getJsonPointerParts(string $pointer): array
     }
 
     if ($pointer[0] !== '/') {
-        throw InvalidJsonPointer::invalidFirstCharacter();
+        throw InvalidJsonPointerException::invalidFirstCharacter();
     }
 
     $remainingString = substr($pointer, 1);

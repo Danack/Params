@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
+use Params\ProcessRule\BoolInput;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaxLength;
 use Params\ProcessedValues;
@@ -69,5 +71,17 @@ class MaxLengthTest extends BaseTestCase
             // TODO - replace this with text comparison.
             $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         }
+    }
+
+    /**
+     * @covers \Params\ProcessRule\MaxLength
+     */
+    public function testDescription()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+        $maxLength = 20;
+        $rule = new MaxLength($maxLength);
+        $rule->updateParamDescription($description);
+        $this->assertSame($maxLength, $description->getMaxLength());
     }
 }

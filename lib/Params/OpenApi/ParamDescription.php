@@ -21,6 +21,10 @@ interface ParamDescription
     // of use. GFM syntax can be used for rich text representation.
     public function setDescription(string $description): void;
 
+
+    public function getDescription(): ?string;
+
+
     // boolean Determines whether this parameter is mandatory. If the parameter
     // is in "path", this property is required and its value MUST be true. Otherwise,
     // the property MAY be included and its default value is false.

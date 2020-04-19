@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
+use Params\ProcessRule\MaxLength;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MinLength;
 use Params\ProcessedValues;
@@ -66,5 +68,17 @@ class MinLengthTest extends BaseTestCase
             // TODO - test against strings
             $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         }
+    }
+
+    /**
+     * @covers \Params\ProcessRule\MinLength
+     */
+    public function testDescription()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+        $minLength = 20;
+        $rule = new MinLength($minLength);
+        $rule->updateParamDescription($description);
+        $this->assertSame($minLength, $description->getMinLength());
     }
 }

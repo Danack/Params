@@ -15,6 +15,8 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     private ?string $format = null;
 
+    private ?string $description = null;
+
     /**
      * @var ?array<mixed>
      */
@@ -193,8 +195,31 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     public function setDescription(string $description): void
     {
-        // TODO: Implement setDescription() method.
-        throw new \Exception("setDescription not implemented yet.");
+        $this->description = $description;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getExclusiveMaximum(): ?bool
+    {
+        return $this->exclusiveMaximum;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getExclusiveMinimum(): ?bool
+    {
+        return $this->exclusiveMinimum;
     }
 
     public function setRequired(bool $required): void
@@ -212,6 +237,7 @@ class OpenApiV300ParamDescription implements ParamDescription
     {
         $knownTypes = [
            'string',// (this includes dates and files)
+           'float',
            'number',
            'integer',
            'boolean',

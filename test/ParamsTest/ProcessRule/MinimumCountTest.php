@@ -6,6 +6,8 @@ namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
 use Params\Messages;
+use Params\OpenApi\OpenApiV300ParamDescription;
+use Params\ProcessRule\FloatInput;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\Exception\LogicException;
@@ -105,5 +107,22 @@ class MinimumCountTest extends BaseTestCase
         $rule->process(
             'a banana', $processedValues, DataStorage::fromArraySetFirstValue(['a banana'])
         );
+    }
+
+
+    /**
+     * @covers \Params\ProcessRule\FloatInput
+     */
+    public function testDescription()
+    {
+        $this->markTestSkipped('needs implementing');
+
+//        $description = new OpenApiV300ParamDescription('John');
+//
+//        $rule = new FloatInput();
+//        $rule->updateParamDescription($description);
+//        $this->assertSame('float', $description->getType());
+//
+//        $description->getMinItems();
     }
 }

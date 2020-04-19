@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\IntegerInput;
+use Params\ProcessRule\MinLength;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
 
@@ -68,5 +70,18 @@ class IntegerInputTest extends BaseTestCase
             DataStorage::fromArraySetFirstValue([$inputValue])
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+    }
+
+
+    /**
+     * @covers \Params\ProcessRule\IntegerInput
+     */
+    public function testDescription()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+
+        $rule = new IntegerInput();
+        $rule->updateParamDescription($description);
+        $this->assertSame('integer', $description->getType());
     }
 }

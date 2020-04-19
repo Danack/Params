@@ -74,6 +74,6 @@ class IntegerInput implements ProcessRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
-        // todo - this seems like a not needed rule.
+        $paramDescription->setType(ParamDescription::FORMAT_INTEGER);
     }
 }

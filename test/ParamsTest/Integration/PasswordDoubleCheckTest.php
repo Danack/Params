@@ -5,18 +5,19 @@ declare(strict_types = 1);
 namespace ParamsTest\Integration;
 
 use Params\Messages;
+use Params\OpenApi\OpenApiV300ParamDescription;
+use Params\ProcessRule\DuplicatesParam;
+use ParamsTest\Integration\PasswordDoubleCheck;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\Messages as DuplicatesParamRule;
 
 /**
- * @group v2
  * @coversNothing
  */
-class DuplicateParamsTest extends BaseTestCase
+class PasswordDoubleCheckTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ProcessRule\DuplicatesParam
+     * @covers \ParamsTest\Integration\PasswordDoubleCheck
      */
     public function testWorks()
     {
@@ -27,14 +28,14 @@ class DuplicateParamsTest extends BaseTestCase
             'password_repeat' => $password,
         ];
 
-        /** @var DuplicateParams $duplicateParams */
-        [$duplicateParams, $error] = DuplicateParams::createOrErrorFromVarMap(
+        /** @var PasswordDoubleCheck $duplicateParams */
+        [$duplicateParams, $error] = PasswordDoubleCheck::createOrErrorFromVarMap(
             new ArrayVarMap($data)
         );
 
         $this->assertEmpty($error);
 
-        $this->assertInstanceOf(DuplicateParams::class, $duplicateParams);
+        $this->assertInstanceOf(PasswordDoubleCheck::class, $duplicateParams);
         $this->assertSame($password, $duplicateParams->getPassword());
         $this->assertSame($password, $duplicateParams->getPasswordRepeat());
     }
@@ -52,14 +53,14 @@ class DuplicateParamsTest extends BaseTestCase
 
                 [
                     'password_repeat' => 'zyx12345',
-                    DuplicatesParamRule::ERROR_NO_PREVIOUS_PARAM
+                    Messages::ERROR_NO_PREVIOUS_PARAM
                 ],
             ]
         ];
     }
 
     /**
-     * @covers \Params\ProcessRule\DuplicatesParam
+     * @covers \ParamsTest\Integration\PasswordDoubleCheck
      */
     public function testDifferentValue()
     {
@@ -68,8 +69,8 @@ class DuplicateParamsTest extends BaseTestCase
             'password_repeat' => 'zyx12345'
         ];
 
-        /** @var DuplicateParams $duplicateParams */
-        [$duplicateParams, $validationProblems] = DuplicateParams::createOrErrorFromVarMap(
+        /** @var PasswordDoubleCheck $duplicateParams */
+        [$duplicateParams, $validationProblems] = PasswordDoubleCheck::createOrErrorFromVarMap(
             new ArrayVarMap($data)
         );
 
@@ -84,7 +85,7 @@ class DuplicateParamsTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\DuplicatesParam
+     * @covers \ParamsTest\Integration\PasswordDoubleCheck
      */
     public function testMissingPreviousValue()
     {
@@ -92,8 +93,8 @@ class DuplicateParamsTest extends BaseTestCase
             'password_repeat' => 'zyx12345'
         ];
 
-        /** @var DuplicateParams $duplicateParams */
-        [$duplicateParams, $validationProblems] = DuplicateParams::createOrErrorFromVarMap(
+        /** @var PasswordDoubleCheck $duplicateParams */
+        [$duplicateParams, $validationProblems] = PasswordDoubleCheck::createOrErrorFromVarMap(
             new ArrayVarMap($data)
         );
 
@@ -108,24 +109,25 @@ class DuplicateParamsTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/password_repeat',
-            DuplicatesParamRule::ERROR_NO_PREVIOUS_PARAM,
+            Messages::ERROR_NO_PREVIOUS_PARAM,
             $validationProblems
         );
     }
 
 
     /**
-     * @covers \Params\ProcessRule\DuplicatesParam
+     * @covers \ParamsTest\Integration\PasswordDoubleCheck
+     * @group needs_fixing
      */
     public function testWrongTypePreviousValue()
     {
         $data = [
-            'days' => 5,
-            'days_repeat' => 'zyx12345'
+            'password' => 'zyx12345',
+            'password_repeat' => 5
         ];
 
-        /** @var DuplicateParams $duplicateParams */
-        [$duplicateParams, $validationProblems] = DuplicateButWrongTypeParams::createOrErrorFromVarMap(
+        /** @var PasswordDoubleCheck $duplicateParams */
+        [$duplicateParams, $validationProblems] = PasswordDoubleCheck::createOrErrorFromVarMap(
             new ArrayVarMap($data)
         );
 
@@ -133,7 +135,7 @@ class DuplicateParamsTest extends BaseTestCase
         $this->assertCount(1, $validationProblems);
 
         $this->assertValidationProblemRegexp(
-            '/days_repeat',
+            '/password_repeat',
             Messages::ERROR_DIFFERENT_TYPES,
             $validationProblems
         );

@@ -139,4 +139,9 @@ class ShouldNeverBeCalledParamDescription implements ParamDescription
     {
         throw new \Exception("setMultipleOf should not be called.");
     }
+
+    public function getDescription(): ?string
+    {
+        throw new \Exception("getDescription should not be called.");
+    }
 }

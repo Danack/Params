@@ -2,6 +2,7 @@
 
 namespace ParamsTest;
 
+use Params\Messages;
 use Params\ValidationResult;
 use PHPUnit\Framework\TestCase;
 use Params\ProcessedValues;
@@ -97,8 +98,11 @@ class BaseTestCase extends TestCase
      * @param string $problem
      * @param \Params\ValidationProblem[] $validationProblems
      */
-    protected function assertValidationProblemRegexp(string $identifier, string $expectedProblem, $validationProblems)
-    {
+    protected function assertValidationProblemRegexp(
+        string $identifier,
+        string $expectedProblem,
+        $validationProblems
+    ) {
         $expectedProblemRegexp = stringToRegexp($expectedProblem);
 
         foreach ($validationProblems as $validationProblem) {
@@ -215,5 +219,11 @@ class BaseTestCase extends TestCase
         $actualValue = $processedValues->getValue($key);
 
         $this->assertSame($expectedValue, $actualValue, "ProcessedValues contained wrong value.");
+    }
+
+    public function assertStringRegExp($string, $message)
+    {
+        $regExp = stringToRegexp($string);
+        $this->assertRegExp($regExp, $message);
     }
 }

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\Exception\ValidationException;
 use Params\ValidationProblem;
+use Params\Exception\InputParameterListException;
 
 /**
  * @coversNothing
@@ -16,15 +18,17 @@ class ValidationExceptionTest extends BaseTestCase
 {
     /**
      * @covers \Params\Exception\ValidationException
-
      */
     public function testGetting()
     {
         $dataLocator = DataStorage::fromArraySetFirstValue([]);
 
+        $message1 = 'foo was invalid';
+        $message2 = 'bar was invalid';
+
         $validationMessages = [
-            new ValidationProblem($dataLocator, 'foo was invalid'),
-            new ValidationProblem($dataLocator, 'bar was invalid')
+            new ValidationProblem($dataLocator, $message1),
+            new ValidationProblem($dataLocator, $message2)
         ];
 
         $exception = new ValidationException(
@@ -38,20 +42,12 @@ class ValidationExceptionTest extends BaseTestCase
         );
 
         $this->assertSame(0, $exception->getCode());
+
+        $strings = $exception->getValidationProblemsAsStrings();
+        $actualStrings = [
+            '/ ' . $message1,
+            '/ ' . $message2
+        ];
+        $this->assertSame($actualStrings, $strings);
     }
-
-
-//    /**
-//     * @covers \Params\Exception\ParamsException
-//     */
-//    public function testParamsException()
-//    {
-//        $exception = ParamsException::badFirstRule();
-//
-//        $this->assertSame(
-//            ParamsException::ERROR_FIRST_RULE_MUST_IMPLEMENT_FIRST_RULE,
-//            $exception->getMessage()
-//        );
-//        $this->assertInstanceOf(ParamsException::class, $exception);
-//    }
 }

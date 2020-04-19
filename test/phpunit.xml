@@ -13,11 +13,11 @@
             <directory>../test/</directory>
         </testsuite>
     </testsuites>
-<!--    <groups>-->
-<!--        <exclude>-->
-<!--            <group>needs_fixing</group>-->
-<!--        </exclude>-->
-<!--    </groups>-->
+    <groups>
+        <exclude>
+            <group>needs_fixing</group>
+        </exclude>
+    </groups>
 
     <filter>
         <whitelist>

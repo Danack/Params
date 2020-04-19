@@ -12,7 +12,7 @@ use Params\ProcessRule\MaxLength;
 use Params\Create\CreateOrErrorFromVarMap;
 use Params\ProcessRule\DuplicatesParam;
 
-class DuplicateParams
+class PasswordDoubleCheck
 {
     use SafeAccess;
     use CreateOrErrorFromVarMap;

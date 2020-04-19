@@ -15,6 +15,19 @@ class ProcessedValues
     /** @var array<int|string, mixed>  */
     private array $paramValues = [];
 
+    public static function fromArray($values): self
+    {
+        foreach ($values as $key => $value) {
+            if (is_string($key) !== true) {
+                throw new LogicException("processed values must have string keys");
+            }
+        }
+
+        $instance = new self();
+        $instance->paramValues = $values;
+
+        return $instance;
+    }
 
     /**
      * Gets the currently processed params.
