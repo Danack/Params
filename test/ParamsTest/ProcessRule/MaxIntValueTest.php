@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
+use Params\ProcessRule\MinIntValue;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessedValues;
@@ -53,5 +55,20 @@ class MaxIntValueValidatorTest extends BaseTestCase
         else {
             $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         }
+    }
+
+
+    /**
+     * @covers \Params\ProcessRule\MaxIntValue
+     */
+    public function testDescription()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+        $maxValue = 20;
+        $rule = new MaxIntValue($maxValue);
+        $rule->updateParamDescription($description);
+
+        $this->assertSame($maxValue, $description->getMaximum());
+        $this->assertFalse($description->isExclusiveMaximum());
     }
 }

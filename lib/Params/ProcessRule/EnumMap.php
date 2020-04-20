@@ -61,6 +61,6 @@ class EnumMap implements ProcessRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
-//        $paramDescription->setEnum($this->allowedValues);
+        $paramDescription->setEnum(array_keys($this->allowedValues));
     }
 }

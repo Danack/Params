@@ -31,5 +31,6 @@ class NotNull implements ProcessRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
+        $paramDescription->setNullAllowed(false);
     }
 }

@@ -3,9 +3,12 @@
 namespace ParamsTest;
 
 use Params\Messages;
+use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ValidationResult;
 use PHPUnit\Framework\TestCase;
 use Params\ProcessedValues;
+use Params\ProcessRule\ProcessRule;
+use Params\OpenApi\ParamDescription;
 
 /**
  * @coversNothing
@@ -225,5 +228,14 @@ class BaseTestCase extends TestCase
     {
         $regExp = stringToRegexp($string);
         $this->assertRegExp($regExp, $message);
+    }
+
+
+    public function applyRuleToDescription(ProcessRule $rule): ParamDescription
+    {
+        $description = new OpenApiV300ParamDescription('John');
+        $rule->updateParamDescription($description);
+
+        return $description;
     }
 }

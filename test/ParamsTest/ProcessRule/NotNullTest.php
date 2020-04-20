@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\ProcessRule\MaximumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\NotNull;
 use Params\ProcessedValues;
@@ -34,5 +35,18 @@ class NotNullTest extends BaseTestCase
             5, $processedValues, $dataLocator
         );
         $this->assertNoValidationProblems($validationResult->getValidationProblems());
+    }
+
+
+    /**
+     * @covers \Params\ProcessRule\NotNull
+     */
+    public function testDescription()
+    {
+        $rule = new NotNull();
+        $description = $this->applyRuleToDescription($rule);
+
+        // Not null -> null will fail.
+        $this->assertFalse($description->getNullAllowed());
     }
 }

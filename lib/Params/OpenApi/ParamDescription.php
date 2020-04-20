@@ -116,6 +116,18 @@ interface ParamDescription
      */
     public function setMaximum($maximum): void;
 
+    /**
+     * @return int|float|null
+     */
+    public function getMaximum();
+
+
+    /**
+     * @return int|float|null
+     */
+    public function getMinimum();
+
+
     // boolean See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.2.
     public function setExclusiveMaximum(bool $exclusiveMaximum): void;
 
@@ -140,11 +152,16 @@ interface ParamDescription
     // integer See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.2.
     public function setMaxItems(int $maxItems): void;
 
+    public function getMaxItems(): ?int;
 
     // integer See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.3.
     public function setMinItems(int $minItems): void;
 
-    public function setNullAllowed(): void;
+    public function getMinItems(): ?int;
+
+    public function setNullAllowed(bool $allowed): void;
+
+    public function getNullAllowed(): ?bool;
 
     // boolean See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.4.
     public function setUniqueItems(bool $uniqueItems): void;
@@ -158,6 +175,8 @@ interface ParamDescription
      * @param array<mixed> $enumValues
      */
     public function setEnum(array $enumValues): void;
+
+    public function getEnum(): ?array;
 
     // number See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.1.
 

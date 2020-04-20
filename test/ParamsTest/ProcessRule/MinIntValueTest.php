@@ -55,7 +55,7 @@ class MinIntValueTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MaxLength
+     * @covers \Params\ProcessRule\MinIntValue
      */
     public function testDescription()
     {

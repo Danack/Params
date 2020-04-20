@@ -34,6 +34,11 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     private ?int $minLength = null;
 
+    private ?int $minItems;
+
+    private ?int $maxItems;
+
+
     /**
      * @var mixed
      */
@@ -312,6 +317,9 @@ class OpenApiV300ParamDescription implements ParamDescription
         $this->default = $default;
     }
 
+    /**
+     * @param int|float|null $maximum
+     */
     public function setMaximum($maximum): void
     {
         $this->maximum = $maximum;
@@ -358,19 +366,17 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     public function setMaxItems(int $maxItems): void
     {
-        // TODO: Implement setMaxItems() method.
-        throw new \Exception("setMaxItems not implemented yet.");
+        $this->maxItems = $maxItems;
     }
 
     public function setMinItems(int $minItems): void
     {
-        // TODO: Implement setMinItems() method.
-        throw new \Exception("setMinItems not implemented yet.");
+        $this->minItems = $minItems;
     }
 
-    public function setNullAllowed(): void
+    public function setNullAllowed(bool $allowed): void
     {
-        $this->nullAllowed = true;
+        $this->nullAllowed = $allowed;
     }
 
     public function setUniqueItems(bool $uniqueItems): void
@@ -394,6 +400,12 @@ class OpenApiV300ParamDescription implements ParamDescription
 
         $this->enumValues = $enumValues;
     }
+
+    public function getEnum(): ?array
+    {
+        return $this->enumValues;
+    }
+
 
     public function setMultipleOf($multiple): void
     {
@@ -482,6 +494,15 @@ class OpenApiV300ParamDescription implements ParamDescription
     }
 
 
+    public function getMinItems(): ?int
+    {
+        return $this->minItems;
+    }
+
+    public function getMaxItems(): ?int
+    {
+        return $this->maxItems;
+    }
 
 // examples:
 //  oneId:

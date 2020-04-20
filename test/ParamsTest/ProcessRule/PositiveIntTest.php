@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\ProcessRule\NotNull;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\PositiveInt;
 use Params\ProcessedValues;
@@ -46,5 +47,18 @@ class PositiveIntTest extends BaseTestCase
             $this->assertNoValidationProblems($validationResult->getValidationProblems());
             $this->assertEquals($validationResult->getValue(), $expectedResult);
         }
+    }
+
+
+    /**
+     * @covers \Params\ProcessRule\PositiveInt
+     */
+    public function testDescription()
+    {
+        $rule = new PositiveInt();
+        $description = $this->applyRuleToDescription($rule);
+
+        $this->assertSame(0, $description->getMinimum());
+        $this->assertFalse($description->getExclusiveMinimum());
     }
 }

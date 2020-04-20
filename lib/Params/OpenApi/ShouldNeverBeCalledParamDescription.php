@@ -116,7 +116,7 @@ class ShouldNeverBeCalledParamDescription implements ParamDescription
         throw new \Exception("setMinItems should not be called.");
     }
 
-    public function setNullAllowed(): void
+    public function setNullAllowed(bool $allowed): void
     {
         throw new \Exception("setNullAllowed should not be called.");
     }
@@ -143,5 +143,41 @@ class ShouldNeverBeCalledParamDescription implements ParamDescription
     public function getDescription(): ?string
     {
         throw new \Exception("getDescription should not be called.");
+    }
+
+    public function getEnum(): ?array
+    {
+        throw new \Exception("getEnum should not be called.");
+    }
+
+    public function getMaxItems(): ?int
+    {
+        throw new \Exception("getMaxItems should not be called.");
+    }
+
+    public function getMinItems(): ?int
+    {
+        throw new \Exception("getMinItems should not be called.");
+    }
+
+    public function getNullAllowed(): ?bool
+    {
+        throw new \Exception("getNullAllowed should not be called.");
+    }
+
+    /**
+     * @param int|float|null
+     */
+    public function getMaximum()
+    {
+        throw new \Exception("getMaximum should not be called.");
+    }
+
+    /**
+     * @param int|float|null
+     */
+    public function getMinimum()
+    {
+        throw new \Exception("getMinimum should not be called.");
     }
 }

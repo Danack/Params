@@ -36,8 +36,8 @@ class NullIfEmpty implements ProcessRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
-        // If we are allowing null, then parameter must be nullable
-        // right?
-        $paramDescription->setNullAllowed();
+        // If we are allowing null, then parameter
+        // must be nullable, right?
+        $paramDescription->setNullAllowed(true);
     }
 }

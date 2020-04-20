@@ -111,18 +111,12 @@ class MinimumCountTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\FloatInput
+     * @covers \Params\ProcessRule\MinimumCount
      */
     public function testDescription()
     {
-        $this->markTestSkipped('needs implementing');
-
-//        $description = new OpenApiV300ParamDescription('John');
-//
-//        $rule = new FloatInput();
-//        $rule->updateParamDescription($description);
-//        $this->assertSame('float', $description->getType());
-//
-//        $description->getMinItems();
+        $rule = new MinimumCount(3);
+        $description = $this->applyRuleToDescription($rule);
+        $this->assertSame(3, $description->getMinItems());
     }
 }

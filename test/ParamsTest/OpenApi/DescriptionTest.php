@@ -365,21 +365,21 @@ class DescriptionTest extends BaseTestCase
         $this->performSchemaTest($schemaExpectations, $rules);
     }
 
-    public function testSkipIfNull()
-    {
-        $schemaExpectations = [
-            'nullable' => true
-        ];
-        $rules = [
-            new InputParameter(
-                'value',
-                new GetStringOrDefault(null),
-                new SkipIfNull()
-            ),
-        ];
-
-        $this->performSchemaTest($schemaExpectations, $rules);
-    }
+//    public function testSkipIfNull()
+//    {
+//        $schemaExpectations = [
+//            'nullable' => true
+//        ];
+//        $rules = [
+//            new InputParameter(
+//                'value',
+//                new GetStringOrDefault(null),
+//                new SkipIfNull()
+//            ),
+//        ];
+//
+//        $this->performSchemaTest($schemaExpectations, $rules);
+//    }
 
     public function testValidDate()
     {
@@ -478,9 +478,6 @@ class DescriptionTest extends BaseTestCase
         $description = new ShouldNeverBeCalledParamDescription();
         $trimRule = new Trim();
         $trimRule->updateParamDescription($description);
-
-        $notNullRule = new NotNull();
-        $notNullRule->updateParamDescription($description);
 
         $alwaysEndsRule = new AlwaysEndsRule(5);
         $alwaysEndsRule->updateParamDescription($description);

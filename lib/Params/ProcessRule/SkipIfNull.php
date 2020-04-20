@@ -27,6 +27,6 @@ class SkipIfNull implements ProcessRule
     {
         // If we are allowing null, then parameter must be nullable
         // right?
-        $paramDescription->setNullAllowed();
+        // $paramDescription->setNullAllowed();
     }
 }

@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
+use Params\OpenApi\OpenApiV300ParamDescription;
+use Params\ProcessRule\DuplicatesParam;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Enum;
 use Params\ProcessedValues;
@@ -46,5 +49,20 @@ class EnumTest extends BaseTestCase
 
         $this->assertNoValidationProblems($validationResult->getValidationProblems());
         $this->assertEquals($validationResult->getValue(), $expectedValue);
+    }
+
+    /**
+     * @covers \Params\ProcessRule\Enum
+     */
+    public function testDescription()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+
+        $enumValues = ['zoq', 'fot', 'pik', '12345'];
+        $rule = new Enum($enumValues);
+        $rule->updateParamDescription($description);
+
+
+        $this->assertSame($enumValues, $description->getEnumValues());
     }
 }

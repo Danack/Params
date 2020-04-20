@@ -47,6 +47,8 @@ class FloatInputTest extends BaseTestCase
     {
         return [
             // todo - we should test the exact error.
+            [[]],
+            [''],
             ['5.a'],
             ['5.5 '], // trailing space
             [' 5.5'], // leading space
@@ -59,7 +61,7 @@ class FloatInputTest extends BaseTestCase
      * @dataProvider provideErrorCases
      * @covers \Params\ProcessRule\FloatInput
      */
-    public function testValidationErrors(string $inputValue)
+    public function testValidationErrors($inputValue)
     {
         $rule = new FloatInput();
         $processedValues = new ProcessedValues();

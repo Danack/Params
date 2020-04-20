@@ -109,18 +109,12 @@ class MaximumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\FloatInput
+     * @covers \Params\ProcessRule\MaximumCount
      */
     public function testDescription()
     {
-        $this->markTestSkipped('needs implementing');
-
-//        $description = new OpenApiV300ParamDescription('John');
-//
-//        $rule = new FloatInput();
-//        $rule->updateParamDescription($description);
-//        $this->assertSame('float', $description->getType());
-//
-//        $description->getMinItems();
+        $rule = new MaximumCount(3);
+        $description = $this->applyRuleToDescription($rule);
+        $this->assertSame(3, $description->getMinItems());
     }
 }
