@@ -34,9 +34,9 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     private ?int $minLength = null;
 
-    private ?int $minItems;
+    private ?int $minItems = null;
 
-    private ?int $maxItems;
+    private ?int $maxItems = null;
 
 
     /**

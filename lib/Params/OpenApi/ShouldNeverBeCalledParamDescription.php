@@ -166,7 +166,7 @@ class ShouldNeverBeCalledParamDescription implements ParamDescription
     }
 
     /**
-     * @param int|float|null
+     * @return int|float|null
      */
     public function getMaximum()
     {
@@ -174,7 +174,7 @@ class ShouldNeverBeCalledParamDescription implements ParamDescription
     }
 
     /**
-     * @param int|float|null
+     * @return int|float|null
      */
     public function getMinimum()
     {
@@ -190,6 +190,4 @@ class ShouldNeverBeCalledParamDescription implements ParamDescription
     {
         throw new \Exception("getMinLength should not be called.");
     }
-
-
 }

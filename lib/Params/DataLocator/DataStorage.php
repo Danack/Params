@@ -55,7 +55,7 @@ class DataStorage implements InputStorageAye
     /**
      * Used for testing missing data mostly.
      * @param string $key
-     * @return static
+     * @return self
      */
     public static function createMissing(string $key): self
     {

@@ -10,7 +10,6 @@ use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
 
-
 class DuplicatesParam implements ProcessRule
 {
     private string $paramToDuplicate;

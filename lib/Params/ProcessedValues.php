@@ -15,7 +15,7 @@ class ProcessedValues
     /** @var array<int|string, mixed>  */
     private array $paramValues = [];
 
-    public static function fromArray($values): self
+    public static function fromArray(array $values): self
     {
         foreach ($values as $key => $value) {
             if (is_string($key) !== true) {

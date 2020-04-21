@@ -21,14 +21,17 @@ class GetOptionalType implements ExtractRule
 {
     private GetType $getType;
 
+    private function __construct(GetType $getType)
+    {
+        $this->getType = $getType;
+    }
+
     /**
      * @param class-string $classname
      */
     public static function fromClass(string $classname): self
     {
-
-        $instance = new self();
-        $instance->getType = GetType::fromClass($classname);
+        $instance = new self(GetType::fromClass($classname));
 
         return $instance;
     }

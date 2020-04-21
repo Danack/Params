@@ -43,8 +43,6 @@ class StartsWithString implements ProcessRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
-        // If we are allowing null, then parameter must be nullable
-        // right?
-        $paramDescription->setNullAllowed();
+        // TODO implement
     }
 }
