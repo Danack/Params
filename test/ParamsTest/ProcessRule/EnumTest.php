@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
-use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\DuplicatesParam;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Enum;
 use Params\ProcessedValues;
@@ -47,7 +45,7 @@ class EnumTest extends BaseTestCase
             return;
         }
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 

@@ -18,4 +18,6 @@ interface InputStorageAye
     public function moveKey($name): self;
 
     public function valueAvailable(): bool;
+
+    public function toString(): string;
 }

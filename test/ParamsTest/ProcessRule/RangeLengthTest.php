@@ -88,11 +88,24 @@ class RangeLengthTest extends BaseTestCase
         );
 
         if ($expectError === false) {
-            $this->assertNoValidationProblems($validationResult->getValidationProblems());
+            $this->assertNoProblems($validationResult);
         }
         else {
             // TODO - replace this with text comparison.
             $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         }
+    }
+
+
+    /**
+     * @covers \Params\ProcessRule\RangeLength
+     */
+    public function testDescription()
+    {
+        $rule = new RangeLength(10, 20);
+        $description = $this->applyRuleToDescription($rule);
+
+        $this->assertSame(10, $description->getMinLength());
+        $this->assertSame(20, $description->getMaxLength());
     }
 }

@@ -6,7 +6,6 @@ namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
 use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\MaxLength;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MinIntValue;
 use Params\ProcessedValues;
@@ -47,7 +46,7 @@ class MinIntValueTest extends BaseTestCase
         );
 
         if ($expectError === false) {
-            $this->assertNoValidationProblems($validationResult->getValidationProblems());
+            $this->assertNoProblems($validationResult);
         }
         else {
             $this->assertExpectedValidationProblems($validationResult->getValidationProblems());

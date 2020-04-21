@@ -180,4 +180,16 @@ class ShouldNeverBeCalledParamDescription implements ParamDescription
     {
         throw new \Exception("getMinimum should not be called.");
     }
+
+    public function getMaxLength(): ?int
+    {
+        throw new \Exception("getMaxLength should not be called.");
+    }
+
+    public function getMinLength(): ?int
+    {
+        throw new \Exception("getMinLength should not be called.");
+    }
+
+
 }

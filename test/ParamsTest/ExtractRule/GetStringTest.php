@@ -43,7 +43,7 @@ class GetStringTest extends BaseTestCase
             DataStorage::fromArraySetFirstValue([$expectedValue])
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -68,5 +68,43 @@ class GetStringTest extends BaseTestCase
             Messages::STRING_EXPECTED_BUT_FOUND_NON_SCALAR,
             $validationResult->getValidationProblems()
         );
+    }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetString
+     */
+    public function testFromObjectErrors()
+    {
+        $index = 'foo';
+
+        $data = [$index => new \StdClass()];
+
+        $rule = new GetString();
+        $validator = new ProcessedValues();
+        $validationResult = $rule->process(
+            $validator,
+            DataStorage::fromArraySetFirstValue($data)
+        );
+
+        $this->assertValidationProblemRegexp(
+            '/' . $index,
+            Messages::STRING_EXPECTED_BUT_FOUND_NON_SCALAR,
+            $validationResult->getValidationProblems()
+        );
+    }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetString
+     */
+    public function testDescription()
+    {
+        $rule = new GetString();
+        $description = $this->applyRuleToDescription($rule);
+
+        $rule->updateParamDescription($description);
+        $this->assertSame('string', $description->getType());
+        $this->assertTrue($description->getRequired());
     }
 }

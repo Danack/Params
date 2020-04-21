@@ -82,7 +82,7 @@ class GetType implements ExtractRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
-        $paramDescription->setType(ParamDescription::TYPE_INTEGER);
+        // TODO - how to implement this.
         $paramDescription->setRequired(true);
     }
 }

@@ -38,7 +38,7 @@ class GetFloatOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetIntOrDefault
+     * @covers \Params\ExtractRule\GetFloatOrDefault
      * @dataProvider provideTestCases
      */
     public function testValidation($data, $default, $expectedValue)
@@ -54,7 +54,7 @@ class GetFloatOrDefaultTest extends BaseTestCase
             $dataStorage
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -70,7 +70,7 @@ class GetFloatOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetIntOrDefault
+     * @covers \Params\ExtractRule\GetFloatOrDefault
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($inputValue)
@@ -88,5 +88,20 @@ class GetFloatOrDefaultTest extends BaseTestCase
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+    }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetFloatOrDefault
+     */
+    public function testDescription()
+    {
+        $rule = new GetFloatOrDefault(4.5);
+        $description = $this->applyRuleToDescription($rule);
+
+        $rule->updateParamDescription($description);
+        $this->assertSame('number', $description->getType());
+        $this->assertFalse($description->getRequired());
+        $this->assertSame(4.5, $description->getDefault());
     }
 }

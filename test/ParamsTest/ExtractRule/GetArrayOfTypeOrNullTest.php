@@ -33,8 +33,7 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
             DataStorage::fromArray($data)
         );
 
-        $this->assertNoValidationProblems($result->getValidationProblems());
-
+        $this->assertNoProblems($result);
         $this->assertFalse($result->isFinalResult());
 
         $this->assertCount(1, $result->getValue());
@@ -60,8 +59,10 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
             $dataStorageAtItems
         );
 
-//        $this->assertTrue($result->isFinalResult());
         $this->assertNull($result->getValue());
+
         $this->assertEmpty($result->getValidationProblems());
+
+        $this->assertNoProblems($result);
     }
 }

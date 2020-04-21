@@ -59,6 +59,7 @@ class RangeLength implements ProcessRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
+        $paramDescription->setMinLength($this->minLength);
         $paramDescription->setMaxLength($this->maxLength);
     }
 }

@@ -7,7 +7,6 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\IntegerInput;
-use Params\ProcessRule\MinLength;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
 
@@ -40,7 +39,7 @@ class IntegerInputTest extends BaseTestCase
             DataStorage::fromArraySetFirstValue([$inputValue])
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($expectedValue, $validationResult->getValue());
     }
 

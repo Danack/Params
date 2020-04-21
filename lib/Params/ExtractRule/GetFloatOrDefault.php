@@ -43,6 +43,7 @@ class GetFloatOrDefault implements ExtractRule
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $paramDescription->setType(ParamDescription::TYPE_NUMBER);
-        $paramDescription->setRequired(true);
+        $paramDescription->setDefault($this->default);
+        $paramDescription->setRequired(false);
     }
 }

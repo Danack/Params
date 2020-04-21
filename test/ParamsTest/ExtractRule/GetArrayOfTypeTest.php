@@ -39,7 +39,7 @@ class GetArrayOfTypeTest extends BaseTestCase
             DataStorage::fromArray($data)
         );
 
-        $this->assertNoValidationProblems($result->getValidationProblems());
+        $this->assertNoProblems($result);
         $this->assertFalse($result->isFinalResult());
 
         $this->assertCount(2, $result->getValue());
@@ -84,7 +84,7 @@ class GetArrayOfTypeTest extends BaseTestCase
             $dataStorage
         );
 
-        $this->assertNoValidationProblems($result->getValidationProblems());
+        $this->assertNoProblems($result);
         $this->assertFalse($result->isFinalResult());
 
         $this->assertCount(2, $result->getValue());
@@ -125,7 +125,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $item = ($result->getValue())[0];
         $this->assertInstanceOf(SingleIntParams::class, $item);
 
-        $this->assertNoValidationProblems($result->getValidationProblems());
+        $this->assertNoProblems($result);
         /** @var SingleIntParams $item */
         $this->assertSame(5, $item->getLimit());
     }

@@ -2,12 +2,11 @@
 
 namespace ParamsTest;
 
-use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
+use Params\Rule;
 use Params\ValidationResult;
 use PHPUnit\Framework\TestCase;
 use Params\ProcessedValues;
-use Params\ProcessRule\ProcessRule;
 use Params\OpenApi\ParamDescription;
 
 /**
@@ -52,6 +51,17 @@ class BaseTestCase extends TestCase
         $this->assertTrue(true);
     }
 
+
+    protected function assertProblems(
+        ValidationResult $validationResult,
+        array $messagesByIdentifier
+    ) {
+        $validationProblems = $validationResult->getValidationProblems();
+
+        foreach ($messagesByIdentifier as $identifier => $message) {
+            $this->assertValidationProblemRegexp($identifier, $message, $validationProblems);
+        }
+    }
 
     /**
      * @param string $identifier
@@ -157,6 +167,12 @@ class BaseTestCase extends TestCase
     }
 
 
+    public function assertNoProblems(ValidationResult $validationResult)
+    {
+        $validationProblems = $validationResult->getValidationProblems();
+        $this->assertNoValidationProblems($validationProblems);
+    }
+
     /**
      * @param \Params\ValidationProblem[] $validationProblems
      */
@@ -231,7 +247,7 @@ class BaseTestCase extends TestCase
     }
 
 
-    public function applyRuleToDescription(ProcessRule $rule): ParamDescription
+    public function applyRuleToDescription(Rule $rule): ParamDescription
     {
         $description = new OpenApiV300ParamDescription('John');
         $rule->updateParamDescription($description);

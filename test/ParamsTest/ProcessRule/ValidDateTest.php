@@ -43,7 +43,7 @@ class ValidDateTest extends BaseTestCase
             $input, $processedValues, $dataLocator
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expectedTime);
     }
 

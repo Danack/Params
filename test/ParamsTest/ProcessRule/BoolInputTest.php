@@ -46,7 +46,7 @@ class BoolInputValidatorTest extends BaseTestCase
             DataStorage::fromArraySetFirstValue([$inputValue])
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($expectedValue, $validationResult->getValue());
     }
 

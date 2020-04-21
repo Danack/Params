@@ -142,9 +142,12 @@ interface ParamDescription
 
     // integer See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.1.
     public function setMaxLength(int $maxLength): void;
+    public function getMaxLength(): ?int;
 
     // integer See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.2.
     public function setMinLength(int $minLength): void;
+    public function getMinLength(): ?int;
+
 
     // string See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.3.
     public function setPattern(string $pattern): void;

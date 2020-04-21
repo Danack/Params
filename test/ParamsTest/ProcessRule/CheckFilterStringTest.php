@@ -35,7 +35,7 @@ class CheckFilterStringTest extends BaseTestCase
         $validationResult = $rule->process(
             $inputString, $processedValues, $dataLocator
         );
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
 
         $validationValue = $validationResult->getValue();
 

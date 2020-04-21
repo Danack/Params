@@ -10,6 +10,10 @@ use Params\ProcessedValues;
 use Params\ProcessRule\BoolInput;
 use Params\ValidationResult;
 
+
+/**
+ * If a parameter is not set, then the value is the default value.
+ */
 class GetBoolOrDefault implements ExtractRule
 {
     private ?bool $default;

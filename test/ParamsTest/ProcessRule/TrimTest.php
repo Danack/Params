@@ -25,7 +25,7 @@ class TrimTest extends BaseTestCase
         $validationResult = $rule->process(
             ' bar ', $processedValues, DataStorage::fromArraySetFirstValue([' bar '])
         );
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), 'bar');
     }
 

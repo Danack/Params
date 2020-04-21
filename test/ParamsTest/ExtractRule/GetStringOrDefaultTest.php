@@ -40,7 +40,7 @@ class GetStringOrDefaultTest extends BaseTestCase
             $validator, DataStorage::fromArraySetFirstValue(['John'])
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), 'John');
     }
 
@@ -57,7 +57,21 @@ class GetStringOrDefaultTest extends BaseTestCase
             $validator, new NotAvailableInputStorageAye()
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $default);
+    }
+
+    /**
+     * @covers \Params\ExtractRule\GetStringOrDefault
+     */
+    public function testDescription()
+    {
+        $rule = new GetStringOrDefault('John');
+        $description = $this->applyRuleToDescription($rule);
+
+        $rule->updateParamDescription($description);
+        $this->assertSame('string', $description->getType());
+        $this->assertFalse($description->getRequired());
+        $this->assertSame('John', $description->getDefault());
     }
 }

@@ -36,7 +36,7 @@ class MaximumCountTest extends BaseTestCase
         $validationResult = $rule->process(
             $values, $processedValues, DataStorage::fromArray([$values])
         );
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertSame($values, $validationResult->getValue());
     }

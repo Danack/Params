@@ -504,6 +504,7 @@ class OpenApiV300ParamDescription implements ParamDescription
         return $this->maxItems;
     }
 
+
 // examples:
 //  oneId:
 //    summary: Example of a single ID

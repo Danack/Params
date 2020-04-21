@@ -31,7 +31,7 @@ class GetOptionalBoolTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalInt
+     * @covers \Params\ExtractRule\GetOptionalBool
      * @dataProvider provideTestCases
      */
     public function testValidation($input, $expectedValue)
@@ -42,9 +42,26 @@ class GetOptionalBoolTest extends BaseTestCase
             $validator, DataStorage::fromSingleValue('foo', $input)
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetOptionalBool
+     */
+    public function testMissingGivesNull()
+    {
+        $rule = new GetOptionalBool();
+        $validator = new ProcessedValues();
+        $validationResult = $rule->process(
+            $validator, DataStorage::createMissing('foo')
+        );
+
+        $this->assertNoProblems($validationResult);
+        $this->assertNull($validationResult->getValue());
+    }
+
 
     public function provideTestErrorCases()
     {
@@ -60,9 +77,6 @@ class GetOptionalBoolTest extends BaseTestCase
      */
     public function testBadInputErrors($inputValue)
     {
-//        $variableName = 'foo';
-//        $variables = [$variableName => $inputValue];
-
         $validator = new ProcessedValues();
         $rule = new GetOptionalBool();
         $validationResult = $rule->process(
@@ -71,5 +85,18 @@ class GetOptionalBoolTest extends BaseTestCase
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         $this->assertNull($validationResult->getValue());
+    }
+
+    /**
+     * @covers \Params\ExtractRule\GetOptionalBool
+     */
+    public function testDescription()
+    {
+        $rule = new GetOptionalBool();
+        $description = $this->applyRuleToDescription($rule);
+
+        $rule->updateParamDescription($description);
+        $this->assertSame('boolean', $description->getType());
+        $this->assertFalse($description->getRequired());
     }
 }

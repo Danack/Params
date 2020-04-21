@@ -5,32 +5,35 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
-use Params\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetBool;
+use Params\ExtractRule\GetBoolOrDefault;
 use Params\ProcessedValues;
 
 /**
  * @coversNothing
  */
-class GetBoolTest extends BaseTestCase
+class GetBoolOrDefaultTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\GetBool
+     * @covers \Params\ExtractRule\GetBoolOrDefault
      */
-    public function testMissingGivesError()
+    public function testMissingCorrect()
     {
-        $rule = new GetBool();
-        $validator = new ProcessedValues();
-        $validationResult = $rule->process(
-            $validator,
-            DataStorage::createMissing('foo')
-        );
+        $defaults = [true, false];
 
-        $this->assertProblems(
-            $validationResult,
-            ['/foo' => Messages::VALUE_NOT_SET]
-        );
+        $dataStorage = DataStorage::fromArray([]);
+        $dataStorage = $dataStorage->moveKey('foo');
+
+        foreach ($defaults as $default) {
+            $rule = new GetBoolOrDefault($default);
+            $validator = new ProcessedValues();
+            $validationResult = $rule->process(
+                $validator,
+                $dataStorage
+            );
+            $this->assertNoProblems($validationResult);
+            $this->assertSame($default, $validationResult->getValue());
+        }
     }
 
     public function provideTestWorksCases()
@@ -46,14 +49,14 @@ class GetBoolTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetBool
+     * @covers \Params\ExtractRule\GetBoolOrDefault
      * @dataProvider provideTestWorksCases
      */
     public function testWorks($input, $expectedValue)
     {
 
         $validator = new ProcessedValues();
-        $rule = new GetBool();
+        $rule = new GetBoolOrDefault(false);
         $validationResult = $rule->process(
             $validator,
             DataStorage::fromSingleValue('foo', $input)
@@ -74,12 +77,12 @@ class GetBoolTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetBool
+     * @covers \Params\ExtractRule\GetBoolOrDefault
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($value)
     {
-        $rule = new GetBool();
+        $rule = new GetBoolOrDefault(false);
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
@@ -90,15 +93,20 @@ class GetBoolTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetBool
+     * @covers \Params\ExtractRule\GetBoolOrDefault
      */
     public function testDescription()
     {
-        $rule = new GetBool();
-        $description = $this->applyRuleToDescription($rule);
+        $defaults = [true, false];
+        foreach ($defaults as $default) {
+            $rule = new GetBoolOrDefault($default);
+            $description = $this->applyRuleToDescription($rule);
 
-        $rule->updateParamDescription($description);
-        $this->assertSame('boolean', $description->getType());
-        $this->assertTrue($description->getRequired());
+            $rule->updateParamDescription($description);
+            $this->assertSame('boolean', $description->getType());
+            $this->assertFalse($description->getRequired());
+
+            $this->assertSame($default, $description->getDefault());
+        }
     }
 }

@@ -41,7 +41,7 @@ class GetOptionalIntTest extends BaseTestCase
             DataStorage::fromSingleValue('foo', $input)
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -73,5 +73,34 @@ class GetOptionalIntTest extends BaseTestCase
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         $this->assertNull($validationResult->getValue());
+    }
+
+    /**
+     * @covers \Params\ExtractRule\GetOptionalInt
+     */
+    public function testMissingGivesNull()
+    {
+        $rule = new GetOptionalInt();
+        $validator = new ProcessedValues();
+        $validationResult = $rule->process(
+            $validator, DataStorage::createMissing('foo')
+        );
+
+        $this->assertNoProblems($validationResult);
+        $this->assertNull($validationResult->getValue());
+    }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetOptionalInt
+     */
+    public function testDescription()
+    {
+        $rule = new GetOptionalInt();
+        $description = $this->applyRuleToDescription($rule);
+
+        $rule->updateParamDescription($description);
+        $this->assertSame('integer', $description->getType());
+        $this->assertFalse($description->getRequired());
     }
 }

@@ -51,7 +51,7 @@ class GetIntOrDefaultTest extends BaseTestCase
             $dataStorage
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -85,5 +85,19 @@ class GetIntOrDefaultTest extends BaseTestCase
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+    }
+
+    /**
+     * @covers \Params\ExtractRule\GetIntOrDefault
+     */
+    public function testDescription()
+    {
+        $rule = new GetIntOrDefault(4);
+        $description = $this->applyRuleToDescription($rule);
+
+        $rule->updateParamDescription($description);
+        $this->assertSame('integer', $description->getType());
+        $this->assertFalse($description->getRequired());
+        $this->assertSame(4, $description->getDefault());
     }
 }

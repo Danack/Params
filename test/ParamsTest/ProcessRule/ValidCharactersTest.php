@@ -52,7 +52,7 @@ class ValidCharactersTest extends BaseTestCase
             );
         }
         else {
-            $this->assertNoValidationProblems($validationResult->getValidationProblems());
+            $this->assertNoProblems($validationResult);
         }
     }
 }

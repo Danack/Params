@@ -38,7 +38,7 @@ class NullIfEmptyTest extends BaseTestCase
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
 
 
         if ($shouldBeNull === true) {

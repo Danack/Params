@@ -52,6 +52,19 @@ class DataStorage implements InputStorageAye
         return $instance;
     }
 
+    /**
+     * Used for testing missing data mostly.
+     * @param string $key
+     * @return static
+     */
+    public static function createMissing(string $key): self
+    {
+        $instance = new self([]);
+
+        return $instance->moveKey($key);
+    }
+
+
     public static function fromArraySetFirstValue(array $data): self
     {
         $instance = new self($data);

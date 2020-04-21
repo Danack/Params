@@ -30,4 +30,9 @@ class NotAvailableInputStorageAye implements InputStorageAye
     {
         return false;
     }
+
+    public function toString(): string
+    {
+        return $this->getPath();
+    }
 }

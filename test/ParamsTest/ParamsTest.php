@@ -230,8 +230,12 @@ class ParamsTest extends BaseTestCase
 
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         $fooParams = create(
-            \ParamsTest\Integration\FooParams::class, $rules, $dataLocator
+            \ParamsTest\Integration\FooParams::class,
+            $rules,
+            $dataLocator
         );
+
+        /** @var \ParamsTest\Integration\FooParams $fooParams */
         $this->assertEquals(5, $fooParams->getLimit());
     }
 

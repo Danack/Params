@@ -33,7 +33,7 @@ class GetArrayOfIntTest extends BaseTestCase
             $dataLocator
         );
 
-        $this->assertNoValidationProblems($result->getValidationProblems());
+        $this->assertNoProblems($result);
         $this->assertFalse($result->isFinalResult());
         $this->assertSame($data, $result->getValue());
     }

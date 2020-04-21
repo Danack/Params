@@ -56,5 +56,8 @@ class RangeIntValue implements ProcessRule
     {
         $paramDescription->setMinimum($this->minValue);
         $paramDescription->setExclusiveMinimum(false);
+
+        $paramDescription->setMaximum($this->maxValue);
+        $paramDescription->setExclusiveMaximum(false);
     }
 }

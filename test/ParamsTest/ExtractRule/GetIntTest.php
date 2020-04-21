@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetInt;
 use Params\ProcessedValues;
-use Params\DataLocator\NotAvailableInputStorageAye;
 
 /**
  * @coversNothing
@@ -16,16 +16,20 @@ use Params\DataLocator\NotAvailableInputStorageAye;
 class GetIntTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\GetString
+     * @covers \Params\ExtractRule\GetInt
      */
     public function testMissingGivesError()
     {
         $rule = new GetInt();
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
-            $validator, new NotAvailableInputStorageAye()
+            $validator,
+            DataStorage::createMissing('foo')
         );
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+        $this->assertProblems(
+            $validationResult,
+            ['/foo' => Messages::VALUE_NOT_SET]
+        );
     }
 
     public function provideTestWorksCases()
@@ -50,7 +54,7 @@ class GetIntTest extends BaseTestCase
             $validator, $dataLocator
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -79,5 +83,18 @@ class GetIntTest extends BaseTestCase
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+    }
+
+    /**
+     * @covers \Params\ExtractRule\GetInt
+     */
+    public function testDescription()
+    {
+        $rule = new GetInt();
+        $description = $this->applyRuleToDescription($rule);
+
+        $rule->updateParamDescription($description);
+        $this->assertSame('integer', $description->getType());
+        $this->assertTrue($description->getRequired());
     }
 }

@@ -6,8 +6,6 @@ namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
 use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\FloatInput;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\Exception\LogicException;
@@ -40,7 +38,7 @@ class MinimumCountTest extends BaseTestCase
         $validationResult = $rule->process(
             $values, $processedValues, $dataLocator
         );
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertSame($values, $validationResult->getValue());
     }

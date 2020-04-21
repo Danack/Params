@@ -7,7 +7,6 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\FloatInput;
-use Params\ProcessRule\IntegerInput;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
 
@@ -39,7 +38,7 @@ class FloatInputTest extends BaseTestCase
             $inputValue, $processedValues, $dataLocator
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($expectedValue, $validationResult->getValue());
     }
 

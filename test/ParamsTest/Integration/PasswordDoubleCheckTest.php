@@ -5,9 +5,6 @@ declare(strict_types = 1);
 namespace ParamsTest\Integration;
 
 use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\DuplicatesParam;
-use ParamsTest\Integration\PasswordDoubleCheck;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetFloat;
 use Params\ProcessedValues;
@@ -22,9 +23,14 @@ class GetFloatTest extends BaseTestCase
         $rule = new GetFloat();
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
-            $validator, DataStorage::fromArraySetFirstValue([])
+            $validator,
+            DataStorage::createMissing('foo')
         );
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+
+        $this->assertProblems(
+            $validationResult,
+            ['/foo' => Messages::VALUE_NOT_SET]
+        );
     }
 
     public function provideTestWorksCases()
@@ -50,7 +56,7 @@ class GetFloatTest extends BaseTestCase
             $validator, DataStorage::fromArraySetFirstValue([$variableName => $input])
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -77,5 +83,18 @@ class GetFloatTest extends BaseTestCase
         );
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+    }
+
+    /**
+     * @covers \Params\ExtractRule\GetFloat
+     */
+    public function testDescription()
+    {
+        $rule = new GetFloat();
+        $description = $this->applyRuleToDescription($rule);
+
+        $rule->updateParamDescription($description);
+        $this->assertSame('number', $description->getType());
+        $this->assertTrue($description->getRequired());
     }
 }

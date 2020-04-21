@@ -19,7 +19,7 @@ class ValidationResultTest extends BaseTestCase
         $validationResult = ValidationResult::valueResult($value);
         $this->assertFalse($validationResult->isFinalResult());
         $this->assertEquals($value, $validationResult->getValue());
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
     }
 
     public function testErrorResult()
@@ -50,6 +50,6 @@ class ValidationResultTest extends BaseTestCase
         $validationResult = ValidationResult::finalValueResult($value);
         $this->assertTrue($validationResult->isFinalResult());
         $this->assertEquals($value, $validationResult->getValue());
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
     }
 }

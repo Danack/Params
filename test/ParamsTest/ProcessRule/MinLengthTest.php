@@ -6,7 +6,6 @@ namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
 use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\MaxLength;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MinLength;
 use Params\ProcessedValues;
@@ -62,7 +61,7 @@ class MinLengthTest extends BaseTestCase
         );
 
         if ($expectError === false) {
-            $this->assertNoValidationProblems($validationResult->getValidationProblems());
+            $this->assertNoProblems($validationResult);
         }
         else {
             // TODO - test against strings

@@ -28,7 +28,7 @@ class DuplicatesParamTest extends BaseTestCase
         $rule = new DuplicatesParam('foo');
         $validationResult = $rule->process($value, $processedValues, $dataLocator);
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
 
         $this->assertSame($value, $validationResult->getValue());
         $this->assertFalse($validationResult->isFinalResult());

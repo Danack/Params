@@ -6,7 +6,6 @@ namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
 use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\BoolInput;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaxLength;
 use Params\ProcessedValues;
@@ -65,7 +64,7 @@ class MaxLengthTest extends BaseTestCase
         );
 
         if ($expectError === false) {
-            $this->assertNoValidationProblems($validationResult->getValidationProblems());
+            $this->assertNoProblems($validationResult);
         }
         else {
             // TODO - replace this with text comparison.

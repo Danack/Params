@@ -45,7 +45,7 @@ class GetOptionalFloatTest extends BaseTestCase
             DataStorage::fromSingleValue('foo', $input)
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expectedValue);
     }
 
@@ -78,5 +78,35 @@ class GetOptionalFloatTest extends BaseTestCase
 
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         $this->assertNull($validationResult->getValue());
+    }
+
+    /**
+     * @covers \Params\ExtractRule\GetOptionalFloat
+     */
+    public function testMissingGivesNull()
+    {
+        $rule = new GetOptionalFloat();
+        $validator = new ProcessedValues();
+        $validationResult = $rule->process(
+            $validator, DataStorage::createMissing('foo')
+        );
+
+        $this->assertNoProblems($validationResult);
+        $this->assertNull($validationResult->getValue());
+    }
+
+
+
+    /**
+     * @covers \Params\ExtractRule\GetOptionalFloat
+     */
+    public function testDescription()
+    {
+        $rule = new GetOptionalFloat();
+        $description = $this->applyRuleToDescription($rule);
+
+        $rule->updateParamDescription($description);
+        $this->assertSame('number', $description->getType());
+        $this->assertFalse($description->getRequired());
     }
 }

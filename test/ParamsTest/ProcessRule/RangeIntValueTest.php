@@ -71,10 +71,26 @@ class RangeIntValueTest extends BaseTestCase
         );
 
         if ($expectError === false) {
-            $this->assertNoValidationProblems($validationResult->getValidationProblems());
+            $this->assertNoProblems($validationResult);
         }
         else {
             $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         }
+    }
+
+
+    /**
+     * @covers \Params\ProcessRule\RangeIntValue
+     */
+    public function testDescription()
+    {
+        $rule = new RangeIntValue(10, 20);
+        $description = $this->applyRuleToDescription($rule);
+
+        $this->assertSame(10, $description->getMinimum());
+        $this->assertFalse($description->getExclusiveMinimum());
+
+        $this->assertSame(20, $description->getMaximum());
+        $this->assertFalse($description->getExclusiveMaximum());
     }
 }

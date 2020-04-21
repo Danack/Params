@@ -27,7 +27,7 @@ class GetOptionalStringTest extends BaseTestCase
             $validator,
             new NotAvailableInputStorageAye()
         );
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertNull($validationResult->getValue());
     }
 
@@ -45,7 +45,21 @@ class GetOptionalStringTest extends BaseTestCase
             $validator, DataStorage::fromArraySetFirstValue([$expectedValue])
         );
 
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expectedValue);
+    }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetOptionalString
+     */
+    public function testDescription()
+    {
+        $rule = new GetOptionalString();
+        $description = $this->applyRuleToDescription($rule);
+
+        $rule->updateParamDescription($description);
+        $this->assertSame('string', $description->getType());
+        $this->assertFalse($description->getRequired());
     }
 }

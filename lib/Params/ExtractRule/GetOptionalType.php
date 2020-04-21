@@ -7,27 +7,42 @@ namespace Params\ExtractRule;
 use Params\DataLocator\InputStorageAye;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\ProcessRule\BoolInput;
+use Params\ProcessRule\IntegerInput;
 use Params\ValidationResult;
 
 /**
+ * Class GetOptionalInt
  *
  * If a parameter is not set, then the value is null, otherwise
- * it must be a valid integer.
+ * it must a valid set of data for that type
  *
  */
-class GetOptionalBool implements ExtractRule
+class GetOptionalType implements ExtractRule
 {
+    private GetType $getType;
+
+    /**
+     * @param class-string $classname
+     */
+    public static function fromClass(string $classname): self
+    {
+
+        $instance = new self();
+        $instance->getType = GetType::fromClass($classname);
+
+        return $instance;
+    }
+
+
     public function process(
         ProcessedValues $processedValues,
         InputStorageAye $dataLocator
     ): ValidationResult {
-
         if ($dataLocator->valueAvailable() !== true) {
             return ValidationResult::valueResult(null);
         }
 
-        $intRule = new BoolInput();
+        $intRule = new IntegerInput();
         return $intRule->process(
             $dataLocator->getCurrentValue(),
             $processedValues,
@@ -37,7 +52,7 @@ class GetOptionalBool implements ExtractRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
-        $paramDescription->setType(ParamDescription::TYPE_BOOLEAN);
+        $paramDescription->setType(ParamDescription::TYPE_INTEGER);
         $paramDescription->setRequired(false);
     }
 }

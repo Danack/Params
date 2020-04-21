@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
-use Params\ProcessRule\MaximumCount;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\NotNull;
 use Params\ProcessedValues;
@@ -34,7 +33,7 @@ class NotNullTest extends BaseTestCase
         $validationResult = $rule2->process(
             5, $processedValues, $dataLocator
         );
-        $this->assertNoValidationProblems($validationResult->getValidationProblems());
+        $this->assertNoProblems($validationResult);
     }
 
 
