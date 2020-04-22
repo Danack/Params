@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\NotAvailableInputStorageAye;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetString;
@@ -24,7 +23,8 @@ class GetStringTest extends BaseTestCase
         $rule = new GetString();
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
-            $validator, new NotAvailableInputStorageAye()
+            $validator,
+            DataStorage::createMissing('foo')
         );
         $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
     }

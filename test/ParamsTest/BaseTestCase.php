@@ -2,6 +2,7 @@
 
 namespace ParamsTest;
 
+use Params\Exception\LogicException;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\Rule;
 use Params\ValidationResult;
@@ -253,5 +254,11 @@ class BaseTestCase extends TestCase
         $rule->updateParamDescription($description);
 
         return $description;
+    }
+
+    public function expectExceptionMessageMatchesRegexp($string)
+    {
+        $regexp = stringToRegexp($string);
+        $this->expectExceptionMessageMatches($regexp);
     }
 }

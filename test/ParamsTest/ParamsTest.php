@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Exception\Validator;
+namespace ParamsTest;
 
 use Params\DataLocator\InputStorageAye;
 use Params\DataLocator\DataStorage;

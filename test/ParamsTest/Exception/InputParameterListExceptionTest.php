@@ -13,19 +13,19 @@ use Params\Exception\InputParameterListException;
  */
 class InputParameterListExceptionTest extends BaseTestCase
 {
-    /**
-     * @covers \Params\Exception\InputParameterListException
-     */
-    public function testInputParameterListException_notArray()
-    {
-        $exception = InputParameterListException::notArray(self::class);
-        $this->assertStringRegExp(
-            Messages::GET_INPUT_PARAMETER_LIST_MUST_RETURN_ARRAY,
-            $exception->getMessage()
-        );
-        $this->assertStringContainsString(self::class, $exception->getMessage());
-        $this->assertSame(0, $exception->getCode());
-    }
+//    /**
+//     * @covers \Params\Exception\InputParameterListException
+//     */
+//    public function testInputParameterListException_notArray()
+//    {
+//        $exception = InputParameterListException::notArray(self::class);
+//        $this->assertStringRegExp(
+//            Messages::GET_INPUT_PARAMETER_LIST_MUST_RETURN_ARRAY,
+//            $exception->getMessage()
+//        );
+//        $this->assertStringContainsString(self::class, $exception->getMessage());
+//        $this->assertSame(0, $exception->getCode());
+//    }
 
 
     /**

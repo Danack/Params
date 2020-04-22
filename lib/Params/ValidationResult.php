@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Params;
 
 use Params\DataLocator\InputStorageAye;
+use Params\Exception\LogicException;
 
 /**
  *
@@ -54,11 +55,11 @@ class ValidationResult
     {
         foreach ($validationProblems as $key => $validationProblem) {
             if (is_int($key)  === false) {
-                throw new \LogicException("Key for array must be integer");
+                throw LogicException::keysMustBeIntegers();
             }
             if (!($validationProblem instanceof ValidationProblem)) {
-                throw new \LogicException(
-                    "Array must contain only 'ValidationProblem's instead got " . gettype($validationProblem)
+                throw LogicException::onlyInputParameters(
+                    $validationProblem
                 );
             }
         }

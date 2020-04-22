@@ -36,7 +36,7 @@ class ItemListParams implements InputParameterList
         $this->description = $description;
     }
 
-    public static function getInputParameterList()
+    public static function getInputParameterList(): array
     {
         return [
             new InputParameter(

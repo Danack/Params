@@ -8,7 +8,6 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalString;
 use Params\ProcessedValues;
-use Params\DataLocator\NotAvailableInputStorageAye;
 
 /**
  * @coversNothing
@@ -25,7 +24,7 @@ class GetOptionalStringTest extends BaseTestCase
 
         $validationResult = $rule->process(
             $validator,
-            new NotAvailableInputStorageAye()
+            DataStorage::createMissing('foo')
         );
         $this->assertNoProblems($validationResult);
         $this->assertNull($validationResult->getValue());
@@ -42,7 +41,8 @@ class GetOptionalStringTest extends BaseTestCase
         $rule = new GetOptionalString();
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
-            $validator, DataStorage::fromArraySetFirstValue([$expectedValue])
+            $validator,
+            DataStorage::fromArraySetFirstValue([$expectedValue])
         );
 
         $this->assertNoProblems($validationResult);

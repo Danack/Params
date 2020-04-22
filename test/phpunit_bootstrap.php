@@ -9,6 +9,9 @@
 //require_once __DIR__ . '/../lib/functions_test.php';
 //require_once(__DIR__ . '/../vendor/fzaninotto/faker/src/autoload.php');
 //
+use Params\InputParameterList;
+use Params\ExtractRule\GetString;
+use Params\InputParameter;
 
 /**
  * Used to convert to PHPUnits expected format.
@@ -68,4 +71,57 @@ function json_encode_safe($data, $options = 0): string
     }
 
     return $result;
+}
+
+class TestObject
+{
+    private string $foo;
+    private int $bar;
+
+    public function __construct(
+        string $foo,
+        int $bar
+    ) {
+        $this->foo = $foo;
+        $this->bar = $bar;
+    }
+
+    public function getFoo(): string
+    {
+        return $this->foo;
+    }
+
+    public function getBar(): int
+    {
+        return $this->bar;
+    }
+}
+
+class DoesNotImplementInputParameterList
+{
+}
+
+
+class ReturnsBadInputParameterList implements InputParameterList
+{
+    public static function getInputParameterList(): array
+    {
+        return [
+            // Wrong type
+            new StdClass()
+        ];
+    }
+}
+
+class TestParams implements InputParameterList
+{
+    public static function getInputParameterList(): array
+    {
+        return [
+            new InputParameter(
+                'name',
+                new GetString(),
+            )
+        ];
+    }
 }

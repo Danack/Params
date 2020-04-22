@@ -23,7 +23,9 @@
         <whitelist>
             <directory>../lib</directory>
             <exclude>
-                <directory>../lib/ParamsExample</directory>
+                <directory>../lib/Params/OpenApi</directory>
+                <file>../lib/Params/OpenApi/OpenApiV300Description.php</file>
+                <file>../lib/Params/OpenApi/ShouldNeverBeCalledParamDescription.php</file>
             </exclude>
         </whitelist>
     </filter>

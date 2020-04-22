@@ -27,7 +27,7 @@ class FooParams implements InputParameterList
     /**
      * @return array
      */
-    public static function getInputParameterList()
+    public static function getInputParameterList(): array
     {
         return [
             new InputParameter(

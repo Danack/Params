@@ -14,7 +14,6 @@ use Params\DataLocator\DataStorage;
 
 /**
  * @coversNothing
- * @group wip
  */
 class GetArrayOfTypeTest extends BaseTestCase
 {

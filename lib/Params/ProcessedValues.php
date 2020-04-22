@@ -19,7 +19,7 @@ class ProcessedValues
     {
         foreach ($values as $key => $value) {
             if (is_string($key) !== true) {
-                throw new LogicException("processed values must have string keys");
+                throw LogicException::keysMustBeStrings();
             }
         }
 
@@ -47,13 +47,13 @@ class ProcessedValues
     }
 
     /**
-     * @param string|int $name
+     * @param string $name
      * @return mixed
      */
     public function getValue($name)
     {
         if (array_key_exists($name, $this->paramValues) === false) {
-            throw new LogicException("Trying to access $name which isn't present in ParamValuesImpl.");
+            throw LogicException::missingValue($name);
         }
 
         return $this->paramValues[$name];

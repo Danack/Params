@@ -9,7 +9,6 @@ use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetStringOrDefault;
 use Params\ProcessedValues;
-use Params\DataLocator\NotAvailableInputStorageAye;
 
 /**
  * @coversNothing
@@ -54,7 +53,8 @@ class GetStringOrDefaultTest extends BaseTestCase
         $rule = new GetStringOrDefault($default);
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
-            $validator, new NotAvailableInputStorageAye()
+            $validator,
+            DataStorage::createMissing('foo')
         );
 
         $this->assertNoProblems($validationResult);

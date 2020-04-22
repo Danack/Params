@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Exception\Validator;
+namespace ParamsTest;
 
+use Params\Exception\InputParameterListException;
+use Params\Exception\TypeNotInputParameterListException;
 use ParamsTest\BaseTestCase;
 use Params\Value\Ordering;
 use function Params\unescapeJsonPointer;
@@ -12,6 +14,8 @@ use function Params\check_only_digits;
 use function Params\normalise_order_parameter;
 use function Params\escapeJsonPointer;
 use function Params\getRawCharacters;
+use function Params\getInputParameterListForClass;
+use Params\Exception\MissingClassException;
 
 /**
  * @coversNothing
@@ -144,6 +148,7 @@ class FunctionsTest extends BaseTestCase
 
     /**
      * @dataProvider provides_getRawCharacters
+     * @covers ::\Params\getRawCharacters
      * @param string $inputString
      * @param $expectedOutput
      */
@@ -151,5 +156,95 @@ class FunctionsTest extends BaseTestCase
     {
         $actualOutput = getRawCharacters($inputString);
         $this->assertSame($expectedOutput, $actualOutput);
+    }
+
+    /**
+     * @covers ::\Params\createObjectFromParams
+     */
+    public function test_CreateObjectFromParams()
+    {
+        $fooValue = 'John';
+        $barValue = 123;
+
+        $object = \Params\createObjectFromParams(
+            \TestObject::class,
+            [
+                'foo' => $fooValue,
+                'bar' => $barValue
+            ]
+        );
+
+        $this->assertInstanceOf(\TestObject::class, $object);
+        $this->assertSame($fooValue, $object->getFoo());
+        $this->assertSame($barValue, $object->getBar());
+    }
+
+
+    public function provides_getJsonPointerParts()
+    {
+        yield ['/[3]', [3]];
+        yield ['/', []];
+        yield ['/[0]', [0]];
+
+        yield ['/[0]/foo', [0, 'foo']];
+        yield ['/[0]/foo[2]', [0, 'foo', 2]];
+        yield ['/foo', ['foo']];
+        yield ['/foo[2]', ['foo', 2]];
+
+        yield ['/foo/bar', ['foo', 'bar']];
+        yield ['/foo/bar[3]', ['foo', 'bar', 3]];
+    }
+
+    /**
+     * @dataProvider provides_getJsonPointerParts
+     * @covers ::\Params\getJsonPointerParts
+     * @param $input
+     * @param $expected
+     */
+    public function test_getJsonPointerParts($input, $expected)
+    {
+        $this->markTestSkipped("We should move to actually support json pointer correctly to make it easier to implement");
+        $actual = \Params\getJsonPointerParts($input);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @covers ::\Params\getInputParameterListForClass
+     */
+    public function test_getInputParameterListForClass()
+    {
+        $inputParameters = getInputParameterListForClass(\TestParams::class);
+        $this->assertCount(1, $inputParameters);
+    }
+
+    /**
+     * @covers ::\Params\getInputParameterListForClass
+     */
+    public function test_getInputParameterListForClass_missing_class()
+    {
+        $this->expectException(MissingClassException::class);
+        $inputParameters = getInputParameterListForClass("does_not_exist");
+    }
+
+    /**
+     * @covers ::\Params\getInputParameterListForClass
+     */
+    public function test_getInputParameterListForClass_missing_implements()
+    {
+        $this->expectException(TypeNotInputParameterListException::class);
+        $inputParameters = getInputParameterListForClass(
+            \DoesNotImplementInputParameterList::class
+        );
+    }
+
+    /**
+     * @covers ::\Params\getInputParameterListForClass
+     */
+    public function test_getInputParameterListForClass_non_inputparameter()
+    {
+        $this->expectException(InputParameterListException::class);
+        $inputParameters = getInputParameterListForClass(
+            \ReturnsBadInputParameterList::class
+        );
     }
 }

@@ -23,7 +23,7 @@ class SingleIntParams implements InputParameterList
         $this->limit = $limit;
     }
 
-    public static function getInputParameterList()
+    public static function getInputParameterList(): array
     {
         return [
             new InputParameter(

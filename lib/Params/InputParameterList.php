@@ -10,5 +10,5 @@ interface InputParameterList
     /**
      * @return \Params\InputParameter[]
      */
-    public static function getInputParameterList();
+    public static function getInputParameterList(): array;
 }

@@ -90,9 +90,9 @@ function getInputParameterListForClass(string $className)
     // Type is okay, get data and validate
     $inputParameterList = call_user_func([$className, 'getInputParameterList']);
 
-    if (is_array($inputParameterList) !== true) {
-        throw InputParameterListException::notArray($className);
-    }
+//    if (is_array($inputParameterList) !== true) {
+//        throw InputParameterListException::notArray($className);
+//    }
 
     // Validate all entries are InputParameters
     $index = 0;

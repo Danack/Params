@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Exception\Validator;
+namespace ParamsTest;
 
 use Params\DataLocator\DataStorage;
+use Params\ValidationProblem;
 use ParamsTest\BaseTestCase;
 use Params\ValidationResult;
+use Params\Exception\LogicException;
 
 /**
  * @covers \Params\ValidationResult
@@ -42,6 +44,8 @@ class ValidationResultTest extends BaseTestCase
         $firstProblem = $problems[0];
         $this->assertSame('/foo', $firstProblem->getDataLocator()->getPath());
         $this->assertEquals($validationMessage, $firstProblem->getProblemMessage());
+
+        $this->assertTrue($validationResult->anyErrorsFound());
     }
 
     public function testFinalValueResult()
@@ -51,5 +55,44 @@ class ValidationResultTest extends BaseTestCase
         $this->assertTrue($validationResult->isFinalResult());
         $this->assertEquals($value, $validationResult->getValue());
         $this->assertNoProblems($validationResult);
+
+        $this->assertFalse($validationResult->anyErrorsFound());
+    }
+
+    public function testFromValidationProblemsWorks()
+    {
+        $dataStorage = DataStorage::fromArray([]);
+
+        $key = 'nonexistent';
+
+        $dataStorage = $dataStorage->moveKey($key);
+        $problemMessage = 'There was problem';
+
+        $validationProblem = new ValidationProblem($dataStorage, $problemMessage);
+        $validationResult = ValidationResult::fromValidationProblems([$validationProblem]);
+        $this->assertSame([$validationProblem], $validationResult->getValidationProblems());
+        $this->assertTrue($validationResult->anyErrorsFound());
+    }
+
+    public function testFromValidationProblemsBadKey()
+    {
+        $dataStorage = DataStorage::fromArray([]);
+
+        $key = 'nonexistent';
+
+        $dataStorage = $dataStorage->moveKey($key);
+        $problemMessage = 'There was problem';
+
+        $validationProblem = new ValidationProblem($dataStorage, $problemMessage);
+        $this->expectExceptionMessageMatchesRegexp(LogicException::ONLY_INT_KEYS);
+        $this->expectException(LogicException::class);
+        $validationResult = ValidationResult::fromValidationProblems(['foo' => $validationProblem]);
+    }
+
+    public function testFromValidationProblemsNotInputParameter()
+    {
+        $this->expectExceptionMessageMatchesRegexp(LogicException::NOT_VALIDATION_PROBLEM);
+        $this->expectException(LogicException::class);
+        $validationResult = ValidationResult::fromValidationProblems([new \StdClass()]);
     }
 }

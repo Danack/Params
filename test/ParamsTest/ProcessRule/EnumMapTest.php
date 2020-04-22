@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
-use Params\DataLocator\EmptyInputStorageAye;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\EnumMap;
 use Params\ProcessedValues;
@@ -40,14 +39,13 @@ class EnumMapTest extends BaseTestCase
         $validationResult = $rule->process(
             'unknown value',
             $processedValues,
-            EmptyInputStorageAye::fromPath(['foo'])
+            DataStorage::fromSingleValue('foo', 'bar')
         );
 
         $problems = $validationResult->getValidationProblems();
         $this->assertCount(1, $problems);
         $firstProblem = $problems[0];
 
-//        $this->assertArrayHasKey(, $problemMessages, 'problem was not set for /foo');
         $this->assertStringContainsString(
             'input1, input2',
             $firstProblem->getProblemMessage()

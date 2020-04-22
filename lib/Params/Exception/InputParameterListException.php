@@ -9,16 +9,16 @@ use Params\Messages;
 
 class InputParameterListException extends ParamsException
 {
-    public static function notArray(string $classname): self
-    {
-        $message = sprintf(
-            Messages::GET_INPUT_PARAMETER_LIST_MUST_RETURN_ARRAY,
-            $classname,
-            InputParameter::class
-        );
-
-        return new self($message);
-    }
+//    public static function notArray(string $classname): self
+//    {
+//        $message = sprintf(
+//            Messages::GET_INPUT_PARAMETER_LIST_MUST_RETURN_ARRAY,
+//            $classname,
+//            InputParameter::class
+//        );
+//
+//        return new self($message);
+//    }
 
 
     public static function foundNonInputParameter(int $index, string $classname): self

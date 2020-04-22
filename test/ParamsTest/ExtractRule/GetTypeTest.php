@@ -13,7 +13,6 @@ use Params\DataLocator\DataStorage;
 
 /**
  * @coversNothing
- * @group wip
  */
 class GetTypeTest extends BaseTestCase
 {
