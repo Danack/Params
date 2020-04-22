@@ -28,7 +28,6 @@ trait CreateArrayOfTypeFromArray
 
         $validationResult = createArrayOfType(
             $dataStorage,
-            $data,
             $getType
         );
 

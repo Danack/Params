@@ -54,7 +54,10 @@ class IntegerInput implements ProcessRule
             );
 
             if ($match !== 1) {
-                return ValidationResult::errorResult($dataLocator, "Value must contain only digits.");
+                return ValidationResult::errorResult(
+                    $dataLocator,
+                    Messages::ONLY_DIGITS_ALLOWED_2
+                );
             }
         }
 

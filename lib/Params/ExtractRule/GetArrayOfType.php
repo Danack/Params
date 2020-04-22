@@ -46,15 +46,8 @@ class GetArrayOfType implements ExtractRule
             return ValidationResult::errorResult($dataLocator, Messages::ERROR_MESSAGE_NOT_SET_VARIANT_1);
         }
 
-        $itemData = $dataLocator->getCurrentValue();
-
-        if (is_array($itemData) !== true) {
-            return ValidationResult::errorResult($dataLocator, Messages::ERROR_MESSAGE_NOT_ARRAY_VARIANT_1);
-        }
-
         return createArrayOfType(
             $dataLocator,
-            $itemData,
             $this->typeExtractor
         );
     }

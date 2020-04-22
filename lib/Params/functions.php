@@ -18,29 +18,29 @@ use Params\Value\Ordering;
  * TODO - make itemData not mixed.
  *
  * @param InputStorageAye $dataLocator
- * @param mixed $itemData
  * @param GetType $typeExtractor
  * @return ValidationResult
  */
 function createArrayOfType(
     InputStorageAye $dataLocator,
-    $itemData,
     GetType $typeExtractor
 ): ValidationResult {
 
-    // Setup stuff
+    // Setup variables to hold data over loop.
     $items = [];
-
     /** @var \Params\ValidationProblem[] $allValidationProblems */
     $allValidationProblems = [];
+    $paramsValuesImpl = new ProcessedValues();
     $index = 0;
 
-    // TODO - why don't we use the key here?
-    foreach ($itemData as $itemDatum) {
-        $dataLocatorForItem = $dataLocator->moveKey($index);
+    $itemData = $dataLocator->getCurrentValue();
 
-        // This appears to be wrong - why would
-        $paramsValuesImpl = new ProcessedValues();
+    if (is_array($itemData) !== true) {
+        return ValidationResult::errorResult($dataLocator, Messages::ERROR_MESSAGE_NOT_ARRAY_VARIANT_1);
+    }
+
+    foreach ($itemData as $key => $value) {
+        $dataLocatorForItem = $dataLocator->moveKey($key);
 
         $result = $typeExtractor->process(
             $paramsValuesImpl,
@@ -293,7 +293,10 @@ function check_only_digits($value)
     $count = preg_match("/[^0-9]+/", $value, $matches, PREG_OFFSET_CAPTURE);
 
     if ($count === false) {
+        // @codeCoverageIgnoreStart
+        // This seems impossible to test.
         throw new LogicException("preg_match failed");
+        // @codeCoverageIgnoreEnd
     }
 
     if ($count !== 0) {
@@ -413,7 +416,7 @@ function processInputParameter(
  * @throws Exception\ParamMissingException
  */
 function processInputParameters(
-    $inputParameters,
+    array $inputParameters,
     ProcessedValues $paramValues,
     InputStorageAye $dataLocator
 ) {

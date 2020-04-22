@@ -1,17 +1,9 @@
 <?php
 
-//use Auryn\Injector;
-//
-//require_once(__DIR__.'/../vendor/autoload.php');
-//require_once __DIR__ . '/injectionParamsCliTest.php';
-//require_once __DIR__ . '/../lib/factories.php';
-//require_once __DIR__ . '/../lib/functions.php';
-//require_once __DIR__ . '/../lib/functions_test.php';
-//require_once(__DIR__ . '/../vendor/fzaninotto/faker/src/autoload.php');
-//
 use Params\InputParameterList;
 use Params\ExtractRule\GetString;
 use Params\InputParameter;
+use Params\ProcessRule\AlwaysErrorsRule;
 
 /**
  * Used to convert to PHPUnits expected format.
@@ -115,12 +107,52 @@ class ReturnsBadInputParameterList implements InputParameterList
 
 class TestParams implements InputParameterList
 {
+    private string $name;
+
+    /**
+     *
+     * @param string $name
+     */
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+
     public static function getInputParameterList(): array
     {
         return [
             new InputParameter(
                 'name',
                 new GetString(),
+            )
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+}
+
+
+class AlwaysErrorsParams implements InputParameterList
+{
+    public const ERROR_MESSAGE = 'Forced error';
+
+    public static function getInputParameterList(): array
+    {
+        return [
+            new InputParameter(
+                'foo',
+                new GetString(),
+            ),
+            new InputParameter(
+                'bar',
+                new GetString(),
+                new AlwaysErrorsRule(self::ERROR_MESSAGE)
             )
         ];
     }

@@ -54,6 +54,8 @@ class Messages
 
     public const ONLY_DIGITS_ALLOWED = "Must contain only digits. Non-digit found at position %d.";
 
+    public const ONLY_DIGITS_ALLOWED_2 = "Value must contain only digits.";
+
     public const STRING_MUST_START_WITH = "The string must start with [%s].";
 
     // TODO - remove, I don't like this text.

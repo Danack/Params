@@ -4,10 +4,24 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
+use Params\DataLocator\DataStorage;
+use Params\DataLocator\InputStorageAye;
 use Params\Exception\InputParameterListException;
 use Params\Exception\TypeNotInputParameterListException;
-use ParamsTest\BaseTestCase;
+use Params\ExtractRule\ExtractRule;
+use Params\ExtractRule\GetInt;
+use Params\ExtractRule\GetString;
+use Params\InputParameter;
+use Params\Messages;
+use Params\ProcessedValues;
+use Params\ProcessRule\AlwaysEndsRule;
+use Params\ProcessRule\MinLength;
+use Params\OpenApi\ParamDescription;
 use Params\Value\Ordering;
+use Params\Exception\MissingClassException;
+use Params\ProcessRule\AlwaysErrorsRule;
+use Params\ExtractRule\GetType;
+use Params\ValidationResult;
 use function Params\unescapeJsonPointer;
 use function Params\array_value_exists;
 use function Params\check_only_digits;
@@ -15,7 +29,10 @@ use function Params\normalise_order_parameter;
 use function Params\escapeJsonPointer;
 use function Params\getRawCharacters;
 use function Params\getInputParameterListForClass;
-use Params\Exception\MissingClassException;
+use function Params\processInputParameters;
+use function Params\processInputParameter;
+use function Params\processProcessingRules;
+use function Params\createArrayOfType;
 
 /**
  * @coversNothing
@@ -246,5 +263,329 @@ class FunctionsTest extends BaseTestCase
         $inputParameters = getInputParameterListForClass(
             \ReturnsBadInputParameterList::class
         );
+    }
+
+    /**
+     * @covers ::\Params\processInputParameters
+     */
+    public function test_processInputParameters()
+    {
+        $inputParameters = \AlwaysErrorsParams::getInputParameterList();
+        $dataStorage = DataStorage::fromArray([
+            'foo' => 'foo string',
+            'bar' => 'bar string'
+        ]);
+
+        $paramValues  = new ProcessedValues();
+        $validationProblems = processInputParameters(
+            $inputParameters,
+            $paramValues,
+            $dataStorage
+        );
+
+        $this->assertValidationProblem(
+            '/bar',
+            \AlwaysErrorsParams::ERROR_MESSAGE,
+            $validationProblems
+        );
+        $this->assertCount(1, $validationProblems);
+    }
+
+
+    /**
+     * @covers ::\Params\processProcessingRules
+     */
+    public function test_processProcessingRules_works()
+    {
+        $dataStorage = DataStorage::fromArray([
+            'bar' => 'bar string'
+        ]);
+        $dataStorage = $dataStorage->moveKey('bar');
+
+        $paramValues  = new ProcessedValues();
+        $minLength = new MinLength(5);
+        $message = "forced ending";
+        $alwaysEnds = new AlwaysEndsRule($message);
+        $alwaysError = new AlwaysErrorsRule('There was error');
+
+        $inputValue = 'Hello world';
+
+        [$validationProblems, $resultValue] = processProcessingRules(
+            $inputValue,
+            $dataStorage,
+            $paramValues,
+            $minLength,
+            $alwaysEnds,
+            $alwaysError
+        );
+
+        $this->assertSame($message, $resultValue);
+        $this->assertCount(0, $validationProblems);
+    }
+
+    /**
+     * @covers ::\Params\processProcessingRules
+     */
+    public function test_processProcessingRules_errors()
+    {
+        $dataStorage = DataStorage::fromArray([
+            'bar' => 'bar string'
+        ]);
+        $dataStorage = $dataStorage->moveKey('bar');
+
+        $errorMessage = 'There was error';
+        $paramValues  = new ProcessedValues();
+        $alwaysError = new AlwaysErrorsRule($errorMessage);
+
+        $value = 'Hello world';
+
+        [$validationProblems, $value] = processProcessingRules(
+            $value,
+            $dataStorage,
+            $paramValues,
+            $alwaysError
+        );
+
+        $this->assertNull($value);
+
+        $this->assertCount(1, $validationProblems);
+        $this->assertValidationProblem(
+            '/bar',
+            $errorMessage,
+            $validationProblems
+        );
+    }
+
+
+    /**
+     * @covers ::\Params\createArrayOfType
+     */
+    public function test_createArrayOfType_works()
+    {
+        $data = [
+            ['name' => 'John 1'],
+            ['name' => 'John 2'],
+            ['name' => 'John 3'],
+        ];
+
+        $dataStorage = DataStorage::fromArray($data);
+        $getType = GetType::fromClass(\TestParams::class);
+
+        $result = createArrayOfType(
+            $dataStorage,
+            $getType
+        );
+
+        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertFalse($result->anyErrorsFound());
+
+        $items = $result->getValue();
+        $this->assertCount(3, $items);
+
+        $count = 1;
+
+        foreach ($items as $item) {
+            $this->assertInstanceOf(\TestParams::class, $item);
+            $this->assertSame('John ' . $count, $item->getName());
+            $count += 1;
+        }
+    }
+
+
+    /**
+     * @covers ::\Params\createArrayOfType
+     */
+    public function test_createArrayOfType_bad_data()
+    {
+        $data = [
+            ['name' => 'John 1'],
+            ['name' => 'John 2'],
+            ['name_this_is_typo' => 'John 3'],
+        ];
+
+        $dataStorage = DataStorage::fromArray($data);
+        $getType = GetType::fromClass(\TestParams::class);
+
+        $result = createArrayOfType(
+            $dataStorage,
+            $getType
+        );
+
+        $this->assertInstanceOf(ValidationResult::class, $result);
+        $this->assertTrue($result->anyErrorsFound());
+
+        $this->assertValidationProblem(
+            '/[2]/name',
+            Messages::VALUE_NOT_SET,
+            $result->getValidationProblems()
+        );
+    }
+
+
+    /**
+     * @covers ::\Params\createArrayOfType
+     */
+    public function test_createArrayOfType_not_array_data()
+    {
+        $dataStorage = DataStorage::fromSingleValue('foo', 'bar');
+        $getType = GetType::fromClass(\TestParams::class);
+
+        $result = createArrayOfType(
+            $dataStorage,
+            $getType
+        );
+
+        $this->assertTrue($result->anyErrorsFound());
+
+        $this->assertValidationProblem(
+            '/foo',
+            Messages::ERROR_MESSAGE_NOT_ARRAY_VARIANT_1,
+            $result->getValidationProblems()
+        );
+        $this->assertCount(1, $result->getValidationProblems());
+    }
+
+
+    /**
+     * @covers ::\Params\processInputParameter
+     */
+    public function test_processInputParameter_works()
+    {
+        $inputParameter = new InputParameter(
+            'bar',
+            new GetString()
+        );
+
+        $dataStorage = DataStorage::fromArray([
+            'bar' => 'bar string'
+        ]);
+
+        $paramValues  = new ProcessedValues();
+        $validationProblems = processInputParameter(
+            $inputParameter,
+            $paramValues,
+            $dataStorage
+        );
+
+        $this->assertCount(0, $validationProblems);
+
+        $this->assertTrue($paramValues->hasValue('bar'));
+        $this->assertSame('bar string', $paramValues->getValue('bar'));
+    }
+
+
+    /**
+     * @covers ::\Params\processInputParameter
+     */
+    public function test_processInputParameter_errors_on_extract()
+    {
+
+        $inputParameter = new InputParameter(
+            'bar',
+            new GetInt()
+        );
+
+        $dataStorage = DataStorage::fromArray([
+            'bar' => 'This is not an integer'
+        ]);
+
+        $paramValues = new ProcessedValues();
+        $validationProblems = processInputParameter(
+            $inputParameter,
+            $paramValues,
+            $dataStorage
+        );
+
+        $this->assertValidationProblem(
+            '/bar',
+            Messages::ONLY_DIGITS_ALLOWED_2,
+            $validationProblems
+        );
+        $this->assertCount(1, $validationProblems);
+    }
+
+    /**
+     * @covers ::\Params\processInputParameter
+     */
+    public function test_processInputParameter_extract_ends_processing()
+    {
+        $value = 12345;
+
+        $extractIsFinal = new class($value) implements ExtractRule  {
+
+            private $value;
+
+            public function __construct($value)
+            {
+                $this->value = $value;
+            }
+
+            public function process(
+                ProcessedValues $processedValues,
+                InputStorageAye $dataLocator
+            ): ValidationResult {
+                return ValidationResult::finalValueResult($this->value);
+            }
+
+            public function updateParamDescription(ParamDescription $paramDescription): void
+            {
+                //nothing to do.
+            }
+        };
+
+        $inputParameter = new InputParameter(
+            'bar',
+            $extractIsFinal
+        );
+
+        $dataStorage = DataStorage::fromArray([
+            'bar' => 'hello world'
+        ]);
+
+        $paramValues = new ProcessedValues();
+        $validationProblems = processInputParameter(
+            $inputParameter,
+            $paramValues,
+            $dataStorage
+        );
+
+        $this->assertEmpty($validationProblems);
+
+        $this->assertTrue($paramValues->hasValue('bar'));
+        $this->assertSame($value, $paramValues->getValue('bar'));
+    }
+
+
+    /**
+     * @covers ::\Params\processInputParameter
+     */
+    public function test_processInputParameter_errors()
+    {
+        $errorMessage = "There was error.";
+
+        $inputParameter = new InputParameter(
+            'bar',
+            new GetString(),
+            new AlwaysErrorsRule($errorMessage)
+        );
+
+        $dataStorage = DataStorage::fromArray([
+            'foo' => 'foo string',
+            'bar' => 'bar string'
+        ]);
+
+        $paramValues  = new ProcessedValues();
+        $validationProblems = processInputParameter(
+            $inputParameter,
+            $paramValues,
+            $dataStorage
+        );
+
+        $this->assertValidationProblem(
+            '/bar',
+            $errorMessage,
+            $validationProblems
+        );
+        $this->assertCount(1, $validationProblems);
     }
 }
