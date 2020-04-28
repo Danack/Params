@@ -88,6 +88,7 @@ function getInputParameterListForClass(string $className)
     }
 
     // Type is okay, get data and validate
+    // @phpstan-ignore-next-line
     $inputParameterList = call_user_func([$className, 'getInputParameterList']);
 
 //    if (is_array($inputParameterList) !== true) {
