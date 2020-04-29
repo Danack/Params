@@ -37,13 +37,19 @@ class FloatInput implements ProcessRule
             );
         }
 
-        // TODO - check is null
         if (is_int($value) !== true) {
             $value = (string)$value;
             if (strlen($value) === 0) {
                 return ValidationResult::errorResult(
                     $dataLocator,
-                    "Value is an empty string - must be a floating point number."
+                    Messages::NEED_FLOAT_NOT_EMPTY_STRING
+                );
+            }
+
+            if (strpos($value, ' ') !== false) {
+                return ValidationResult::errorResult(
+                    $dataLocator,
+                    Messages::NEED_FLOAT_WHITESPACE
                 );
             }
 
@@ -66,7 +72,7 @@ class FloatInput implements ProcessRule
                 // TODO - says what position bad character is at.
                 return ValidationResult::errorResult(
                     $dataLocator,
-                    "Value must be a floating point number."
+                    Messages::NEED_FLOAT
                 );
             }
         }

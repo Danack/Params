@@ -96,7 +96,7 @@ class DataStorage implements InputStorageAye
         foreach ($this->currentLocation as $key) {
             if (array_key_exists($key, $data) !== true) {
                 // This would only happen if this was called
-
+                // when the data had been move to a 'wrong' place.
                 throw new InvalidLocationException();
             }
 
@@ -163,7 +163,6 @@ class DataStorage implements InputStorageAye
             if (is_string($location) === true) {
                 $path .= '/';
                 $path .= "$location";
-//                $separator_needed = true;
             }
 
             $separator_needed = false;

@@ -193,7 +193,8 @@ class BaseTestCase extends TestCase
 
     /**
      * Test that the expected validation problems are present
-     * TODO - pass the expected problems in...
+     * TODO - These should all be replaced with the versions that test
+     * error strings.
      * @param \Params\ValidationProblem[] $validationProblems
      * @param string $detailMessage
      */

@@ -76,4 +76,10 @@ class Messages
     public const CLASS_MUST_IMPLEMENT_INPUT_PARAMETER = "Class %s doesn't implement the %s interface. Cannot be used to get array of type.";
 
     public const MUST_DUPLICATE_PARAMETER = "Must be duplicate of %s";
+
+    public const NEED_FLOAT_NOT_EMPTY_STRING = "Value is an empty string - must be a floating point number.";
+
+    public const NEED_FLOAT = "Value must be a floating point number.";
+
+    public const NEED_FLOAT_WHITESPACE = "Value must be floating point number, whitespace found.";
 }

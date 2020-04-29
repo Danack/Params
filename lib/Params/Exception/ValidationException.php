@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace Params\Exception;
 
-//use Params\ValidationErrors;
-
 class ValidationException extends \Params\Exception\ParamsException
 {
     /**

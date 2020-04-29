@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\FloatInput;
 use ParamsTest\BaseTestCase;
@@ -45,14 +46,15 @@ class FloatInputTest extends BaseTestCase
     public function provideErrorCases()
     {
         return [
-            // todo - we should test the exact error.
-            [[]],
-            [''],
-            ['5.a'],
-            ['5.5 '], // trailing space
-            [' 5.5'], // leading space
-            ['5.5banana'], // trailing invalid chars
-            ['banana'],
+            [[], Messages::VALUE_MUST_BE_SCALAR],
+            [null, Messages::VALUE_MUST_BE_SCALAR],
+            ['', Messages::NEED_FLOAT_NOT_EMPTY_STRING],
+            ['5.a', Messages::NEED_FLOAT],
+            ['5. 5', Messages::NEED_FLOAT_WHITESPACE], // space in middle
+            ['5.5 ', Messages::NEED_FLOAT_WHITESPACE], // trailing space
+            [' 5.5', Messages::NEED_FLOAT_WHITESPACE], // leading space
+            ['5.5banana', Messages::NEED_FLOAT], // trailing invalid chars
+            ['banana', Messages::NEED_FLOAT],
         ];
     }
 
@@ -60,16 +62,22 @@ class FloatInputTest extends BaseTestCase
      * @dataProvider provideErrorCases
      * @covers \Params\ProcessRule\FloatInput
      */
-    public function testValidationErrors($inputValue)
+    public function testValidationErrors($inputValue, $message)
     {
         $rule = new FloatInput();
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            DataStorage::fromArraySetFirstValue([$inputValue])
+            DataStorage::fromSingleValue('foo', $inputValue)
         );
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            $message,
+            $validationResult->getValidationProblems()
+        );
+
     }
 
     /**

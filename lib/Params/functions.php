@@ -91,10 +91,6 @@ function getInputParameterListForClass(string $className)
     // @phpstan-ignore-next-line
     $inputParameterList = call_user_func([$className, 'getInputParameterList']);
 
-//    if (is_array($inputParameterList) !== true) {
-//        throw InputParameterListException::notArray($className);
-//    }
-
     // Validate all entries are InputParameters
     $index = 0;
     foreach ($inputParameterList as $inputParameter) {

@@ -23,7 +23,6 @@ class Trim implements ProcessRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
-        // Does nothing?
         // Should update description?
     }
 }
