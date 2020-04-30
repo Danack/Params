@@ -9,6 +9,7 @@ use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\IntegerInput;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
+use Params\Messages;
 
 /**
  * @coversNothing
@@ -47,11 +48,11 @@ class IntegerInputTest extends BaseTestCase
     {
         return [
             // todo - we should test the exact error.
-            ['5.0'],
-            ['5.5'],
-            ['banana'],
-            [''],
-            [(string)(IntegerInput::MAX_SANE_VALUE + 1)]
+            ['5.0', Messages::ONLY_DIGITS_ALLOWED_2],
+            ['5.5', Messages::ONLY_DIGITS_ALLOWED_2],
+            ['banana', Messages::ONLY_DIGITS_ALLOWED_2],
+            ['', Messages::NEEDS_INT_FOUND_EMPTY_STRING],
+            [(string)(IntegerInput::MAX_SANE_VALUE + 1), Messages::INTEGER_TOO_LONG]
         ];
     }
 
@@ -59,16 +60,21 @@ class IntegerInputTest extends BaseTestCase
      * @dataProvider providesDetectsErrorsCorrectly
      * @covers \Params\ProcessRule\IntegerInput
      */
-    public function testDetectsErrorsCorrectly(string $inputValue)
+    public function testDetectsErrorsCorrectly(string $inputValue, $message)
     {
         $rule = new IntegerInput();
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            DataStorage::fromArraySetFirstValue([$inputValue])
+            DataStorage::fromSingleValue('foo', $inputValue)
         );
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            $message,
+            $validationResult->getValidationProblems()
+        );
     }
 
 

@@ -9,6 +9,7 @@ use Params\Value\MultipleEnums;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\ProcessedValues;
+use Params\Messages;
 
 /**
  * @coversNothing
@@ -50,14 +51,19 @@ class CheckFilterStringTest extends BaseTestCase
      */
     public function testUnknownFilterErrors()
     {
-        $expectedValue = 'zot';
+        $badValue = 'zot';
         $rule = new MultipleEnum(['foo', 'bar']);
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
-            $expectedValue,
+            $badValue,
             $processedValues,
-            DataStorage::fromArray(['foo', 'bar'])
+            DataStorage::fromSingleValue('foo', $badValue)
         );
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::MULTIPLE_ENUM_INVALID,
+            $validationResult->getValidationProblems()
+        );
     }
 }

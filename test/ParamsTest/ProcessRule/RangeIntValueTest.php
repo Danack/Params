@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\RangeIntValue;
 use Params\ProcessedValues;
@@ -23,10 +24,8 @@ class RangeIntValueTest extends BaseTestCase
         $overValue = $minValue + 1;
 
         return [
-            [$minValue, $maxValue, (string)$underValue, true],
             [$minValue, $maxValue, (string)$exactValue, false],
             [$minValue, $maxValue, (string)$overValue, false],
-
 //            // TODO - think about these cases.
 //            [$minValue, 'banana', true]
         ];
@@ -41,9 +40,9 @@ class RangeIntValueTest extends BaseTestCase
         $overValue = $maxValue + 1;
 
         return [
-            [$minValue, $maxValue, (string)$underValue, false],
-            [$minValue, $maxValue, (string)$exactValue, false],
-            [$minValue, $maxValue, (string)$overValue, true],
+            [$minValue, $maxValue, (string)$underValue],
+            [$minValue, $maxValue, (string)$exactValue],
+
 
             // TODO - think about these cases.
 //            [$maxValue, 125.5, true],
@@ -61,7 +60,7 @@ class RangeIntValueTest extends BaseTestCase
      * @dataProvider provideRangeIntValueCases
      * @covers \Params\ProcessRule\RangeIntValue
      */
-    public function testValidation(int $minValue, int $maxValue, string $inputValue, bool $expectError)
+    public function testValidation(int $minValue, int $maxValue, string $inputValue)
     {
         $rule = new RangeIntValue($minValue, $maxValue);
         $processedValues = new ProcessedValues();
@@ -70,13 +69,53 @@ class RangeIntValueTest extends BaseTestCase
             $inputValue, $processedValues, $dataLocator
         );
 
-        if ($expectError === false) {
-            $this->assertNoProblems($validationResult);
-        }
-        else {
-            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
-        }
+        $this->assertNoProblems($validationResult);
     }
+
+
+    public function provideRangeIntErrorCases()
+    {
+        // Minimum boundary tests
+        $minValue = 100;
+        $maxValue = 200;
+        $underValue = $minValue - 1;
+        $exactValue = $minValue ;
+        $overValue = $minValue + 1;
+
+        yield [$minValue, $maxValue, (string)$underValue, Messages::INT_TOO_SMALL];
+
+        // Maximum boundary tests.
+        $minValue = 100;
+        $maxValue = 256;
+        $underValue = $maxValue - 1;
+        $exactValue = $maxValue ;
+        $overValue = $maxValue + 1;
+
+        yield [$minValue, $maxValue, (string)$overValue, Messages::INT_TOO_LARGE];
+    }
+
+
+    /**
+     * @dataProvider provideRangeIntErrorCases
+     */
+    public function testErrors($minValue, $maxValue, $inputValue, $message)
+    {
+        $rule = new RangeIntValue($minValue, $maxValue);
+        $processedValues = new ProcessedValues();
+        $dataLocator = DataStorage::fromSingleValue('foo', $inputValue);
+        $validationResult = $rule->process(
+            $inputValue,
+            $processedValues,
+            $dataLocator
+        );
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            $message,
+            $validationResult->getValidationProblems()
+        );
+    }
+
 
 
     /**

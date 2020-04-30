@@ -43,7 +43,10 @@ class GetArrayOfType implements ExtractRule
 
         // Check it is set
         if ($dataLocator->valueAvailable() !== true) {
-            return ValidationResult::errorResult($dataLocator, Messages::ERROR_MESSAGE_NOT_SET_VARIANT_1);
+            return ValidationResult::errorResult(
+                $dataLocator,
+                Messages::ERROR_MESSAGE_NOT_SET_VARIANT_1
+            );
         }
 
         return createArrayOfType(

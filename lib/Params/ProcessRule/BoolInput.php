@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Params\ProcessRule;
 
 use Params\DataLocator\InputStorageAye;
+use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
@@ -45,7 +46,7 @@ class BoolInput implements ProcessRule
         }
 
         $message = sprintf(
-            "Unsupported input type of '%s'",
+            Messages::UNSUPPORTED_TYPE,
             gettype($value)
         );
 

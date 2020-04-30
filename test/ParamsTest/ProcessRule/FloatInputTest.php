@@ -46,8 +46,8 @@ class FloatInputTest extends BaseTestCase
     public function provideErrorCases()
     {
         return [
-            [[], Messages::VALUE_MUST_BE_SCALAR],
-            [null, Messages::VALUE_MUST_BE_SCALAR],
+            [[], Messages::NEED_FLOAT_WRONG_TYPE],
+            [null, Messages::NEED_FLOAT_WRONG_TYPE],
             ['', Messages::NEED_FLOAT_NOT_EMPTY_STRING],
             ['5.a', Messages::NEED_FLOAT],
             ['5. 5', Messages::NEED_FLOAT_WHITESPACE], // space in middle
@@ -77,7 +77,6 @@ class FloatInputTest extends BaseTestCase
             $message,
             $validationResult->getValidationProblems()
         );
-
     }
 
     /**

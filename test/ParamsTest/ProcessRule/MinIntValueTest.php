@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MinIntValue;
@@ -23,12 +24,12 @@ class MinIntValueTest extends BaseTestCase
         $overValue = $minValue + 1;
 
         return [
-            [$minValue, (string)$underValue, true],
-            [$minValue, (string)$exactValue, false],
-            [$minValue, (string)$overValue, false],
+//            [$minValue, (string)$underValue, true],
+            [$minValue, (string)$exactValue],
+            [$minValue, (string)$overValue],
 
             // TODO - think about these cases.
-            [$minValue, 'banana', true]
+//            [$minValue, 'banana', true]
         ];
     }
 
@@ -36,7 +37,7 @@ class MinIntValueTest extends BaseTestCase
      * @dataProvider provideMinIntValueCases
      * @covers \Params\ProcessRule\MinIntValue
      */
-    public function testValidation(int $minValue, string $inputValue, bool $expectError)
+    public function testValidation(int $minValue, string $inputValue)
     {
         $rule = new MinIntValue($minValue);
         $processedValues = new ProcessedValues();
@@ -45,12 +46,50 @@ class MinIntValueTest extends BaseTestCase
             $inputValue, $processedValues, $dataLocator
         );
 
-        if ($expectError === false) {
+//        if ($expectError === false) {
             $this->assertNoProblems($validationResult);
-        }
-        else {
-            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
-        }
+//        }
+//        else {
+//            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+//        }
+    }
+
+
+    public function provideMinIntValueErrors()
+    {
+        $minValue = 100;
+        $underValue = $minValue - 1;
+        $exactValue = $minValue ;
+        $overValue = $minValue + 1;
+
+        return [
+            [$minValue, (string)$underValue],
+
+            // TODO - think about these cases.
+            [$minValue, 'banana', true]
+        ];
+    }
+
+    /**
+     * @dataProvider provideMinIntValueErrors
+     * @covers \Params\ProcessRule\MinIntValue
+     */
+    public function testErrors(int $minValue, string $inputValue)
+    {
+        $rule = new MinIntValue($minValue);
+        $processedValues = new ProcessedValues();
+        $dataLocator = DataStorage::fromSingleValue('foo', $inputValue);
+        $validationResult = $rule->process(
+            $inputValue, $processedValues, $dataLocator
+        );
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::INT_TOO_SMALL,
+            $validationResult->getValidationProblems()
+        );
+
+        $this->assertOneErrorAndContainsString($validationResult, (string)$minValue);
     }
 
     /**

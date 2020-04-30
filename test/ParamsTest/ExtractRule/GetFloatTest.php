@@ -62,27 +62,28 @@ class GetFloatTest extends BaseTestCase
 
     public function provideTestErrorCases()
     {
-        return [
-            // todo - we should test the exact error.
-            [['5.a']],
-//            [['5.5']],
-            [['banana']],
-        ];
+        yield ['5.a'];
+        yield ['banana'];
     }
 
     /**
      * @covers \Params\ExtractRule\GetFloat
      * @dataProvider provideTestErrorCases
      */
-    public function testErrors($variables)
+    public function testErrors($value)
     {
         $rule = new GetFloat();
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
-            $validator, DataStorage::fromArraySetFirstValue($variables)
+            $validator,
+            DataStorage::fromSingleValue('foo', $value)
         );
 
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::NEED_FLOAT,
+            $validationResult->getValidationProblems()
+        );
     }
 
     /**

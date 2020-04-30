@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\RangeLength;
 use Params\ProcessedValues;
@@ -48,29 +49,29 @@ class RangeLengthTest extends BaseTestCase
 
 
         return [
-            [$minLength, $maxLength, $underLengthMinString, true],
-            [$minLength, $maxLength, $exactLengthMinString, false],
-            [$minLength, $maxLength, $overLengthMinString, false],
+            [$minLength, $maxLength, $underLengthMinString, Messages::STRING_TOO_SHORT],
+            [$minLength, $maxLength, $exactLengthMinString, null],
+            [$minLength, $maxLength, $overLengthMinString, null],
 
-            [$minLength, $maxLength, $underLengthMinWithMBString, true],
-            [$minLength, $maxLength, $exactLengthMinWithMBString, false],
-            [$minLength, $maxLength, $overLengthMinWithMBString, false],
+            [$minLength, $maxLength, $underLengthMinWithMBString, Messages::STRING_TOO_SHORT],
+            [$minLength, $maxLength, $exactLengthMinWithMBString, null],
+            [$minLength, $maxLength, $overLengthMinWithMBString, null],
 
-            [$minLength, $maxLength, $underLengthMinMBStringOnly, true],
-            [$minLength, $maxLength, $exactLengthMinMBStringOnly, false],
-            [$minLength, $maxLength, $overLengthMinMBStringOnly, false],
+            [$minLength, $maxLength, $underLengthMinMBStringOnly, Messages::STRING_TOO_SHORT],
+            [$minLength, $maxLength, $exactLengthMinMBStringOnly, null],
+            [$minLength, $maxLength, $overLengthMinMBStringOnly, null],
 
-            [$minLength, $maxLength, $underLengthMaxString, false],
-            [$minLength, $maxLength, $exactLengthMaxString, false],
-            [$minLength, $maxLength, $overLengthMaxString, true],
+            [$minLength, $maxLength, $underLengthMaxString, null],
+            [$minLength, $maxLength, $exactLengthMaxString, null],
+            [$minLength, $maxLength, $overLengthMaxString, Messages::STRING_TOO_LONG],
 
-            [$minLength, $maxLength, $underLengthMaxWithMBString, false],
-            [$minLength, $maxLength, $exactLengthMaxWithMBString, false],
-            [$minLength, $maxLength, $overLengthMaxWithMBString, true],
+            [$minLength, $maxLength, $underLengthMaxWithMBString, null],
+            [$minLength, $maxLength, $exactLengthMaxWithMBString, null],
+            [$minLength, $maxLength, $overLengthMaxWithMBString, Messages::STRING_TOO_LONG],
 
-            [$minLength, $maxLength, $underLengthMaxMBStringOnly, false],
-            [$minLength, $maxLength, $exactLengthMaxMBStringOnly, false],
-            [$minLength, $maxLength, $overLengthMaxMBStringOnly, true],
+            [$minLength, $maxLength, $underLengthMaxMBStringOnly, null],
+            [$minLength, $maxLength, $exactLengthMaxMBStringOnly, null],
+            [$minLength, $maxLength, $overLengthMaxMBStringOnly, Messages::STRING_TOO_LONG],
         ];
     }
 
@@ -78,21 +79,28 @@ class RangeLengthTest extends BaseTestCase
      * @dataProvider provideMaxLengthCases
      * @covers \Params\ProcessRule\RangeLength
      */
-    public function testValidation(int $minLength, int $maxLength, string $string, bool $expectError)
-    {
+    public function testValidation(
+        int $minLength,
+        int $maxLength,
+        string $string,
+        ?string $expectedError
+    ) {
         $rule = new RangeLength($minLength, $maxLength);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = DataStorage::fromSingleValue('foo', $string);
         $validationResult = $rule->process(
             $string, $processedValues, $dataLocator
         );
 
-        if ($expectError === false) {
+        if ($expectedError === null) {
             $this->assertNoProblems($validationResult);
         }
         else {
-            // TODO - replace this with text comparison.
-            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+            $this->assertValidationProblemRegexp(
+                '/foo',
+                $expectedError,
+                $validationResult->getValidationProblems()
+            );
         }
     }
 

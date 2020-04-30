@@ -39,9 +39,14 @@ class RangeLength implements ProcessRule
 
         // Check min length
         if (mb_strlen($value) < $this->minLength) {
+            $message = sprintf(
+                Messages::STRING_TOO_SHORT,
+                $this->minLength
+            );
+
             return ValidationResult::errorResult(
                 $dataLocator,
-                "String too short, min chars is " . $this->minLength
+                $message
             );
         }
 

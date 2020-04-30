@@ -6,6 +6,7 @@ namespace Params\ProcessRule;
 
 use Params\DataLocator\InputStorageAye;
 use Params\Exception\InvalidRulesException;
+use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
@@ -50,9 +51,14 @@ class EnumMap implements ProcessRule
         if (array_key_exists($value, $this->allowedValues) !== true) {
             $allowedInputValues = implode(', ', array_keys($this->allowedValues));
 
+            $message = sprintf(
+                Messages::ENUM_MAP_UKNOWN_VALUE,
+                $allowedInputValues
+            );
+
             return ValidationResult::errorResult(
                 $dataLocator,
-                "Value is not known. Please use one of " . $allowedInputValues
+                $message
             );
         }
 

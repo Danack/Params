@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDatetime;
 use Params\ProcessedValues;
@@ -76,12 +77,16 @@ class ValidDatetimeTest extends BaseTestCase
         $rule = new ValidDatetime();
         $processedValues = new ProcessedValues();
 
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = DataStorage::fromSingleValue('foo', $input);
 
         $validationResult = $rule->process(
             $input, $processedValues, $dataLocator
         );
 
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::ERROR_INVALID_DATETIME,
+            $validationResult->getValidationProblems()
+        );
     }
 }

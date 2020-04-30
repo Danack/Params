@@ -9,6 +9,7 @@ use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Order;
 use Params\Value\Ordering;
 use Params\ProcessedValues;
+use Params\Messages;
 
 /**
  * @coversNothing
@@ -19,7 +20,6 @@ class OrderTest extends BaseTestCase
     {
         return [
             ['time', ['time' => Ordering::ASC], false],
-            ['bar', null, true],
         ];
     }
 
@@ -39,14 +39,46 @@ class OrderTest extends BaseTestCase
             $testValue, $processedValues, $dataLocator
         );
 
-        if ($expectError === true) {
-            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
-            return;
-        }
-
         $value = $validationResult->getValue();
         $this->assertInstanceOf(Ordering::class, $value);
         /** @var $value Ordering */
         $this->assertEquals($expectedOrdering, $value->toOrderArray());
+    }
+
+    public function provideTestErrors()
+    {
+        return [
+            ['bar', null, true],
+        ];
+    }
+
+    /**
+     * @dataProvider provideTestErrors
+     * @covers \Params\ProcessRule\Order
+     */
+    public function testErrors($testValue, $expectedOrdering, $expectError)
+    {
+        $orderParams = ['time', 'distance'];
+
+        $rule = new Order($orderParams);
+        $processedValues = new ProcessedValues();
+        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
+
+        $validationResult = $rule->process(
+            $testValue,
+            $processedValues,
+            $dataLocator
+        );
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::UNKNOWN_ORDERING,
+            $validationResult->getValidationProblems()
+        );
+
+        $this->assertOneErrorAndContainsString(
+            $validationResult,
+            implode(", ", $orderParams)
+        );
     }
 }

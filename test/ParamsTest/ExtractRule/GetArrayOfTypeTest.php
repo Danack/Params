@@ -236,9 +236,9 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $this->assertCount(1, $result->getValidationProblems());
 
-        $this->assertValidationProblem(
+        $this->assertValidationProblemRegexp(
             '/items[0]/comment',
-            "String too short, min chars is 4",
+            Messages::STRING_TOO_SHORT,
             $result->getValidationProblems()
         );
     }
@@ -265,9 +265,9 @@ class GetArrayOfTypeTest extends BaseTestCase
         $validationProblems = $result->getValidationProblems();
         $this->assertCount(2, $validationProblems);
 
-        $this->assertValidationProblem(
+        $this->assertValidationProblemRegexp(
             '/[0]/comment',
-            "String too short, min chars is 4",
+            Messages::STRING_TOO_SHORT,
             $validationProblems
         );
 

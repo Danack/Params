@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaxLength;
@@ -15,7 +16,7 @@ use Params\ProcessedValues;
  */
 class MaxLengthTest extends BaseTestCase
 {
-    public function provideMaxLengthCases()
+    public function provideMaxLengthWorks()
     {
         $maxLength = 10;
         $underLengthString = str_repeat('a', $maxLength - 1);
@@ -34,25 +35,22 @@ class MaxLengthTest extends BaseTestCase
         $overLengthMBStringOnly = str_repeat("\xC2\xA3", $maxLength + 1);
 
         return [
-            [$maxLength, $underLengthString, false],
-            [$maxLength, $exactLengthString, false],
-            [$maxLength, $overLengthString, true],
+            [$maxLength, $underLengthString],
+            [$maxLength, $exactLengthString],
 
-            [$maxLength, $underLengthWithMBString, false],
-            [$maxLength, $exactLengthWithMBString, false],
-            [$maxLength, $overLengthWithMBString, true],
+            [$maxLength, $underLengthWithMBString],
+            [$maxLength, $exactLengthWithMBString],
 
-            [$maxLength, $underLengthMBStringOnly, false],
-            [$maxLength, $exactLengthMBStringOnly, false],
-            [$maxLength, $overLengthMBStringOnly, true],
+            [$maxLength, $underLengthMBStringOnly],
+            [$maxLength, $exactLengthMBStringOnly],
         ];
     }
 
     /**
-     * @dataProvider provideMaxLengthCases
+     * @dataProvider provideMaxLengthWorks
      * @covers \Params\ProcessRule\MaxLength
      */
-    public function testValidation(int $maxLength, string $string, bool $expectError)
+    public function testValidationWorks(int $maxLength, string $string)
     {
         $rule = new MaxLength($maxLength);
         $processedValues = new ProcessedValues();
@@ -63,14 +61,50 @@ class MaxLengthTest extends BaseTestCase
             $dataLocator
         );
 
-        if ($expectError === false) {
-            $this->assertNoProblems($validationResult);
-        }
-        else {
-            // TODO - replace this with text comparison.
-            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
-        }
+        $this->assertNoProblems($validationResult);
     }
+
+    public function provideMaxLengthErrors()
+    {
+        $maxLength = 10;
+        $overLengthString = str_repeat('a', $maxLength + 1);
+
+        // Test the edge behaviour around multibyte strings
+        $overLengthWithMBString = str_repeat('a', $maxLength) . "\xC2\xA3";
+
+        // Test the edge behaviour around strings that are only MB characters
+        $overLengthMBStringOnly = str_repeat("\xC2\xA3", $maxLength + 1);
+
+        return [
+            [$maxLength, $overLengthString],
+            [$maxLength, $overLengthWithMBString],
+            [$maxLength, $overLengthMBStringOnly],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMaxLengthErrors
+     * @covers \Params\ProcessRule\MaxLength
+     */
+    public function testErrors(int $maxLength, string $string)
+    {
+        $rule = new MaxLength($maxLength);
+        $processedValues = new ProcessedValues();
+        $dataLocator = DataStorage::fromSingleValue('foo', $string);
+        $validationResult = $rule->process(
+            $string,
+            $processedValues,
+            $dataLocator
+        );
+
+        // TODO - replace this with text comparison.
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::STRING_TOO_LONG,
+            $validationResult->getValidationProblems()
+        );
+    }
+
 
     /**
      * @covers \Params\ProcessRule\MaxLength

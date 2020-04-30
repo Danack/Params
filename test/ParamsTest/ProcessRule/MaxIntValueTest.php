@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaxIntValue;
@@ -23,10 +24,8 @@ class MaxIntValueValidatorTest extends BaseTestCase
         $overValue = $maxValue + 1;
 
         return [
-            [$maxValue, (string)$underValue, false],
-            [$maxValue, (string)$exactValue, false],
-            [$maxValue, (string)$overValue, true],
-
+            [$maxValue, (string)$underValue],
+            [$maxValue, (string)$exactValue],
             // TODO - think about these cases.
 //            [$maxValue, 125.5, true],
 //            [$maxValue, 'banana', true]
@@ -37,7 +36,7 @@ class MaxIntValueValidatorTest extends BaseTestCase
      * @dataProvider provideMaxIntCases
      * @covers \Params\ProcessRule\MaxIntValue
      */
-    public function testValidation(int $maxValue, string $inputValue, bool $expectError)
+    public function testValidation(int $maxValue, string $inputValue)
     {
         $rule = new MaxIntValue($maxValue);
         $processedValues = new ProcessedValues();
@@ -48,14 +47,51 @@ class MaxIntValueValidatorTest extends BaseTestCase
             $dataLocator
         );
 
-        if ($expectError === false) {
-            $this->assertNoProblems($validationResult);
-        }
-        else {
-            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
-        }
+
+        $this->assertNoProblems($validationResult);
     }
 
+
+
+    public function provideMaxIntErrors()
+    {
+        $maxValue = 256;
+        $underValue = $maxValue - 1;
+        $exactValue = $maxValue ;
+        $overValue = $maxValue + 1;
+
+        return [
+            [$maxValue, (string)$overValue],
+
+            // TODO - think about these cases.
+//            [$maxValue, 125.5, true],
+//            [$maxValue, 'banana', true]
+        ];
+    }
+
+    /**
+     * @dataProvider provideMaxIntErrors
+     * @covers \Params\ProcessRule\MaxIntValue
+     */
+    public function testErrors(int $maxValue, string $inputValue)
+    {
+        $rule = new MaxIntValue($maxValue);
+        $processedValues = new ProcessedValues();
+        $dataLocator = DataStorage::fromSingleValue('foo', $inputValue);
+        $validationResult = $rule->process(
+            $inputValue,
+            $processedValues,
+            $dataLocator
+        );
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::INT_TOO_LARGE,
+            $validationResult->getValidationProblems()
+        );
+
+        $this->assertOneErrorAndContainsString($validationResult, (string)$maxValue);
+    }
 
     /**
      * @covers \Params\ProcessRule\MaxIntValue

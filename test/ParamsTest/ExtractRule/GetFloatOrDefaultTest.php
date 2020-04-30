@@ -6,6 +6,7 @@ namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
 use Params\ExtractRule\GetFloatOrDefault;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
 
@@ -60,36 +61,34 @@ class GetFloatOrDefaultTest extends BaseTestCase
 
     public function provideTestErrorCases()
     {
-        return [
-            [null],
-            [''],
-            ['6 apples'],
-            ['banana'],
-            ['1.f'],
-        ];
+        yield [null, Messages::NEED_FLOAT_WRONG_TYPE];
+        yield ['', Messages::NEED_FLOAT_NOT_EMPTY_STRING];
+        yield ['6 apples', Messages::NEED_FLOAT_WHITESPACE];
+        yield ['banana', Messages::NEED_FLOAT];
+        yield ['1.f', Messages::NEED_FLOAT];
     }
 
     /**
      * @covers \Params\ExtractRule\GetFloatOrDefault
      * @dataProvider provideTestErrorCases
      */
-    public function testErrors($inputValue)
+    public function testErrors($inputValue, $message)
     {
         $default = 5.0;
-
-        $variableName = 'foo';
-
-        $variables = [$variableName => $inputValue];
 
         $validator = new ProcessedValues();
         $rule = new GetFloatOrDefault($default);
         $validationResult = $rule->process(
-            $validator, DataStorage::fromArraySetFirstValue($variables)
+            $validator,
+            DataStorage::fromSingleValue('foo', $inputValue)
         );
 
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            $message,
+            $validationResult->getValidationProblems()
+        );
     }
-
 
     /**
      * @covers \Params\ExtractRule\GetFloatOrDefault

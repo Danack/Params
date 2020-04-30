@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Params\ProcessRule;
 
 use Params\DataLocator\InputStorageAye;
+use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
@@ -35,19 +36,26 @@ class RangeIntValue implements ProcessRule
     ): ValidationResult {
         $value = intval($value);
         if ($value < $this->minValue) {
+            $message = sprintf(
+                Messages::INT_TOO_SMALL,
+                $this->minValue
+            );
             return ValidationResult::errorResult(
                 $dataLocator,
-                "Value too small. Min allowed is " . $this->minValue
+                $message
             );
         }
 
         if ($value > $this->maxValue) {
+            $message = sprintf(
+                Messages::INT_TOO_LARGE,
+                $this->maxValue
+            );
             return ValidationResult::errorResult(
                 $dataLocator,
-                "Value too large. Max allowed is " . $this->maxValue
+                $message
             );
         }
-
 
         return ValidationResult::valueResult($value);
     }

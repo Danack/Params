@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalInt;
 use Params\ProcessedValues;
@@ -47,23 +48,19 @@ class GetOptionalIntTest extends BaseTestCase
 
     public function provideTestErrorCases()
     {
-        return [
-            [''],
-            ['6 apples'],
-            ['banana'],
-            ['1.1'],
-        ];
+        yield [null, Messages::NEEDS_INT_UNSUPPORTED_TYPE];
+        yield ['', Messages::NEEDS_INT_FOUND_EMPTY_STRING];
+        yield ['6 apples', Messages::ONLY_DIGITS_ALLOWED_2];
+        yield ['banana', Messages::ONLY_DIGITS_ALLOWED_2];
+        yield ['1.1', Messages::ONLY_DIGITS_ALLOWED_2];
     }
 
     /**
      * @covers \Params\ExtractRule\GetOptionalInt
      * @dataProvider provideTestErrorCases
      */
-    public function testErrors($inputValue)
+    public function testErrors($inputValue, $message)
     {
-//        $variableName = 'foo';
-//        $variables = [$variableName => $inputValue];
-
         $validator = new ProcessedValues();
         $rule = new GetOptionalInt();
         $validationResult = $rule->process(
@@ -71,7 +68,14 @@ class GetOptionalIntTest extends BaseTestCase
             DataStorage::fromSingleValue('foo', $inputValue)
         );
 
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+//        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            $message,
+            $validationResult->getValidationProblems()
+        );
+
         $this->assertNull($validationResult->getValue());
     }
 

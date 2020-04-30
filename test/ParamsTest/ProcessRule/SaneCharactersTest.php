@@ -8,6 +8,7 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SaneCharacters;
 use Params\ProcessedValues;
+use Params\Messages;
 
 /**
  * @coversNothing
@@ -65,16 +66,17 @@ class SaneCharactersTest extends BaseTestCase
     {
         $rule = new SaneCharacters();
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
         $validationResult = $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue,
+            $processedValues,
+            $dataLocator
         );
 
-//        $bytesString = "Bytes were[" . getRawCharacters($testValue) . "]";
-
-        $this->assertExpectedValidationProblems(
-            $validationResult->getValidationProblems(),
-            "Should have been error: " . json_encode($testValue)
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::INVALID_COMBINING_CHARACTERS,
+            $validationResult->getValidationProblems()
         );
     }
 

@@ -91,7 +91,6 @@ class BaseTestCase extends TestCase
             $this->fail($incorrectMessageText);
         }
 
-        // TODO - should be path not identifier.
         // Identifier not found
         $identifiers = [];
         foreach ($validationProblems as $validationProblem) {
@@ -107,9 +106,18 @@ class BaseTestCase extends TestCase
         $this->fail($missingIndentifierText);
     }
 
+    public function assertOneErrorAndContainsString(ValidationResult $validationResult, string $needle)
+    {
+        $validationProblems = $validationResult->getValidationProblems();
+        $this->assertCount(1, $validationProblems);
+
+        $onlyProblem = $validationProblems[0];
+        $this->assertStringContainsString($needle, $onlyProblem->getProblemMessage());
+    }
+
     /**
      * @param string $identifier
-     * @param string $problem
+     * @param string $expectedProblem
      * @param \Params\ValidationProblem[] $validationProblems
      */
     protected function assertValidationProblemRegexp(
@@ -167,7 +175,6 @@ class BaseTestCase extends TestCase
         }
     }
 
-
     public function assertNoProblems(ValidationResult $validationResult)
     {
         $validationProblems = $validationResult->getValidationProblems();
@@ -191,27 +198,6 @@ class BaseTestCase extends TestCase
         $this->fail($message);
     }
 
-    /**
-     * Test that the expected validation problems are present
-     * TODO - These should all be replaced with the versions that test
-     * error strings.
-     * @param \Params\ValidationProblem[] $validationProblems
-     * @param string $detailMessage
-     */
-    public function assertExpectedValidationProblems(
-        array $validationProblems,
-        string $detailMessage = null
-    ) {
-        $failureMessage = "Validation problems weren't expected to be empty.";
-        if ($detailMessage !== null) {
-            $failureMessage .= $detailMessage;
-        }
-
-        if (count($validationProblems) === 0) {
-            $this->fail($failureMessage);
-        }
-    }
-
     public function assertNoErrors(ValidationResult $validationResult)
     {
         $validationProblems = $validationResult->getValidationProblems();
@@ -225,10 +211,6 @@ class BaseTestCase extends TestCase
 
             $this->fail("Unexpected problems: " . $message);
         }
-
-//        if ($validationResult->isFinalResult() !== true) {
-//            $this->fail("Validation Result should be final, but isn't");
-//        }
     }
 
     public function assertHasValue($expectedValue, $key, ProcessedValues $processedValues)
@@ -239,7 +221,11 @@ class BaseTestCase extends TestCase
 
         $actualValue = $processedValues->getValue($key);
 
-        $this->assertSame($expectedValue, $actualValue, "ProcessedValues contained wrong value.");
+        $this->assertSame(
+            $expectedValue,
+            $actualValue,
+            "ProcessedValues contained wrong value."
+        );
     }
 
     public function assertStringRegExp($string, $message)

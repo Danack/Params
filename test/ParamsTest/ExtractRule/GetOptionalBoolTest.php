@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalBool;
 use Params\ProcessedValues;
@@ -65,25 +66,33 @@ class GetOptionalBoolTest extends BaseTestCase
 
     public function provideTestErrorCases()
     {
-        // TODO - test exact error messages
-        yield [fopen('php://memory', 'r+')]; // a stream is not a bool
-        yield [[1, 2, 3]];  // an array is not a bool
-        yield [new \StdClass()]; // A stdClass is not a bool
+        yield [fopen('php://memory', 'r+'), Messages::UNSUPPORTED_TYPE]; // a stream is not a bool
+        yield [[1, 2, 3], Messages::UNSUPPORTED_TYPE];  // an array is not a bool
+        yield [new \StdClass(), Messages::UNSUPPORTED_TYPE]; // A stdClass is not a bool
     }
 
     /**
      * @covers \Params\ExtractRule\GetOptionalBool
      * @dataProvider provideTestErrorCases
      */
-    public function testBadInputErrors($inputValue)
+    public function testBadInputErrors($inputValue, $message)
     {
         $validator = new ProcessedValues();
         $rule = new GetOptionalBool();
         $validationResult = $rule->process(
-            $validator, DataStorage::fromSingleValue('foo', $inputValue)
+            $validator,
+            DataStorage::fromSingleValue('foo', $inputValue)
         );
 
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+//        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            $message,
+            $validationResult->getValidationProblems()
+        );
+
+
         $this->assertNull($validationResult->getValue());
     }
 

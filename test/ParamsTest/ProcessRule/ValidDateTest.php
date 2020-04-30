@@ -8,6 +8,7 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDate;
 use Params\ProcessedValues;
+use Params\Messages;
 
 /**
  * @coversNothing
@@ -64,9 +65,15 @@ class ValidDateTest extends BaseTestCase
         $rule = new ValidDate();
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
-            $input, $processedValues, DataStorage::fromArraySetFirstValue([$input])
+            $input,
+            $processedValues,
+            DataStorage::fromSingleValue('foo', $input)
         );
 
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::ERROR_INVALID_DATETIME,
+            $validationResult->getValidationProblems()
+        );
     }
 }

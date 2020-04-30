@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Params\ProcessRule;
 
 use Params\DataLocator\InputStorageAye;
+use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
@@ -40,9 +41,14 @@ class Enum implements ProcessRule
         InputStorageAye $dataLocator
     ): ValidationResult {
         if (in_array($value, $this->allowedValues, true) !== true) {
+            $message = sprintf(
+                Messages::ENUM_MAP_UKNOWN_VALUE,
+                implode(', ', $this->allowedValues)
+            );
+
             return ValidationResult::errorResult(
                 $dataLocator,
-                "Value is not known. Please use one of " . implode(', ', $this->allowedValues)
+                $message
             );
         }
 

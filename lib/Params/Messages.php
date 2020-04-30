@@ -46,6 +46,8 @@ class Messages
 
     public const INTEGER_TOO_LONG = "Value too long, max %s digits";
 
+    public const STRING_TOO_SHORT = "String too short, min characters is %d";
+
     public const STRING_TOO_LONG = "String too long, max characters is %d.";
 
     public const NULL_NOT_ALLOWED = "null is not allowed.";
@@ -80,6 +82,25 @@ class Messages
     public const NEED_FLOAT_NOT_EMPTY_STRING = "Value is an empty string - must be a floating point number.";
 
     public const NEED_FLOAT = "Value must be a floating point number.";
+    public const NEED_FLOAT_WRONG_TYPE = "Value must be a floating point number but found '%s'";
 
     public const NEED_FLOAT_WHITESPACE = "Value must be floating point number, whitespace found.";
+
+    public const UNSUPPORTED_TYPE = "Unsupported input type of '%s'";
+
+    public const NEEDS_INT_UNSUPPORTED_TYPE = "Value must be int, found '%s'";
+
+    public const NEEDS_INT_FOUND_EMPTY_STRING = "Value is an empty string - must be an integer.";
+
+    public const INT_TOO_SMALL = "Value too small. Min allowed is %s";
+
+    public const INT_TOO_LARGE = "Value too large. Max allowed is %s";
+
+    public const ENUM_MAP_UKNOWN_VALUE = "Value is not known. Please use one of %s";
+
+//    public const STRING_TOO_SHORT = "String too short, min chars is %s";
+
+    public const INVALID_COMBINING_CHARACTERS = "Invalid combining characters found at position %s";
+
+    public const INT_OVER_LIMIT = "Value too large. Max allowed is %s";
 }

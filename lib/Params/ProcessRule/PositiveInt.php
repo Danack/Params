@@ -8,6 +8,7 @@ use Params\DataLocator\InputStorageAye;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
+use Params\Messages;
 use function Params\check_only_digits;
 
 /**
@@ -34,7 +35,15 @@ class PositiveInt implements ProcessRule
         $value = intval($value);
         $maxValue = self::MAX_SANE_VALUE;
         if ($value > $maxValue) {
-            return ValidationResult::errorResult($dataLocator, "Value too large. Max allowed is $maxValue");
+            $message = sprintf(
+                Messages::INT_OVER_LIMIT,
+                $maxValue
+            );
+
+            return ValidationResult::errorResult(
+                $dataLocator,
+                $message
+            );
         }
 
         return ValidationResult::valueResult($value);

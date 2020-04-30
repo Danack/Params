@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\BoolInput;
 use ParamsTest\BaseTestCase;
@@ -13,7 +14,7 @@ use Params\ProcessedValues;
 /**
  * @coversNothing
  */
-class BoolInputValidatorTest extends BaseTestCase
+class BoolInputTest extends BaseTestCase
 {
     public function provideBoolValueWorksCases()
     {
@@ -52,28 +53,31 @@ class BoolInputValidatorTest extends BaseTestCase
 
     public function provideBoolValueErrorsCases()
     {
-        return [
-            // todo - we should test the exact error.
-            [fopen('php://memory', 'r+')],
-            [[1, 2, 3]],
-            [new \StdClass()]
-        ];
+        yield [fopen('php://memory', 'r+'), Messages::UNSUPPORTED_TYPE];
+        yield [[1, 2, 3], Messages::UNSUPPORTED_TYPE];
+        yield [new \StdClass(), Messages::UNSUPPORTED_TYPE];
     }
 
     /**
      * @dataProvider provideBoolValueErrorsCases
      * @covers \Params\ProcessRule\BoolInput
      */
-    public function testValidationErrors($inputValue)
+    public function testValidationErrors($inputValue, $message)
     {
         $rule = new BoolInput();
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            DataStorage::fromArraySetFirstValue([$inputValue])
+            DataStorage::fromSingleValue('foo', [$inputValue])
         );
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+//        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            $message,
+            $validationResult->getValidationProblems()
+        );
     }
 
     /**

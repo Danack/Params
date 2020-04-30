@@ -65,6 +65,9 @@ class DataStorage implements InputStorageAye
     }
 
 
+    /**
+     * @todo - remove usages of this
+     */
     public static function fromArraySetFirstValue(array $data): self
     {
         $instance = new self($data);

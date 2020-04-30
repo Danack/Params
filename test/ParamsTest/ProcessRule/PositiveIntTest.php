@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\PositiveInt;
 use Params\ProcessedValues;
@@ -18,10 +19,7 @@ class PositiveIntTest extends BaseTestCase
     {
         return [
             ['5', 5, false],
-            ['5.5', null, true], // not an int
-            ['banana', null, true], // not an int
             ['0', 0, false], // close enough
-            [PositiveInt::MAX_SANE_VALUE + 1 , null, true],
             [PositiveInt::MAX_SANE_VALUE, PositiveInt::MAX_SANE_VALUE, false],
             [PositiveInt::MAX_SANE_VALUE - 1, PositiveInt::MAX_SANE_VALUE - 1, false],
         ];
@@ -39,13 +37,40 @@ class PositiveIntTest extends BaseTestCase
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );
-        if ($expectError == true) {
-            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
-        }
-        else {
-            $this->assertNoProblems($validationResult);
-            $this->assertEquals($validationResult->getValue(), $expectedResult);
-        }
+
+        $this->assertNoProblems($validationResult);
+        $this->assertEquals($validationResult->getValue(), $expectedResult);
+    }
+
+
+    public function provideTestErrors()
+    {
+        return [
+            ['5.5', Messages::ONLY_DIGITS_ALLOWED], // not an int
+            ['banana', Messages::ONLY_DIGITS_ALLOWED], // not an int
+            [PositiveInt::MAX_SANE_VALUE + 1 , Messages::INT_OVER_LIMIT],
+        ];
+    }
+
+    /**
+     * @dataProvider provideTestErrors
+     * @covers \Params\ProcessRule\PositiveInt
+     */
+    public function testErrors($testValue, $message)
+    {
+        $rule = new PositiveInt();
+        $processedValues = new ProcessedValues();
+        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
+        $validationResult = $rule->process(
+            $testValue, $processedValues, $dataLocator
+        );
+
+//        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            $message,
+            $validationResult->getValidationProblems()
+        );
     }
 
 

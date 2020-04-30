@@ -8,6 +8,7 @@ use Params\DataLocator\DataStorage;
 use Params\ExtractRule\GetIntOrDefault;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
+use Params\Messages;
 
 /**
  * @coversNothing
@@ -57,34 +58,33 @@ class GetIntOrDefaultTest extends BaseTestCase
 
     public function provideTestErrorCases()
     {
-        return [
-            [null],
-            [''],
-            ['6 apples'],
-            ['banana'],
-            ['1.1'],
-        ];
+        yield [null, Messages::NEEDS_INT_UNSUPPORTED_TYPE];
+        yield ['', Messages::NEEDS_INT_FOUND_EMPTY_STRING];
+        yield ['6 apples', Messages::ONLY_DIGITS_ALLOWED_2];
+        yield ['banana', Messages::ONLY_DIGITS_ALLOWED_2];
+        yield ['1.1', Messages::ONLY_DIGITS_ALLOWED_2];
     }
 
     /**
      * @covers \Params\ExtractRule\GetIntOrDefault
      * @dataProvider provideTestErrorCases
      */
-    public function testErrors($inputValue)
+    public function testErrors($inputValue, $message)
     {
         $default = 5;
-
-        $variableName = 'foo';
-
-        $variables = [$variableName => $inputValue];
 
         $validator = new ProcessedValues();
         $rule = new GetIntOrDefault($default);
         $validationResult = $rule->process(
-            $validator, DataStorage::fromArraySetFirstValue($variables)
+            $validator,
+            DataStorage::fromSingleValue('foo', $inputValue)
         );
 
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            $message,
+            $validationResult->getValidationProblems()
+        );
     }
 
     /**

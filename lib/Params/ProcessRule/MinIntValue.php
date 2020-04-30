@@ -8,6 +8,7 @@ use Params\DataLocator\InputStorageAye;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
+use Params\Messages;
 
 class MinIntValue implements ProcessRule
 {
@@ -25,9 +26,14 @@ class MinIntValue implements ProcessRule
     ): ValidationResult {
         $value = intval($value);
         if ($value < $this->minValue) {
+            $message = sprintf(
+                Messages::INT_TOO_SMALL,
+                $this->minValue
+            );
+
             return ValidationResult::errorResult(
                 $dataLocator,
-                "Value too small. Min allowed is " . $this->minValue
+                $message
             );
         }
 

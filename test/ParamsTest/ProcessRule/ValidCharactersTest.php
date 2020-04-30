@@ -34,21 +34,30 @@ class ValidCharactersTest extends BaseTestCase
     {
         $rule = new ValidCharacters($validCharactersPattern);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
 
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );
         if ($expectedErrorPosition !== null) {
-            $this->assertExpectedValidationProblems(
-                $validationResult->getValidationProblems(),
-                "Failed to detect invalid char at $expectedErrorPosition"
+            $this->assertValidationProblemRegexp(
+                '/foo',
+                \Params\Messages::INVALID_CHAR_MESSAGE,
+                $validationResult->getValidationProblems()
             );
 
             $this->assertValidationProblemRegexp(
-                '/',
+                '/foo',
                 $validCharactersPattern,
                 $validationResult->getValidationProblems()
+            );
+
+            // Check the correct position is in the error message.
+            $this->assertCount(1, $validationResult->getValidationProblems());
+            $validationProblem = $validationResult->getValidationProblems()[0];
+            $this->assertStringContainsString(
+                (string)$expectedErrorPosition,
+                $validationProblem->getProblemMessage()
             );
         }
         else {

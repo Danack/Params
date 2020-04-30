@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\StartsWithString;
 use Params\ProcessedValues;
@@ -55,10 +56,15 @@ class StartsWithStringTest extends BaseTestCase
     {
         $rule = new StartsWithString($prefix);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::STRING_MUST_START_WITH,
+            $validationResult->getValidationProblems()
+        );
     }
 }

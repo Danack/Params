@@ -8,6 +8,7 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetBoolOrDefault;
 use Params\ProcessedValues;
+use Params\Messages;
 
 /**
  * @coversNothing
@@ -89,7 +90,11 @@ class GetBoolOrDefaultTest extends BaseTestCase
             DataStorage::fromArraySetFirstValue(['foo' => $value])
         );
 
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::UNSUPPORTED_TYPE,
+            $validationResult->getValidationProblems()
+        );
     }
 
     /**

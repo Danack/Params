@@ -26,7 +26,12 @@ class GetStringTest extends BaseTestCase
             $validator,
             DataStorage::createMissing('foo')
         );
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::VALUE_NOT_SET,
+            $validationResult->getValidationProblems()
+        );
     }
 
     /**

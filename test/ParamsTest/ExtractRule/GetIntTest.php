@@ -61,28 +61,32 @@ class GetIntTest extends BaseTestCase
 
     public function provideTestErrorCases()
     {
-        yield [null];
-        yield [''];
-        yield ['6 apples'];
-        yield ['banana'];
-        // TODO add expected error string
+        yield [null, Messages::NEEDS_INT_UNSUPPORTED_TYPE];
+        yield ['', Messages::NEEDS_INT_FOUND_EMPTY_STRING];
+        yield ['6 apples', Messages::ONLY_DIGITS_ALLOWED_2];
+        yield ['banana', Messages::ONLY_DIGITS_ALLOWED_2];
     }
 
     /**
      * @covers \Params\ExtractRule\GetInt
      * @dataProvider provideTestErrorCases
      */
-    public function testErrors($input)
+    public function testErrors($input, $message)
     {
         $rule = new GetInt();
         $validator = new ProcessedValues();
         $dataLocator = DataStorage::fromSingleValue('foo', $input);
 
         $validationResult = $rule->process(
-            $validator, $dataLocator
+            $validator,
+            $dataLocator
         );
 
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            $message,
+            $validationResult->getValidationProblems()
+        );
     }
 
     /**

@@ -31,9 +31,14 @@ class FloatInput implements ProcessRule
     ): ValidationResult {
 
         if (is_scalar($value) !== true) {
+            $message = sprintf(
+                Messages::NEED_FLOAT_WRONG_TYPE,
+                gettype($value)
+            );
+
             return ValidationResult::errorResult(
                 $dataLocator,
-                Messages::VALUE_MUST_BE_SCALAR,
+                $message
             );
         }
 

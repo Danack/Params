@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ExtractRule;
 
 use Params\DataLocator\DataStorage;
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalFloat;
 use Params\ProcessedValues;
@@ -52,23 +53,20 @@ class GetOptionalFloatTest extends BaseTestCase
     public function provideTestErrorCases()
     {
         // If set, null not allowed
-        yield [null];
+        yield [null, Messages::NEED_FLOAT_WRONG_TYPE];
 
         // if set, empty string not allowed
-        yield [''];
-        yield ['6 apples'];
-        yield ['banana'];
+        yield ['', Messages::NEED_FLOAT_NOT_EMPTY_STRING];
+        yield ['6 apples', Messages::NEED_FLOAT_WHITESPACE];
+        yield ['banana', Messages::NEED_FLOAT];
     }
 
     /**
      * @covers \Params\ExtractRule\GetOptionalInt
      * @dataProvider provideTestErrorCases
      */
-    public function testErrors($inputValue)
+    public function testErrors($inputValue, $message)
     {
-        // $variableName = 'foo';
-//        $variables = [$variableName => $inputValue];
-
         $validator = new ProcessedValues();
         $rule = new GetOptionalFloat();
         $validationResult = $rule->process(
@@ -76,7 +74,12 @@ class GetOptionalFloatTest extends BaseTestCase
             DataStorage::fromSingleValue('foo', $inputValue)
         );
 
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            $message,
+            $validationResult->getValidationProblems()
+        );
+
         $this->assertNull($validationResult->getValue());
     }
 

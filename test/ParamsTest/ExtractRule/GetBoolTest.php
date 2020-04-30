@@ -86,7 +86,11 @@ class GetBoolTest extends BaseTestCase
             DataStorage::fromArraySetFirstValue(['foo' => $value])
         );
 
-        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::UNSUPPORTED_TYPE,
+            $validationResult->getValidationProblems()
+        );
     }
 
     /**

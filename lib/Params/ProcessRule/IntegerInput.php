@@ -31,14 +31,20 @@ class IntegerInput implements ProcessRule
         ProcessedValues $processedValues,
         InputStorageAye $dataLocator
     ): ValidationResult {
-        // TODO - check is null
+        if (is_scalar($value) !== true) {
+            return ValidationResult::errorResult(
+                $dataLocator,
+                Messages::NEEDS_INT_UNSUPPORTED_TYPE
+            );
+        }
+
         if (is_int($value) !== true) {
             $value = (string)$value;
             // check string length is not zero length.
             if (strlen($value) === 0) {
                 return ValidationResult::errorResult(
                     $dataLocator,
-                    "Value is an empty string - must be an integer."
+                    Messages::NEEDS_INT_FOUND_EMPTY_STRING
                 );
             }
 

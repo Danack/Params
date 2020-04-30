@@ -9,6 +9,7 @@ use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\Value\MultipleEnums;
 use Params\ProcessedValues;
+use Params\Messages;
 
 /**
  * @coversNothing
@@ -47,7 +48,6 @@ class MultipleEnumTest extends BaseTestCase
     {
         return [
             ['time', ['time'], false],
-            ['bar', null, true],
         ];
     }
 
@@ -64,15 +64,44 @@ class MultipleEnumTest extends BaseTestCase
             $testValue, $processedValues, $dataLocator
         );
 
-        if ($expectError === true) {
-            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
-            return;
-        }
-
         $value = $validationResult->getValue();
-        $this->assertInstanceOf(\Params\Value\MultipleEnums::class, $value);
+        $this->assertInstanceOf(MultipleEnums::class, $value);
 
         /** @var $value \Params\Value\MultipleEnums */
         $this->assertEquals($expectedFilters, $value->getValues());
+    }
+
+
+    public function provideTestErrors()
+    {
+        return [
+            ['bar', null, true],
+        ];
+    }
+
+    /**
+     * @dataProvider provideTestErrors
+     * @covers \Params\ProcessRule\MultipleEnum
+     */
+    public function testErrors($testValue, $expectedFilters, $expectError)
+    {
+        $values = ['time', 'distance'];
+
+        $rule = new MultipleEnum($values);
+        $processedValues = new ProcessedValues();
+        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
+        $validationResult = $rule->process(
+            $testValue, $processedValues, $dataLocator
+        );
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::MULTIPLE_ENUM_INVALID,
+            $validationResult->getValidationProblems()
+        );
+        $this->assertOneErrorAndContainsString(
+            $validationResult,
+            implode(", ", $values)
+        );
     }
 }

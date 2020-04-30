@@ -6,6 +6,7 @@ namespace Params\ProcessRule;
 
 use Params\DataLocator\InputStorageAye;
 use Params\Exception\LogicException;
+use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
@@ -105,7 +106,7 @@ class SaneCharacters implements ProcessRule
         if ($count !== 0) {
             $badCharPosition = $matches[0][1];
             $message = sprintf(
-                "Invalid combining characters found at position %s",
+                Messages::INVALID_COMBINING_CHARACTERS,
                 $badCharPosition
             );
             return ValidationResult::errorResult($dataLocator, $message);

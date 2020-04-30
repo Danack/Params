@@ -8,6 +8,7 @@ use Params\DataLocator\InputStorageAye;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
+use Params\Messages;
 
 class MinLength implements ProcessRule
 {
@@ -26,9 +27,14 @@ class MinLength implements ProcessRule
         // TODO - handle to string conversion better.
         $value = (string)$value;
         if (mb_strlen($value) < $this->minLength) {
+            $message = sprintf(
+                Messages::STRING_TOO_SHORT,
+                $this->minLength
+            );
+
             return ValidationResult::errorResult(
                 $dataLocator,
-                "String too short, min chars is " . $this->minLength
+                $message
             );
         }
         return ValidationResult::valueResult($value);
