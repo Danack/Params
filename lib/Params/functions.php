@@ -299,7 +299,7 @@ function check_only_digits($value)
     if ($count !== 0) {
         $badCharPosition = $matches[0][1];
         $message = sprintf(
-            Messages::ONLY_DIGITS_ALLOWED,
+            Messages::INT_REQUIRED_FOUND_NON_DIGITS,
             $badCharPosition
         );
         return $message;

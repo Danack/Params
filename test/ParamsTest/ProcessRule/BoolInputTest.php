@@ -71,7 +71,6 @@ class BoolInputTest extends BaseTestCase
             $processedValues,
             DataStorage::fromSingleValue('foo', [$inputValue])
         );
-//        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
 
         $this->assertValidationProblemRegexp(
             '/foo',

@@ -46,12 +46,8 @@ class MinIntValueTest extends BaseTestCase
             $inputValue, $processedValues, $dataLocator
         );
 
-//        if ($expectError === false) {
-            $this->assertNoProblems($validationResult);
-//        }
-//        else {
-//            $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
-//        }
+        $this->assertNoProblems($validationResult);
+
     }
 
 

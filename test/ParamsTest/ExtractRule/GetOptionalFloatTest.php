@@ -53,12 +53,12 @@ class GetOptionalFloatTest extends BaseTestCase
     public function provideTestErrorCases()
     {
         // If set, null not allowed
-        yield [null, Messages::NEED_FLOAT_WRONG_TYPE];
+        yield [null, Messages::FLOAT_REQUIRED_WRONG_TYPE];
 
         // if set, empty string not allowed
         yield ['', Messages::NEED_FLOAT_NOT_EMPTY_STRING];
-        yield ['6 apples', Messages::NEED_FLOAT_WHITESPACE];
-        yield ['banana', Messages::NEED_FLOAT];
+        yield ['6 apples', Messages::FLOAT_REQUIRED_FOUND_WHITESPACE];
+        yield ['banana', Messages::FLOAT_REQUIRED];
     }
 
     /**

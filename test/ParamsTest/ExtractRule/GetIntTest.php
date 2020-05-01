@@ -61,10 +61,10 @@ class GetIntTest extends BaseTestCase
 
     public function provideTestErrorCases()
     {
-        yield [null, Messages::NEEDS_INT_UNSUPPORTED_TYPE];
-        yield ['', Messages::NEEDS_INT_FOUND_EMPTY_STRING];
-        yield ['6 apples', Messages::ONLY_DIGITS_ALLOWED_2];
-        yield ['banana', Messages::ONLY_DIGITS_ALLOWED_2];
+        yield [null, Messages::INT_REQUIRED_UNSUPPORTED_TYPE];
+        yield ['', Messages::INT_REQUIRED_FOUND_EMPTY_STRING];
+        yield ['6 apples', Messages::INT_REQUIRED_FOUND_NON_DIGITS2];
+        yield ['banana', Messages::INT_REQUIRED_FOUND_NON_DIGITS2];
     }
 
     /**

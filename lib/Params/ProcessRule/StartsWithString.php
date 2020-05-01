@@ -30,7 +30,7 @@ class StartsWithString implements ProcessRule
     ): ValidationResult {
         if (strpos((string)$value, $this->prefix) !== 0) {
             $message = sprintf(
-                Messages::STRING_MUST_START_WITH,
+                Messages::STRING_REQUIRES_PREFIX,
                 $this->prefix
             );
 

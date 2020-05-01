@@ -63,7 +63,7 @@ class StartsWithStringTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/foo',
-            Messages::STRING_MUST_START_WITH,
+            Messages::STRING_REQUIRES_PREFIX,
             $validationResult->getValidationProblems()
         );
     }

@@ -23,13 +23,13 @@ class GetString implements ExtractRule
         $value = $dataLocator->getCurrentValue();
 
         if (is_array($value) === true) {
-            return ValidationResult::errorResult($dataLocator, Messages::STRING_EXPECTED_BUT_FOUND_NON_SCALAR);
+            return ValidationResult::errorResult($dataLocator, Messages::STRING_REQUIRED_FOUND_NON_SCALAR);
         }
 
         if (is_scalar($value) !== true) {
             return ValidationResult::errorResult(
                 $dataLocator,
-                Messages::STRING_EXPECTED_BUT_FOUND_NON_SCALAR,
+                Messages::STRING_REQUIRED_FOUND_NON_SCALAR,
             );
         }
 

@@ -70,7 +70,7 @@ class GetStringTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/' . $index,
-            Messages::STRING_EXPECTED_BUT_FOUND_NON_SCALAR,
+            Messages::STRING_REQUIRED_FOUND_NON_SCALAR,
             $validationResult->getValidationProblems()
         );
     }
@@ -94,7 +94,7 @@ class GetStringTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/' . $index,
-            Messages::STRING_EXPECTED_BUT_FOUND_NON_SCALAR,
+            Messages::STRING_REQUIRED_FOUND_NON_SCALAR,
             $validationResult->getValidationProblems()
         );
     }

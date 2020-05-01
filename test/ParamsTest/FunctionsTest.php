@@ -498,7 +498,7 @@ class FunctionsTest extends BaseTestCase
 
         $this->assertValidationProblem(
             '/bar',
-            Messages::ONLY_DIGITS_ALLOWED_2,
+            Messages::INT_REQUIRED_FOUND_NON_DIGITS2,
             $validationProblems
         );
         $this->assertCount(1, $validationProblems);

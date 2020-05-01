@@ -52,7 +52,7 @@ class MultipleEnum implements ProcessRule
 
             if (array_value_exists($this->allowedValues, $filterStringPart) !== true) {
                 $message = sprintf(
-                    Messages::MULTIPLE_ENUM_INVALID,
+                    Messages::ENUM_MAP_UNRECOGNISED_VALUE_MULTIPLE,
                     $filterStringPart,
                     implode(', ', $this->allowedValues)
                 );

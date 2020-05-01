@@ -84,8 +84,6 @@ class GetOptionalBoolTest extends BaseTestCase
             DataStorage::fromSingleValue('foo', $inputValue)
         );
 
-//        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
-
         $this->assertValidationProblemRegexp(
             '/foo',
             $message,

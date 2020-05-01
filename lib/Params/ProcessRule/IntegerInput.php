@@ -34,7 +34,7 @@ class IntegerInput implements ProcessRule
         if (is_scalar($value) !== true) {
             return ValidationResult::errorResult(
                 $dataLocator,
-                Messages::NEEDS_INT_UNSUPPORTED_TYPE
+                Messages::INT_REQUIRED_UNSUPPORTED_TYPE
             );
         }
 
@@ -44,7 +44,7 @@ class IntegerInput implements ProcessRule
             if (strlen($value) === 0) {
                 return ValidationResult::errorResult(
                     $dataLocator,
-                    Messages::NEEDS_INT_FOUND_EMPTY_STRING
+                    Messages::INT_REQUIRED_FOUND_EMPTY_STRING
                 );
             }
 
@@ -62,7 +62,7 @@ class IntegerInput implements ProcessRule
             if ($match !== 1) {
                 return ValidationResult::errorResult(
                     $dataLocator,
-                    Messages::ONLY_DIGITS_ALLOWED_2
+                    Messages::INT_REQUIRED_FOUND_NON_DIGITS2
                 );
             }
         }

@@ -71,7 +71,7 @@ class EnumTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/foo',
-            Messages::ENUM_MAP_UKNOWN_VALUE,
+            Messages::ENUM_MAP_UNRECOGNISED_VALUE_SINGLE,
             $validationResult->getValidationProblems()
         );
     }

@@ -32,7 +32,7 @@ class FloatInput implements ProcessRule
 
         if (is_scalar($value) !== true) {
             $message = sprintf(
-                Messages::NEED_FLOAT_WRONG_TYPE,
+                Messages::FLOAT_REQUIRED_WRONG_TYPE,
                 gettype($value)
             );
 
@@ -54,7 +54,7 @@ class FloatInput implements ProcessRule
             if (strpos($value, ' ') !== false) {
                 return ValidationResult::errorResult(
                     $dataLocator,
-                    Messages::NEED_FLOAT_WHITESPACE
+                    Messages::FLOAT_REQUIRED_FOUND_WHITESPACE
                 );
             }
 
@@ -77,7 +77,7 @@ class FloatInput implements ProcessRule
                 // TODO - says what position bad character is at.
                 return ValidationResult::errorResult(
                     $dataLocator,
-                    Messages::NEED_FLOAT
+                    Messages::FLOAT_REQUIRED
                 );
             }
         }

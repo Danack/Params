@@ -81,7 +81,7 @@ class GetFloatTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/foo',
-            Messages::NEED_FLOAT,
+            Messages::FLOAT_REQUIRED,
             $validationResult->getValidationProblems()
         );
     }

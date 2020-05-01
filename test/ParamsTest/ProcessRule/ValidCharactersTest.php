@@ -42,7 +42,7 @@ class ValidCharactersTest extends BaseTestCase
         if ($expectedErrorPosition !== null) {
             $this->assertValidationProblemRegexp(
                 '/foo',
-                \Params\Messages::INVALID_CHAR_MESSAGE,
+                \Params\Messages::STRING_FOUND_INVALID_CHAR,
                 $validationResult->getValidationProblems()
             );
 

@@ -48,10 +48,10 @@ class IntegerInputTest extends BaseTestCase
     {
         return [
             // todo - we should test the exact error.
-            ['5.0', Messages::ONLY_DIGITS_ALLOWED_2],
-            ['5.5', Messages::ONLY_DIGITS_ALLOWED_2],
-            ['banana', Messages::ONLY_DIGITS_ALLOWED_2],
-            ['', Messages::NEEDS_INT_FOUND_EMPTY_STRING],
+            ['5.0', Messages::INT_REQUIRED_FOUND_NON_DIGITS2],
+            ['5.5', Messages::INT_REQUIRED_FOUND_NON_DIGITS2],
+            ['banana', Messages::INT_REQUIRED_FOUND_NON_DIGITS2],
+            ['', Messages::INT_REQUIRED_FOUND_EMPTY_STRING],
             [(string)(IntegerInput::MAX_SANE_VALUE + 1), Messages::INTEGER_TOO_LONG]
         ];
     }

@@ -43,7 +43,7 @@ class ValidCharacters implements ProcessRule
         if ($count !== 0) {
             $badCharPosition = $matches[0][1];
             $message = sprintf(
-                Messages::INVALID_CHAR_MESSAGE,
+                Messages::STRING_FOUND_INVALID_CHAR,
                 $badCharPosition,
                 $this->patternValidCharacters
             );

@@ -16,6 +16,58 @@ use Params\Messages;
  */
 class MultipleEnumTest extends BaseTestCase
 {
+
+    public function providesKnownFilterCorrect()
+    {
+        return [
+            ['foo', ['foo']],
+            ['bar,foo', ['bar', 'foo']],
+        ];
+    }
+
+    /**
+     * @dataProvider providesKnownFilterCorrect
+     * @covers \Params\ProcessRule\MultipleEnum
+     */
+    public function testKnownFilterCorrect($inputString, $expectedResult)
+    {
+        $rule = new MultipleEnum(['foo', 'bar']);
+        $processedValues = new ProcessedValues();
+        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $validationResult = $rule->process(
+            $inputString, $processedValues, $dataLocator
+        );
+        $this->assertNoProblems($validationResult);
+
+        $validationValue = $validationResult->getValue();
+
+        $this->assertInstanceOf(MultipleEnums::class, $validationValue);
+        /** @var $validationValue \Params\Value\MultipleEnums */
+
+        $this->assertEquals($expectedResult, $validationValue->getValues());
+    }
+
+    /**
+     * @covers \Params\ProcessRule\MultipleEnum
+     */
+    public function testUnknownFilterErrors()
+    {
+        $badValue = 'zot';
+        $rule = new MultipleEnum(['foo', 'bar']);
+        $processedValues = new ProcessedValues();
+        $validationResult = $rule->process(
+            $badValue,
+            $processedValues,
+            DataStorage::fromSingleValue('foo', $badValue)
+        );
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::ENUM_MAP_UNRECOGNISED_VALUE_MULTIPLE,
+            $validationResult->getValidationProblems()
+        );
+    }
+
     public function provideMultipleEnumCases()
     {
         return [
@@ -96,7 +148,7 @@ class MultipleEnumTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/foo',
-            Messages::MULTIPLE_ENUM_INVALID,
+            Messages::ENUM_MAP_UNRECOGNISED_VALUE_MULTIPLE,
             $validationResult->getValidationProblems()
         );
         $this->assertOneErrorAndContainsString(

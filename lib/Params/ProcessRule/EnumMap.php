@@ -52,7 +52,7 @@ class EnumMap implements ProcessRule
             $allowedInputValues = implode(', ', array_keys($this->allowedValues));
 
             $message = sprintf(
-                Messages::ENUM_MAP_UKNOWN_VALUE,
+                Messages::ENUM_MAP_UNRECOGNISED_VALUE_SINGLE,
                 $allowedInputValues
             );
 

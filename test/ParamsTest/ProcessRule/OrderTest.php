@@ -72,7 +72,7 @@ class OrderTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/foo',
-            Messages::UNKNOWN_ORDERING,
+            Messages::ORDER_VALUE_UNKNOWN,
             $validationResult->getValidationProblems()
         );
 

@@ -42,7 +42,7 @@ class Enum implements ProcessRule
     ): ValidationResult {
         if (in_array($value, $this->allowedValues, true) !== true) {
             $message = sprintf(
-                Messages::ENUM_MAP_UKNOWN_VALUE,
+                Messages::ENUM_MAP_UNRECOGNISED_VALUE_SINGLE,
                 implode(', ', $this->allowedValues)
             );
 

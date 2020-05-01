@@ -46,8 +46,8 @@ class PositiveIntTest extends BaseTestCase
     public function provideTestErrors()
     {
         return [
-            ['5.5', Messages::ONLY_DIGITS_ALLOWED], // not an int
-            ['banana', Messages::ONLY_DIGITS_ALLOWED], // not an int
+            ['5.5', Messages::INT_REQUIRED_FOUND_NON_DIGITS], // not an int
+            ['banana', Messages::INT_REQUIRED_FOUND_NON_DIGITS], // not an int
             [PositiveInt::MAX_SANE_VALUE + 1 , Messages::INT_OVER_LIMIT],
         ];
     }
@@ -65,7 +65,6 @@ class PositiveIntTest extends BaseTestCase
             $testValue, $processedValues, $dataLocator
         );
 
-//        $this->assertExpectedValidationProblems($validationResult->getValidationProblems());
         $this->assertValidationProblemRegexp(
             '/foo',
             $message,

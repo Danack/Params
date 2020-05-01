@@ -106,7 +106,7 @@ class SaneCharacters implements ProcessRule
         if ($count !== 0) {
             $badCharPosition = $matches[0][1];
             $message = sprintf(
-                Messages::INVALID_COMBINING_CHARACTERS,
+                Messages::STRING_INVALID_COMBINING_CHARACTERS,
                 $badCharPosition
             );
             return ValidationResult::errorResult($dataLocator, $message);

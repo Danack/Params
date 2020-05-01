@@ -75,7 +75,7 @@ class SaneCharactersTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/foo',
-            Messages::INVALID_COMBINING_CHARACTERS,
+            Messages::STRING_INVALID_COMBINING_CHARACTERS,
             $validationResult->getValidationProblems()
         );
     }

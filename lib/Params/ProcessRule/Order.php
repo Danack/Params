@@ -47,7 +47,7 @@ class Order implements ProcessRule
             list($partName, $partOrder) = normalise_order_parameter($part);
             if (array_value_exists($this->knownOrderNames, $partName) !== true) {
                 $message = sprintf(
-                    Messages::UNKNOWN_ORDERING,
+                    Messages::ORDER_VALUE_UNKNOWN,
                     $partName,
                     implode(', ', $this->knownOrderNames)
                 );
