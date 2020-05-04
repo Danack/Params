@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Params\Value;
 
-/**
- * Class Filtering
- */
 class MultipleEnums
 {
     /** @var array<string> */
@@ -22,7 +19,7 @@ class MultipleEnums
     }
 
     /**
-     * Returns the strings to filter by.
+     * Returns the enum strings extracted.
      * @return string[]
      */
     public function getValues()

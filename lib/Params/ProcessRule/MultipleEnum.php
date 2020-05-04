@@ -40,29 +40,29 @@ class MultipleEnum implements ProcessRule
     ): ValidationResult {
         // TODO - handle to string conversion better.
         $value = trim((string)$value);
-        $filterStringParts = explode(',', $value);
-        $filterElements = [];
-        foreach ($filterStringParts as $filterStringPart) {
-            $filterStringPart = trim($filterStringPart);
-            if (strlen($filterStringPart) === 0) {
+        $enumStringParts = explode(',', $value);
+        $enumElements = [];
+        foreach ($enumStringParts as $enumStringPart) {
+            $enumStringPart = trim($enumStringPart);
+            if (strlen($enumStringPart) === 0) {
                 // TODO - needs unit test.
                 // treat empty segments as no value
                 continue;
             }
 
-            if (array_value_exists($this->allowedValues, $filterStringPart) !== true) {
+            if (array_value_exists($this->allowedValues, $enumStringPart) !== true) {
                 $message = sprintf(
                     Messages::ENUM_MAP_UNRECOGNISED_VALUE_MULTIPLE,
-                    $filterStringPart,
+                    $enumStringPart,
                     implode(', ', $this->allowedValues)
                 );
 
                 return ValidationResult::errorResult($dataLocator, $message);
             }
-            $filterElements[] = $filterStringPart;
+            $enumElements[] = $enumStringPart;
         }
 
-        return ValidationResult::valueResult(new MultipleEnums($filterElements));
+        return ValidationResult::valueResult(new MultipleEnums($enumElements));
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

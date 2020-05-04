@@ -17,7 +17,7 @@ use Params\Messages;
 class MultipleEnumTest extends BaseTestCase
 {
 
-    public function providesKnownFilterCorrect()
+    public function providesMultipleEnumWorks()
     {
         return [
             ['foo', ['foo']],
@@ -26,10 +26,10 @@ class MultipleEnumTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providesKnownFilterCorrect
+     * @dataProvider providesMultipleEnumWorks
      * @covers \Params\ProcessRule\MultipleEnum
      */
-    public function testKnownFilterCorrect($inputString, $expectedResult)
+    public function testMultipleEnumWorks($inputString, $expectedResult)
     {
         $rule = new MultipleEnum(['foo', 'bar']);
         $processedValues = new ProcessedValues();
@@ -50,7 +50,7 @@ class MultipleEnumTest extends BaseTestCase
     /**
      * @covers \Params\ProcessRule\MultipleEnum
      */
-    public function testUnknownFilterErrors()
+    public function testMultipleEnumErrors()
     {
         $badValue = 'zot';
         $rule = new MultipleEnum(['foo', 'bar']);
@@ -107,7 +107,7 @@ class MultipleEnumTest extends BaseTestCase
      * @dataProvider provideTestCases
      * @covers \Params\ProcessRule\MultipleEnum
      */
-    public function testValidation($testValue, $expectedFilters, $expectError)
+    public function testValidation($testValue, $expectedMultipleEnumValues, $expectError)
     {
         $rule = new MultipleEnum(['time', 'distance']);
         $processedValues = new ProcessedValues();
@@ -120,22 +120,20 @@ class MultipleEnumTest extends BaseTestCase
         $this->assertInstanceOf(MultipleEnums::class, $value);
 
         /** @var $value \Params\Value\MultipleEnums */
-        $this->assertEquals($expectedFilters, $value->getValues());
+        $this->assertEquals($expectedMultipleEnumValues, $value->getValues());
     }
 
 
     public function provideTestErrors()
     {
-        return [
-            ['bar', null, true],
-        ];
+        yield ['bar'];
     }
 
     /**
      * @dataProvider provideTestErrors
      * @covers \Params\ProcessRule\MultipleEnum
      */
-    public function testErrors($testValue, $expectedFilters, $expectError)
+    public function testErrors($testValue)
     {
         $values = ['time', 'distance'];
 

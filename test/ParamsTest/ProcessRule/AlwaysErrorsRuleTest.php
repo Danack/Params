@@ -18,7 +18,7 @@ class AlwaysErrorsRuleTest extends BaseTestCase
     /**
      * @covers \Params\ProcessRule\AlwaysErrorsRule
      */
-    public function testUnknownFilterErrors()
+    public function testWorks()
     {
         $message = 'test message';
         $rule = new AlwaysErrorsRule($message);

@@ -18,7 +18,7 @@ class AlwaysEndsRuleTest extends BaseTestCase
     /**
      * @covers \Params\ProcessRule\AlwaysEndsRule
      */
-    public function testUnknownFilterErrors()
+    public function testWorks()
     {
         $finalValue = 123;
         $rule = new AlwaysEndsRule($finalValue);
