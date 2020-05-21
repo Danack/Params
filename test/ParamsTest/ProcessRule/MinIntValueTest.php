@@ -47,7 +47,6 @@ class MinIntValueTest extends BaseTestCase
         );
 
         $this->assertNoProblems($validationResult);
-
     }
 
 
