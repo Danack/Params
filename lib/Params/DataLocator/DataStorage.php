@@ -81,12 +81,12 @@ class DataStorage implements InputStorageAye
 
     public static function fromVarMap(VarMap $varMap): self
     {
-        return self::fromArray($varMap->hackGetRawData());
+        return self::fromArray($varMap->toArray());
     }
 
     public static function fromVarMapAndSetFirstValue(VarMap $varMap): self
     {
-        return self::fromArraySetFirstValue($varMap->hackGetRawData());
+        return self::fromArraySetFirstValue($varMap->toArray());
     }
 
     /**
