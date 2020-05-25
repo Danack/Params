@@ -7,6 +7,7 @@ namespace ParamsTest\Integration;
 use Params\Create\CreateFromArray;
 use Params\Create\CreateFromJson;
 use Params\Create\CreateOrErrorFromArray;
+use Params\Create\CreateOrErrorFromJson;
 use Params\ExtractRule\GetArrayOfInt;
 use Params\InputParameter;
 use Params\ProcessRule\MaxIntValue;
@@ -22,6 +23,7 @@ class IntArrayParams
     use CreateFromArray;
     use CreateFromJson;
     use CreateOrErrorFromArray;
+    use CreateOrErrorFromJson;
 
     /** @var string  */
     private $name;
