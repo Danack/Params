@@ -8,6 +8,7 @@ use Params\DataLocator\DataStorage;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use function Params\create;
+use function JsonSafe\json_decode_safe;
 
 /**
  * Use this trait when the parameters arrive as named parameters e.g
@@ -16,14 +17,14 @@ use function Params\create;
 trait CreateFromJson
 {
     /**
-     * @param VarMap $variableMap
+     * @param string $json
      * @return self
      * @throws \Params\Exception\ValidationException
      */
-    public static function createFromArray($data)
+    public static function createFromJson($json)
     {
         $rules = static::getInputParameterList();
-
+        $data = json_decode_safe($json);
         $dataLocator = DataStorage::fromArray($data);
 
         $variableMap = new ArrayVarMap($data);

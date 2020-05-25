@@ -26,44 +26,7 @@ function stringToRegexp(string $string): string
     return '#' . $string . '#iu';
 }
 
-function json_decode_safe($json)
-{
-    if ($json === null) {
-        throw new \Exception("Error decoding JSON: cannot decode null.");
-    }
 
-    $data = json_decode($json, true);
-
-    if (json_last_error() === JSON_ERROR_NONE) {
-        return $data;
-    }
-
-    throw new \Exception("Failed to decode json: " . json_last_error_msg());
-//    $parser = new \Seld\JsonLint\JsonParser();
-//    $parsingException = $parser->lint($json);
-//
-//    if ($parsingException !== null) {
-//        throw $parsingException;
-//    }
-//
-//    if ($data === null) {
-//        throw new \Osf\Exception\JsonException("Error decoding JSON: null returned.");
-//    }
-
-//    throw new \Osf\Exception\JsonException("Error decoding JSON: " . json_last_error_msg());
-}
-
-
-function json_encode_safe($data, $options = 0): string
-{
-    $result = json_encode($data, $options);
-
-    if ($result === false) {
-        throw new \Exception("Failed to encode data as json: " . json_last_error_msg());
-    }
-
-    return $result;
-}
 
 class TestObject
 {

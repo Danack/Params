@@ -8,6 +8,8 @@ use Params\DataLocator\DataStorage;
 use ParamsTest\BaseTestCase;
 use function Params\getJsonPointerParts;
 
+use function JsonSafe\json_decode_safe;
+
 /**
  * @covers \Params\DataLocator\DataStorage
  * @group data_locator
@@ -159,7 +161,7 @@ JSON;
     /**
      * @dataProvider providesPathParts
      */
-    function testPathParts($jsonPointer, $expectedParts)
+    public function testPathParts($jsonPointer, $expectedParts)
     {
         $parts = getJsonPointerParts($jsonPointer);
 

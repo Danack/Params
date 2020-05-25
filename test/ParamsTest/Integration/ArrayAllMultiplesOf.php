@@ -14,6 +14,8 @@ use Params\ValidationResult;
 /**
  * Example of processing an array, without processing each item individually
  * as a separate type.
+ *
+ * @coversNothing
  */
 class ArrayAllMultiplesOf implements ProcessRule
 {

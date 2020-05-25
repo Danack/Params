@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Integration;
 
 use Params\Create\CreateFromArray;
+use Params\Create\CreateFromJson;
 use Params\Create\CreateOrErrorFromArray;
 use Params\ExtractRule\GetArrayOfInt;
 use Params\InputParameter;
@@ -19,6 +20,7 @@ class IntArrayParams
 {
     use SafeAccess;
     use CreateFromArray;
+    use CreateFromJson;
     use CreateOrErrorFromArray;
 
     /** @var string  */

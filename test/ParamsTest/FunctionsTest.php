@@ -169,7 +169,7 @@ class FunctionsTest extends BaseTestCase
      * @param string $inputString
      * @param $expectedOutput
      */
-    function test_getRawCharacters(string $inputString, $expectedOutput)
+    public function test_getRawCharacters(string $inputString, $expectedOutput)
     {
         $actualOutput = getRawCharacters($inputString);
         $this->assertSame($expectedOutput, $actualOutput);

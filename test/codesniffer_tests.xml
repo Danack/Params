@@ -5,6 +5,9 @@
 
     <exclude-pattern>*migrations*</exclude-pattern>
 
+    <exclude-pattern>*test/phpunit_bootstrap.php</exclude-pattern>
+
+
     <rule ref="PSR2">
         <!-- Need to find a way to turn this off for text, before re-enabling -->
         <exclude name="Generic.Files.LineLength.TooLong"/>
