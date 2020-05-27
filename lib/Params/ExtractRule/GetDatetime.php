@@ -13,6 +13,9 @@ use Params\Exception\InvalidDatetimeFormatException;
 
 class GetDatetime implements ExtractRule
 {
+    /**
+     * @var string[]
+     */
     private array $allowedFormats;
 
     /**

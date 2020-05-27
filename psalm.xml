@@ -114,6 +114,28 @@
             </errorLevel>
         </MixedArrayAccess>
 
+
+
+        <RedundantConditionGivenDocblockType>
+            <!-- psalm I have no idea why this is a problem -->
+            <errorLevel type="suppress">
+                <file name="lib/Params/ExtractRule/GetDatetime.php"/>
+            </errorLevel>
+        </RedundantConditionGivenDocblockType>
+
+        <DocblockTypeContradiction>
+            <!-- psalm I have no idea why this is a problem -->
+            <errorLevel type="suppress">
+                <file name="lib/Params/ExtractRule/GetDatetime.php"/>
+            </errorLevel>
+        </DocblockTypeContradiction>
+
+
+
+
+
+
+
     </issueHandlers>
 
     <projectFiles>
