@@ -78,10 +78,11 @@ class GetDatetime implements ExtractRule
         $value = (string)$dataLocator->getCurrentValue();
 
         foreach ($this->allowedFormats as $allowedFormat) {
-            $dateTime = \DateTime::createFromFormat(\DateTime::RFC3339, $value);
-        }
-        if ($dateTime instanceof \DateTime) {
-            return ValidationResult::valueResult($dateTime);
+            $dateTime = \DateTimeImmutable::createFromFormat($allowedFormat, $value);
+
+            if ($dateTime instanceof \DateTimeImmutable) {
+                return ValidationResult::valueResult($dateTime);
+            }
         }
 
         return ValidationResult::errorResult($dataLocator, Messages::ERROR_INVALID_DATETIME);

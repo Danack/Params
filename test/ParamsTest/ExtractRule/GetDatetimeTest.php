@@ -35,14 +35,21 @@ class GetDatetimeTest extends BaseTestCase
         );
     }
 
+    public function providesValidationWorks()
+    {
+        yield [
+            '2002-10-02T10:00:00-05:00',
+            \DateTimeImmutable::createFromFormat(\DateTime::RFC3339, '2002-10-02T10:00:00-05:00')
+        ];
+    }
+
+
     /**
+     * @dataProvider providesValidationWorks
      * @covers \Params\ExtractRule\GetDatetime
      */
-    public function testValidation()
+    public function testValidationWorks($inputValue, $expectedValue)
     {
-        $inputValue = '2002-10-02T10:00:00-05:00';
-        $expectedValue = \DateTimeImmutable::createFromFormat(\DateTime::RFC3339, $inputValue);
-
         $rule = new GetDatetime();
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
