@@ -24,6 +24,11 @@ class Messages
     // DateTime
     public const ERROR_INVALID_DATETIME = 'Value was not a valid RFC3339 date time apparently';
 
+    public const ERROR_DATETIME_MUST_START_AS_STRING = 'Input for datetime must be string';
+
+    public const ERROR_DATE_FORMAT_MUST_BE_STRING = 'Datetime format must be array of strings. Non-string found at position %d';
+
+
     // Enum
     // TODO - this message looks wrong.
     public const ENUM_MAP_UNRECOGNISED_VALUE_MULTIPLE = "Value [%s] is not known. Please use any of %s.";
