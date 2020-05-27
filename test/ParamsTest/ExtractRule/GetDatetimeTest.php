@@ -11,8 +11,6 @@ use Params\ExtractRule\GetDatetime;
 use Params\ProcessedValues;
 use Params\DataLocator\DataStorage;
 
-
-
 /**
  * @coversNothing
  */
