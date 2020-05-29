@@ -91,5 +91,15 @@ class Messages
     public const ERROR_MAXIMUM_COUNT_MINIMUM = "Maximum count must be zero or above.";
     public const ERROR_MINIMUM_COUNT_MINIMUM = "Minimum count must be zero or above.";
     public const MUST_DUPLICATE_PARAMETER = "Must be duplicate of %s";
+    public const TIME_MUST_BE_X_MINUTES_AFTER_PREVIOUS_VALUE = "Time must be at least %d minutes after %s.";
     public const NULL_NOT_ALLOWED = "null is not allowed.";
+
+
+    public const PREVIOUS_TIME_MUST_BE_DATETIMEINTERFACE = "Previous param %s must be an object of DateTimeInterface.";
+
+    public const CURRENT_TIME_MUST_BE_DATETIMEINTERFACE = "Current value must be an object of DateTimeInterface.";
+
+
+    public const TIME_MUST_BE_X_MINUTES_AFTER_TIME = "This datetime must be %s minutes after param %s which has time %s";
+
 }
