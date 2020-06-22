@@ -213,7 +213,6 @@ class GetArrayOfTypeTest extends BaseTestCase
     }
 
 
-
     /**
      * @covers \Params\ExtractRule\GetArrayOfType
      */
@@ -276,5 +275,25 @@ class GetArrayOfTypeTest extends BaseTestCase
             "Value too large. Max allowed is 100",
             $validationProblems
         );
+    }
+    /**
+     * @covers \Params\ExtractRule\GetArrayOfType
+     */
+    public function testWorksForEmptyData()
+    {
+
+        $data = [];
+
+        $rule = new GetArrayOfType(ReviewScore::class);
+        $processedValues = new ProcessedValues();
+        $result = $rule->process(
+            $processedValues,
+            DataStorage::fromArray($data)
+        );
+
+        $this->assertNoProblems($result);
+        $this->assertFalse($result->isFinalResult());
+        $this->assertIsArray($result->getValue());
+        $this->assertEmpty($result->getValue());
     }
 }

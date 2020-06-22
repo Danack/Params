@@ -162,7 +162,6 @@ class LaterThanParamTest extends BaseTestCase
 
         $this->assertCount(1, $validationResult->getValidationProblems());
         $this->assertTrue($validationResult->isFinalResult());
-
     }
 
 

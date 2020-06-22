@@ -65,7 +65,6 @@ class LaterThanParam implements ProcessRule
             );
         }
 
-
         $timeOffset = new \DateInterval('PT'  . $this->minutesLater . 'M');
         $timeToCompare = $previousValue->add($timeOffset);
 
