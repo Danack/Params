@@ -114,6 +114,11 @@
             </errorLevel>
         </MixedArrayAccess>
 
+        <UndefinedInterfaceMethod>
+            <errorLevel type="suppress">
+                <file name="lib/Params/ProcessRule/LaterThanParam.php"/>
+            </errorLevel>
+        </UndefinedInterfaceMethod>
 
         <RedundantConditionGivenDocblockType>
             <!-- psalm I have no idea why this is a problem -->

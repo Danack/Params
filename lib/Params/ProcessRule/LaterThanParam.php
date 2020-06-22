@@ -57,7 +57,6 @@ class LaterThanParam implements ProcessRule
             return ValidationResult::errorResult($dataLocator, $message);
         }
 
-        /** @var $previousValue \DateTimeInterface */
         if (!($value instanceof \DateTimeInterface)) {
             return ValidationResult::errorResult(
                 $dataLocator,
@@ -66,7 +65,11 @@ class LaterThanParam implements ProcessRule
         }
 
         $timeOffset = new \DateInterval('PT'  . $this->minutesLater . 'M');
+
+        /** @var \DateTimeImmutable|\DateTime $previousValue */
+        // @phpstan-ignore-next-line
         $timeToCompare = $previousValue->add($timeOffset);
+
 
         if ($value > $timeToCompare) {
             return ValidationResult::valueResult($value);
