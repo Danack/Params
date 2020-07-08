@@ -7,17 +7,17 @@ namespace ParamsTest\ProcessRule;
 use Params\DataLocator\DataStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\LaterThanParam;
+use Params\ProcessRule\EarlierThanParam;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
 
 /**
  * @coversNothing
  */
-class LaterThanParamTest extends BaseTestCase
+class EarlierThanParamTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Params\ProcessRule\EarlierThanParam
      */
     public function testWorks()
     {
@@ -34,7 +34,7 @@ class LaterThanParamTest extends BaseTestCase
         $processedValues = ProcessedValues::fromArray(['foo' => $previousTime]);
         $dataLocator = DataStorage::fromArray([]);
 
-        $rule = new LaterThanParam('foo', 0);
+        $rule = new EarlierThanParam('foo', 0);
 
         $validationResult = $rule->process($value, $processedValues, $dataLocator);
         $this->assertNoProblems($validationResult);
@@ -44,16 +44,16 @@ class LaterThanParamTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Params\ProcessRule\EarlierThanParam
      */
     public function testInvalidMinutes()
     {
-        $this->expectExceptionMessageMatchesRegexp(Messages::MINUTES_MUST_BE_GREATER_THAN_ZERO);
-        new LaterThanParam('foo', -5);
+        $this->expectExceptionMessage(Messages::MINUTES_MUST_BE_GREATER_THAN_ZERO);
+        new EarlierThanParam('foo', -5);
     }
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Params\ProcessRule\EarlierThanParam
      */
     public function testMissing()
     {
@@ -65,7 +65,7 @@ class LaterThanParamTest extends BaseTestCase
         $dataLocator = DataStorage::fromArray([]);
         $dataLocator = $dataLocator->moveKey('foo');
 
-        $rule = new LaterThanParam('foo', 0);
+        $rule = new EarlierThanParam('foo', 0);
         $validationResult = $rule->process($value, $processedValues, $dataLocator);
 
         $this->assertValidationProblemRegexp(
@@ -79,8 +79,10 @@ class LaterThanParamTest extends BaseTestCase
     }
 
 
+
+
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Params\ProcessRule\EarlierThanParam
      */
     public function testPreviousTimeWrongType()
     {
@@ -92,7 +94,7 @@ class LaterThanParamTest extends BaseTestCase
         $processedValues = ProcessedValues::fromArray(['foo' => 'John']);
         $dataLocator = DataStorage::fromSingleValue('newtime', $value);
 
-        $rule = new LaterThanParam('foo', 0);
+        $rule = new EarlierThanParam('foo', 0);
 
         $validationResult = $rule->process($value, $processedValues, $dataLocator);
 
@@ -109,7 +111,7 @@ class LaterThanParamTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Params\ProcessRule\EarlierThanParam
      */
     public function testCurrentTimeWrongType()
     {
@@ -123,7 +125,7 @@ class LaterThanParamTest extends BaseTestCase
         $processedValues = ProcessedValues::fromArray(['foo' => $previousTime]);
         $dataLocator = DataStorage::fromSingleValue('newtime', $value);
 
-        $rule = new LaterThanParam('foo', 0);
+        $rule = new EarlierThanParam('foo', 0);
 
         $validationResult = $rule->process($value, $processedValues, $dataLocator);
 
@@ -138,11 +140,10 @@ class LaterThanParamTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Params\ProcessRule\EarlierThanParam
      */
     public function testErrorsCorrect()
     {
-
         $afterTime = \DateTimeImmutable::createFromFormat(
             \DateTime::RFC3339,
             '2002-10-04T10:00:00-05:00'
@@ -156,13 +157,13 @@ class LaterThanParamTest extends BaseTestCase
         $processedValues = ProcessedValues::fromArray(['foo' => $afterTime]);
         $dataLocator = DataStorage::fromSingleValue('newtime', $value);
 
-        $rule = new LaterThanParam('foo', 0);
+        $rule = new EarlierThanParam('foo', 0);
 
         $validationResult = $rule->process($value, $processedValues, $dataLocator);
 
         $this->assertValidationProblemRegexp(
             '/newtime',
-            Messages::TIME_MUST_BE_X_MINUTES_AFTER_TIME,
+            Messages::TIME_MUST_BE_X_MINUTES_BEFORE_PARAM_ERROR,
             $validationResult->getValidationProblems()
         );
 
@@ -172,7 +173,7 @@ class LaterThanParamTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Params\ProcessRule\EarlierThanParam
      */
     public function testDescription()
     {
@@ -180,11 +181,11 @@ class LaterThanParamTest extends BaseTestCase
 
         $parameterName = 'foo';
 
-        $rule = new LaterThanParam($parameterName, 5);
+        $rule = new EarlierThanParam($parameterName, 5);
         $rule->updateParamDescription($description);
 
         $this->assertStringRegExp(
-            Messages::TIME_MUST_BE_X_MINUTES_AFTER_PREVIOUS_VALUE,
+            Messages::TIME_MUST_BE_X_MINUTES_BEFORE_PARAM,
             $description->getDescription()
         );
 

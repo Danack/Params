@@ -11,22 +11,26 @@ use Params\ProcessedValues;
 use Params\ValidationResult;
 use Params\Exception\LogicException;
 
-class LaterThanParam implements ProcessRule
+
+/**
+ * Checks that one parameter represents an earlier time than
+ */
+class EarlierThanParam implements ProcessRule
 {
     private string $paramToCompare;
 
-    private int $minutesLater;
+    private int $minutesEarlier;
 
     /**
      * @param string $paramToCompare The name of the param this one should be the same as.
-     * @param int $minutesLater how many minutes later this time needs to be
+     * @param int $minutesEarlier how many minutes later this time needs to be
      */
-    public function __construct(string $paramToCompare, int $minutesLater)
+    public function __construct(string $paramToCompare, int $minutesEarlier)
     {
         $this->paramToCompare = $paramToCompare;
-        $this->minutesLater = $minutesLater;
+        $this->minutesEarlier = $minutesEarlier;
 
-        if ($minutesLater < 0) {
+        if ($minutesEarlier < 0) {
             throw new LogicException(Messages::MINUTES_MUST_BE_GREATER_THAN_ZERO);
         }
     }
@@ -64,7 +68,7 @@ class LaterThanParam implements ProcessRule
             );
         }
 
-        $timeOffset = new \DateInterval('PT'  . $this->minutesLater . 'M');
+        $timeOffset = new \DateInterval('PT'  . $this->minutesEarlier . 'M');
 
         /** @var \DateTimeImmutable|\DateTime $previousValue */
         // @phpstan-ignore-next-line
@@ -76,8 +80,8 @@ class LaterThanParam implements ProcessRule
         }
 
         $message = sprintf(
-            Messages::TIME_MUST_BE_X_MINUTES_AFTER_TIME,
-            $this->minutesLater,
+            Messages::TIME_MUST_BE_X_MINUTES_BEFORE_PARAM_ERROR,
+            $this->minutesEarlier,
             $this->paramToCompare,
             $previousValue->format(\DateTime::RFC3339)
         );
@@ -88,8 +92,8 @@ class LaterThanParam implements ProcessRule
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
         $message = sprintf(
-            Messages::TIME_MUST_BE_X_MINUTES_AFTER_PREVIOUS_VALUE,
-            $this->minutesLater,
+            Messages::TIME_MUST_BE_X_MINUTES_BEFORE_PARAM,
+            $this->minutesEarlier,
             $this->paramToCompare
         );
 
