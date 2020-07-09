@@ -30,7 +30,6 @@ class EarlierThanTime implements ProcessRule
     ): ValidationResult {
 
         if (!($value instanceof \DateTimeInterface)) {
-
             $message = sprintf(
                 Messages::CURRENT_TIME_MUST_BE_DATETIMEINTERFACE,
                 gettype($value)

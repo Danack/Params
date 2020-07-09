@@ -11,7 +11,6 @@ use Params\ProcessedValues;
 use Params\ValidationResult;
 use Params\Exception\LogicException;
 
-
 /**
  * Checks that one parameter represents an earlier time than
  * the given time

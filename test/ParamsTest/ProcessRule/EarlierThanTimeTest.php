@@ -11,7 +11,6 @@ use Params\ProcessedValues;
 use Params\ProcessRule\EarlierThanTime;
 use ParamsTest\BaseTestCase;
 
-
 /**
  * @coversNothing
  * @group wip

@@ -11,7 +11,6 @@ use Params\ProcessedValues;
 use Params\ProcessRule\LaterThanTime;
 use ParamsTest\BaseTestCase;
 
-
 /**
  * @coversNothing
  */

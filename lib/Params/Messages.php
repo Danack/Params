@@ -114,6 +114,4 @@ class Messages
 
     public const TIME_MUST_BE_BEFORE_TIME = "This datetime must be before time %s";
     public const TIME_MUST_BE_AFTER_TIME = "This datetime must be after time %s";
-
-
 }

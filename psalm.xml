@@ -116,6 +116,7 @@
 
         <UndefinedInterfaceMethod>
             <errorLevel type="suppress">
+                <file name="lib/Params/ProcessRule/EarlierThanParam.php"/>
                 <file name="lib/Params/ProcessRule/LaterThanParam.php"/>
             </errorLevel>
         </UndefinedInterfaceMethod>
