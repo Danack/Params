@@ -17,6 +17,10 @@ RUN  apt-get update -qq \
     php7.4-mysql  php7.4-curl php7.4-xml php7.4-mbstring \
     php7.4-intl php7.4-xdebug php7.4-zip
 
+RUN echo "xdebug.mode=coverage" >> /etc/php/7.4/cli/conf.d/20-xdebug.ini
+
+
+
 # Make the default directory you
 WORKDIR /var/app
 
