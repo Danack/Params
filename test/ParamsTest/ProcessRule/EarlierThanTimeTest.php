@@ -13,7 +13,6 @@ use ParamsTest\BaseTestCase;
 
 /**
  * @coversNothing
- * @group wip
  */
 class EarlierThanTimeTest extends BaseTestCase
 {

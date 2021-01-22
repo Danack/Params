@@ -8,7 +8,7 @@ use Params\DataLocator\DataStorage;
 use Params\Exception\ValidationException;
 use Params\ExtractRule\GetType;
 use VarMap\VarMap;
-use function Params\createArrayOfType;
+use function Params\createArrayOfTypeFromInputStorage;
 
 /**
  * Use this trait when the parameters arrive as named parameters e.g
@@ -26,7 +26,7 @@ trait CreateArrayOfTypeFromArray
         $getType = GetType::fromClass(self::class);
         $dataStorage = DataStorage::fromArray($data);
 
-        $validationResult = createArrayOfType(
+        $validationResult = createArrayOfTypeFromInputStorage(
             $dataStorage,
             $getType
         );

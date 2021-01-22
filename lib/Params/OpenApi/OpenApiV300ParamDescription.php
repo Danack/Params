@@ -75,7 +75,6 @@ class OpenApiV300ParamDescription implements ParamDescription
             $firstRule->updateParamDescription($description);
 
             foreach ($rules->getProcessRules() as $subsequentRules) {
-                /** @var $rule \Params\Rule */
                 $subsequentRules->updateParamDescription($description);
             }
 

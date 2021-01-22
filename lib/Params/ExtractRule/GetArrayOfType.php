@@ -9,7 +9,7 @@ use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
-use function Params\createArrayOfType;
+use function Params\createArrayOfTypeFromInputStorage;
 use function Params\getInputParameterListForClass;
 
 class GetArrayOfType implements ExtractRule
@@ -49,7 +49,7 @@ class GetArrayOfType implements ExtractRule
             );
         }
 
-        return createArrayOfType(
+        return createArrayOfTypeFromInputStorage(
             $dataLocator,
             $this->typeExtractor
         );

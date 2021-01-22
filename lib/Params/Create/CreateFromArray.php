@@ -26,7 +26,7 @@ trait CreateFromArray
 
         $dataLocator = DataStorage::fromArray($data);
 
-        $variableMap = new ArrayVarMap($data);
+//        $variableMap = new ArrayVarMap($data);
         $object = create(
             static::class,
             $rules,

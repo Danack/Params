@@ -25,7 +25,7 @@ class GetType implements ExtractRule
      * @param class-string $className
      * @param \Params\InputParameter[] $inputParameterList
      */
-    protected function __construct(string $className, $inputParameterList)
+    public function __construct(string $className, $inputParameterList)
     {
         $this->className = $className;
         $this->inputParameterList = $inputParameterList;

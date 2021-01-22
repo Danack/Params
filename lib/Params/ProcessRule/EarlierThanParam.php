@@ -70,9 +70,7 @@ class EarlierThanParam implements ProcessRule
         $timeOffset = new \DateInterval('PT'  . $this->minutesEarlier . 'M');
 
         /** @var \DateTimeImmutable|\DateTime $previousValue */
-        // @phpstan-ignore-next-line
         $timeToCompare = $previousValue->add($timeOffset);
-
 
         if ($value > $timeToCompare) {
             return ValidationResult::valueResult($value);

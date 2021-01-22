@@ -32,7 +32,10 @@ use function Params\getInputParameterListForClass;
 use function Params\processInputParameters;
 use function Params\processInputParameter;
 use function Params\processProcessingRules;
+use function Params\createArrayOfTypeFromInputStorage;
 use function Params\createArrayOfType;
+use function Params\createArrayOfTypeOrError;
+use ParamsTest\Integration\FooParams;
 
 /**
  * @coversNothing
@@ -220,7 +223,10 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_getJsonPointerParts($input, $expected)
     {
-        $this->markTestSkipped("We should move to actually support json pointer correctly to make it easier to implement");
+        $message = "We should move to actually support json pointer correctly to make it easier to implement";
+        $message .= "Also, I can't remember what the correct behaviour is meant to be here.";
+
+        $this->markTestSkipped($message);
         $actual = \Params\getJsonPointerParts($input);
         $this->assertSame($expected, $actual);
     }
@@ -371,7 +377,7 @@ class FunctionsTest extends BaseTestCase
         $dataStorage = DataStorage::fromArray($data);
         $getType = GetType::fromClass(\TestParams::class);
 
-        $result = createArrayOfType(
+        $result = createArrayOfTypeFromInputStorage(
             $dataStorage,
             $getType
         );
@@ -406,7 +412,7 @@ class FunctionsTest extends BaseTestCase
         $dataStorage = DataStorage::fromArray($data);
         $getType = GetType::fromClass(\TestParams::class);
 
-        $result = createArrayOfType(
+        $result = createArrayOfTypeFromInputStorage(
             $dataStorage,
             $getType
         );
@@ -430,7 +436,7 @@ class FunctionsTest extends BaseTestCase
         $dataStorage = DataStorage::fromSingleValue('foo', 'bar');
         $getType = GetType::fromClass(\TestParams::class);
 
-        $result = createArrayOfType(
+        $result = createArrayOfTypeFromInputStorage(
             $dataStorage,
             $getType
         );
@@ -587,5 +593,67 @@ class FunctionsTest extends BaseTestCase
             $validationProblems
         );
         $this->assertCount(1, $validationProblems);
+    }
+
+    /**
+     * @group wip
+     */
+    public function test_createArrayOfTypeOrError()
+    {
+        $data = [
+            ['limit' => 20],
+            ['limit' => 30]
+        ];
+
+        [$values, $errors] = createArrayOfTypeOrError(
+            FooParams::class,
+            $data
+        );
+
+        $this->assertEmpty($errors);
+
+        $this->assertCount(2, $values);
+
+        $this->assertInstanceOf(FooParams::class, $values[0]);
+        $this->assertInstanceOf(FooParams::class, $values[1]);
+
+        /** @var $fooParam1 FooParams */
+        $fooParam1 = $values[0];
+        $this->assertSame(20, $fooParam1->getLimit());
+
+        /** @var $fooParam2 FooParams */
+        $fooParam2 = $values[1];
+        $this->assertSame(30, $fooParam2->getLimit());
+    }
+
+
+
+    /**
+     * @group wip
+     */
+    public function test_createArrayOfType()
+    {
+        $data = [
+            ['limit' => 20],
+            ['limit' => 30]
+        ];
+
+        $values = createArrayOfType(
+            FooParams::class,
+            $data
+        );
+
+        $this->assertCount(2, $values);
+
+        $this->assertInstanceOf(FooParams::class, $values[0]);
+        $this->assertInstanceOf(FooParams::class, $values[1]);
+
+        /** @var $fooParam1 FooParams */
+        $fooParam1 = $values[0];
+        $this->assertSame(20, $fooParam1->getLimit());
+
+        /** @var $fooParam2 FooParams */
+        $fooParam2 = $values[1];
+        $this->assertSame(30, $fooParam2->getLimit());
     }
 }

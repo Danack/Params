@@ -15,13 +15,61 @@ use Params\ProcessRule\ProcessRule;
 use Params\Value\Ordering;
 
 /**
- * TODO - make itemData not mixed.
+ * @template T
+ * @param string $type
+ * @psalm-param class-string<T> $type
+ * @param array $data
+ * @return T[]
+ * @throws ValidationException
+ */
+function createArrayOfType(string $type, array $data): array
+{
+    $dataStorage = DataStorage::fromArray($data);
+    $getType = GetType::fromClass($type);
+    $validationResult = createArrayOfTypeFromInputStorage($dataStorage, $getType);
+
+    if ($validationResult->anyErrorsFound()) {
+        throw new ValidationException(
+            "Validation problems",
+            $validationResult->getValidationProblems()
+        );
+    }
+
+    return $validationResult->getValue();
+}
+
+
+/**
+ * @template T
+ * @param string $type
+ * @psalm-param class-string<T> $type
+ * @param array $data
+ * @return array{null, \Params\ValidationProblem[]}|array{T[], null}
+ */
+function createArrayOfTypeOrError(string $type, array $data): array
+{
+    $dataStorage = DataStorage::fromArray($data);
+    $getType = GetType::fromClass($type);
+    $validationResult = createArrayOfTypeFromInputStorage($dataStorage, $getType);
+
+    if ($validationResult->anyErrorsFound()) {
+        return [null, $validationResult->getValidationProblems()];
+    }
+
+    $finalValue = $validationResult->getValue();
+    /** @var T[] $finalValue */
+
+    return [$finalValue, null];
+}
+
+/**
+ *
  *
  * @param InputStorageAye $dataLocator
  * @param GetType $typeExtractor
  * @return ValidationResult
  */
-function createArrayOfType(
+function createArrayOfTypeFromInputStorage(
     InputStorageAye $dataLocator,
     GetType $typeExtractor
 ): ValidationResult {

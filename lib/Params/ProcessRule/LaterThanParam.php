@@ -31,7 +31,6 @@ class LaterThanParam implements ProcessRule
         }
     }
 
-
     public function process(
         $value,
         ProcessedValues $processedValues,
@@ -67,9 +66,7 @@ class LaterThanParam implements ProcessRule
         $timeOffset = new \DateInterval('PT'  . $this->minutesLater . 'M');
 
         /** @var \DateTimeImmutable|\DateTime $previousValue */
-        // @phpstan-ignore-next-line
         $timeToCompare = $previousValue->add($timeOffset);
-
 
         if ($value > $timeToCompare) {
             return ValidationResult::valueResult($value);
