@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetBool;
@@ -24,7 +24,7 @@ class GetBoolTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::createMissing('foo')
+            ArrayInputStorage::createMissing('foo')
         );
 
         $this->assertProblems(
@@ -56,7 +56,7 @@ class GetBoolTest extends BaseTestCase
         $rule = new GetBool();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::fromSingleValue('foo', $input)
+            ArrayInputStorage::fromSingleValue('foo', $input)
         );
 
         $this->assertNoProblems($validationResult);
@@ -83,7 +83,7 @@ class GetBoolTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::fromArraySetFirstValue(['foo' => $value])
+            ArrayInputStorage::fromArraySetFirstValue(['foo' => $value])
         );
 
         $this->assertValidationProblemRegexp(

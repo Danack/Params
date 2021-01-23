@@ -6,6 +6,9 @@ namespace Params\Exception;
 
 use Params\Messages;
 
+/**
+ *
+ */
 class InvalidJsonPointerException extends ParamsException
 {
     public static function invalidFirstCharacter(): self

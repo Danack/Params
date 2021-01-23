@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -13,13 +13,23 @@ use Params\ValidationResult;
 /**
  * Takes input data and converts it to a bool value, or
  * generates appropriate validationProblems.
+ *
+ * bool(true) - true
+ * bool(false) - false
+ * string(true) - true
+ * string(1) - true
+ * any other string - false
+ * int(0) - false
+ * any other non-zero int - true
+ * any other input - error
+ *
  */
 class BoolInput implements ProcessRule
 {
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         if (is_bool($value) === true) {
             return ValidationResult::valueResult($value);
@@ -50,7 +60,7 @@ class BoolInput implements ProcessRule
             gettype($value)
         );
 
-        return ValidationResult::errorResult($dataLocator, $message);
+        return ValidationResult::errorResult($inputStorage, $message);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

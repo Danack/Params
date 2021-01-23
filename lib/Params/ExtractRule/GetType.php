@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -58,9 +58,9 @@ class GetType implements ExtractRule
 
     public function process(
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $dataLocator
     ) : ValidationResult {
-        if ($dataLocator->valueAvailable() !== true) {
+        if ($dataLocator->isValueAvailable() !== true) {
             return ValidationResult::errorResult($dataLocator, Messages::VALUE_NOT_SET);
         }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\Value\MultipleEnums;
@@ -33,7 +33,7 @@ class MultipleEnumTest extends BaseTestCase
     {
         $rule = new MultipleEnum(['foo', 'bar']);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $inputString, $processedValues, $dataLocator
         );
@@ -58,7 +58,7 @@ class MultipleEnumTest extends BaseTestCase
         $validationResult = $rule->process(
             $badValue,
             $processedValues,
-            DataStorage::fromSingleValue('foo', $badValue)
+            ArrayInputStorage::fromSingleValue('foo', $badValue)
         );
 
         $this->assertValidationProblemRegexp(
@@ -84,7 +84,7 @@ class MultipleEnumTest extends BaseTestCase
     {
         $enumRule = new MultipleEnum(['foo', 'bar']);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $result = $enumRule->process(
             $input, $processedValues, $dataLocator
         );
@@ -111,7 +111,7 @@ class MultipleEnumTest extends BaseTestCase
     {
         $rule = new MultipleEnum(['time', 'distance']);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );
@@ -139,7 +139,7 @@ class MultipleEnumTest extends BaseTestCase
 
         $rule = new MultipleEnum($values);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -36,7 +36,7 @@ class MultipleEnum implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         // TODO - handle to string conversion better.
         $value = trim((string)$value);
@@ -57,7 +57,7 @@ class MultipleEnum implements ProcessRule
                     implode(', ', $this->allowedValues)
                 );
 
-                return ValidationResult::errorResult($dataLocator, $message);
+                return ValidationResult::errorResult($inputStorage, $message);
             }
             $enumElements[] = $enumStringPart;
         }

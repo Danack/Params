@@ -9,7 +9,7 @@ use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MaximumCount;
 use Params\Exception\LogicException;
 use Params\ProcessedValues;
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 
 /**
  * @coversNothing
@@ -34,7 +34,7 @@ class MaximumCountTest extends BaseTestCase
         $rule = new MaximumCount($maximumCount);
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
-            $values, $processedValues, DataStorage::fromArray([$values])
+            $values, $processedValues, ArrayInputStorage::fromArray([$values])
         );
         $this->assertNoProblems($validationResult);
         $this->assertFalse($validationResult->isFinalResult());
@@ -58,7 +58,7 @@ class MaximumCountTest extends BaseTestCase
         $rule = new MaximumCount($maximumCount);
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
-            $values, $processedValues, DataStorage::fromArray([$values])
+            $values, $processedValues, ArrayInputStorage::fromArray([$values])
         );
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
@@ -101,7 +101,7 @@ class MaximumCountTest extends BaseTestCase
             stringToRegexp(Messages::ERROR_WRONG_TYPE_VARIANT_1)
         );
 
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
 
         $rule->process(
             'a banana', $processedValues, $dataLocator

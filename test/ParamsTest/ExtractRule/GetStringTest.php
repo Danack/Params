@@ -8,7 +8,7 @@ use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetString;
 use Params\ProcessedValues;
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 
 /**
  * @coversNothing
@@ -24,7 +24,7 @@ class GetStringTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::createMissing('foo')
+            ArrayInputStorage::createMissing('foo')
         );
 
         $this->assertValidationProblemRegexp(
@@ -45,7 +45,7 @@ class GetStringTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::fromArraySetFirstValue([$expectedValue])
+            ArrayInputStorage::fromArraySetFirstValue([$expectedValue])
         );
 
         $this->assertNoProblems($validationResult);
@@ -65,7 +65,7 @@ class GetStringTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::fromArraySetFirstValue($data)
+            ArrayInputStorage::fromArraySetFirstValue($data)
         );
 
         $this->assertValidationProblemRegexp(
@@ -89,7 +89,7 @@ class GetStringTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::fromArraySetFirstValue($data)
+            ArrayInputStorage::fromArraySetFirstValue($data)
         );
 
         $this->assertValidationProblemRegexp(

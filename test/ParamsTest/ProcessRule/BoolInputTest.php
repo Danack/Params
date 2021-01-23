@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\BoolInput;
@@ -44,7 +44,7 @@ class BoolInputTest extends BaseTestCase
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            DataStorage::fromArraySetFirstValue([$inputValue])
+            ArrayInputStorage::fromArraySetFirstValue([$inputValue])
         );
 
         $this->assertNoProblems($validationResult);
@@ -69,7 +69,7 @@ class BoolInputTest extends BaseTestCase
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            DataStorage::fromSingleValue('foo', [$inputValue])
+            ArrayInputStorage::fromSingleValue('foo', [$inputValue])
         );
 
         $this->assertValidationProblemRegexp(

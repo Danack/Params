@@ -2,8 +2,9 @@
 
 namespace Params;
 
-use Params\DataLocator\DataStorage;
-use Params\DataLocator\InputStorageAye;
+use Params\Exception\InvalidDatetimeFormatException;
+use Params\InputStorage\ArrayInputStorage;
+use Params\InputStorage\InputStorage;
 use Params\Exception\InputParameterListException;
 use Params\Exception\InvalidJsonPointerException;
 use Params\Exception\LogicException;
@@ -24,7 +25,7 @@ use Params\Value\Ordering;
  */
 function createArrayOfType(string $type, array $data): array
 {
-    $dataStorage = DataStorage::fromArray($data);
+    $dataStorage = ArrayInputStorage::fromArray($data);
     $getType = GetType::fromClass($type);
     $validationResult = createArrayOfTypeFromInputStorage($dataStorage, $getType);
 
@@ -48,7 +49,7 @@ function createArrayOfType(string $type, array $data): array
  */
 function createArrayOfTypeOrError(string $type, array $data): array
 {
-    $dataStorage = DataStorage::fromArray($data);
+    $dataStorage = ArrayInputStorage::fromArray($data);
     $getType = GetType::fromClass($type);
     $validationResult = createArrayOfTypeFromInputStorage($dataStorage, $getType);
 
@@ -65,12 +66,12 @@ function createArrayOfTypeOrError(string $type, array $data): array
 /**
  *
  *
- * @param InputStorageAye $dataLocator
+ * @param InputStorage $dataLocator
  * @param GetType $typeExtractor
  * @return ValidationResult
  */
 function createArrayOfTypeFromInputStorage(
-    InputStorageAye $dataLocator,
+    InputStorage $dataLocator,
     GetType $typeExtractor
 ): ValidationResult {
 
@@ -176,7 +177,7 @@ function createObjectFromParams($classname, $values)
  * @template T
  * @param class-string<T> $classname
  * @param \Params\InputParameter[] $params
- * @param DataStorage $dataLocator
+ * @param ArrayInputStorage $dataLocator
  * @return T of object
  * @throws ValidationException
  * @throws \ReflectionException
@@ -184,7 +185,7 @@ function createObjectFromParams($classname, $values)
 function create(
     $classname,
     $params,
-    DataStorage $dataLocator
+    ArrayInputStorage $dataLocator
 ) {
     $paramsValuesImpl = new ProcessedValues();
 
@@ -215,7 +216,7 @@ function create(
  * The rules are passed separately to the classname so that we can
  * support rules coming both from static info and from factory objects.
  */
-function createOrError($classname, $params, DataStorage $dataLocator)
+function createOrError($classname, $params, ArrayInputStorage $dataLocator)
 {
     $paramsValuesImpl = new ProcessedValues();
 
@@ -378,14 +379,14 @@ function normalise_order_parameter(string $part)
 
 /**
  * @param mixed $value
- * @param InputStorageAye $dataLocator
+ * @param InputStorage $dataLocator
  * @param ProcessRule ...$processRules
  * @return array{0:\Params\ValidationProblem[], 1:?mixed}
  * @throws Exception\ParamMissingException
  */
 function processProcessingRules(
     $value,
-    InputStorageAye $dataLocator,
+    InputStorage $dataLocator,
     ProcessedValues $processedValues,
     ProcessRule ...$processRules
 ) {
@@ -408,14 +409,14 @@ function processProcessingRules(
 /**
  * @param \Params\InputParameter $param
  * @param ProcessedValues $paramValues
- * @param InputStorageAye $dataLocator
+ * @param InputStorage $dataLocator
  * @return ValidationProblem[]
  * @throws Exception\ParamMissingException
  */
 function processInputParameter(
     InputParameter $param,
     ProcessedValues $paramValues,
-    InputStorageAye $dataLocator
+    InputStorage $dataLocator
 ) {
 
     $dataLocatorForItem = $dataLocator->moveKey($param->getInputName());
@@ -456,14 +457,14 @@ function processInputParameter(
 /**
  * @param \Params\InputParameter[] $inputParameters
  * @param ProcessedValues $paramValues
- * @param InputStorageAye $dataLocator
+ * @param InputStorage $dataLocator
  * @return \Params\ValidationProblem[]
  * @throws Exception\ParamMissingException
  */
 function processInputParameters(
     array $inputParameters,
     ProcessedValues $paramValues,
-    InputStorageAye $dataLocator
+    InputStorage $dataLocator
 ) {
     $validationProblems = [];
 
@@ -494,4 +495,47 @@ function getRawCharacters(string $string): string
     $resultSeparated = implode(', ', str_split($resultInHex, 2)); //byte safe
 
     return $resultSeparated;
+}
+
+/**
+ * Get the list of default supported DateTime formats
+ * @return string[]
+ */
+function getDefaultSupportedTimeFormats(): array
+{
+    return [
+        \DateTime::ATOM,
+        \DateTime::COOKIE,
+        \DateTime::ISO8601,
+        \DateTime::RFC822,
+        \DateTime::RFC850,
+        \DateTime::RFC1036,
+        \DateTime::RFC1123,
+        \DateTime::RFC2822,
+        \DateTime::RFC3339,
+        \DateTime::RFC3339_EXTENDED,
+        \DateTime::RFC7231,
+        \DateTime::RSS,
+        \DateTime::W3C,
+    ];
+}
+
+/**
+ * @param string[] $allowedFormats
+ * @return string[]
+ * @throws InvalidDatetimeFormatException
+ * @psalm-suppress DocblockTypeContradiction
+ * @psalm-suppress RedundantConditionGivenDocblockType
+ */
+function checkAllowedFormatsAreStrings(array $allowedFormats): array
+{
+    $position = 0;
+    foreach ($allowedFormats as $allowedFormat) {
+        if (is_string($allowedFormat) !== true) {
+            throw InvalidDatetimeFormatException::stringRequired($position, $allowedFormat);
+        }
+        $position += 1;
+    }
+
+    return $allowedFormats;
 }

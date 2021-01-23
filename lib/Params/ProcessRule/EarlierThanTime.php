@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -26,7 +26,7 @@ class EarlierThanTime implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
 
         if (!($value instanceof \DateTimeInterface)) {
@@ -35,7 +35,7 @@ class EarlierThanTime implements ProcessRule
                 gettype($value)
             );
             return ValidationResult::errorResult(
-                $dataLocator,
+                $inputStorage,
                 $message
             );
         }
@@ -49,7 +49,7 @@ class EarlierThanTime implements ProcessRule
             $this->getCompareTimeString()
         );
 
-        return ValidationResult::errorResult($dataLocator, $message);
+        return ValidationResult::errorResult($inputStorage, $message);
     }
 
     public function getCompareTimeString(): string

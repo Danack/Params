@@ -4,12 +4,14 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
 
 /**
+ * Rule that ends processing with a set value.
+ *
  * Used for testing.
  */
 class AlwaysEndsRule implements ProcessRule
@@ -28,13 +30,13 @@ class AlwaysEndsRule implements ProcessRule
     /**
      * @param mixed $value
      * @param ProcessedValues $processedValues
-     * @param InputStorageAye $dataLocator
+     * @param InputStorage $inputStorage
      * @return ValidationResult
      */
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         return ValidationResult::finalValueResult($this->finalValue);
     }

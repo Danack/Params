@@ -8,7 +8,7 @@ use Params\ExtractRule\ExtractRule;
 use Params\ProcessRule\ProcessRule;
 
 /**
- * @todo rename this to InputParameter?
+ *
  */
 class InputParameter
 {

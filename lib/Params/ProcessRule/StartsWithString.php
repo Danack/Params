@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -26,7 +26,7 @@ class StartsWithString implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         if (strpos((string)$value, $this->prefix) !== 0) {
             $message = sprintf(
@@ -34,7 +34,7 @@ class StartsWithString implements ProcessRule
                 $this->prefix
             );
 
-            return ValidationResult::errorResult($dataLocator, $message);
+            return ValidationResult::errorResult($inputStorage, $message);
         }
 
         // This rule does not modify the value

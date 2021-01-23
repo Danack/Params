@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -38,11 +38,11 @@ class GetArrayOfType implements ExtractRule
 
     public function process(
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $dataLocator
     ): ValidationResult {
 
         // Check it is set
-        if ($dataLocator->valueAvailable() !== true) {
+        if ($dataLocator->isValueAvailable() !== true) {
             return ValidationResult::errorResult(
                 $dataLocator,
                 Messages::ERROR_MESSAGE_NOT_SET_VARIANT_1

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception\Validator;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use ParamsTest\BaseTestCase;
 use Params\Exception\ValidationException;
 use Params\ValidationProblem;
@@ -19,7 +19,7 @@ class ValidationExceptionTest extends BaseTestCase
      */
     public function testGetting()
     {
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
 
         $message1 = 'foo was invalid';
         $message2 = 'bar was invalid';

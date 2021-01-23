@@ -65,6 +65,6 @@ class CreateOrErrorFromJsonTest extends BaseTestCase
             $validationProblem->getProblemMessage()
         );
 
-        $this->assertSame('/counts', $validationProblem->getDataLocator()->getPath());
+        $this->assertSame('/counts', $validationProblem->getInputStorage()->getPath());
     }
 }

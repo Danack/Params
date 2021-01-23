@@ -72,7 +72,7 @@ class BaseTestCase extends TestCase
     protected function assertValidationProblem(string $identifier, string $expectedProblem, $validationProblems)
     {
         foreach ($validationProblems as $validationProblem) {
-            if ($validationProblem->getDataLocator()->toString() !== $identifier) {
+            if ($validationProblem->getInputStorage()->getPath() !== $identifier) {
                 continue;
             }
 
@@ -94,7 +94,7 @@ class BaseTestCase extends TestCase
         // Identifier not found
         $identifiers = [];
         foreach ($validationProblems as $validationProblem) {
-            $identifiers[] = $validationProblem->getDataLocator()->toString();
+            $identifiers[] = $validationProblem->getInputStorage()->getPath();
         }
 
         $missingIndentifierText = sprintf(
@@ -128,7 +128,7 @@ class BaseTestCase extends TestCase
         $expectedProblemRegexp = stringToRegexp($expectedProblem);
 
         foreach ($validationProblems as $validationProblem) {
-            if ($validationProblem->getDataLocator()->toString() !== $identifier) {
+            if ($validationProblem->getInputStorage()->getPath() !== $identifier) {
                 continue;
             }
 
@@ -150,7 +150,7 @@ class BaseTestCase extends TestCase
         // Identifier not found
         $pathsAsStrings = [];
         foreach ($validationProblems as $validationProblem) {
-            $pathsAsStrings[] = $validationProblem->getDataLocator()->toString();
+            $pathsAsStrings[] = $validationProblem->getInputStorage()->getPath();
         }
 
         $missingIndentifierText = sprintf(

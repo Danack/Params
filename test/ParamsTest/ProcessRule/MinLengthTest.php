@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
@@ -56,7 +56,7 @@ class MinLengthTest extends BaseTestCase
     {
         $rule = new MinLength($minLength);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $string, $processedValues, $dataLocator
         );
@@ -91,7 +91,7 @@ class MinLengthTest extends BaseTestCase
     {
         $rule = new MinLength($minLength);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', $string);
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $string);
         $validationResult = $rule->process(
             $string, $processedValues, $dataLocator
         );

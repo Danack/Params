@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetInt;
@@ -24,7 +24,7 @@ class GetIntTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::createMissing('foo')
+            ArrayInputStorage::createMissing('foo')
         );
         $this->assertProblems(
             $validationResult,
@@ -48,7 +48,7 @@ class GetIntTest extends BaseTestCase
     {
         $validator = new ProcessedValues();
         $rule = new GetInt();
-        $dataLocator  = DataStorage::fromSingleValue('foo', $input);
+        $dataLocator  = ArrayInputStorage::fromSingleValue('foo', $input);
 
         $validationResult = $rule->process(
             $validator, $dataLocator
@@ -75,7 +75,7 @@ class GetIntTest extends BaseTestCase
     {
         $rule = new GetInt();
         $validator = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', $input);
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $input);
 
         $validationResult = $rule->process(
             $validator,

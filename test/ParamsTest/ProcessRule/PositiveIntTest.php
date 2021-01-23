@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\PositiveInt;
@@ -33,7 +33,7 @@ class PositiveIntTest extends BaseTestCase
     {
         $rule = new PositiveInt();
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );
@@ -60,7 +60,7 @@ class PositiveIntTest extends BaseTestCase
     {
         $rule = new PositiveInt();
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalString;
 use Params\ProcessedValues;
@@ -24,7 +24,7 @@ class GetOptionalStringTest extends BaseTestCase
 
         $validationResult = $rule->process(
             $validator,
-            DataStorage::createMissing('foo')
+            ArrayInputStorage::createMissing('foo')
         );
         $this->assertNoProblems($validationResult);
         $this->assertNull($validationResult->getValue());
@@ -42,7 +42,7 @@ class GetOptionalStringTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::fromArraySetFirstValue([$expectedValue])
+            ArrayInputStorage::fromArraySetFirstValue([$expectedValue])
         );
 
         $this->assertNoProblems($validationResult);

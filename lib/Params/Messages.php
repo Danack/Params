@@ -4,6 +4,9 @@ declare(strict_types = 1);
 
 namespace Params;
 
+/**
+ * Class to hold all error messages, rather than have them distributed across the code.
+ */
 class Messages
 {
     // Array
@@ -26,7 +29,7 @@ class Messages
 
     public const ERROR_DATETIME_MUST_START_AS_STRING = 'Input for datetime must be string';
 
-    public const ERROR_DATE_FORMAT_MUST_BE_STRING = 'Datetime format must be array of strings. Non-string found at position %d';
+    public const ERROR_DATE_FORMAT_MUST_BE_STRING = 'Datetime format must be array of strings. Found type %s at position %d';
 
 
     // Enum

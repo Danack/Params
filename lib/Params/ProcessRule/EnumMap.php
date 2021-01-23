@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Exception\InvalidRulesException;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
@@ -42,7 +42,7 @@ class EnumMap implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         if (is_int($value) === false && is_string($value) === false) {
             throw InvalidRulesException::badTypeForArrayAccess($value);
@@ -57,7 +57,7 @@ class EnumMap implements ProcessRule
             );
 
             return ValidationResult::errorResult(
-                $dataLocator,
+                $inputStorage,
                 $message
             );
         }

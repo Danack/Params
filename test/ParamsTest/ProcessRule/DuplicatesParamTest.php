@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\DuplicatesParam;
@@ -23,7 +23,7 @@ class DuplicatesParamTest extends BaseTestCase
     {
         $value = 'my_voice_is_my_password';
         $processedValues = ProcessedValues::fromArray(['foo' => $value]);
-        $dataLocator = DataStorage::fromArray([]);
+        $dataLocator = ArrayInputStorage::fromArray([]);
 
         $rule = new DuplicatesParam('foo');
         $validationResult = $rule->process($value, $processedValues, $dataLocator);
@@ -41,7 +41,7 @@ class DuplicatesParamTest extends BaseTestCase
     {
         $value = 'my_voice_is_my_password';
         $processedValues = ProcessedValues::fromArray([]);
-        $dataLocator = DataStorage::fromArray([]);
+        $dataLocator = ArrayInputStorage::fromArray([]);
         $dataLocator = $dataLocator->moveKey('foo');
 
         $rule = new DuplicatesParam('foo');
@@ -63,7 +63,7 @@ class DuplicatesParamTest extends BaseTestCase
     public function testWrongType()
     {
         $processedValues = ProcessedValues::fromArray(['foo' => 'my_voice_is_my_password']);
-        $dataLocator = DataStorage::fromArray([]);
+        $dataLocator = ArrayInputStorage::fromArray([]);
 
         $rule = new DuplicatesParam('foo');
         $dataLocator = $dataLocator->moveKey('foo');
@@ -86,7 +86,7 @@ class DuplicatesParamTest extends BaseTestCase
     public function testWrongValue()
     {
         $processedValues = ProcessedValues::fromArray(['foo' => 'my_voice_is_my_password']);
-        $dataLocator = DataStorage::fromArray([]);
+        $dataLocator = ArrayInputStorage::fromArray([]);
 
         $rule = new DuplicatesParam('foo');
         $dataLocator = $dataLocator->moveKey('foo');

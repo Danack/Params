@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\NotNull;
@@ -22,7 +22,7 @@ class NotNullTest extends BaseTestCase
     {
         $rule1 = new NotNull();
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', null);
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', null);
         $validationResult = $rule1->process(
             null,
             $processedValues,
@@ -37,7 +37,7 @@ class NotNullTest extends BaseTestCase
 
         $rule2 = new NotNull();
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule2->process(
             5, $processedValues, $dataLocator
         );

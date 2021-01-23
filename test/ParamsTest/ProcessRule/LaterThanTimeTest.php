@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessedValues;
@@ -24,7 +24,7 @@ class LaterThanTimeTest extends BaseTestCase
         $value = new \DateTime('2000-01-01');
 
         $processedValues = ProcessedValues::fromArray([]);
-        $dataLocator = DataStorage::fromSingleValue('newtime', $value);
+        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime('1999-01-01');
         $rule = new LaterThanTime($compareTime);
@@ -44,7 +44,7 @@ class LaterThanTimeTest extends BaseTestCase
         $value = new \DateTime('2000-01-01');
 
         $processedValues = ProcessedValues::fromArray([]);
-        $dataLocator = DataStorage::fromSingleValue('newtime', $value);
+        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime('2001-01-01');
         $rule = new LaterThanTime($compareTime);
@@ -69,7 +69,7 @@ class LaterThanTimeTest extends BaseTestCase
         $value = new \StdClass();
 
         $processedValues = ProcessedValues::fromArray([]);
-        $dataLocator = DataStorage::fromSingleValue('newtime', $value);
+        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime('2000-01-01');
         $rule = new LaterThanTime($compareTime);

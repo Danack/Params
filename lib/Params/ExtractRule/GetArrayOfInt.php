@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -25,11 +25,11 @@ class GetArrayOfInt implements ExtractRule
 
     public function process(
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $dataLocator
     ): ValidationResult {
 
         // Check its set
-        if ($dataLocator->valueAvailable() !== true) {
+        if ($dataLocator->isValueAvailable() !== true) {
             $message = sprintf(Messages::ERROR_MESSAGE_NOT_SET);
             return ValidationResult::errorResult($dataLocator, $message);
         }

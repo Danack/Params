@@ -4,26 +4,30 @@ declare(strict_types = 1);
 
 namespace Params;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 
 class ValidationProblem
 {
     /**
-     * The path of the parameter that was being validated.
+     * The inputStorage in the state when the parameter that has a validation
+     * problem was being validated.
      */
-    private InputStorageAye $dataLocator;
+    private InputStorage $inputStorage;
 
+    /**
+     * A text description of the problem.
+     */
     private string $problemMessage;
 
-    public function __construct(InputStorageAye $dataLocator, string $description)
+    public function __construct(InputStorage $dataLocator, string $description)
     {
-        $this->dataLocator = $dataLocator;
+        $this->inputStorage = $dataLocator;
         $this->problemMessage = $description;
     }
 
-    public function getDataLocator(): InputStorageAye
+    public function getInputStorage(): InputStorage
     {
-        return $this->dataLocator;
+        return $this->inputStorage;
     }
 
     /**
@@ -40,6 +44,6 @@ class ValidationProblem
      */
     public function toString(): string
     {
-        return $this->dataLocator->getPath() . " " . $this->problemMessage;
+        return $this->inputStorage->getPath() . " " . $this->problemMessage;
     }
 }

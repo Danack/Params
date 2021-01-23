@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
@@ -23,13 +23,13 @@ class PositiveInt implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         $matches = null;
 
         $errorMessage = check_only_digits($value);
         if ($errorMessage !== null) {
-            return ValidationResult::errorResult($dataLocator, $errorMessage);
+            return ValidationResult::errorResult($inputStorage, $errorMessage);
         }
 
         $value = intval($value);
@@ -41,7 +41,7 @@ class PositiveInt implements ProcessRule
             );
 
             return ValidationResult::errorResult(
-                $dataLocator,
+                $inputStorage,
                 $message
             );
         }

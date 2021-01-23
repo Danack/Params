@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDate;
 use Params\ProcessedValues;
@@ -39,7 +39,7 @@ class ValidDateTest extends BaseTestCase
     {
         $rule = new ValidDate();
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $input, $processedValues, $dataLocator
         );
@@ -67,7 +67,7 @@ class ValidDateTest extends BaseTestCase
         $validationResult = $rule->process(
             $input,
             $processedValues,
-            DataStorage::fromSingleValue('foo', $input)
+            ArrayInputStorage::fromSingleValue('foo', $input)
         );
 
         $this->assertValidationProblemRegexp(

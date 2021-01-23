@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -22,7 +22,7 @@ class MaxIntValue implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
 
 //        if (is_int($value) !== true) {
@@ -37,7 +37,7 @@ class MaxIntValue implements ProcessRule
             );
 
             return ValidationResult::errorResult(
-                $dataLocator,
+                $inputStorage,
                 $message
             );
         }

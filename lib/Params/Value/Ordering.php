@@ -37,7 +37,7 @@ class Ordering
     /**
      * @return \Params\Value\OrderElement[]
      */
-    public function getOrderElements()
+    public function getOrderElements(): array
     {
         return $this->orderElements;
     }

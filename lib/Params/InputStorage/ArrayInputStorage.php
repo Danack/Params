@@ -2,13 +2,16 @@
 
 declare(strict_types = 1);
 
-namespace Params\DataLocator;
+namespace Params\InputStorage;
 
 use Params\Exception\InvalidLocationException;
 use VarMap\VarMap;
 use function Params\getJsonPointerParts;
 
-class DataStorage implements InputStorageAye
+/**
+ * Implementation of InputStorage that wraps around a simple array.
+ */
+class ArrayInputStorage implements InputStorage
 {
     private array $data;
 
@@ -109,7 +112,10 @@ class DataStorage implements InputStorageAye
         return $data;
     }
 
-    public function valueAvailable(): bool
+    /**
+     * @inheritDoc
+     */
+    public function isValueAvailable(): bool
     {
         $data = $this->data;
 
@@ -129,8 +135,7 @@ class DataStorage implements InputStorageAye
     }
 
     /**
-     * @param int|string $name
-     * @return $this
+     * @inheritDoc
      */
     public function moveKey($name): self
     {
@@ -140,11 +145,9 @@ class DataStorage implements InputStorageAye
         return $clone;
     }
 
-    public function toString(): string
-    {
-        return $this->getPath();
-    }
-
+    /**
+     * @inheritDoc
+     */
     public function getPath(): string
     {
         $path = '';

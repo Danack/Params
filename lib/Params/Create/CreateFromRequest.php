@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Psr\Http\Message\ServerRequestInterface;
 use function Params\create;
 
@@ -23,7 +23,7 @@ trait CreateFromRequest
     {
         $rules = static::getInputParameterList();
 
-        $dataLocator = DataStorage::fromArray($request->getQueryParams());
+        $dataLocator = ArrayInputStorage::fromArray($request->getQueryParams());
 
         $object = create(static::class, $rules, $dataLocator);
         /** @var $object self */

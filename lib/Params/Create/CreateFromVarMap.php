@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use VarMap\VarMap;
 use function Params\create;
 use function Params\getInputParameterListForClass;
@@ -24,7 +24,7 @@ trait CreateFromVarMap
     {
         $rules = getInputParameterListForClass(self::class);
 
-        $dataLocator = DataStorage::fromVarMap($variableMap);
+        $dataLocator = ArrayInputStorage::fromVarMap($variableMap);
 
         $object = create(static::class, $rules, $dataLocator);
         /** @var $object self */

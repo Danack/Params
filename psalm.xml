@@ -94,22 +94,22 @@
         </MixedOperand>
 
 
-        <MixedArrayOffset>
-            <errorLevel type="suppress">
-                <file name="lib/Params/DataLocator/DataStorage.php"/>
-            </errorLevel>
-        </MixedArrayOffset>
+<!--        <MixedArrayOffset>-->
+<!--            <errorLevel type="suppress">-->
+<!--                <file name="lib/Params/InputStorage/DataStorage.php"/>-->
+<!--            </errorLevel>-->
+<!--        </MixedArrayOffset>-->
 
         <MixedArgument>
             <errorLevel type="suppress">
-                <file name="lib/Params/DataLocator/DataStorage.php"/>
+                <file name="lib/Params/InputStorage/ArrayInputStorage.php"/>
                 <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedArgument>
 
         <MixedArrayAccess>
             <errorLevel type="suppress">
-                <file name="lib/Params/DataLocator/DataStorage.php"/>
+<!--                <file name="lib/Params/DataLocator/DataStorage.php"/>-->
                 <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedArrayAccess>

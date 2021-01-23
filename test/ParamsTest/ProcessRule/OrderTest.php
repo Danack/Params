@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Order;
 use Params\Value\Ordering;
@@ -33,7 +33,7 @@ class OrderTest extends BaseTestCase
 
         $rule = new Order($orderParams);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
 
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
@@ -62,7 +62,7 @@ class OrderTest extends BaseTestCase
 
         $rule = new Order($orderParams);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
 
         $validationResult = $rule->process(
             $testValue,

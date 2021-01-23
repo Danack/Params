@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\DataLocator\DataStorage;
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\ArrayInputStorage;
+use Params\InputStorage\InputStorage;
 use Params\Exception\InputParameterListException;
 use Params\Exception\TypeNotInputParameterListException;
 use Params\ExtractRule\ExtractRule;
@@ -277,7 +277,7 @@ class FunctionsTest extends BaseTestCase
     public function test_processInputParameters()
     {
         $inputParameters = \AlwaysErrorsParams::getInputParameterList();
-        $dataStorage = DataStorage::fromArray([
+        $dataStorage = ArrayInputStorage::fromArray([
             'foo' => 'foo string',
             'bar' => 'bar string'
         ]);
@@ -303,7 +303,7 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_processProcessingRules_works()
     {
-        $dataStorage = DataStorage::fromArray([
+        $dataStorage = ArrayInputStorage::fromArray([
             'bar' => 'bar string'
         ]);
         $dataStorage = $dataStorage->moveKey('bar');
@@ -334,7 +334,7 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_processProcessingRules_errors()
     {
-        $dataStorage = DataStorage::fromArray([
+        $dataStorage = ArrayInputStorage::fromArray([
             'bar' => 'bar string'
         ]);
         $dataStorage = $dataStorage->moveKey('bar');
@@ -374,7 +374,7 @@ class FunctionsTest extends BaseTestCase
             ['name' => 'John 3'],
         ];
 
-        $dataStorage = DataStorage::fromArray($data);
+        $dataStorage = ArrayInputStorage::fromArray($data);
         $getType = GetType::fromClass(\TestParams::class);
 
         $result = createArrayOfTypeFromInputStorage(
@@ -409,7 +409,7 @@ class FunctionsTest extends BaseTestCase
             ['name_this_is_typo' => 'John 3'],
         ];
 
-        $dataStorage = DataStorage::fromArray($data);
+        $dataStorage = ArrayInputStorage::fromArray($data);
         $getType = GetType::fromClass(\TestParams::class);
 
         $result = createArrayOfTypeFromInputStorage(
@@ -433,7 +433,7 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_createArrayOfType_not_array_data()
     {
-        $dataStorage = DataStorage::fromSingleValue('foo', 'bar');
+        $dataStorage = ArrayInputStorage::fromSingleValue('foo', 'bar');
         $getType = GetType::fromClass(\TestParams::class);
 
         $result = createArrayOfTypeFromInputStorage(
@@ -462,7 +462,7 @@ class FunctionsTest extends BaseTestCase
             new GetString()
         );
 
-        $dataStorage = DataStorage::fromArray([
+        $dataStorage = ArrayInputStorage::fromArray([
             'bar' => 'bar string'
         ]);
 
@@ -491,7 +491,7 @@ class FunctionsTest extends BaseTestCase
             new GetInt()
         );
 
-        $dataStorage = DataStorage::fromArray([
+        $dataStorage = ArrayInputStorage::fromArray([
             'bar' => 'This is not an integer'
         ]);
 
@@ -528,7 +528,7 @@ class FunctionsTest extends BaseTestCase
 
             public function process(
                 ProcessedValues $processedValues,
-                InputStorageAye $dataLocator
+                InputStorage $dataLocator
             ): ValidationResult {
                 return ValidationResult::finalValueResult($this->value);
             }
@@ -544,7 +544,7 @@ class FunctionsTest extends BaseTestCase
             $extractIsFinal
         );
 
-        $dataStorage = DataStorage::fromArray([
+        $dataStorage = ArrayInputStorage::fromArray([
             'bar' => 'hello world'
         ]);
 
@@ -575,7 +575,7 @@ class FunctionsTest extends BaseTestCase
             new AlwaysErrorsRule($errorMessage)
         );
 
-        $dataStorage = DataStorage::fromArray([
+        $dataStorage = ArrayInputStorage::fromArray([
             'foo' => 'foo string',
             'bar' => 'bar string'
         ]);

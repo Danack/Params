@@ -8,7 +8,7 @@ use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfInt;
 use Params\ProcessedValues;
 use Params\ProcessRule\MaxIntValue;
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 
 /**
  * @coversNothing
@@ -24,7 +24,7 @@ class GetArrayOfIntTest extends BaseTestCase
 
         $input = ['foo' => $data];
 
-        $dataLocator = DataStorage::fromArraySetFirstValue($input);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue($input);
 
         $rule = new GetArrayOfInt();
         $validator = new ProcessedValues();
@@ -49,7 +49,7 @@ class GetArrayOfIntTest extends BaseTestCase
         $rule = new GetArrayOfInt();
         $validator = new ProcessedValues();
         $result = $rule->process(
-            $validator, DataStorage::fromArray($data)
+            $validator, ArrayInputStorage::fromArray($data)
         );
 
         $this->assertTrue($result->isFinalResult());
@@ -77,7 +77,7 @@ class GetArrayOfIntTest extends BaseTestCase
         $validator = new ProcessedValues();
 
         $result = $rule->process(
-            $validator, DataStorage::fromArray($data)
+            $validator, ArrayInputStorage::fromArray($data)
         );
 
         $this->assertTrue($result->isFinalResult());

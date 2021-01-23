@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\IntegerInput;
 use ParamsTest\BaseTestCase;
@@ -37,7 +37,7 @@ class IntegerInputTest extends BaseTestCase
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            DataStorage::fromArraySetFirstValue([$inputValue])
+            ArrayInputStorage::fromArraySetFirstValue([$inputValue])
         );
 
         $this->assertNoProblems($validationResult);
@@ -67,7 +67,7 @@ class IntegerInputTest extends BaseTestCase
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            DataStorage::fromSingleValue('foo', $inputValue)
+            ArrayInputStorage::fromSingleValue('foo', $inputValue)
         );
 
         $this->assertValidationProblemRegexp(

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\ExtractRule\GetFloatOrDefault;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
@@ -47,7 +47,7 @@ class GetFloatOrDefaultTest extends BaseTestCase
         $rule = new GetFloatOrDefault($default);
         $validator = new ProcessedValues();
 
-        $dataStorage = DataStorage::fromArray($data);
+        $dataStorage = ArrayInputStorage::fromArray($data);
         $dataStorage = $dataStorage->moveKey('foo');
 
         $validationResult = $rule->process(
@@ -80,7 +80,7 @@ class GetFloatOrDefaultTest extends BaseTestCase
         $rule = new GetFloatOrDefault($default);
         $validationResult = $rule->process(
             $validator,
-            DataStorage::fromSingleValue('foo', $inputValue)
+            ArrayInputStorage::fromSingleValue('foo', $inputValue)
         );
 
         $this->assertValidationProblemRegexp(

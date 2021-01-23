@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Exception\LogicException;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
@@ -31,7 +31,7 @@ class MaximumCount implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         if (is_array($value) !== true) {
             $message = sprintf(
@@ -51,7 +51,7 @@ class MaximumCount implements ProcessRule
                 $actualCount
             );
 
-            return ValidationResult::errorResult($dataLocator, $message);
+            return ValidationResult::errorResult($inputStorage, $message);
         }
 
         return ValidationResult::valueResult($value);

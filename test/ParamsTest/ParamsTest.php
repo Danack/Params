@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\DataLocator\InputStorageAye;
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\InputStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Exception\ValidationException;
 use Params\ExtractRule\GetInt;
 use Params\ExtractRule\GetIntOrDefault;
@@ -41,7 +41,7 @@ class ParamsTest extends BaseTestCase
         ];
 
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
 
         $problems = processInputParameters(
             $rules,
@@ -91,7 +91,7 @@ class ParamsTest extends BaseTestCase
     public function testInvalidInputThrows()
     {
         $arrayVarMap = new ArrayVarMap([]);
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
 
         $rules = [
             new InputParameter(
@@ -114,7 +114,7 @@ class ParamsTest extends BaseTestCase
         $finalValue = 123;
         $data = ['foo' => 5];
 
-        $dataLocator = DataStorage::fromArray($data);
+        $dataLocator = ArrayInputStorage::fromArray($data);
 
         $rules = [
             new InputParameter(
@@ -146,12 +146,12 @@ class ParamsTest extends BaseTestCase
                 $this->test = $test;
             }
 
-            public function process($value, ProcessedValues $processedValues, InputStorageAye $dataLocator) : ValidationResult
+            public function process($value, ProcessedValues $processedValues, InputStorage $inputStorage) : ValidationResult
             {
                 $this->test->fail("This shouldn't be reached.");
                 $key = "foo";
                 //this code won't be executed.
-                return ValidationResult::errorResult($dataLocator, "Shouldn't be called");
+                return ValidationResult::errorResult($inputStorage, "Shouldn't be called");
             }
 
             public function updateParamDescription(ParamDescription $paramDescription): void
@@ -162,7 +162,7 @@ class ParamsTest extends BaseTestCase
 
         $errorMessage = 'deliberately stopped';
         $data = ['foo' => 100];
-        $dataLocator = DataStorage::fromArray($data);
+        $dataLocator = ArrayInputStorage::fromArray($data);
 
         $inputParameters = [
             new InputParameter(
@@ -214,7 +214,7 @@ class ParamsTest extends BaseTestCase
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         $this->expectException(\Params\Exception\ParamsException::class);
 
-        $dataLocator =  DataStorage::fromArraySetFirstValue([]);
+        $dataLocator =  ArrayInputStorage::fromArraySetFirstValue([]);
 
 
         create(\ParamsTest\Integration\FooParams::class, $rules, $dataLocator);
@@ -226,7 +226,7 @@ class ParamsTest extends BaseTestCase
     public function testWorks()
     {
         $data = ['limit' => 5];
-        $dataLocator =  DataStorage::fromArray($data);
+        $dataLocator =  ArrayInputStorage::fromArray($data);
 
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         $fooParams = create(
@@ -244,7 +244,7 @@ class ParamsTest extends BaseTestCase
      */
     public function testCreateOrError_ErrorIsReturned()
     {
-        $dataStorage = DataStorage::fromArray([]);
+        $dataStorage = ArrayInputStorage::fromArray([]);
 
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         [$params, $validationProblems] = createOrError(
@@ -271,7 +271,7 @@ class ParamsTest extends BaseTestCase
      */
     public function testcreateOrError_Works()
     {
-        $dataStorage = DataStorage::fromArray(['limit' => 5]);
+        $dataStorage = ArrayInputStorage::fromArray(['limit' => 5]);
 
         $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
         [$fooParams, $errors] = createOrError(

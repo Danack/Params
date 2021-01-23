@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Exception\LogicException;
 
 /**
@@ -33,15 +33,20 @@ class ValidationResult
         $this->isFinalResult = $isFinalResult;
     }
 
+
     /**
      * this is for a single value processing.
-     *
+     * @param InputStorage $inputStorage
+     * @param string $message
+     * @return ValidationResult
      */
-    public static function errorResult(InputStorageAye $dataLocator, string $message): ValidationResult
-    {
+    public static function errorResult(
+        InputStorage $inputStorage,
+        string $message
+    ): ValidationResult {
         return new self(
             null,
-            [new ValidationProblem($dataLocator, $message)],
+            [new ValidationProblem($inputStorage, $message)],
             true
         );
     }
@@ -51,7 +56,7 @@ class ValidationResult
      * @param \Params\ValidationProblem[] $validationProblems
      * @return ValidationResult
      */
-    public static function fromValidationProblems(array $validationProblems)
+    public static function fromValidationProblems(array $validationProblems): self
     {
         foreach ($validationProblems as $key => $validationProblem) {
             if (is_int($key)  === false) {
@@ -71,15 +76,20 @@ class ValidationResult
     }
 
     /**
+     * Create a ValidationResult where the value is valid and there are no errors.
+     * It is not a 'final' result and any subsequent ProcessRules should be processed.
      * @param mixed $value
      * @return ValidationResult
      */
-    public static function valueResult($value)
+    public static function valueResult($value): self
     {
         return new self($value, [], false);
     }
 
     /**
+     * Create a ValidationResult where the value is valid and there are no errors.
+     * It is a 'final' result and any subsequent ProcessRules should be skipped.
+     *
      * @param mixed $value
      * @return ValidationResult
      */

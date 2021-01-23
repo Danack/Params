@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
@@ -37,7 +37,7 @@ class EnumTest extends BaseTestCase
 
         $rule = new Enum($enumValues);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );
@@ -62,7 +62,7 @@ class EnumTest extends BaseTestCase
 
         $rule = new Enum($enumValues);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
         $validationResult = $rule->process(
             $testValue,
             $processedValues,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\EarlierThanParam;
@@ -32,7 +32,7 @@ class EarlierThanParamTest extends BaseTestCase
         );
 
         $processedValues = ProcessedValues::fromArray(['foo' => $previousTime]);
-        $dataLocator = DataStorage::fromArray([]);
+        $dataLocator = ArrayInputStorage::fromArray([]);
 
         $rule = new EarlierThanParam('foo', 0);
 
@@ -62,7 +62,7 @@ class EarlierThanParamTest extends BaseTestCase
             '2002-10-03T10:00:00-05:00'
         );
         $processedValues = ProcessedValues::fromArray([]);
-        $dataLocator = DataStorage::fromArray([]);
+        $dataLocator = ArrayInputStorage::fromArray([]);
         $dataLocator = $dataLocator->moveKey('foo');
 
         $rule = new EarlierThanParam('foo', 0);
@@ -92,7 +92,7 @@ class EarlierThanParamTest extends BaseTestCase
         );
 
         $processedValues = ProcessedValues::fromArray(['foo' => 'John']);
-        $dataLocator = DataStorage::fromSingleValue('newtime', $value);
+        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
 
         $rule = new EarlierThanParam('foo', 0);
 
@@ -123,7 +123,7 @@ class EarlierThanParamTest extends BaseTestCase
         );
 
         $processedValues = ProcessedValues::fromArray(['foo' => $previousTime]);
-        $dataLocator = DataStorage::fromSingleValue('newtime', $value);
+        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
 
         $rule = new EarlierThanParam('foo', 0);
 
@@ -155,7 +155,7 @@ class EarlierThanParamTest extends BaseTestCase
         );
 
         $processedValues = ProcessedValues::fromArray(['foo' => $afterTime]);
-        $dataLocator = DataStorage::fromSingleValue('newtime', $value);
+        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
 
         $rule = new EarlierThanParam('foo', 0);
 

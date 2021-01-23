@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ParamsTest\Integration;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ProcessRule\ProcessRule;
@@ -33,13 +33,13 @@ class ArrayAllMultiplesOf implements ProcessRule
     /**
      * @param mixed $value
      * @param ProcessedValues $processedValues
-     * @param InputStorageAye $dataLocator
+     * @param InputStorage $inputStorage
      * @return ValidationResult
      */
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         $errors = [];
 
@@ -55,7 +55,7 @@ class ArrayAllMultiplesOf implements ProcessRule
                     $item
                 );
 
-                $errors[] = new ValidationProblem($dataLocator, $message);
+                $errors[] = new ValidationProblem($inputStorage, $message);
             }
             $index += 1;
         }

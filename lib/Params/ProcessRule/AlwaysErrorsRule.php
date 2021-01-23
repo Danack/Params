@@ -4,11 +4,15 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
 
+/**
+ * Rule that ends processing with an error ValidationResult with the
+ * set error message.
+ */
 class AlwaysErrorsRule implements ProcessRule
 {
     private string $message;
@@ -22,9 +26,9 @@ class AlwaysErrorsRule implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
-        return ValidationResult::errorResult($dataLocator, $this->message);
+        return ValidationResult::errorResult($inputStorage, $this->message);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

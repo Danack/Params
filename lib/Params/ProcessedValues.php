@@ -7,14 +7,21 @@ namespace Params;
 use Params\Exception\LogicException;
 
 /**
- * stores the processed values, so that they can be accessed by subsequent parameters.
+ * A class to stores the processed parameters, so that they can be accessed by subsequent rules.
  *
+ * This is useful for when you want to have a rule that one parameter must be a
+ * duplicate of another parameter. e.g. email double-entry
  */
 class ProcessedValues
 {
     /** @var array<int|string, mixed>  */
     private array $paramValues = [];
 
+    /**
+     * @param array $values
+     * @return self
+     * @throws LogicException
+     */
     public static function fromArray(array $values): self
     {
         foreach ($values as $key => $value) {

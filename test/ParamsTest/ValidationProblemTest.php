@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace ParamsTest;
 
 use Params\ValidationProblem;
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 
 /**
  * @coversNothing
@@ -17,7 +17,7 @@ class ValidationProblemTest extends BaseTestCase
      */
     public function testWorks()
     {
-        $dataStorage = DataStorage::fromArray([]);
+        $dataStorage = ArrayInputStorage::fromArray([]);
 
         $key = 'nonexistent';
 
@@ -27,7 +27,7 @@ class ValidationProblemTest extends BaseTestCase
         $validationProblem = new ValidationProblem($dataStorage, $problemMessage);
 
         $this->assertSame($problemMessage, $validationProblem->getProblemMessage());
-        $this->assertSame($dataStorage, $validationProblem->getDataLocator());
+        $this->assertSame($dataStorage, $validationProblem->getInputStorage());
         $this->assertSame('/' . $key . ' ' . $problemMessage, $validationProblem->toString());
     }
 }

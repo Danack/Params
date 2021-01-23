@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\EnumMap;
@@ -30,7 +30,7 @@ class EnumMapTest extends BaseTestCase
         $validationResult = $rule->process(
             'unknown value',
             $processedValues,
-            DataStorage::fromSingleValue('foo', 'bar')
+            ArrayInputStorage::fromSingleValue('foo', 'bar')
         );
 
         $problems = $validationResult->getValidationProblems();
@@ -43,7 +43,7 @@ class EnumMapTest extends BaseTestCase
         );
         $this->assertSame(
             '/' . $name,
-            $firstProblem->getDataLocator()->toString()
+            $firstProblem->getInputStorage()->getPath()
         );
     }
 
@@ -74,7 +74,7 @@ class EnumMapTest extends BaseTestCase
         $validationResult = $rule->process(
             $testValue,
             $processedValues,
-            DataStorage::fromArraySetFirstValue([$testValue])
+            ArrayInputStorage::fromArraySetFirstValue([$testValue])
         );
 
         $this->assertNoProblems($validationResult);
@@ -109,7 +109,7 @@ class EnumMapTest extends BaseTestCase
         $validationResult = $rule->process(
             $testValue,
             $processedValues,
-            DataStorage::fromSingleValue('foo', $testValue)
+            ArrayInputStorage::fromSingleValue('foo', $testValue)
         );
 
         $this->assertValidationProblemRegexp(
@@ -148,7 +148,7 @@ class EnumMapTest extends BaseTestCase
         $rule->process(
             5.0,
             $processedValues,
-            DataStorage::fromArray([])
+            ArrayInputStorage::fromArray([])
         );
     }
 

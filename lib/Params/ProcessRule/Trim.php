@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
@@ -14,7 +14,7 @@ class Trim implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
 
         // TODO - handle string conversion more safely?

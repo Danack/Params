@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -32,7 +32,7 @@ class RangeIntValue implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         $value = intval($value);
         if ($value < $this->minValue) {
@@ -41,7 +41,7 @@ class RangeIntValue implements ProcessRule
                 $this->minValue
             );
             return ValidationResult::errorResult(
-                $dataLocator,
+                $inputStorage,
                 $message
             );
         }
@@ -52,7 +52,7 @@ class RangeIntValue implements ProcessRule
                 $this->maxValue
             );
             return ValidationResult::errorResult(
-                $dataLocator,
+                $inputStorage,
                 $message
             );
         }

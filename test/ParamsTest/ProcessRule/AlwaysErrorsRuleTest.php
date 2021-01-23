@@ -8,7 +8,7 @@ use Params\ProcessedValues;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysErrorsRule;
 use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 
 /**
  * @coversNothing
@@ -23,7 +23,7 @@ class AlwaysErrorsRuleTest extends BaseTestCase
         $message = 'test message';
         $rule = new AlwaysErrorsRule($message);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', 'bar');
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', 'bar');
         $result = $rule->process(
             $unused_input = 5,
             $processedValues,

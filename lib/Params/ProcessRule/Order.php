@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -38,7 +38,7 @@ class Order implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         $parts = explode(',', $value);
         $orderElements = [];
@@ -52,7 +52,7 @@ class Order implements ProcessRule
                     implode(', ', $this->knownOrderNames)
                 );
 
-                return ValidationResult::errorResult($dataLocator, $message);
+                return ValidationResult::errorResult($inputStorage, $message);
             }
             $orderElements[] = new OrderElement($partName, $partOrder);
         }

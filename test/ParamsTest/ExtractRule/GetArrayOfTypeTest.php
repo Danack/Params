@@ -10,7 +10,7 @@ use Params\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ReviewScore;
 use Params\ProcessedValues;
 use ParamsTest\Integration\SingleIntParams;
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 
 /**
  * @coversNothing
@@ -35,7 +35,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $processedValues = new ProcessedValues();
         $result = $rule->process(
             $processedValues,
-            DataStorage::fromArray($data)
+            ArrayInputStorage::fromArray($data)
         );
 
         $this->assertNoProblems($result);
@@ -73,7 +73,7 @@ class GetArrayOfTypeTest extends BaseTestCase
             ]
         ];
 
-        $dataStorage = DataStorage::fromArray($data);
+        $dataStorage = ArrayInputStorage::fromArray($data);
         $dataStorage = $dataStorage->moveKey('items');
 
         $rule = new GetArrayOfType(ReviewScore::class);
@@ -115,7 +115,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $rule = new GetArrayOfType(SingleIntParams::class);
         $validator = new ProcessedValues();
         $result = $rule->process(
-            $validator, DataStorage::fromArray($data)
+            $validator, ArrayInputStorage::fromArray($data)
         );
 
         $this->assertFalse($result->isFinalResult());
@@ -141,7 +141,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $validator = new ProcessedValues();
 
         $result = $rule->process(
-            $validator, DataStorage::fromArraySetFirstValue($data)
+            $validator, ArrayInputStorage::fromArraySetFirstValue($data)
         );
 
 
@@ -167,7 +167,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $rule = new GetArrayOfType(ReviewScore::class);
         $validator = new ProcessedValues();
         $result = $rule->process(
-            $validator, DataStorage::fromArraySetFirstValue($data)
+            $validator, ArrayInputStorage::fromArraySetFirstValue($data)
         );
         $this->assertTrue($result->isFinalResult());
 
@@ -197,7 +197,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
         $validator = new ProcessedValues();
         $result = $rule->process(
-            $validator, DataStorage::fromArraySetFirstValue($data)
+            $validator, ArrayInputStorage::fromArraySetFirstValue($data)
         );
         $this->assertTrue($result->isFinalResult());
         $validationProblems = $result->getValidationProblems();
@@ -227,7 +227,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $rule = new GetArrayOfType(ReviewScore::class);
         $validator = new ProcessedValues();
         $result = $rule->process(
-            $validator, DataStorage::fromArraySetFirstValue($data)
+            $validator, ArrayInputStorage::fromArraySetFirstValue($data)
         );
 
         $this->assertTrue($result->isFinalResult());
@@ -255,7 +255,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $validator = new ProcessedValues();
         $rule = new GetArrayOfType(ReviewScore::class);
         $result = $rule->process(
-            $validator, DataStorage::fromArray($data)
+            $validator, ArrayInputStorage::fromArray($data)
         );
 
         $this->assertTrue($result->isFinalResult());
@@ -288,7 +288,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         $processedValues = new ProcessedValues();
         $result = $rule->process(
             $processedValues,
-            DataStorage::fromArray($data)
+            ArrayInputStorage::fromArray($data)
         );
 
         $this->assertNoProblems($result);

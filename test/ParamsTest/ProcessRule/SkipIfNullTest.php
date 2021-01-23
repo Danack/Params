@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SkipIfNull;
 use Params\ProcessedValues;
@@ -34,7 +34,7 @@ class SkipIfNullTest extends BaseTestCase
     {
         $rule = new SkipIfNull();
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );

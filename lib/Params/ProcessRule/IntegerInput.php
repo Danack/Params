@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -23,17 +23,17 @@ class IntegerInput implements ProcessRule
      *
      * @param mixed $value
      * @param ProcessedValues $processedValues
-     * @param InputStorageAye $dataLocator
+     * @param InputStorage $inputStorage
      * @return ValidationResult
      */
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         if (is_scalar($value) !== true) {
             return ValidationResult::errorResult(
-                $dataLocator,
+                $inputStorage,
                 Messages::INT_REQUIRED_UNSUPPORTED_TYPE
             );
         }
@@ -43,7 +43,7 @@ class IntegerInput implements ProcessRule
             // check string length is not zero length.
             if (strlen($value) === 0) {
                 return ValidationResult::errorResult(
-                    $dataLocator,
+                    $inputStorage,
                     Messages::INT_REQUIRED_FOUND_EMPTY_STRING
                 );
             }
@@ -61,7 +61,7 @@ class IntegerInput implements ProcessRule
 
             if ($match !== 1) {
                 return ValidationResult::errorResult(
-                    $dataLocator,
+                    $inputStorage,
                     Messages::INT_REQUIRED_FOUND_NON_DIGITS2
                 );
             }
@@ -75,7 +75,7 @@ class IntegerInput implements ProcessRule
                 $maxSaneLength
             );
 
-            return ValidationResult::errorResult($dataLocator, $message);
+            return ValidationResult::errorResult($inputStorage, $message);
         }
 
         return ValidationResult::valueResult(intval($value));

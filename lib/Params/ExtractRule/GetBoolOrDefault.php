@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ProcessRule\BoolInput;
@@ -28,9 +28,9 @@ class GetBoolOrDefault implements ExtractRule
 
     public function process(
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $dataLocator
     ): ValidationResult {
-        if ($dataLocator->valueAvailable() !== true) {
+        if ($dataLocator->isValueAvailable() !== true) {
             return ValidationResult::valueResult($this->default);
         }
 

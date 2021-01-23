@@ -11,13 +11,15 @@ class InvalidDatetimeFormatException extends \Params\Exception\ParamsException
     /**
      * Only strings are allowed datetime format.
      * @param int $index
+     * @param mixed $nonStringVariable
      * @return InvalidDatetimeFormatException
      */
-    public static function stringRequired(int $index)
+    public static function stringRequired(int $index, $nonStringVariable): self
     {
         $message = sprintf(
             Messages::ERROR_DATE_FORMAT_MUST_BE_STRING,
-            gettype($index)
+            gettype($nonStringVariable),
+            $index
         );
 
         return new self($message);

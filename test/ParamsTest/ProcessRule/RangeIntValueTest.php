@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\RangeIntValue;
@@ -64,7 +64,7 @@ class RangeIntValueTest extends BaseTestCase
     {
         $rule = new RangeIntValue($minValue, $maxValue);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $inputValue, $processedValues, $dataLocator
         );
@@ -102,7 +102,7 @@ class RangeIntValueTest extends BaseTestCase
     {
         $rule = new RangeIntValue($minValue, $maxValue);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', $inputValue);
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $inputValue);
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,

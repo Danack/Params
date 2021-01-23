@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -34,7 +34,7 @@ class LaterThanParam implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         if ($processedValues->hasValue($this->paramToCompare) !== true) {
             $message = sprintf(
@@ -42,7 +42,7 @@ class LaterThanParam implements ProcessRule
                 $this->paramToCompare
             );
 
-            return ValidationResult::errorResult($dataLocator, $message);
+            return ValidationResult::errorResult($inputStorage, $message);
         }
 
         $previousValue = $processedValues->getValue($this->paramToCompare);
@@ -53,12 +53,12 @@ class LaterThanParam implements ProcessRule
                 $this->paramToCompare
             );
 
-            return ValidationResult::errorResult($dataLocator, $message);
+            return ValidationResult::errorResult($inputStorage, $message);
         }
 
         if (!($value instanceof \DateTimeInterface)) {
             return ValidationResult::errorResult(
-                $dataLocator,
+                $inputStorage,
                 Messages::CURRENT_TIME_MUST_BE_DATETIMEINTERFACE
             );
         }
@@ -79,7 +79,7 @@ class LaterThanParam implements ProcessRule
             $previousValue->format(\DateTime::RFC3339)
         );
 
-        return ValidationResult::errorResult($dataLocator, $message);
+        return ValidationResult::errorResult($inputStorage, $message);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

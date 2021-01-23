@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -16,7 +16,7 @@ class ValidDatetime implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         $value = (string)$value;
 
@@ -38,7 +38,7 @@ class ValidDatetime implements ProcessRule
 //                );
 //            }
 
-        return ValidationResult::errorResult($dataLocator, Messages::ERROR_INVALID_DATETIME);
+        return ValidationResult::errorResult($inputStorage, Messages::ERROR_INVALID_DATETIME);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

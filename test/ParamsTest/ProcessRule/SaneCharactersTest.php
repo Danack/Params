@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SaneCharacters;
 use Params\ProcessedValues;
@@ -51,7 +51,7 @@ class SaneCharactersTest extends BaseTestCase
     {
         $rule = new SaneCharacters();
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );
@@ -66,7 +66,7 @@ class SaneCharactersTest extends BaseTestCase
     {
         $rule = new SaneCharacters();
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
         $validationResult = $rule->process(
             $testValue,
             $processedValues,
@@ -86,7 +86,7 @@ class SaneCharactersTest extends BaseTestCase
         $testValue = "danack_a̧͈͖r͒͑_more_a̧͈͖r͒͑";
         $rule = new SaneCharacters();
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );

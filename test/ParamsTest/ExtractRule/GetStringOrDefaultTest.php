@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetStringOrDefault;
@@ -36,7 +36,7 @@ class GetStringOrDefaultTest extends BaseTestCase
         $rule = new GetStringOrDefault($default);
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
-            $validator, DataStorage::fromArraySetFirstValue(['John'])
+            $validator, ArrayInputStorage::fromArraySetFirstValue(['John'])
         );
 
         $this->assertNoProblems($validationResult);
@@ -54,7 +54,7 @@ class GetStringOrDefaultTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::createMissing('foo')
+            ArrayInputStorage::createMissing('foo')
         );
 
         $this->assertNoProblems($validationResult);

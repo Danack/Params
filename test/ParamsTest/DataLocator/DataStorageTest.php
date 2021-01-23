@@ -4,33 +4,33 @@ declare(strict_types = 1);
 
 namespace ParamsTest\DataLocator;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use ParamsTest\BaseTestCase;
 use function Params\getJsonPointerParts;
 
 use function JsonSafe\json_decode_safe;
 
 /**
- * @covers \Params\DataLocator\DataStorage
+ * @covers \Params\InputStorage\ArrayInputStorage
  * @group data_locator
  */
 class DataStorageTest extends BaseTestCase
 {
     public function testValueNotAvailable()
     {
-        $dataLocator = DataStorage::fromArray([]);
+        $dataLocator = ArrayInputStorage::fromArray([]);
         $dataLocatorAtFoo = $dataLocator->moveKey('foo');
 
-        $available = $dataLocatorAtFoo->valueAvailable();
+        $available = $dataLocatorAtFoo->isValueAvailable();
         $this->assertFalse($available);
     }
 
     public function testValueCorrect()
     {
-        $dataLocator = DataStorage::fromArray(['foo' => 'bar']);
+        $dataLocator = ArrayInputStorage::fromArray(['foo' => 'bar']);
         $dataLocatorAtFoo = $dataLocator->moveKey('foo');
 
-        $available = $dataLocatorAtFoo->valueAvailable();
+        $available = $dataLocatorAtFoo->isValueAvailable();
         $this->assertTrue($available);
         $this->assertSame('bar', $dataLocatorAtFoo->getCurrentValue());
     }
@@ -56,7 +56,7 @@ class DataStorageTest extends BaseTestCase
      */
     public function testPathsAreCorrect($expected, $pathParts)
     {
-        $dataStorage = DataStorage::fromArray([]);
+        $dataStorage = ArrayInputStorage::fromArray([]);
 
         foreach ($pathParts as $pathPart) {
             $dataStorage = $dataStorage->moveKey($pathPart);
@@ -127,7 +127,7 @@ JSON;
      */
     public function testJsonPointer($jsonPointer, $expectedData)
     {
-        $dataLocator = DataStorage::fromArray(self::getTestJson());
+        $dataLocator = ArrayInputStorage::fromArray(self::getTestJson());
 
         $dataLocatorAtLocation = $dataLocator->setLocationFromJsonPointer($jsonPointer);
 

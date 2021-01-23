@@ -4,12 +4,15 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
 
+/**
+ *
+ */
 class DuplicatesParam implements ProcessRule
 {
     private string $paramToDuplicate;
@@ -26,7 +29,7 @@ class DuplicatesParam implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
         if ($processedValues->hasValue($this->paramToDuplicate) !== true) {
             $message = sprintf(
@@ -34,7 +37,7 @@ class DuplicatesParam implements ProcessRule
                 $this->paramToDuplicate
             );
 
-            return ValidationResult::errorResult($dataLocator, $message);
+            return ValidationResult::errorResult($inputStorage, $message);
         }
 
         $previousValue = $processedValues->getValue($this->paramToDuplicate);
@@ -50,7 +53,7 @@ class DuplicatesParam implements ProcessRule
                 $currentType
             );
 
-            return ValidationResult::errorResult($dataLocator, $message);
+            return ValidationResult::errorResult($inputStorage, $message);
         }
 
         if ($value !== $previousValue) {
@@ -58,7 +61,7 @@ class DuplicatesParam implements ProcessRule
                 Messages::ERROR_DIFFERENT_VALUE,
                 $this->paramToDuplicate
             );
-            return ValidationResult::errorResult($dataLocator, $message);
+            return ValidationResult::errorResult($inputStorage, $message);
         }
 
         return ValidationResult::valueResult($value);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\ExtractRule\GetIntOrDefault;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
@@ -44,7 +44,7 @@ class GetIntOrDefaultTest extends BaseTestCase
         $rule = new GetIntOrDefault($default);
         $validator = new ProcessedValues();
 
-        $dataStorage = DataStorage::fromArray($data);
+        $dataStorage = ArrayInputStorage::fromArray($data);
         $dataStorage = $dataStorage->moveKey('foo');
 
         $validationResult = $rule->process(
@@ -77,7 +77,7 @@ class GetIntOrDefaultTest extends BaseTestCase
         $rule = new GetIntOrDefault($default);
         $validationResult = $rule->process(
             $validator,
-            DataStorage::fromSingleValue('foo', $inputValue)
+            ArrayInputStorage::fromSingleValue('foo', $inputValue)
         );
 
         $this->assertValidationProblemRegexp(

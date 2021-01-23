@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -21,13 +21,13 @@ class FloatInput implements ProcessRule
      *
      * @param mixed $value
      * @param ProcessedValues $processedValues
-     * @param InputStorageAye $dataLocator
+     * @param InputStorage $inputStorage
      * @return ValidationResult
      */
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $inputStorage
     ): ValidationResult {
 
         if (is_scalar($value) !== true) {
@@ -37,7 +37,7 @@ class FloatInput implements ProcessRule
             );
 
             return ValidationResult::errorResult(
-                $dataLocator,
+                $inputStorage,
                 $message
             );
         }
@@ -46,14 +46,14 @@ class FloatInput implements ProcessRule
             $value = (string)$value;
             if (strlen($value) === 0) {
                 return ValidationResult::errorResult(
-                    $dataLocator,
+                    $inputStorage,
                     Messages::NEED_FLOAT_NOT_EMPTY_STRING
                 );
             }
 
             if (strpos($value, ' ') !== false) {
                 return ValidationResult::errorResult(
-                    $dataLocator,
+                    $inputStorage,
                     Messages::FLOAT_REQUIRED_FOUND_WHITESPACE
                 );
             }
@@ -76,7 +76,7 @@ class FloatInput implements ProcessRule
             if ($match !== 1) {
                 // TODO - says what position bad character is at.
                 return ValidationResult::errorResult(
-                    $dataLocator,
+                    $inputStorage,
                     Messages::FLOAT_REQUIRED
                 );
             }

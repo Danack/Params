@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\DataLocator\InputStorageAye;
+use Params\InputStorage\InputStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
 use Params\Exception\InvalidDatetimeFormatException;
+use function Params\checkAllowedFormatsAreStrings;
+use function Params\getDefaultSupportedTimeFormats;
 
 class GetDatetime implements ExtractRule
 {
@@ -25,41 +27,18 @@ class GetDatetime implements ExtractRule
     public function __construct(array $allowedFormats = null)
     {
         if ($allowedFormats === null) {
-            $allowedFormats = [
-                \DateTime::ATOM,
-                \DateTime::COOKIE,
-                \DateTime::ISO8601,
-                \DateTime::RFC822,
-                \DateTime::RFC850,
-                \DateTime::RFC1036,
-                \DateTime::RFC1123,
-                \DateTime::RFC2822,
-                \DateTime::RFC3339,
-                \DateTime::RFC3339_EXTENDED,
-                \DateTime::RFC7231,
-                \DateTime::RSS,
-                \DateTime::W3C,
-            ];
-        }
-        else {
-            $position = 0;
-            foreach ($allowedFormats as $allowedFormat) {
-                if (is_string($allowedFormat) !== true) {
-                    throw InvalidDatetimeFormatException::stringRequired($position);
-                }
-                $position += 1;
-            }
+            $this->allowedFormats = getDefaultSupportedTimeFormats();
+            return;
         }
 
-        $this->allowedFormats = $allowedFormats;
+        $this->allowedFormats = checkAllowedFormatsAreStrings($allowedFormats);
     }
-
 
     public function process(
         ProcessedValues $processedValues,
-        InputStorageAye $dataLocator
+        InputStorage $dataLocator
     ): ValidationResult {
-        if ($dataLocator->valueAvailable() !== true) {
+        if ($dataLocator->isValueAvailable() !== true) {
             return ValidationResult::errorResult($dataLocator, Messages::VALUE_NOT_SET);
         }
 

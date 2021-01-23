@@ -9,7 +9,7 @@ use ParamsTest\Integration\ReviewScore;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetType;
 use Params\ProcessedValues;
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 
 /**
  * @coversNothing
@@ -27,7 +27,7 @@ class GetTypeTest extends BaseTestCase
 
         $rule = GetType::fromClass(ReviewScore::class);
         $validationResult = $rule->process(
-            $validator, DataStorage::fromArray($data)
+            $validator, ArrayInputStorage::fromArray($data)
         );
 
         $this->assertNoErrors($validationResult);
@@ -53,7 +53,7 @@ class GetTypeTest extends BaseTestCase
             ReviewScore::getInputParameterList()
         );
         $validationResult = $rule->process(
-            $validator, DataStorage::fromArray($data)
+            $validator, ArrayInputStorage::fromArray($data)
         );
 
         $this->assertNoErrors($validationResult);
@@ -75,7 +75,7 @@ class GetTypeTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            DataStorage::createMissing('foo')
+            ArrayInputStorage::createMissing('foo')
         );
 
         $this->assertProblems(
@@ -95,7 +95,7 @@ class GetTypeTest extends BaseTestCase
 
         $rule = GetType::fromClass(ReviewScore::class);
         $validationResult = $rule->process(
-            $validator, DataStorage::fromArray($data)
+            $validator, ArrayInputStorage::fromArray($data)
         );
 
         $this->assertProblems(

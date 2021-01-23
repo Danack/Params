@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
@@ -54,7 +54,7 @@ class MaxLengthTest extends BaseTestCase
     {
         $rule = new MaxLength($maxLength);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $string,
             $processedValues,
@@ -90,7 +90,7 @@ class MaxLengthTest extends BaseTestCase
     {
         $rule = new MaxLength($maxLength);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', $string);
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $string);
         $validationResult = $rule->process(
             $string,
             $processedValues,

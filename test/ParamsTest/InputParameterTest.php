@@ -6,7 +6,7 @@ namespace ParamsTest;
 
 use Params\ExtractRule\GetInt;
 use Params\InputParameter;
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\ProcessRule\RangeIntValue;
 
 /**

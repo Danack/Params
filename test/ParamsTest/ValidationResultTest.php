@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\ValidationProblem;
 use ParamsTest\BaseTestCase;
 use Params\ValidationResult;
@@ -27,7 +27,7 @@ class ValidationResultTest extends BaseTestCase
     public function testErrorResult()
     {
         $path = 'foo';
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $dataLocatorForPath = $dataLocator->moveKey($path);
 
         $validationMessage = 'Something went wrong';
@@ -42,7 +42,7 @@ class ValidationResultTest extends BaseTestCase
         $problems = $validationResult->getValidationProblems();
         $this->assertCount(1, $problems);
         $firstProblem = $problems[0];
-        $this->assertSame('/foo', $firstProblem->getDataLocator()->getPath());
+        $this->assertSame('/foo', $firstProblem->getInputStorage()->getPath());
         $this->assertEquals($validationMessage, $firstProblem->getProblemMessage());
 
         $this->assertTrue($validationResult->anyErrorsFound());
@@ -61,7 +61,7 @@ class ValidationResultTest extends BaseTestCase
 
     public function testFromValidationProblemsWorks()
     {
-        $dataStorage = DataStorage::fromArray([]);
+        $dataStorage = ArrayInputStorage::fromArray([]);
 
         $key = 'nonexistent';
 
@@ -76,7 +76,7 @@ class ValidationResultTest extends BaseTestCase
 
     public function testFromValidationProblemsBadKey()
     {
-        $dataStorage = DataStorage::fromArray([]);
+        $dataStorage = ArrayInputStorage::fromArray([]);
 
         $key = 'nonexistent';
 

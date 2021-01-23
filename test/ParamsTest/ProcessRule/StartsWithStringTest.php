@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataLocator\DataStorage;
+use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\StartsWithString;
@@ -30,7 +30,7 @@ class StartsWithStringTest extends BaseTestCase
     public function testValidationWorks(string $prefix, $testValue)
     {
         $rule = new StartsWithString($prefix);
-        $dataLocator = DataStorage::fromArraySetFirstValue([]);
+        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
@@ -56,7 +56,7 @@ class StartsWithStringTest extends BaseTestCase
     {
         $rule = new StartsWithString($prefix);
         $processedValues = new ProcessedValues();
-        $dataLocator = DataStorage::fromSingleValue('foo', $testValue);
+        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataLocator
         );
