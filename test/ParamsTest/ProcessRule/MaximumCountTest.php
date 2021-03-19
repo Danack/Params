@@ -10,6 +10,7 @@ use Params\ProcessRule\MaximumCount;
 use Params\Exception\LogicException;
 use Params\ProcessedValues;
 use Params\InputStorage\ArrayInputStorage;
+use function \Danack\PHPUnitHelper\templateStringToRegExp;
 
 /**
  * @coversNothing
@@ -98,7 +99,7 @@ class MaximumCountTest extends BaseTestCase
 
         $processedValues = new ProcessedValues();
         $this->expectErrorMessageMatches(
-            stringToRegexp(Messages::ERROR_WRONG_TYPE_VARIANT_1)
+            templateStringToRegExp(Messages::ERROR_WRONG_TYPE_VARIANT_1)
         );
 
         $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);

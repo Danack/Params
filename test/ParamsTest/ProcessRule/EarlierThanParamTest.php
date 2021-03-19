@@ -184,7 +184,7 @@ class EarlierThanParamTest extends BaseTestCase
         $rule = new EarlierThanParam($parameterName, 5);
         $rule->updateParamDescription($description);
 
-        $this->assertStringRegExp(
+        $this->assertStringMatchesTemplateString(
             Messages::TIME_MUST_BE_X_MINUTES_BEFORE_PARAM,
             $description->getDescription()
         );

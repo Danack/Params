@@ -116,7 +116,7 @@ class DuplicatesParamTest extends BaseTestCase
         $rule = new DuplicatesParam($parameterName);
         $rule->updateParamDescription($description);
 
-        $this->assertStringRegExp(
+        $this->assertStringMatchesTemplateString(
             Messages::MUST_DUPLICATE_PARAMETER,
             $description->getDescription()
         );

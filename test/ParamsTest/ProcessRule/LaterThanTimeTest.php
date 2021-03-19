@@ -112,7 +112,7 @@ class LaterThanTimeTest extends BaseTestCase
         $rule = new LaterThanTime($compareTime);
         $rule->updateParamDescription($description);
 
-        $this->assertStringRegExp(
+        $this->assertStringMatchesTemplateString(
             Messages::TIME_MUST_BE_AFTER_TIME,
             $description->getDescription()
         );

@@ -10,6 +10,7 @@ use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
 use Params\Exception\LogicException;
 use Params\ProcessedValues;
+use function \Danack\PHPUnitHelper\templateStringToRegExp;
 
 /**
  * @coversNothing
@@ -99,7 +100,7 @@ class MinimumCountTest extends BaseTestCase
 
         $processedValues = new ProcessedValues();
         $this->expectErrorMessageMatches(
-            stringToRegexp(Messages::ERROR_WRONG_TYPE)
+            templateStringToRegExp(Messages::ERROR_WRONG_TYPE)
         );
 
         $rule->process(

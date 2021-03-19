@@ -84,14 +84,14 @@ class ValidationResultTest extends BaseTestCase
         $problemMessage = 'There was problem';
 
         $validationProblem = new ValidationProblem($dataStorage, $problemMessage);
-        $this->expectExceptionMessageMatchesRegexp(LogicException::ONLY_INT_KEYS);
+        $this->expectExceptionMessageMatchesTemplateString(LogicException::ONLY_INT_KEYS);
         $this->expectException(LogicException::class);
         $validationResult = ValidationResult::fromValidationProblems(['foo' => $validationProblem]);
     }
 
     public function testFromValidationProblemsNotInputParameter()
     {
-        $this->expectExceptionMessageMatchesRegexp(LogicException::NOT_VALIDATION_PROBLEM);
+        $this->expectExceptionMessageMatchesTemplateString(LogicException::NOT_VALIDATION_PROBLEM);
         $this->expectException(LogicException::class);
         $validationResult = ValidationResult::fromValidationProblems([new \StdClass()]);
     }

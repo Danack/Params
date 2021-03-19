@@ -48,7 +48,7 @@ class LaterThanParamTest extends BaseTestCase
      */
     public function testInvalidMinutes()
     {
-        $this->expectExceptionMessageMatchesRegexp(Messages::MINUTES_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessageMatchesTemplateString(Messages::MINUTES_MUST_BE_GREATER_THAN_ZERO);
         new LaterThanParam('foo', -5);
     }
 
@@ -183,7 +183,7 @@ class LaterThanParamTest extends BaseTestCase
         $rule = new LaterThanParam($parameterName, 5);
         $rule->updateParamDescription($description);
 
-        $this->assertStringRegExp(
+        $this->assertStringMatchesTemplateString(
             Messages::TIME_MUST_BE_X_MINUTES_AFTER_PREVIOUS_VALUE,
             $description->getDescription()
         );

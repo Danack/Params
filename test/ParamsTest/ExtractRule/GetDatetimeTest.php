@@ -87,7 +87,7 @@ class GetDatetimeTest extends BaseTestCase
         $allowedFormats = [\DateTime::RFC3339, 5];
 
         $this->expectException(InvalidDatetimeFormatException::class);
-        $this->expectExceptionMessageMatchesRegexp(Messages::ERROR_DATE_FORMAT_MUST_BE_STRING);
+        $this->expectExceptionMessageMatchesTemplateString(Messages::ERROR_DATE_FORMAT_MUST_BE_STRING);
 
         $rule = new GetDatetime($allowedFormats);
     }

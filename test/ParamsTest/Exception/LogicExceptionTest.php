@@ -20,15 +20,27 @@ class LogicExceptionTest extends BaseTestCase
     public function testWorks()
     {
         $exception = LogicException::keysMustBeStrings();
-        $this->assertStringRegExp(LogicException::ONLY_KEYS, $exception->getMessage());
+        $this->assertStringMatchesTemplateString(
+            LogicException::ONLY_KEYS,
+            $exception->getMessage()
+        );
 
         $exception = LogicException::onlyInputParameters('foo');
-        $this->assertStringRegExp(LogicException::NOT_VALIDATION_PROBLEM, $exception->getMessage());
+        $this->assertStringMatchesTemplateString(
+            LogicException::NOT_VALIDATION_PROBLEM,
+            $exception->getMessage()
+        );
 
         $exception = LogicException::keysMustBeIntegers();
-        $this->assertStringRegExp(LogicException::ONLY_INT_KEYS, $exception->getMessage());
+        $this->assertStringMatchesTemplateString(
+            LogicException::ONLY_INT_KEYS,
+            $exception->getMessage()
+        );
 
         $exception = LogicException::missingValue('foo');
-        $this->assertStringRegExp(LogicException::MISSING_VALUE, $exception->getMessage());
+        $this->assertStringMatchesTemplateString(
+            LogicException::MISSING_VALUE,
+            $exception->getMessage()
+        );
     }
 }

@@ -9,6 +9,8 @@ use Params\ValidationResult;
 use PHPUnit\Framework\TestCase;
 use Params\ProcessedValues;
 use Params\OpenApi\ParamDescription;
+use Danack\PHPUnitHelper\StringTemplateMatching;
+use function \Danack\PHPUnitHelper\templateStringToRegExp;
 
 /**
  * @coversNothing
@@ -18,6 +20,8 @@ use Params\OpenApi\ParamDescription;
  */
 class BaseTestCase extends TestCase
 {
+    use StringTemplateMatching;
+
     private $startLevel = null;
 
     public function setup(): void
@@ -125,7 +129,7 @@ class BaseTestCase extends TestCase
         string $expectedProblem,
         $validationProblems
     ) {
-        $expectedProblemRegexp = stringToRegexp($expectedProblem);
+        $expectedProblemRegexp = templateStringToRegExp($expectedProblem);
 
         foreach ($validationProblems as $validationProblem) {
             if ($validationProblem->getInputStorage()->getPath() !== $identifier) {
@@ -228,12 +232,6 @@ class BaseTestCase extends TestCase
         );
     }
 
-    public function assertStringRegExp($string, $message)
-    {
-        $regExp = stringToRegexp($string);
-        $this->assertRegExp($regExp, $message);
-    }
-
 
     public function applyRuleToDescription(Rule $rule): ParamDescription
     {
@@ -241,11 +239,5 @@ class BaseTestCase extends TestCase
         $rule->updateParamDescription($description);
 
         return $description;
-    }
-
-    public function expectExceptionMessageMatchesRegexp($string)
-    {
-        $regexp = stringToRegexp($string);
-        $this->expectExceptionMessageMatches($regexp);
     }
 }

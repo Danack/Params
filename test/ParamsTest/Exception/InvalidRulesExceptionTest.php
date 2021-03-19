@@ -28,7 +28,7 @@ class InvalidRulesExceptionTest extends BaseTestCase
     public function testInvalidRulesException($badValue, $badTypeString)
     {
         $exception = InvalidRulesException::badTypeForArrayAccess($badValue);
-        $this->assertStringRegExp(
+        $this->assertStringMatchesTemplateString(
             Messages::BAD_TYPE_FOR_ARRAY_ACCESS,
             $exception->getMessage()
         );

@@ -39,7 +39,7 @@ class InputParameterListExceptionTest extends BaseTestCase
         $exception = InputParameterListException::foundNonInputParameter($position, $classname);
 
 
-        $this->assertStringRegExp(
+        $this->assertStringMatchesTemplateString(
             Messages::MUST_RETURN_ARRAY_OF__INPUT_PARAMETER,
             $exception->getMessage()
         );

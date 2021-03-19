@@ -38,7 +38,7 @@ class ProcessedValuesTest extends BaseTestCase
         $processedValues = ProcessedValues::fromArray([]);
 
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessageMatchesRegexp(LogicException::MISSING_VALUE);
+        $this->expectExceptionMessageMatchesTemplateString(LogicException::MISSING_VALUE);
         $processedValues->getValue('john');
     }
 
@@ -49,7 +49,7 @@ class ProcessedValuesTest extends BaseTestCase
     public function testBadArrayException()
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessageMatchesRegexp(LogicException::ONLY_KEYS);
+        $this->expectExceptionMessageMatchesTemplateString(LogicException::ONLY_KEYS);
         $processedValues = ProcessedValues::fromArray(['foo']);
     }
 }

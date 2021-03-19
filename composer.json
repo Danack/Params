@@ -11,6 +11,7 @@
   },
   "require-dev": {
     "danack/coding-standard": "0.2.0",
+    "danack/php-unit-helper": "^0.2.0",
     "infection/infection": "^0.15.3",
     "phpunit/phpunit": "9.0.1",
     "phpstan/phpstan-strict-rules": "^0.11",

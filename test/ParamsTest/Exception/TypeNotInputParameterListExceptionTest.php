@@ -20,7 +20,7 @@ class TypeNotInputParameterListExceptionTest extends BaseTestCase
     public function testInputParameterListException()
     {
         $exception = TypeNotInputParameterListException::fromClassname(self::class);
-        $this->assertStringRegExp(
+        $this->assertStringMatchesTemplateString(
             Messages::CLASS_MUST_IMPLEMENT_INPUT_PARAMETER,
             $exception->getMessage()
         );
