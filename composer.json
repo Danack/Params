@@ -4,21 +4,21 @@
   "description": "Converts user input into correctly typed parameters",
   "license": "MIT",
   "require": {
-    "php" : "^7.4",
+    "php" : "^8.0",
     "ext-mbstring": "*",
     "danack/var-map": "^0.6.1",
     "danack/json-safe":  "^0.1.0"
   },
   "require-dev": {
-    "danack/coding-standard": "0.2.0",
-    "danack/php-unit-helper": "^0.2.0",
-    "infection/infection": "^0.15.3",
-    "phpunit/phpunit": "9.0.1",
-    "phpstan/phpstan-strict-rules": "^0.11",
+    "danack/coding-standard": "0.3.0",
+    "danack/php-unit-helper": "^0.3.1",
+    "infection/infection": "^0.23.0",
+    "phpunit/phpunit": "9.5.6",
+    "phpstan/phpstan-strict-rules": "^0.12.9",
     "psr/http-message": "^1.0",
     "respect/validation":  "^1.1.31",
-    "slevomat/coding-standard": "^4.8.4",
-    "squizlabs/php_codesniffer": "^3.3.1",
+    "slevomat/coding-standard": "^7.0.9",
+    "squizlabs/php_codesniffer": "^3.6.0",
     "yoast/yoastcs": "1.0"
   },
   "autoload": {

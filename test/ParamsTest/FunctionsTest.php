@@ -595,9 +595,6 @@ class FunctionsTest extends BaseTestCase
         $this->assertCount(1, $validationProblems);
     }
 
-    /**
-     * @group wip
-     */
     public function test_createArrayOfTypeOrError()
     {
         $data = [
@@ -626,11 +623,6 @@ class FunctionsTest extends BaseTestCase
         $this->assertSame(30, $fooParam2->getLimit());
     }
 
-
-
-    /**
-     * @group wip
-     */
     public function test_createArrayOfType()
     {
         $data = [

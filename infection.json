@@ -12,11 +12,5 @@
         "text": "infection-log.txt"
     },
     "mutators": {
-        "OneZeroInteger": {
-            "ignore": [
-                "Params\\ProcessRule\\SaneCharacters::process",
-                "Params\\ProcessRule\\ValidCharacters::process"
-            ]
-        }
     }
 }

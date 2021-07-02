@@ -14,6 +14,11 @@ use Params\Exception\ValidationException;
 use Params\ExtractRule\GetType;
 use Params\ProcessRule\ProcessRule;
 use Params\Value\Ordering;
+use Params\Exception\NoConstructorException;
+use Params\Exception\IncorrectNumberOfParamsException;
+use Params\Exception\MissingConstructorParameterNameException;
+use Params\Exception\PropertyHasMultipleParamAnnotationsException;
+use Params\Exception\AnnotationClassDoesNotExistException;
 
 /**
  * @template T
@@ -162,10 +167,43 @@ function getInputParameterListForClass(string $className)
  * @param array $values
  * @return T of object
  * @throws \ReflectionException
+ * @throws NoConstructorException
  */
-function createObjectFromParams($classname, $values)
+function createObjectFromParams(string $classname, array $values)
 {
     $reflection_class = new \ReflectionClass($classname);
+//    if ($reflection_class->hasMethod('__construct') !== true) {
+//        throw NoConstructorException::noConstructor($classname);
+//    }
+    $r_constructor = $reflection_class->getConstructor();
+
+    if ($r_constructor === null) {
+        throw NoConstructorException::noConstructor($classname);
+    }
+
+    if ($r_constructor->isPublic() !== true) {
+        throw NoConstructorException::notPublicConstructor($classname);
+    }
+
+    $params = $r_constructor->getParameters();
+    if (count($params) !== count($values)) {
+        throw IncorrectNumberOfParamsException::wrongNumber(
+            $classname,
+            count($params),
+            count($values)
+        );
+    }
+
+    foreach ($params as $param) {
+        $name = $param->getName();
+        if (array_key_exists($name, $values) !== true) {
+            throw MissingConstructorParameterNameException::missingParam(
+                $classname,
+                $name
+            );
+        }
+    }
+
     $object = $reflection_class->newInstanceArgs($values);
 
     /** @var T $object */
@@ -538,4 +576,79 @@ function checkAllowedFormatsAreStrings(array $allowedFormats): array
     }
 
     return $allowedFormats;
+}
+
+/**
+ * @template T
+ * @param string $class
+ * @psalm-param class-string<T> $class
+ * @return InputParameter[]
+ * @throws \ReflectionException
+ */
+function getParamsFromAnnotations(string $class):array
+{
+    $rc = new \ReflectionClass($class);
+    $inputParameters = [];
+
+    foreach ($rc->getProperties() as $property) {
+        $attributes = $property->getAttributes();
+        $current_property_has_param = false;
+        foreach ($attributes as $attribute) {
+            $classname = $attribute->getName();
+
+            if (class_exists($classname, true) !== true) {
+                throw AnnotationClassDoesNotExistException::create(
+                    $class,
+                    $property->getName(),
+                    $classname
+                );
+            }
+
+            $rc_param = new \ReflectionClass($classname);
+            $is_a_param = $rc_param->implementsInterface(Param::class);
+
+            if ($is_a_param !== true) {
+                continue;
+            }
+
+            if ($current_property_has_param == true) {
+                throw PropertyHasMultipleParamAnnotationsException::create(
+                    $class,
+                    $property->getName()
+                );
+            }
+
+            $current_property_has_param = true;
+
+            $param = $rc_param->newInstance(...$attribute->getArguments());
+            /** @var Param $param */
+            $inputParameters[] = $param->getInputParameter();
+        }
+    }
+
+    return $inputParameters;
+}
+
+/**
+ * @template T
+ * @param string $class
+ * @param \VarMap\VarMap $varMap
+ * @psalm-param class-string<T> $class
+ * @return T
+ * @throws \ReflectionException
+ * @throws ValidationException
+ */
+function createTypeFromAnnotations(\VarMap\VarMap $varMap, string $class)
+{
+    $rules = getParamsFromAnnotations($class);
+
+    $dataLocator = ArrayInputStorage::fromVarMap($varMap);
+
+    $object = create(
+        $class,
+        $rules,
+        $dataLocator
+    );
+
+    return $object;
 }
