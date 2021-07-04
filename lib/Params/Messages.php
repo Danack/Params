@@ -82,7 +82,7 @@ class Messages
     public const MUST_RETURN_ARRAY_OF__INPUT_PARAMETER ='Function %s::getInputParameterList must return array of %s. Item at index %d is wrong type.';
 
     public const CLASS_NOT_FOUND = "Class %s isn't available through auto-loader.";
-    public const CLASS_MUST_IMPLEMENT_INPUT_PARAMETER = "Class %s doesn't implement the %s interface. Cannot be used to get array of type.";
+    public const CLASS_MUST_IMPLEMENT_INPUT_PARAMETER = "Class %s doesn't implement the %s interface and does not have annotations for Params. Cannot be used to get array of type.";
 
     public const INCORRECT_NUMBER_OF_PARAMS = "Class %s expects %d params but we have %d.";
 

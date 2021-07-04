@@ -110,14 +110,14 @@ class AlwaysErrorsParams implements InputParameterList
 class ThreeColors
 {
     use SafeAccess;
-//    use CreateFromVarMap;
+    use Params\Create\CreateFromVarMap;
 
     public function __construct(
-        #[ImagickColorParam('background_color', 'rgb(225, 225, 225)')]
+        #[ImagickColorParam('rgb(225, 225, 225)')]
         private string $background_color,
-        #[ImagickColorParam('stroke_color', 'rgb(0, 0, 0)')]
+        #[ImagickColorParam('rgb(0, 0, 0)')]
         private string $stroke_color,
-        #[ImagickColorParam('fill_color', 'DodgerBlue2')]
+        #[ImagickColorParam('DodgerBlue2')]
         private string $fill_color
     ) {
     }
@@ -153,13 +153,13 @@ class OneColor
     use SafeAccess;
 //    use CreateFromVarMap;
 
-    #[ImagickColorParam('background_color', 'rgb(225, 225, 225)')]
+    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
     #[NotActuallyAParam('fill_color', 'rgb(0, 0, 0)')]
     private string $fill_color;
 
-    #[ImagickColorParam('stroke_color', 'rgb(0, 0, 0)')]
+    #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
     private string $stroke_color;
 
     /**
@@ -190,7 +190,7 @@ class OneColorWithOtherAnnotationThatIsNotAParam
     use SafeAccess;
 //    use CreateFromVarMap;
 
-    #[ImagickColorParam('background_color', 'rgb(225, 225, 225)')]
+    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
     #[NotActuallyAParam('stroke_color', 'rgb(0, 0, 0)')]
@@ -224,7 +224,7 @@ class OneColorWithOtherAnnotationThatDoesNotExist
     use SafeAccess;
 //    use CreateFromVarMap;
 
-    #[ImagickColorParam('background_color', 'rgb(225, 225, 225)')]
+    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
     #[ThisClassDoesNotExistParam('stroke_color', 'rgb(0, 0, 0)')]
@@ -247,13 +247,13 @@ class ThreeColorsMissingConstructorParam
     use SafeAccess;
 //    use CreateFromVarMap;
 
-    #[ImagickColorParam('background_color', 'rgb(225, 225, 225)')]
+    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
-    #[ImagickColorParam('stroke_color', 'rgb(0, 0, 0)')]
+    #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
     private string $stroke_color;
 
-    #[ImagickColorParam('fill_color', 'DodgerBlue2')]
+    #[ImagickColorParam('DodgerBlue2', 'fill_color')]
     private string $fill_color;
 
     public function __construct(string $background_color, string $stroke_color)
@@ -271,10 +271,10 @@ class ThreeColorsMissingPropertyParam
     use SafeAccess;
 //    use CreateFromVarMap;
 
-    #[ImagickColorParam('background_color', 'rgb(225, 225, 225)')]
+    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
-    #[ImagickColorParam('stroke_color', 'rgb(0, 0, 0)')]
+    #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
     private string $stroke_color;
 
 
@@ -293,7 +293,7 @@ class ThreeColorsNoConstructor
 {
     use SafeAccess;
 
-    #[ImagickColorParam('background_color', 'rgb(225, 225, 225)')]
+    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 }
 
@@ -301,7 +301,7 @@ class ThreeColorsPrivateConstructor
 {
     use SafeAccess;
 
-    #[ImagickColorParam('background_color', 'rgb(225, 225, 225)')]
+    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
     /**
@@ -320,13 +320,13 @@ class ThreeColorsIncorrectParamName
 {
     use SafeAccess;
 
-    #[ImagickColorParam('background_color', 'rgb(225, 225, 225)')]
+    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
-    #[ImagickColorParam('stroke_color', 'rgb(0, 0, 0)')]
+    #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
     private string $stroke_color;
 
-    #[ImagickColorParam('fill_color', 'rgb(0, 0, 255)')]
+    #[ImagickColorParam('rgb(0, 0, 255)', 'fill_color')]
     private string $fill_color;
 
     public function __construct(string $background_color, string $stroke_color, string $solid_color)
@@ -343,8 +343,8 @@ class MultipleParamAnnotations
 {
     use SafeAccess;
 
-    #[ImagickColorParam('background_color', 'rgb(225, 225, 225)')]
-    #[ImagickColorParam('fill_color', 'rgb(225, 225, 225)')]
+    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+    #[ImagickColorParam('rgb(225, 225, 225)', 'fill_color')]
     private string $background_color;
 
     /**

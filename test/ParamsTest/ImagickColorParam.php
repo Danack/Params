@@ -13,8 +13,8 @@ use Params\ProcessRule\ImagickRgbColorRule;
 class ImagickColorParam implements Param
 {
     public function __construct(
-        private string $name,
-        private string $default
+        private string $default,
+        private string $name
     ) {
     }
 

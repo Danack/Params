@@ -35,6 +35,21 @@ class ParamAnnotationsTest extends BaseTestCase
         $this->assertInstanceOf(\ThreeColors::class, $result);
     }
 
+    /**
+     * @group wip
+     */
+    public function testCreateFromVarMapWorks()
+    {
+        $varMap = new ArrayVarMap([
+            'background_color' => 'red',
+            'stroke_color' => 'rgb(255, 0, 255)',
+            'fill_color' => 'white',
+        ]);
+
+        $threeColors = \ThreeColors::createFromVarMap($varMap);
+        $this->assertInstanceOf(\ThreeColors::class, $threeColors);
+    }
+
 
     public function testMissingConstructorParamErrors()
     {

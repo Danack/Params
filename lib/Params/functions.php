@@ -131,19 +131,25 @@ function getInputParameterListForClass(string $className)
         throw MissingClassException::fromClassname($className);
     }
 
-    $implementsInterface = is_subclass_of(
-        $className,
-        InputParameterList::class,
-        $allow_string = true
-    );
+    // TODO - fold into single function
+    $inputParameterList = getParamsFromAnnotations($className);
 
-    if ($implementsInterface !== true) {
-        throw TypeNotInputParameterListException::fromClassname($className);
+    if (count($inputParameterList) === 0) {
+        $implementsInterface = is_subclass_of(
+            $className,
+            InputParameterList::class,
+            $allow_string = true
+        );
+
+        if ($implementsInterface !== true) {
+            throw TypeNotInputParameterListException::fromClassname($className);
+        }
+
+        // Type is okay, get data and validate
+        // @phpstan-ignore-next-line
+        $inputParameterList = call_user_func([$className, 'getInputParameterList']);
     }
-
-    // Type is okay, get data and validate
-    // @phpstan-ignore-next-line
-    $inputParameterList = call_user_func([$className, 'getInputParameterList']);
+    // TODO - end fold into single function
 
     // Validate all entries are InputParameters
     $index = 0;
@@ -242,6 +248,31 @@ function create(
     return $object;
 }
 
+/**
+ * @template T
+ * @param string $class
+ * @param \VarMap\VarMap $varMap
+ * @psalm-param class-string<T> $class
+ * @return T
+ * @throws \ReflectionException
+ * @throws ValidationException
+ */
+function createTypeFromAnnotations(\VarMap\VarMap $varMap, string $class)
+{
+    $rules = getParamsFromAnnotations($class);
+
+    $dataLocator = ArrayInputStorage::fromVarMap($varMap);
+
+    $object = create(
+        $class,
+        $rules,
+        $dataLocator
+    );
+
+    return $object;
+}
+
+
 
 /**
  * @template T
@@ -257,7 +288,6 @@ function create(
 function createOrError($classname, $params, ArrayInputStorage $dataLocator)
 {
     $paramsValuesImpl = new ProcessedValues();
-
 
     $validationProblems = processInputParameters(
         $params,
@@ -595,7 +625,6 @@ function getParamsFromAnnotations(string $class):array
         $current_property_has_param = false;
         foreach ($attributes as $attribute) {
             $classname = $attribute->getName();
-
             if (class_exists($classname, true) !== true) {
                 throw AnnotationClassDoesNotExistException::create(
                     $class,
@@ -619,36 +648,35 @@ function getParamsFromAnnotations(string $class):array
             }
 
             $current_property_has_param = true;
+            $param_constructor = $rc_param->getConstructor();
+            if ($param_constructor === null) {
+                $param = $rc_param->newInstance();
+            }
+            else {
+                $param_constructor_parameters = $param_constructor->getParameters();
+                $args = $attribute->getArguments();
+                $argsByName = [];
 
-            $param = $rc_param->newInstance(...$attribute->getArguments());
+                $count = 0;
+                foreach ($param_constructor_parameters as $param_constructor_parameter) {
+                    $name = $param_constructor_parameter->getName();
+                    $argsByName[$name] = $args[$count];
+                    $count += 1;
+                    if ($count >= count($args)) {
+                        break;
+                    }
+                }
+
+                if (array_key_exists('name', $argsByName) !== true) {
+                    $argsByName['name'] = $property->getName();
+                }
+
+                $param = $rc_param->newInstance(...$argsByName);
+            }
             /** @var Param $param */
             $inputParameters[] = $param->getInputParameter();
         }
     }
 
     return $inputParameters;
-}
-
-/**
- * @template T
- * @param string $class
- * @param \VarMap\VarMap $varMap
- * @psalm-param class-string<T> $class
- * @return T
- * @throws \ReflectionException
- * @throws ValidationException
- */
-function createTypeFromAnnotations(\VarMap\VarMap $varMap, string $class)
-{
-    $rules = getParamsFromAnnotations($class);
-
-    $dataLocator = ArrayInputStorage::fromVarMap($varMap);
-
-    $object = create(
-        $class,
-        $rules,
-        $dataLocator
-    );
-
-    return $object;
 }
