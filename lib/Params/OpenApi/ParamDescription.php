@@ -114,7 +114,7 @@ interface ParamDescription
     /**
      * @param int|float $maximum
      */
-    public function setMaximum($maximum): void;
+    public function setMaximum(int|float $maximum): void;
 
     /**
      * @return int|float|null

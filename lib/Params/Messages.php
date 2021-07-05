@@ -54,6 +54,12 @@ class Messages
     public const INTEGER_TOO_LONG = "Value too long, max %s digits";
     public const INT_TOO_SMALL = "Value too small. Min allowed is %s";
     public const INT_TOO_LARGE = "Value too large. Max allowed is %s";
+
+
+    public const FLOAT_TOO_SMALL = "Value too small. Min allowed is %s";
+    public const FLOAT_TOO_LARGE = "Value too large. Max allowed is %s";
+
+
     public const INT_REQUIRED_UNSUPPORTED_TYPE = "Value must be int, found '%s'";
     public const INT_REQUIRED_FOUND_EMPTY_STRING = "Value is an empty string - must be an integer.";
     public const INT_OVER_LIMIT = "Value too large. Max allowed is %s";

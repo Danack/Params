@@ -8,17 +8,17 @@ use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\MaxIntValue;
+use Params\ProcessRule\MaxFloatValue;
 use Params\ProcessedValues;
 
 /**
  * @coversNothing
  */
-class MaxIntValueTest extends BaseTestCase
+class MaxFloatValueTest extends BaseTestCase
 {
-    public function provideMaxIntCases()
+    public function provideMaxFloatCases()
     {
-        $maxValue = 256;
+        $maxValue = 256.5;
         $underValue = $maxValue - 1;
         $exactValue = $maxValue ;
         $overValue = $maxValue + 1;
@@ -33,12 +33,12 @@ class MaxIntValueTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider provideMaxIntCases
-     * @covers \Params\ProcessRule\MaxIntValue
+     * @dataProvider provideMaxFloatCases
+     * @covers \Params\ProcessRule\MaxFloatValue
      */
-    public function testValidation(int $maxValue, string $inputValue)
+    public function testValidation(float $maxValue, string $inputValue)
     {
-        $rule = new MaxIntValue($maxValue);
+        $rule = new MaxFloatValue($maxValue);
         $processedValues = new ProcessedValues();
         $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
@@ -53,7 +53,7 @@ class MaxIntValueTest extends BaseTestCase
 
 
 
-    public function provideMaxIntErrors()
+    public function provideMaxFloatErrors()
     {
         $maxValue = 256;
         $underValue = $maxValue - 1;
@@ -70,12 +70,12 @@ class MaxIntValueTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider provideMaxIntErrors
-     * @covers \Params\ProcessRule\MaxIntValue
+     * @dataProvider provideMaxFloatErrors
+     * @covers \Params\ProcessRule\MaxFloatValue
      */
-    public function testErrors(int $maxValue, string $inputValue)
+    public function testErrors(float $maxValue, string $inputValue)
     {
-        $rule = new MaxIntValue($maxValue);
+        $rule = new MaxFloatValue($maxValue);
         $processedValues = new ProcessedValues();
         $dataLocator = ArrayInputStorage::fromSingleValue('foo', $inputValue);
         $validationResult = $rule->process(
@@ -94,13 +94,13 @@ class MaxIntValueTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MaxIntValue
+     * @covers \Params\ProcessRule\MaxFloatValue
      */
     public function testDescription()
     {
         $description = new OpenApiV300ParamDescription('John');
-        $maxValue = 20;
-        $rule = new MaxIntValue($maxValue);
+        $maxValue = 20.0;
+        $rule = new MaxFloatValue($maxValue);
         $rule->updateParamDescription($description);
 
         $this->assertSame($maxValue, $description->getMaximum());
