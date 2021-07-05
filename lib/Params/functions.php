@@ -610,12 +610,12 @@ function checkAllowedFormatsAreStrings(array $allowedFormats): array
 
 /**
  * @template T
- * @param string $class
- * @psalm-param class-string<T> $class
+ * @param string|object $class
+ * @psalm-param class-string<T>|object $class
  * @return InputParameter[]
  * @throws \ReflectionException
  */
-function getParamsFromAnnotations(string $class):array
+function getParamsFromAnnotations(string|object $class): array
 {
     $rc = new \ReflectionClass($class);
     $inputParameters = [];
@@ -626,8 +626,15 @@ function getParamsFromAnnotations(string $class):array
         foreach ($attributes as $attribute) {
             $classname = $attribute->getName();
             if (class_exists($classname, true) !== true) {
+                if (is_object($class) === true) {
+                    $classAsString = get_class($class);
+                }
+                else {
+                    $classAsString = $class;
+                }
+
                 throw AnnotationClassDoesNotExistException::create(
-                    $class,
+                    $classAsString,
                     $property->getName(),
                     $classname
                 );
@@ -641,8 +648,14 @@ function getParamsFromAnnotations(string $class):array
             }
 
             if ($current_property_has_param == true) {
+                if (is_object($class) === true) {
+                    $classAsString = get_class($class);
+                }
+                else {
+                    $classAsString = $class;
+                }
                 throw PropertyHasMultipleParamAnnotationsException::create(
-                    $class,
+                    $classAsString,
                     $property->getName()
                 );
             }

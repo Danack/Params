@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
+use Params\ExtractRule\GetStringOrDefault;
+use Params\InputParameter;
 use Params\Messages;
+use Params\ProcessRule\ImagickRgbColorRule;
 use VarMap\ArrayVarMap;
 use Params\Exception\AnnotationClassDoesNotExistException;
 use Params\Exception\IncorrectNumberOfParamsException;
@@ -18,10 +21,6 @@ use function \Params\createTypeFromAnnotations;
  */
 class ParamAnnotationsTest extends BaseTestCase
 {
-
-    /**
-     * @group wip
-     */
     public function testCreateWorks()
     {
         $varMap = new ArrayVarMap([
@@ -35,9 +34,6 @@ class ParamAnnotationsTest extends BaseTestCase
         $this->assertInstanceOf(\ThreeColors::class, $result);
     }
 
-    /**
-     * @group wip
-     */
     public function testCreateFromVarMapWorks()
     {
         $varMap = new ArrayVarMap([
@@ -49,6 +45,60 @@ class ParamAnnotationsTest extends BaseTestCase
         $threeColors = \ThreeColors::createFromVarMap($varMap);
         $this->assertInstanceOf(\ThreeColors::class, $threeColors);
     }
+
+    /**
+     * @group wip
+     */
+    public function testGetParamsFromAnnotation()
+    {
+        $varMap = new ArrayVarMap([
+            'background_color' => 'red',
+            'stroke_color' => 'rgb(255, 0, 255)',
+            'fill_color' => 'white',
+        ]);
+
+        $threeColors = \ThreeColors::createFromVarMap($varMap);
+        $this->assertInstanceOf(\ThreeColors::class, $threeColors);
+
+        $inputParameters = $threeColors::getInputParameterList();
+
+        $this->assertCount(3, $inputParameters);
+
+        $namesAndDefaults = [
+            ['background_color', 'rgb(225, 225, 225)'],
+            ['stroke_color', 'rgb(0, 0, 0)'],
+            ['fill_color', 'DodgerBlue2'],
+        ];
+
+        $count = 0;
+        foreach ($inputParameters as $inputParameter) {
+            $expectedName = $namesAndDefaults[$count][0];
+            $expectedDefault = $namesAndDefaults[$count][1];
+
+            $this->assertInstanceOf(InputParameter::class, $inputParameter);
+
+            $this->assertSame(
+                $expectedName,
+                $inputParameter->getInputName()
+            );
+
+            $extractRule = $inputParameter->getExtractRule();
+            $this->assertInstanceOf(
+                GetStringOrDefault::class,
+                $extractRule
+            );
+
+            /** @var GetStringOrDefault $extractRule */
+            $this->assertSame(
+                $expectedDefault,
+                $extractRule->getDefault()
+            );
+
+            $count += 1;
+        }
+    }
+
+
 
 
     public function testMissingConstructorParamErrors()

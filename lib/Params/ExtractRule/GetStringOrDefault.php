@@ -22,6 +22,11 @@ class GetStringOrDefault implements ExtractRule
         $this->default = $default;
     }
 
+    public function getDefault(): ?string
+    {
+        return $this->default;
+    }
+
     public function process(
         ProcessedValues $processedValues,
         InputStorage $dataLocator

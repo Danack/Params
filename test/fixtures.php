@@ -107,10 +107,11 @@ class AlwaysErrorsParams implements InputParameterList
 }
 
 
-class ThreeColors
+class ThreeColors implements InputParameterList
 {
     use SafeAccess;
     use Params\Create\CreateFromVarMap;
+    use Params\InputParameterListFromAttributes;
 
     public function __construct(
         #[ImagickColorParam('rgb(225, 225, 225)')]
