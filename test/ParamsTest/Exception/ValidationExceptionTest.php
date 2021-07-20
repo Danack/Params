@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParamsTest\Exception\Validator;
+namespace ParamsTest\Exception;
 
 use Params\InputStorage\ArrayInputStorage;
 use ParamsTest\BaseTestCase;

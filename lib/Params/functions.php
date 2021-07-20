@@ -672,12 +672,12 @@ function getParamsFromAnnotations(string|object $class): array
 
                 $count = 0;
                 foreach ($param_constructor_parameters as $param_constructor_parameter) {
-                    $name = $param_constructor_parameter->getName();
-                    $argsByName[$name] = $args[$count];
-                    $count += 1;
                     if ($count >= count($args)) {
                         break;
                     }
+                    $name = $param_constructor_parameter->getName();
+                    $argsByName[$name] = $args[$count];
+                    $count += 1;
                 }
 
                 if (array_key_exists('name', $argsByName) !== true) {

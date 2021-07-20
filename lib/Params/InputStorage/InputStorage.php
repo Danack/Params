@@ -22,6 +22,8 @@ interface InputStorage
     /**
      * Get the value from the current position in the storage.
      * @return mixed
+     * @TODO - could this be converted so that we are only ever
+     * dealing with strings?
      */
     public function getCurrentValue();
 

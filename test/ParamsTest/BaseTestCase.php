@@ -73,8 +73,11 @@ class BaseTestCase extends TestCase
      * @param string $problem
      * @param \Params\ValidationProblem[] $validationProblems
      */
-    protected function assertValidationProblem(string $identifier, string $expectedProblem, $validationProblems)
-    {
+    protected function assertValidationProblem(
+        string $identifier,
+        string $expectedProblem,
+        $validationProblems
+    ) {
         foreach ($validationProblems as $validationProblem) {
             if ($validationProblem->getInputStorage()->getPath() !== $identifier) {
                 continue;
@@ -110,8 +113,10 @@ class BaseTestCase extends TestCase
         $this->fail($missingIndentifierText);
     }
 
-    public function assertOneErrorAndContainsString(ValidationResult $validationResult, string $needle)
-    {
+    public function assertOneErrorAndContainsString(
+        ValidationResult $validationResult,
+        string $needle
+    ) {
         $validationProblems = $validationResult->getValidationProblems();
         $this->assertCount(1, $validationProblems);
 

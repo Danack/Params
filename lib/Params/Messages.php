@@ -137,4 +137,12 @@ class Messages
 
     public const TIME_MUST_BE_BEFORE_TIME = "This datetime must be before time %s";
     public const TIME_MUST_BE_AFTER_TIME = "This datetime must be after time %s";
+
+    public const MATRIX_MUST_BE_ODD_SIZED_ROWS_ARE_EVEN = "Matrix must be odd-size - number of rows is even";
+
+    public const MATRIX_MUST_BE_ODD_SIZED_COLUMNS_ARE_EVEN = "Matrix must be odd-size - number of columns is even.";
+
+    public const MATRIX_MUST_BE_SQUARE = "Matrix must be square, but is %d x %d.";
+
+    public const MATRIX_MUST_BE_OF_SIZE = "Matrix must be of size %d x %d, but is %d x %d.";
 }
