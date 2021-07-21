@@ -14,7 +14,6 @@ use Params\ProcessRule\MatrixIsOddSized;
 
 /**
  * @coversNothing
- * @group wip
  */
 class MatrixIsOddSizedTest extends BaseTestCase
 {

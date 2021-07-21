@@ -46,9 +46,6 @@ class ParamAnnotationsTest extends BaseTestCase
         $this->assertInstanceOf(\ThreeColors::class, $threeColors);
     }
 
-    /**
-     * @group wip
-     */
     public function testGetParamsFromAnnotation()
     {
         $varMap = new ArrayVarMap([

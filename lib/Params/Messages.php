@@ -145,4 +145,7 @@ class Messages
     public const MATRIX_MUST_BE_SQUARE = "Matrix must be square, but is %d x %d.";
 
     public const MATRIX_MUST_BE_OF_SIZE = "Matrix must be of size %d x %d, but is %d x %d.";
+
+    public const MATRIX_MUST_BE_OF_ROW_SIZE = "Matrix must have %d rows, but has %d.";
+    public const MATRIX_MUST_BE_OF_COLUMN_SIZE = "Matrix must have %d columns, but has %d.";
 }
