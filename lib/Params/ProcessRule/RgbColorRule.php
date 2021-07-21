@@ -10,6 +10,7 @@ use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
+use
 
 /**
  * Class RgbColorRule
@@ -17,6 +18,7 @@ use Params\ValidationResult;
  */
 class RgbColorRule implements ProcessRule
 {
+    use CheckString;
 
     public const BAD_COLOR_STRING = "Input [%s] does not look like a valid color string.";
 
@@ -26,9 +28,7 @@ class RgbColorRule implements ProcessRule
         InputStorage $inputStorage
     ): ValidationResult {
 
-        if (is_string($value) !== true) {
-            $value = (string)$value;
-        }
+        $this->checkString($value);
 
         // TODO - this is to imprecise. Need to match web css colors
         // more precisely

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\InputStorage\ArrayInputStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SkipIfNull;
 use Params\ProcessedValues;
@@ -39,5 +40,15 @@ class SkipIfNullTest extends BaseTestCase
             $testValue, $processedValues, $dataLocator
         );
         $this->assertEquals($validationResult->isFinalResult(), $expectIsFinalResult);
+    }
+
+    /**
+     * @covers \Params\ProcessRule\SkipIfNull
+     */
+    public function testDescription()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+        $rule = new SkipIfNull();
+        $rule->updateParamDescription($description);
     }
 }

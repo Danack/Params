@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\InputStorage\ArrayInputStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
+use Params\ProcessRule\Order;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\MultipleEnum;
 use Params\Value\MultipleEnums;
@@ -153,5 +155,17 @@ class MultipleEnumTest extends BaseTestCase
             $validationResult,
             implode(", ", $values)
         );
+    }
+
+    /**
+     * @covers \Params\ProcessRule\MultipleEnum
+     */
+    public function testDescription()
+    {
+        $values = ['time', 'distance'];
+
+        $rule = new MultipleEnum($values);
+        $description = new OpenApiV300ParamDescription('John');
+        $rule->updateParamDescription($description);
     }
 }

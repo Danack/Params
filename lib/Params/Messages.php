@@ -13,6 +13,9 @@ class Messages
     public const ERROR_MESSAGE_NOT_ARRAY = "Value must be an array.";
     public const ERROR_MESSAGE_NOT_ARRAY_VARIANT_1 = "Value must be an array.";
     public const BAD_TYPE_FOR_ARRAY_ACCESS = "Cannot use type [%s] for array access";
+
+    public const BAD_TYPE_FOR_STRING_PROCESS_RULE = "Rule %s can only process strings";
+
     public const ERROR_TOO_FEW_ELEMENTS = "Number of elements too small. Min allowed is %d but only got %d.";
 
     public const ERROR_TOO_MANY_ELEMENTS = "Number of elements too large. Max allowed is %d but got %d.";

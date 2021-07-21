@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\InputStorage\ArrayInputStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Order;
 use Params\Value\Ordering;
@@ -13,6 +14,9 @@ use Params\Messages;
 use Params\ProcessRule\MatrixIsOddSized;
 
 /**
+ * Checks that a matrix has an odd number of both rows and columns.
+ * This is a useful check for image processing, where there needs to
+ * be a center position, that represents the current pixel.
  * @coversNothing
  */
 class MatrixIsOddSizedTest extends BaseTestCase
@@ -90,5 +94,15 @@ class MatrixIsOddSizedTest extends BaseTestCase
             $expectedErrorMessage,
             $validationResult->getValidationProblems()
         );
+    }
+
+    /**
+     * @covers \Params\ProcessRule\MatrixIsOddSized
+     */
+    public function testDescription()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+        $rule = new MatrixIsOddSized();
+        $rule->updateParamDescription($description);
     }
 }

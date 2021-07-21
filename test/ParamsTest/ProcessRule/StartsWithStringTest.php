@@ -6,6 +6,9 @@ namespace ParamsTest\ProcessRule;
 
 use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
+use Params\OpenApi\OpenApiV300ParamDescription;
+use Params\ProcessRule\MultipleEnum;
+use Params\ProcessRule\ValidCharacters;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\StartsWithString;
 use Params\ProcessedValues;
@@ -66,5 +69,17 @@ class StartsWithStringTest extends BaseTestCase
             Messages::STRING_REQUIRES_PREFIX,
             $validationResult->getValidationProblems()
         );
+    }
+
+    /**
+     * @covers \Params\ProcessRule\StartsWithString
+     */
+    public function testDescription()
+    {
+        $prefix = 'bar_';
+
+        $rule = new StartsWithString($prefix);
+        $description = new OpenApiV300ParamDescription('John');
+        $rule->updateParamDescription($description);
     }
 }

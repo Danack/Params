@@ -9,6 +9,7 @@ use Params\Messages;
 use Params\ProcessedValues;
 use Params\ProcessRule\MatrixIsSize;
 use ParamsTest\BaseTestCase;
+use Params\OpenApi\OpenApiV300ParamDescription;
 
 /**
  * @coversNothing
@@ -64,9 +65,9 @@ class MatrixIsSizeTest extends BaseTestCase
     public function provideTestErrors()
     {
         // Both set - rows wrong
-//        yield [$this->values1, 2, 1, Messages::MATRIX_MUST_BE_OF_SIZE];
-//        yield [$this->values3, 2, 3, Messages::MATRIX_MUST_BE_OF_SIZE];
-//        yield [$this->values1x3, 2, 3, Messages::MATRIX_MUST_BE_OF_SIZE];
+        yield [$this->values1, 2, 1, Messages::MATRIX_MUST_BE_OF_SIZE];
+        yield [$this->values3, 2, 3, Messages::MATRIX_MUST_BE_OF_SIZE];
+        yield [$this->values1x3, 2, 3, Messages::MATRIX_MUST_BE_OF_SIZE];
 
         // Both set - column wrong
         yield [$this->values1, 1, 2, Messages::MATRIX_MUST_BE_OF_SIZE];
@@ -104,5 +105,16 @@ class MatrixIsSizeTest extends BaseTestCase
             $expectedErrorMessage,
             $validationResult->getValidationProblems()
         );
+    }
+
+
+    /**
+     * @covers \Params\ProcessRule\MatrixIsSize
+     */
+    public function testDescription()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+        $rule = new MatrixIsSize(3, 3);
+        $rule->updateParamDescription($description);
     }
 }

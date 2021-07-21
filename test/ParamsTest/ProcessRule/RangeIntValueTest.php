@@ -97,6 +97,7 @@ class RangeIntValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideRangeIntErrorCases
+     * @covers \Params\ProcessRule\RangeIntValue
      */
     public function testErrors($minValue, $maxValue, $inputValue, $message)
     {

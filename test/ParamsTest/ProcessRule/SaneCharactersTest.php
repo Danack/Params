@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\InputStorage\ArrayInputStorage;
+use Params\ProcessRule\RangeFloatValue;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SaneCharacters;
 use Params\ProcessedValues;
@@ -104,5 +105,16 @@ class SaneCharactersTest extends BaseTestCase
             "Invalid combining characters found at position 8",
             $validationResult->getValidationProblems()
         );
+    }
+
+
+    /**
+     * @covers \Params\ProcessRule\SaneCharacters
+     */
+    public function testDescription()
+    {
+        $this->markTestSkipped();
+        $rule = new SaneCharacters();
+        $description = $this->applyRuleToDescription($rule);
     }
 }

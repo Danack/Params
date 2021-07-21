@@ -97,6 +97,7 @@ class RangeFloatValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideRangeFloatErrorCases
+     * @covers \Params\ProcessRule\RangeFloatValue
      */
     public function testErrors($minValue, $maxValue, $inputValue, $message)
     {

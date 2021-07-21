@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\InputStorage\ArrayInputStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Order;
 use Params\Value\Ordering;
@@ -99,5 +100,15 @@ class MatrixIsSquareTest extends BaseTestCase
             Messages::MATRIX_MUST_BE_SQUARE,
             $validationResult->getValidationProblems()
         );
+    }
+
+    /**
+     * @covers \Params\ProcessRule\MatrixIsSquare
+     */
+    public function testDescription()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+        $rule = new MatrixIsSquare();
+        $rule->updateParamDescription($description);
     }
 }

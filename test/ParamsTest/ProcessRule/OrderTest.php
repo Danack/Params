@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\InputStorage\ArrayInputStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Order;
 use Params\Value\Ordering;
@@ -80,5 +81,16 @@ class OrderTest extends BaseTestCase
             $validationResult,
             implode(", ", $orderParams)
         );
+    }
+
+    /**
+     * @covers \Params\ProcessRule\Order
+     */
+    public function testDescription()
+    {
+        $orderParams = ['time', 'distance'];
+        $rule = new Order($orderParams);
+        $description = new OpenApiV300ParamDescription('John');
+        $rule->updateParamDescription($description);
     }
 }

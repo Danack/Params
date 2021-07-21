@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\InputStorage\ArrayInputStorage;
+use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidCharacters;
 use Params\ProcessRule\SaneCharacters;
@@ -63,5 +64,16 @@ class ValidCharactersTest extends BaseTestCase
         else {
             $this->assertNoProblems($validationResult);
         }
+    }
+
+    /**
+     * @covers \Params\ProcessRule\ValidCharacters
+     */
+    public function testDescription()
+    {
+        $this->markTestSkipped();
+        $rule = new ValidCharacters('a-zA-Z');
+        $description = new OpenApiV300ParamDescription('John');
+        $rule->updateParamDescription($description);
     }
 }
