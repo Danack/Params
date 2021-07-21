@@ -48,6 +48,7 @@ class IntegerInputTest extends BaseTestCase
     {
         return [
             // todo - we should test the exact error.
+            [[], Messages::INT_REQUIRED_UNSUPPORTED_TYPE],
             ['5.0', Messages::INT_REQUIRED_FOUND_NON_DIGITS2],
             ['5.5', Messages::INT_REQUIRED_FOUND_NON_DIGITS2],
             ['banana', Messages::INT_REQUIRED_FOUND_NON_DIGITS2],
@@ -60,7 +61,7 @@ class IntegerInputTest extends BaseTestCase
      * @dataProvider providesDetectsErrorsCorrectly
      * @covers \Params\ProcessRule\IntegerInput
      */
-    public function testDetectsErrorsCorrectly(string $inputValue, $message)
+    public function testDetectsErrorsCorrectly($inputValue, $message)
     {
         $rule = new IntegerInput();
         $processedValues = new ProcessedValues();

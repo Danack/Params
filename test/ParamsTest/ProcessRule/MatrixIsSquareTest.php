@@ -14,7 +14,6 @@ use Params\ProcessRule\MatrixIsSquare;
 
 /**
  * @coversNothing
- * @group wip
  */
 class MatrixIsSquareTest extends BaseTestCase
 {
@@ -36,7 +35,7 @@ class MatrixIsSquareTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\ProcessRule\MatrixIsOddSized
+     * @covers \Params\ProcessRule\MatrixIsSquare
      */
     public function testValidation($testValue)
     {
@@ -77,7 +76,7 @@ class MatrixIsSquareTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrors
-     * @covers \Params\ProcessRule\MatrixIsOddSized
+     * @covers \Params\ProcessRule\MatrixIsSquare
      */
     public function testErrors($testValue, $expectedErrorMessage, $rows, $columns)
     {
