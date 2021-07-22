@@ -12,6 +12,8 @@ use Params\ValidationResult;
 
 class MaxLength implements ProcessRule
 {
+    use CheckString;
+
     private int $maxLength;
 
     /**
@@ -30,7 +32,8 @@ class MaxLength implements ProcessRule
     ): ValidationResult {
         // TODO - handle to string conversion better.
 
-        if (mb_strlen((string)$value) > $this->maxLength) {
+        $this->checkString($value);
+        if (mb_strlen($value) > $this->maxLength) {
             $message = sprintf(
                 Messages::STRING_TOO_LONG,
                 $this->maxLength

@@ -25,6 +25,16 @@ class DataStorageTest extends BaseTestCase
         $this->assertFalse($available);
     }
 
+    public function testMovingSeparatesPosition()
+    {
+        $dataLocator = ArrayInputStorage::fromArray([]);
+        $dataLocatorAtFoo = $dataLocator->moveKey('foo');
+        $dataLocatorAtFooBar = $dataLocator->moveKey('bar');
+
+        $this->assertSame('/foo', $dataLocatorAtFoo->getPath());
+        $this->assertSame('/bar', $dataLocatorAtFooBar->getPath());
+    }
+
     public function testValueCorrect()
     {
         $dataLocator = ArrayInputStorage::fromArray(['foo' => 'bar']);
