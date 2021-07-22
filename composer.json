@@ -7,7 +7,8 @@
     "php" : "^8.0",
     "ext-mbstring": "*",
     "danack/var-map": "^0.6.1",
-    "danack/json-safe":  "^0.1.0"
+    "danack/json-safe":  "^0.1.0",
+    "laminas/laminas-diactoros": "^2.6"
   },
   "require-dev": {
     "danack/coding-standard": "0.3.0",

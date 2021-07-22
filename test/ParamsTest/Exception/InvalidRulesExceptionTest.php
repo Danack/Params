@@ -38,7 +38,19 @@ class InvalidRulesExceptionTest extends BaseTestCase
         $this->assertSame(0, $exception->getCode());
     }
 
+    /**
+     * @covers \Params\Exception\InvalidRulesException
+     */
+    public function testExpectsStringForProcessing()
+    {
+        $exception = InvalidRulesException::expectsStringForProcessing('some_class_name');
+        $this->assertStringMatchesTemplateString(
+            Messages::BAD_TYPE_FOR_STRING_PROCESS_RULE,
+            $exception->getMessage()
+        );
 
-//MissingClassException.php
-//TypeNotInputParameterListException.php
+        $this->assertStringContainsString('some_class_name', $exception->getMessage());
+
+        $this->assertSame(0, $exception->getCode());
+    }
 }

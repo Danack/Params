@@ -24,11 +24,11 @@ class InvalidRulesException extends \Params\Exception\ParamsException
     }
 
 
-    public static function expectsStringForProcessing(string $clasname): self
+    public static function expectsStringForProcessing(string $classname): self
     {
         $message = sprintf(
             Messages::BAD_TYPE_FOR_STRING_PROCESS_RULE,
-            $clasname
+            $classname
         );
 
         return new self($message);

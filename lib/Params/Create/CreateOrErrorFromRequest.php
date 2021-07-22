@@ -21,12 +21,9 @@ trait CreateOrErrorFromRequest
     public static function createOrErrorFromRequest(ServerRequestInterface $request)
     {
         $variableMap = new Psr7VarMap($request);
-
         $rules = static::getInputParameterList();
+        $dataLocator = ArrayInputStorage::fromVarMap($variableMap);
 
-        // TODO - fix
-        $dataLocator = ArrayInputStorage::fromArray($data);
-
-        return createOrError(static::class, $namedRules, $variableMap);
+        return createOrError(static::class, $rules, $dataLocator);
     }
 }
