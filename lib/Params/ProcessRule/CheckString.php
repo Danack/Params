@@ -8,10 +8,10 @@ use Params\Exception\InvalidRulesException;
 
 trait CheckString
 {
-    public function checkString(mixed $value)
+    public function checkString(mixed $value): void
     {
         if (is_string($value) !== true) {
-            throw  \Params\Exception\InvalidRulesException::expectsStringForProcessing
+            throw InvalidRulesException::expectsStringForProcessing(get_called_class());
         }
     }
 }

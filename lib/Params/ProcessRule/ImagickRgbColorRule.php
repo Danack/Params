@@ -13,6 +13,8 @@ use Params\ValidationResult;
 
 class ImagickRgbColorRule extends RgbColorRule
 {
+    use CheckString;
+
     // This is terrible. Why isn't this part of the Imagick api?
     /**
      * @var string[]
@@ -124,6 +126,8 @@ class ImagickRgbColorRule extends RgbColorRule
         ProcessedValues $processedValues,
         InputStorage $inputStorage
     ): ValidationResult {
+
+        $this->checkString($value);
 
         if (in_array($value, $this->listOfColors, true) === true) {
             return \Params\ValidationResult::finalValueResult($value);

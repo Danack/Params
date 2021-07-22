@@ -94,7 +94,7 @@ class MatrixIsSize implements ProcessRule
         if ($innerDimension !== $this->expected_column_count) {
             return sprintf(
                 Messages::MATRIX_MUST_BE_OF_COLUMN_SIZE,
-                $this->expected_row_count,
+                $this->expected_column_count,
                 $innerDimension
             );
         }

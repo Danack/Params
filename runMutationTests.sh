@@ -6,7 +6,9 @@ php vendor/bin/infection \
   --configuration=infection.json \
   --log-verbosity=default \
   --only-covered \
-  --min-covered-msi=90
+  --min-covered-msi=90 \
+  -j4
+
 
 infection_exit_code=$?
 

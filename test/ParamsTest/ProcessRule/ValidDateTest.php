@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\InputStorage\ArrayInputStorage;
+use Params\OpenApi\ParamDescription;
+use Params\ProcessRule\ImagickRgbColorRule;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDate;
 use Params\ProcessedValues;
@@ -75,5 +77,17 @@ class ValidDateTest extends BaseTestCase
             Messages::ERROR_INVALID_DATETIME,
             $validationResult->getValidationProblems()
         );
+    }
+
+    /**
+     * @covers \Params\ProcessRule\ValidDate
+     */
+    public function testDescription()
+    {
+        $rule = new ValidDate();
+        $description = $this->applyRuleToDescription($rule);
+
+        $this->assertSame(ParamDescription::FORMAT_DATE, $description->getFormat());
+        $this->assertSame(ParamDescription::TYPE_STRING, $description->getType());
     }
 }

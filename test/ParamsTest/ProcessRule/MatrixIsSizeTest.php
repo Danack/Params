@@ -40,7 +40,6 @@ class MatrixIsSizeTest extends BaseTestCase
         yield [$this->values3, null, 3];
         yield [$this->values1x3, 1, null];
         yield [$this->values1x3, null, 3];
-
     }
 
     /**
@@ -87,6 +86,7 @@ class MatrixIsSizeTest extends BaseTestCase
     /**
      * @dataProvider provideTestErrors
      * @covers \Params\ProcessRule\MatrixIsSize
+     * @group wip
      */
     public function testErrors($testValue, ?int $row, ?int $columns, $expectedErrorMessage)
     {
@@ -105,8 +105,22 @@ class MatrixIsSizeTest extends BaseTestCase
             $expectedErrorMessage,
             $validationResult->getValidationProblems()
         );
-    }
 
+        if ($row === null) {
+            $message = sprintf("has %d", count($testValue[0]));
+        }
+        else if ($columns === null) {
+            $message = sprintf("has %d", count($testValue));
+        }
+        else {
+            $message = sprintf("but is %d x %d", count($testValue), count($testValue[0]));
+        }
+        $validationProblem = $validationResult->getValidationProblems()[0];
+        $this->assertStringContainsString(
+            $message,
+            $validationProblem->getProblemMessage()
+        );
+    }
 
     /**
      * @covers \Params\ProcessRule\MatrixIsSize

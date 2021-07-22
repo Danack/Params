@@ -48,4 +48,25 @@ class ValidationExceptionTest extends BaseTestCase
         ];
         $this->assertSame($actualStrings, $strings);
     }
+
+    public function testMessageIsCorrect()
+    {
+        $detail_of_problem = "";
+        $general_description = 'General description';
+
+        $dataLocator = ArrayInputStorage::fromArray(['foo' => 'bar']);
+        $dataLocatorAtFoo = $dataLocator->moveKey('foo');
+
+        $validationProblem = new ValidationProblem($dataLocatorAtFoo, $detail_of_problem);
+
+        $exception = new ValidationException(
+            $general_description,
+            [$validationProblem]
+        );
+
+        $message = $exception->getMessage();
+
+        $this->assertStringStartsWith($general_description . " ", $message);
+        $this->assertStringContainsString($detail_of_problem, $message);
+    }
 }

@@ -10,7 +10,6 @@ use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
-use
 
 /**
  * Class RgbColorRule
@@ -22,6 +21,17 @@ class RgbColorRule implements ProcessRule
 
     public const BAD_COLOR_STRING = "Input [%s] does not look like a valid color string.";
 
+    // TODO - support these https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+    // properly
+    //
+    // Hexadecimal notation: #RRGGBB[AA]
+    //R (red), G (green), B (blue), and A (alpha) are hexadecimal characters (0–9, A–F). A is optional. For example, #ff0000 is equivalent to #ff0000ff.
+    //Hexadecimal notation: #RGB[A]
+    //R (red), G (green), B (blue), and A (alpha) are hexadecimal characters (0–9, A–F). A is optional. The three-digit notation (#RGB) is a shorter version of the six-digit form (#RRGGBB). For example, #f09 is the same color as #ff0099. Likewise, the four-digit RGB notation (#RGBA) is a shorter version of the eight-digit form (#RRGGBBAA). For example, #0f38 is the same color as #00ff3388.
+    //Functional notation: rgb[a](R, G, B[, A])
+    //R (red), G (green), and B (blue) can be either <number>s or <percentage>s, where the number 255 corresponds to 100%. A (alpha) can be a <number> between 0 and 1, or a <percentage>, where the number 1 corresponds to 100% (full opacity).
+
+
     public function process(
         $value,
         ProcessedValues $processedValues,
@@ -29,6 +39,7 @@ class RgbColorRule implements ProcessRule
     ): ValidationResult {
 
         $this->checkString($value);
+        /** @var string $value */
 
         // TODO - this is to imprecise. Need to match web css colors
         // more precisely

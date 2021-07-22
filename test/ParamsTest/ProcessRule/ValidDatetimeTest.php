@@ -6,6 +6,8 @@ namespace ParamsTest\ProcessRule;
 
 use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
+use Params\OpenApi\ParamDescription;
+use Params\ProcessRule\ValidDate;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDatetime;
 use Params\ProcessedValues;
@@ -88,5 +90,17 @@ class ValidDatetimeTest extends BaseTestCase
             Messages::ERROR_INVALID_DATETIME,
             $validationResult->getValidationProblems()
         );
+    }
+
+    /**
+     * @covers \Params\ProcessRule\ValidDatetime
+     */
+    public function testDescription()
+    {
+        $rule = new ValidDatetime();
+        $description = $this->applyRuleToDescription($rule);
+
+        $this->assertSame(ParamDescription::FORMAT_DATETIME, $description->getFormat());
+        $this->assertSame(ParamDescription::TYPE_STRING, $description->getType());
     }
 }
