@@ -43,7 +43,7 @@ class GetOptionalType implements ExtractRule
     public static function fromClassAndRules(string $className, $inputParameterList): self
     {
         $getType = GetType::fromClassAndRules(
-            $className,$inputParameterList
+            $className, $inputParameterList
         );
 
         return new self($getType);

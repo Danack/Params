@@ -18,4 +18,3 @@ class MissingClassException extends ParamsException
         return new self($message);
     }
 }
-

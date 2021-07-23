@@ -33,6 +33,8 @@ class MaxLength implements ProcessRule
         // TODO - handle to string conversion better.
 
         $this->checkString($value);
+        /** @var string $value */
+
         if (mb_strlen($value) > $this->maxLength) {
             $message = sprintf(
                 Messages::STRING_TOO_LONG,

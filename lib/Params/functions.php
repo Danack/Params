@@ -168,6 +168,7 @@ function getInputParameterListForClass(string $className)
 
 
 /**
+ * TODO - replace this with the named params version.
  * @template T
  * @param class-string<T> $classname
  * @param array $values
@@ -177,10 +178,10 @@ function getInputParameterListForClass(string $className)
  */
 function createObjectFromParams(string $classname, array $values)
 {
+    // TODO - replace this with the named params version.
+
     $reflection_class = new \ReflectionClass($classname);
-//    if ($reflection_class->hasMethod('__construct') !== true) {
-//        throw NoConstructorException::noConstructor($classname);
-//    }
+
     $r_constructor = $reflection_class->getConstructor();
 
     if ($r_constructor === null) {
@@ -611,11 +612,11 @@ function checkAllowedFormatsAreStrings(array $allowedFormats): array
 /**
  * @template T
  * @param string|object $class
- * @psalm-param class-string<T>|object $class
+ * @psalm-param class-string<T> $class
  * @return InputParameter[]
  * @throws \ReflectionException
  */
-function getParamsFromAnnotations(string|object $class): array
+function getParamsFromAnnotations(string/*|object*/ $class): array
 {
     $rc = new \ReflectionClass($class);
     $inputParameters = [];
@@ -626,12 +627,12 @@ function getParamsFromAnnotations(string|object $class): array
         foreach ($attributes as $attribute) {
             $classname = $attribute->getName();
             if (class_exists($classname, true) !== true) {
-                if (is_object($class) === true) {
-                    $classAsString = get_class($class);
-                }
-                else {
+//                if (is_object($class) === true) {
+//                    $classAsString = get_class($class);
+//                }
+//                else {
                     $classAsString = $class;
-                }
+//                }
 
                 throw AnnotationClassDoesNotExistException::create(
                     $classAsString,
@@ -648,12 +649,12 @@ function getParamsFromAnnotations(string|object $class): array
             }
 
             if ($current_property_has_param == true) {
-                if (is_object($class) === true) {
-                    $classAsString = get_class($class);
-                }
-                else {
-                    $classAsString = $class;
-                }
+//                if (is_object($class) === true) {
+//                    $classAsString = get_class($class);
+//                }
+//                else {
+                $classAsString = $class;
+//                }
                 throw PropertyHasMultipleParamAnnotationsException::create(
                     $classAsString,
                     $property->getName()
@@ -662,7 +663,9 @@ function getParamsFromAnnotations(string|object $class): array
 
             $current_property_has_param = true;
             $param_constructor = $rc_param->getConstructor();
+
             if ($param_constructor === null) {
+                // Need an example usage of this.
                 $param = $rc_param->newInstance();
             }
             else {

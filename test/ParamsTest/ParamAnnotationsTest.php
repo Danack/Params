@@ -18,6 +18,7 @@ use function \Params\createTypeFromAnnotations;
 
 /**
  * @coversNothing
+ * TODO - this class duplicates some tests that should be elsewhere.
  */
 class ParamAnnotationsTest extends BaseTestCase
 {

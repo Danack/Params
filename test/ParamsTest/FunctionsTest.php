@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
+use Params\Exception\AnnotationClassDoesNotExistException;
+use Params\Exception\PropertyHasMultipleParamAnnotationsException;
+use Params\ExtractRule\GetStringOrDefault;
 use Params\InputStorage\ArrayInputStorage;
 use Params\InputStorage\InputStorage;
 use Params\Exception\InputParameterListException;
@@ -15,6 +18,7 @@ use Params\InputParameter;
 use Params\Messages;
 use Params\ProcessedValues;
 use Params\ProcessRule\AlwaysEndsRule;
+use Params\ProcessRule\ImagickRgbColorRule;
 use Params\ProcessRule\MinLength;
 use Params\OpenApi\ParamDescription;
 use Params\Value\Ordering;
@@ -22,6 +26,9 @@ use Params\Exception\MissingClassException;
 use Params\ProcessRule\AlwaysErrorsRule;
 use Params\ExtractRule\GetType;
 use Params\ValidationResult;
+use Params\Exception\ValidationException;
+use VarMap\ArrayVarMap;
+use function Params\createTypeFromAnnotations;
 use function Params\unescapeJsonPointer;
 use function Params\array_value_exists;
 use function Params\check_only_digits;
@@ -35,6 +42,9 @@ use function Params\processProcessingRules;
 use function Params\createArrayOfTypeFromInputStorage;
 use function Params\createArrayOfType;
 use function Params\createArrayOfTypeOrError;
+use function Params\checkAllowedFormatsAreStrings;
+use function Params\getParamsFromAnnotations;
+use function Params\getDefaultSupportedTimeFormats;
 use ParamsTest\Integration\FooParams;
 
 /**
@@ -199,6 +209,21 @@ class FunctionsTest extends BaseTestCase
         $this->assertSame($barValue, $object->getBar());
     }
 
+    /**
+     * @covers ::\Params\createTypeFromAnnotations
+     */
+    public function test_createTypeFromAnnotations()
+    {
+        $varMap = new ArrayVarMap([
+            'background_color' => 'red',
+            'stroke_color' => 'rgb(255, 0, 255)',
+            'fill_color' => 'white',
+        ]);
+
+        $result = createTypeFromAnnotations($varMap, \ThreeColors::class);
+
+        $this->assertInstanceOf(\ThreeColors::class, $result);
+    }
 
     public function provides_getJsonPointerParts()
     {
@@ -364,7 +389,7 @@ class FunctionsTest extends BaseTestCase
 
 
     /**
-     * @covers ::\Params\createArrayOfType
+     * @covers ::\Params\createArrayOfTypeFromInputStorage
      */
     public function test_createArrayOfType_works()
     {
@@ -399,7 +424,7 @@ class FunctionsTest extends BaseTestCase
 
 
     /**
-     * @covers ::\Params\createArrayOfType
+     * @covers ::\Params\createArrayOfTypeFromInputStorage
      */
     public function test_createArrayOfType_bad_data()
     {
@@ -429,7 +454,7 @@ class FunctionsTest extends BaseTestCase
 
 
     /**
-     * @covers ::\Params\createArrayOfType
+     * @covers ::\Params\createArrayOfTypeFromInputStorage
      */
     public function test_createArrayOfType_not_array_data()
     {
@@ -595,6 +620,9 @@ class FunctionsTest extends BaseTestCase
         $this->assertCount(1, $validationProblems);
     }
 
+    /**
+     * @covers ::\Params\createArrayOfTypeOrError
+     */
     public function test_createArrayOfTypeOrError()
     {
         $data = [
@@ -623,6 +651,38 @@ class FunctionsTest extends BaseTestCase
         $this->assertSame(30, $fooParam2->getLimit());
     }
 
+    /**
+     * @covers ::\Params\createArrayOfTypeOrError
+     */
+    public function testErrors_createArrayOfTypeOrError()
+    {
+        $data = [
+            ['limit' => 20],
+            ['limit' => -10]
+        ];
+
+        [$values, $errors] = createArrayOfTypeOrError(
+            FooParams::class,
+            $data
+        );
+
+        $this->assertNull($values);
+
+        $this->assertCount(1, $errors);
+
+        /** @var \Params\ValidationProblem[] $errors */
+        $validationProblem = $errors[0];
+
+        $this->assertStringMatchesTemplateString(
+            Messages::INT_TOO_SMALL,
+            $validationProblem->getProblemMessage()
+        );
+    }
+
+
+    /**
+     * @covers ::\Params\createArrayOfType
+     */
     public function test_createArrayOfType()
     {
         $data = [
@@ -647,5 +707,137 @@ class FunctionsTest extends BaseTestCase
         /** @var $fooParam2 FooParams */
         $fooParam2 = $values[1];
         $this->assertSame(30, $fooParam2->getLimit());
+    }
+
+
+    /**
+     * @covers ::\Params\createArrayOfType
+     */
+    public function test_createArrayOfTypeErrors()
+    {
+        $data = [
+            ['limit' => 20],
+            ['limit' => -30]
+        ];
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage(
+            "Validation problems /[1]/limit Value too small. Min allowed is 0"
+        );
+        createArrayOfType(
+            FooParams::class,
+            $data
+        );
+    }
+
+    /**
+     * @covers ::\Params\checkAllowedFormatsAreStrings
+     */
+    public function test_checkAllowedFormatsAreStrings()
+    {
+        $formats = [
+            \DateTime::ISO8601,
+            \DateTime::RFC2822,
+            'D'
+        ];
+
+        checkAllowedFormatsAreStrings($formats);
+
+        $bad_formats = [
+            \DateTime::ISO8601,
+            \DateTime::RFC2822,
+            123
+        ];
+
+        $this->expectExceptionMessageMatchesTemplateString(
+            Messages::ERROR_DATE_FORMAT_MUST_BE_STRING
+        );
+
+        checkAllowedFormatsAreStrings($bad_formats);
+    }
+
+    /**
+     * @covers ::\Params\getParamsFromAnnotations
+     * @group wip
+     */
+    public function test_getParamsFromAnnotations()
+    {
+        $inputParameters = getParamsFromAnnotations(\ThreeColors::class);
+        foreach ($inputParameters as $inputParameter) {
+            $this->assertInstanceOf(InputParameter::class, $inputParameter);
+            $this->assertInstanceOf(GetStringOrDefault::class, $inputParameter->getExtractRule());
+
+            $processRules = $inputParameter->getProcessRules();
+            $this->assertCount(1, $processRules);
+            $processRule = $processRules[0];
+            $this->assertInstanceOf(ImagickRgbColorRule::class, $processRule);
+        }
+    }
+
+
+    /**
+     * @covers ::\Params\getParamsFromAnnotations
+     * @group wip
+     */
+    public function test_getParamsFromAnnotations_non_existant_param_class()
+    {
+        try {
+            $inputParameters = getParamsFromAnnotations(
+                \OneColorWithOtherAnnotationThatDoesNotExist::class
+            );
+        }
+        catch (AnnotationClassDoesNotExistException $acdnee) {
+            $this->assertStringContainsString(
+                'ThisClassDoesNotExistParam', $acdnee->getMessage()
+            );
+        }
+    }
+
+    /**
+     * @covers ::\Params\getParamsFromAnnotations
+     * @group wip
+     */
+    public function testMultipleParamsErrors()
+    {
+        try {
+            $inputParameters = getParamsFromAnnotations(
+                \MultipleParamAnnotations::class
+            );
+        }
+        catch (PropertyHasMultipleParamAnnotationsException $acdnee) {
+            $this->assertStringContainsString(
+                'background_color',
+                $acdnee->getMessage()
+            );
+        }
+    }
+
+    /**
+     * @covers ::\Params\getParamsFromAnnotations
+     * @group wip
+     */
+    public function test_getParamsFromAnnotations_skips_non_param_annotation()
+    {
+
+        $inputParameters = getParamsFromAnnotations(
+            \OneColorWithOtherAnnotationThatIsNotAParam::class
+        );
+
+        $this->assertCount(1, $inputParameters);
+        $inputParameter = $inputParameters[0];
+
+        $this->assertSame('background_color', $inputParameter->getInputName());
+    }
+
+    /**
+     * @covers ::\Params\getDefaultSupportedTimeFormats
+     * @group wip
+     */
+    public function test_getDefaultSupportedTimeFormats()
+    {
+        $formats = getDefaultSupportedTimeFormats();
+        foreach ($formats as $format) {
+            $this->assertIsString($format);
+        }
     }
 }

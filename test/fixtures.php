@@ -149,6 +149,11 @@ class NotActuallyAParam
     }
 }
 
+class NotAParameter
+{
+}
+
+
 class OneColor
 {
     use SafeAccess;
@@ -162,6 +167,9 @@ class OneColor
 
     #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
     private string $stroke_color;
+
+    #[NotAParameter()]
+    private $non_param_property;
 
     /**
      * OneColor constructor.
@@ -223,7 +231,6 @@ class OneColorWithOtherAnnotationThatIsNotAParam
 class OneColorWithOtherAnnotationThatDoesNotExist
 {
     use SafeAccess;
-//    use CreateFromVarMap;
 
     #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
@@ -246,7 +253,6 @@ class OneColorWithOtherAnnotationThatDoesNotExist
 class ThreeColorsMissingConstructorParam
 {
     use SafeAccess;
-//    use CreateFromVarMap;
 
     #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
@@ -270,7 +276,6 @@ class ThreeColorsMissingConstructorParam
 class ThreeColorsMissingPropertyParam
 {
     use SafeAccess;
-//    use CreateFromVarMap;
 
     #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
