@@ -92,11 +92,9 @@ class MinIntValueTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $minValue = 20;
         $rule = new MinIntValue($minValue);
-        $rule->updateParamDescription($description);
-
+        $description = $this->applyRuleToDescription($rule);
 
         $this->assertSame($minValue, $description->getMinimum());
         $this->assertFalse($description->isExclusiveMinimum());

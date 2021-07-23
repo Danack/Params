@@ -64,6 +64,17 @@ class GetStringOrDefaultTest extends BaseTestCase
     /**
      * @covers \Params\ExtractRule\GetStringOrDefault
      */
+    public function testGetDefault()
+    {
+        $default = 'bar';
+        $rule = new GetStringOrDefault($default);
+        $this->assertSame($default, $rule->getDefault());
+    }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetStringOrDefault
+     */
     public function testDescription()
     {
         $rule = new GetStringOrDefault('John');

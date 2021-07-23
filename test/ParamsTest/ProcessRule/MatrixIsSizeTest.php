@@ -126,8 +126,7 @@ class MatrixIsSizeTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $rule = new MatrixIsSize(3, 3);
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
     }
 }

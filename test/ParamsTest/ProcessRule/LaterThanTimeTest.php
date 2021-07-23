@@ -106,11 +106,10 @@ class LaterThanTimeTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $compareTime = new \DateTime('2000-01-01');
 
         $rule = new LaterThanTime($compareTime);
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
 
         $this->assertStringMatchesTemplateString(
             Messages::TIME_MUST_BE_AFTER_TIME,

@@ -107,8 +107,7 @@ class MatrixIsSquareTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $rule = new MatrixIsSquare();
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
     }
 }

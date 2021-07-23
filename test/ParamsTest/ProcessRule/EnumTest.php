@@ -82,12 +82,9 @@ class EnumTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
-
         $enumValues = ['zoq', 'fot', 'pik', '12345'];
         $rule = new Enum($enumValues);
-        $rule->updateParamDescription($description);
-
+        $description = $this->applyRuleToDescription($rule);
 
         $this->assertSame($enumValues, $description->getEnumValues());
     }

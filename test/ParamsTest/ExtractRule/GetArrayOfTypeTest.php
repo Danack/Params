@@ -296,4 +296,14 @@ class GetArrayOfTypeTest extends BaseTestCase
         $this->assertIsArray($result->getValue());
         $this->assertEmpty($result->getValue());
     }
+
+    /**
+     * @covers \Params\ExtractRule\GetArrayOfType
+     */
+    public function testDescription()
+    {
+        $rule = new GetArrayOfType(ReviewScore::class);
+        $description = $this->applyRuleToDescription($rule);
+        // TODO - inspect description
+    }
 }

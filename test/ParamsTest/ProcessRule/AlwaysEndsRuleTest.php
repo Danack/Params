@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\InputStorage\ArrayInputStorage;
-use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysEndsRule;
 use Params\ProcessedValues;
@@ -40,10 +39,9 @@ class AlwaysEndsRuleTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $finalValue = 123;
         $rule = new AlwaysEndsRule($finalValue);
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
         // nothing to assert.
     }
 }

@@ -35,10 +35,8 @@ class TrimTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $rule = new Trim();
-        $rule->updateParamDescription($description);
-
+        $description = $this->applyRuleToDescription($rule);
         // nothing to test.
     }
 }

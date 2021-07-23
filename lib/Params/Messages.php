@@ -141,6 +141,10 @@ class Messages
     public const TIME_MUST_BE_BEFORE_TIME = "This datetime must be before time %s";
     public const TIME_MUST_BE_AFTER_TIME = "This datetime must be after time %s";
 
+    public const MATRIX_INVALID_BAD_ROW = "KernelMatrix must be a 2d array of floats.";
+
+    public const MATRIX_INVALID_BAD_CELL = "KernelMatrix must be a 2d array of floats.";
+
     public const MATRIX_MUST_BE_ODD_SIZED_ROWS_ARE_EVEN = "Matrix must be odd-size - number of rows is even";
 
     public const MATRIX_MUST_BE_ODD_SIZED_COLUMNS_ARE_EVEN = "Matrix must be odd-size - number of columns is even.";

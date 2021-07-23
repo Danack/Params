@@ -31,6 +31,7 @@ interface ParamDescription
     // the property MAY be included and its default value is false.
     public function setRequired(bool $required): void;
 
+    public function getRequired(): ?bool;
 
     // ***************
     // If in is "body"

@@ -111,10 +111,9 @@ class MinLengthTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $minLength = 20;
         $rule = new MinLength($minLength);
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
         $this->assertSame($minLength, $description->getMinLength());
     }
 }

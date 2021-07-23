@@ -79,7 +79,6 @@ class StartsWithStringTest extends BaseTestCase
         $prefix = 'bar_';
 
         $rule = new StartsWithString($prefix);
-        $description = new OpenApiV300ParamDescription('John');
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
     }
 }

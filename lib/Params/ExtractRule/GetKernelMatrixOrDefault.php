@@ -10,6 +10,7 @@ use Params\ProcessedValues;
 use Params\ProcessRule\FloatInput;
 use Params\ValidationResult;
 use Params\Exception\LogicException;
+use Params\Messages;
 
 class GetKernelMatrixOrDefault implements ExtractRule
 {
@@ -22,12 +23,12 @@ class GetKernelMatrixOrDefault implements ExtractRule
     {
         foreach ($default as $row) {
             if (is_array($row) !== true) {
-                throw new \Exception("KernelMatrix must be a 2d array of floats.");
+                throw new \Exception(Messages::MATRIX_INVALID_BAD_ROW);
             }
 
             foreach ($row as $value) {
                 if (is_float($value) === false && is_int($value) === false) {
-                    throw new \Exception("KernelMatrix must be a 2d array of floats.");
+                    throw new \Exception(Messages::MATRIX_INVALID_BAD_CELL);
                 }
             }
         }
@@ -50,6 +51,8 @@ class GetKernelMatrixOrDefault implements ExtractRule
             throw new LogicException("Value must be json string");
         }
 
+        // TODO - this needs to be replaced with something that gives the
+        // precise location of the error....probably.
         $matrix_value = json_decode($currentValue, $associative = true, 4);
         $lastError = json_last_error();
         if ($lastError !== JSON_ERROR_NONE) {

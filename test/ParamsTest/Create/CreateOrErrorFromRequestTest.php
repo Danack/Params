@@ -11,7 +11,6 @@ use function JsonSafe\json_encode_safe;
 
 /**
  * @coversNothing
- * @group wip
  */
 class CreateOrErrorFromRequestTest extends BaseTestCase
 {

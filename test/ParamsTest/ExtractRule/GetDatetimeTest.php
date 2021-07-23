@@ -35,6 +35,9 @@ class GetDatetimeTest extends BaseTestCase
         );
     }
 
+    /**
+     * @covers \Params\ExtractRule\GetDatetime
+     */
     public function testInvalidDateTimeTypeErrors()
     {
         $message = sprintf(
@@ -92,6 +95,27 @@ class GetDatetimeTest extends BaseTestCase
         $rule = new GetDatetime($allowedFormats);
     }
 
+
+    /**
+     * @covers \Params\ExtractRule\GetDatetime
+     */
+    public function testInvalidDatetimeInput()
+    {
+        $allowedFormats = [\DateTime::RFC3339];
+        $rule = new GetDatetime($allowedFormats);
+        $dataStorage = ArrayInputStorage::fromSingleValue('foo', 'Some invalid string');
+
+        $validationResult = $rule->process(
+            new ProcessedValues(),
+            $dataStorage
+        );
+
+        $this->assertValidationProblemRegexp(
+            '/foo',
+            Messages::ERROR_INVALID_DATETIME,
+            $validationResult->getValidationProblems()
+        );
+    }
 
     /**
      * @covers \Params\ExtractRule\GetDatetime

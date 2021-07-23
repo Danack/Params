@@ -111,10 +111,9 @@ class MaxLengthTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $maxLength = 20;
         $rule = new MaxLength($maxLength);
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
         $this->assertSame($maxLength, $description->getMaxLength());
     }
 }

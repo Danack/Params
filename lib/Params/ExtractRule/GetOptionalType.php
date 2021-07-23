@@ -36,6 +36,18 @@ class GetOptionalType implements ExtractRule
         return $instance;
     }
 
+    /**
+     * @param class-string $className
+     * @param \Params\InputParameter[] $inputParameterList
+     */
+    public static function fromClassAndRules(string $className, $inputParameterList): self
+    {
+        $getType = GetType::fromClassAndRules(
+            $className,$inputParameterList
+        );
+
+        return new self($getType);
+    }
 
     public function process(
         ProcessedValues $processedValues,
@@ -45,9 +57,7 @@ class GetOptionalType implements ExtractRule
             return ValidationResult::valueResult(null);
         }
 
-        $intRule = new IntegerInput();
-        return $intRule->process(
-            $dataLocator->getCurrentValue(),
+        return $this->getType->process(
             $processedValues,
             $dataLocator
         );

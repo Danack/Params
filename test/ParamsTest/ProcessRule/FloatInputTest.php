@@ -84,10 +84,8 @@ class FloatInputTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
-
         $rule = new FloatInput();
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
         $this->assertSame('float', $description->getType());
     }
 }

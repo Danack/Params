@@ -73,7 +73,6 @@ class ValidCharactersTest extends BaseTestCase
     {
         $this->markTestSkipped();
         $rule = new ValidCharacters('a-zA-Z');
-        $description = new OpenApiV300ParamDescription('John');
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
     }
 }

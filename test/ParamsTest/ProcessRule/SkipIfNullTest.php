@@ -47,8 +47,7 @@ class SkipIfNullTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $rule = new SkipIfNull();
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
     }
 }

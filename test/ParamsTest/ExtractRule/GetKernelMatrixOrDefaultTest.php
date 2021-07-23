@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\ExtractRule\GetArrayOfInt;
 use Params\InputStorage\ArrayInputStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
@@ -46,5 +47,84 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
 
         $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), $expected);
+    }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
+     * @dataProvider provideTestWorks
+     */
+    public function testMissingGivesDefault()
+    {
+        $default = [
+            [-1, -1, -1],
+            [-1, 8, -1],
+            [-1, -1, -1],
+        ];
+
+
+        $rule = new GetKernelMatrixOrDefault($default);
+        $validator = new ProcessedValues();
+
+        $dataStorage = ArrayInputStorage::createMissing('foo');
+
+        $validationResult = $rule->process(
+            $validator,
+            $dataStorage
+        );
+
+        $this->assertNoProblems($validationResult);
+        $this->assertEquals($validationResult->getValue(), $default);
+    }
+
+
+
+
+    /**
+     * * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
+     */
+    public function testInvalidMatrixRows()
+    {
+        $default = [
+            [1, 2, 3],
+            'John'
+        ];
+
+        $this->expectExceptionMessageMatchesTemplateString(
+            Messages::MATRIX_INVALID_BAD_ROW
+        );
+
+        new GetKernelMatrixOrDefault($default);
+    }
+
+    /**
+     * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
+     */
+    public function testInvalidMatrixCell()
+    {
+        $default = [
+            [1, 2, 3],
+            [1, 2, 'John'],
+        ];
+
+        $this->expectExceptionMessageMatchesTemplateString(
+            Messages::MATRIX_INVALID_BAD_CELL
+        );
+
+        new GetKernelMatrixOrDefault($default);
+    }
+
+
+
+    /**
+     * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
+     */
+    public function testDescription()
+    {
+        $default = [[1.5]];
+
+        $rule = new GetKernelMatrixOrDefault($default);
+        $description = $this->applyRuleToDescription($rule);
+        // TODO - inspect description
     }
 }

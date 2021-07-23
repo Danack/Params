@@ -109,12 +109,10 @@ class DuplicatesParamTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
-
         $parameterName = 'foo';
 
         $rule = new DuplicatesParam($parameterName);
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
 
         $this->assertStringMatchesTemplateString(
             Messages::MUST_DUPLICATE_PARAMETER,

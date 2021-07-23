@@ -98,10 +98,9 @@ class MaxIntValueTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $maxValue = 20;
         $rule = new MaxIntValue($maxValue);
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
 
         $this->assertSame($maxValue, $description->getMaximum());
         $this->assertFalse($description->isExclusiveMaximum());

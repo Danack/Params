@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace ParamsTest\ExtractRule;
 
+use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfInt;
 use Params\ProcessedValues;
@@ -37,6 +38,52 @@ class GetArrayOfIntTest extends BaseTestCase
         $this->assertFalse($result->isFinalResult());
         $this->assertSame($data, $result->getValue());
     }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetArrayOfInt
+     */
+    public function testMissingGivesError()
+    {
+        $rule = new GetArrayOfInt();
+        $validator = new ProcessedValues();
+        $validationResult = $rule->process(
+            $validator,
+            ArrayInputStorage::createMissing('foo')
+        );
+
+        $this->assertProblems(
+            $validationResult,
+            ['/foo' => Messages::ERROR_MESSAGE_NOT_SET]
+        );
+    }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetArrayOfInt
+     */
+    public function testNotAnArrayErrors()
+    {
+        $rule = new GetArrayOfInt();
+        $validator = new ProcessedValues();
+
+        $input = 'banana';
+
+        $validationResult = $rule->process(
+            $validator,
+            $dataLocator = ArrayInputStorage::fromSingleValue('foo', $input)
+        );
+
+        $this->assertProblems(
+            $validationResult,
+            ['/foo' => Messages::ERROR_MESSAGE_NOT_ARRAY]
+        );
+    }
+
+
+
+
+
 
     /**
      * @covers  \Params\ExtractRule\GetArrayOfInt
@@ -89,5 +136,15 @@ class GetArrayOfIntTest extends BaseTestCase
             'Value too large. Max allowed is 20',
             $problemMessages
         );
+    }
+
+    /**
+     * @covers \Params\ExtractRule\GetArrayOfInt
+     */
+    public function testDescription()
+    {
+        $rule = new GetArrayOfInt();
+        $description = $this->applyRuleToDescription($rule);
+        // TODO - inspect description
     }
 }

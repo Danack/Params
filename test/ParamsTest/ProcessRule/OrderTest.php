@@ -90,7 +90,6 @@ class OrderTest extends BaseTestCase
     {
         $orderParams = ['time', 'distance'];
         $rule = new Order($orderParams);
-        $description = new OpenApiV300ParamDescription('John');
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
     }
 }

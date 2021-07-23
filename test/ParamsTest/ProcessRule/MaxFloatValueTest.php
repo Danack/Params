@@ -98,10 +98,10 @@ class MaxFloatValueTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
+
         $maxValue = 20.0;
         $rule = new MaxFloatValue($maxValue);
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
 
         $this->assertSame($maxValue, $description->getMaximum());
         $this->assertFalse($description->isExclusiveMaximum());

@@ -60,9 +60,18 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
         );
 
         $this->assertNull($result->getValue());
-
         $this->assertEmpty($result->getValidationProblems());
-
         $this->assertNoProblems($result);
+    }
+
+
+    /**
+     * @covers \Params\ExtractRule\GetArrayOfTypeOrNull
+     */
+    public function testDescription()
+    {
+        $rule = new GetArrayOfTypeOrNull(ReviewScore::class);
+        $description = $this->applyRuleToDescription($rule);
+        $this->assertFalse($description->getRequired());
     }
 }

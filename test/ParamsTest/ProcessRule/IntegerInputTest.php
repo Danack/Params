@@ -84,10 +84,8 @@ class IntegerInputTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
-
         $rule = new IntegerInput();
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
         $this->assertSame('integer', $description->getType());
     }
 }

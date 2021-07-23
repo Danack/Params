@@ -165,7 +165,6 @@ class MultipleEnumTest extends BaseTestCase
         $values = ['time', 'distance'];
 
         $rule = new MultipleEnum($values);
-        $description = new OpenApiV300ParamDescription('John');
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
     }
 }

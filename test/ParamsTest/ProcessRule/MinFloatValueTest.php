@@ -92,11 +92,9 @@ class MinFloatValueTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $minValue = 20.0;
         $rule = new MinFloatValue($minValue);
-        $rule->updateParamDescription($description);
-
+        $description = $this->applyRuleToDescription($rule);
 
         $this->assertSame($minValue, $description->getMinimum());
         $this->assertFalse($description->isExclusiveMinimum());

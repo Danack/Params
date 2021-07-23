@@ -31,10 +31,14 @@ class ShouldNeverBeCalledParamDescription implements ParamDescription
         throw new \Exception("getFormat should not be called.");
     }
 
-
     public function setRequired(bool $required): void
     {
         throw new \Exception("setRequired should not be called.");
+    }
+
+    public function getRequired(): ?bool
+    {
+        throw new \Exception("getRequired should not be called.");
     }
 
     public function setSchema(string $schema): void

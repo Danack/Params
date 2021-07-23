@@ -176,12 +176,11 @@ class LaterThanParamTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
 
         $parameterName = 'foo';
 
         $rule = new LaterThanParam($parameterName, 5);
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
 
         $this->assertStringMatchesTemplateString(
             Messages::TIME_MUST_BE_X_MINUTES_AFTER_PREVIOUS_VALUE,

@@ -84,9 +84,8 @@ class BoolInputTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $description = new OpenApiV300ParamDescription('John');
         $rule = new BoolInput();
-        $rule->updateParamDescription($description);
+        $description = $this->applyRuleToDescription($rule);
         $this->assertSame('boolean', $description->getType());
     }
 }

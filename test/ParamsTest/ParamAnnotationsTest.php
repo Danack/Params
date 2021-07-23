@@ -96,8 +96,6 @@ class ParamAnnotationsTest extends BaseTestCase
     }
 
 
-
-
     public function testMissingConstructorParamErrors()
     {
         $varMap = new ArrayVarMap([

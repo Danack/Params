@@ -10,7 +10,8 @@ use Params\ProcessedValues;
 use Params\ValidationResult;
 
 /**
- * This is a useless clas
+ * This is a useless class - edit 23rd July - why did I write that?
+ * Is it because you should do arrayOfTypeOrDefault or Optional?
  */
 class GetArrayOfTypeOrNull extends GetArrayOfType implements ExtractRule
 {
