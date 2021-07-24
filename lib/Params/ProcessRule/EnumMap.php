@@ -53,6 +53,7 @@ class EnumMap implements ProcessRule
 
             $message = sprintf(
                 Messages::ENUM_MAP_UNRECOGNISED_VALUE_SINGLE,
+                $value,
                 $allowedInputValues
             );
 

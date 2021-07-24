@@ -411,10 +411,12 @@ class OpenApiV300ParamDescription implements ParamDescription
     {
         // TODO - this is technically incorrect - specs say enum can be any type
         foreach ($enumValues as $enumValue) {
-            if (is_string($enumValue) !== true) {
-                throw new OpenApiException("All enum values must be strings.");
+            if (is_string($enumValue) !== true && is_int($enumValue) !== true) {
+                throw new OpenApiException("All enum values must be strings or ints.");
             }
         }
+
+        
 
         $this->enumValues = $enumValues;
     }

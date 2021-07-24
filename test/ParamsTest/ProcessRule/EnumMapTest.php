@@ -115,6 +115,7 @@ class EnumMapTest extends BaseTestCase
         $this->assertValidationProblemRegexp(
             '/foo',
             Messages::ENUM_MAP_UNRECOGNISED_VALUE_SINGLE,
+            $testValue,
             $validationResult->getValidationProblems()
         );
 

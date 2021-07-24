@@ -39,7 +39,7 @@ class Messages
     // Enum
     // TODO - this message looks wrong.
     public const ENUM_MAP_UNRECOGNISED_VALUE_MULTIPLE = "Value [%s] is not known. Please use any of %s.";
-    public const ENUM_MAP_UNRECOGNISED_VALUE_SINGLE = "Value is not known. Please use one of %s";
+    public const ENUM_MAP_UNRECOGNISED_VALUE_SINGLE = "Value [%s] is not known. Please use one of %s";
 
     // General errors
     public const VALUE_NOT_SET = 'Value not set.';
