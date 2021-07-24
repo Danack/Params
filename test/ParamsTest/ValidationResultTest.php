@@ -72,6 +72,7 @@ class ValidationResultTest extends BaseTestCase
         $validationResult = ValidationResult::fromValidationProblems([$validationProblem]);
         $this->assertSame([$validationProblem], $validationResult->getValidationProblems());
         $this->assertTrue($validationResult->anyErrorsFound());
+        $this->assertTrue($validationResult->isFinalResult());
     }
 
     public function testFromValidationProblemsBadKey()

@@ -76,6 +76,11 @@ class ShouldNeverBeCalledParamDescription implements ParamDescription
         throw new \Exception("setCollectionFormat should not be called.");
     }
 
+    public function getCollectionFormat(): ?string
+    {
+        throw new \Exception("getCollectionFormat should not be called.");
+    }
+
     public function setDefault($default): void
     {
         throw new \Exception("setDefault should not be called.");

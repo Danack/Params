@@ -13,6 +13,8 @@ use Params\ValidationResult;
 
 class SaneCharacters implements ProcessRule
 {
+    use CheckString;
+
     const ALLOWED_CHAR_TYPES = [
         // Letter
         "\p{L}",
@@ -86,6 +88,10 @@ class SaneCharacters implements ProcessRule
         ProcessedValues $processedValues,
         InputStorage $inputStorage
     ): ValidationResult {
+
+        $this->checkString($value);
+        /** @var string $value */
+
         $validationResult = $this->validCharacters->process($value, $processedValues, $inputStorage);
 
         // If validation has already failed, return it.
@@ -96,8 +102,8 @@ class SaneCharacters implements ProcessRule
         // Any 3 or more combining things.
         $disallowedPattern = "/([\u{0300}-\u{036F}\u{20D0}-\u{20FF}]{3,})/xu";
         $matches = [];
-        // TODO - handle string conversion better?
-        $count = preg_match($disallowedPattern, (string)$value, $matches, PREG_OFFSET_CAPTURE);
+
+        $count = preg_match($disallowedPattern, $value, $matches, PREG_OFFSET_CAPTURE);
 
         if ($count === false) {
             throw new LogicException("preg_match failed");

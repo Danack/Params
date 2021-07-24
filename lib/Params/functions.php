@@ -609,6 +609,64 @@ function checkAllowedFormatsAreStrings(array $allowedFormats): array
     return $allowedFormats;
 }
 
+
+function instantiateParam(
+    \ReflectionClass $rc_param,
+    \ReflectionAttribute $attribute,
+    string $defaultName
+) {
+
+    // TODO - replace this code with $attribute->newInstance();
+    // But that means every param needs to have it's name listed...
+    // which is probably not the worst thing ever.
+
+    $param_constructor = $rc_param->getConstructor();
+
+    if ($param_constructor === null) {
+        // Need an example usage of this.
+        return $rc_param->newInstance();
+    }
+
+    $param_constructor_parameters = $param_constructor->getParameters();
+    $args = $attribute->getArguments();
+    $argsByName = [];
+
+    $count = 0;
+    foreach ($param_constructor_parameters as $param_constructor_parameter) {
+        if ($count >= count($args)) {
+            break;
+        }
+        $name = $param_constructor_parameter->getName();
+        $argsByName[$name] = $args[$count];
+        $count += 1;
+    }
+
+    if (array_key_exists('name', $argsByName) !== true) {
+        $argsByName['name'] = $defaultName;
+    }
+
+    return $rc_param->newInstance(...$argsByName);
+}
+
+
+function getReflectionClassOfAttribute(
+    string $class,
+    \ReflectionAttribute $attribute,
+    \ReflectionProperty $property
+) {
+
+    $classname = $attribute->getName();
+    if (class_exists($classname, true) !== true) {
+        throw AnnotationClassDoesNotExistException::create(
+            $class,
+            $property->getName(),
+            $classname
+        );
+    }
+
+    return new \ReflectionClass($classname);
+}
+
 /**
  * @template T
  * @param string|object $class
@@ -616,7 +674,7 @@ function checkAllowedFormatsAreStrings(array $allowedFormats): array
  * @return InputParameter[]
  * @throws \ReflectionException
  */
-function getParamsFromAnnotations(string/*|object*/ $class): array
+function getParamsFromAnnotations(string $class): array
 {
     $rc = new \ReflectionClass($class);
     $inputParameters = [];
@@ -625,70 +683,32 @@ function getParamsFromAnnotations(string/*|object*/ $class): array
         $attributes = $property->getAttributes();
         $current_property_has_param = false;
         foreach ($attributes as $attribute) {
-            $classname = $attribute->getName();
-            if (class_exists($classname, true) !== true) {
-//                if (is_object($class) === true) {
-//                    $classAsString = get_class($class);
-//                }
-//                else {
-                    $classAsString = $class;
-//                }
+            $rc_of_attribute = getReflectionClassOfAttribute(
+                $class,
+                $attribute,
+                $property
+            );
 
-                throw AnnotationClassDoesNotExistException::create(
-                    $classAsString,
-                    $property->getName(),
-                    $classname
-                );
-            }
-
-            $rc_param = new \ReflectionClass($classname);
-            $is_a_param = $rc_param->implementsInterface(Param::class);
+            $is_a_param = $rc_of_attribute->implementsInterface(Param::class);
 
             if ($is_a_param !== true) {
                 continue;
             }
 
             if ($current_property_has_param == true) {
-//                if (is_object($class) === true) {
-//                    $classAsString = get_class($class);
-//                }
-//                else {
-                $classAsString = $class;
-//                }
                 throw PropertyHasMultipleParamAnnotationsException::create(
-                    $classAsString,
+                    $class,
                     $property->getName()
                 );
             }
 
             $current_property_has_param = true;
-            $param_constructor = $rc_param->getConstructor();
+            $param = instantiateParam(
+                $rc_of_attribute,
+                $attribute,
+                $property->getName()
+            );
 
-            if ($param_constructor === null) {
-                // Need an example usage of this.
-                $param = $rc_param->newInstance();
-            }
-            else {
-                $param_constructor_parameters = $param_constructor->getParameters();
-                $args = $attribute->getArguments();
-                $argsByName = [];
-
-                $count = 0;
-                foreach ($param_constructor_parameters as $param_constructor_parameter) {
-                    if ($count >= count($args)) {
-                        break;
-                    }
-                    $name = $param_constructor_parameter->getName();
-                    $argsByName[$name] = $args[$count];
-                    $count += 1;
-                }
-
-                if (array_key_exists('name', $argsByName) !== true) {
-                    $argsByName['name'] = $property->getName();
-                }
-
-                $param = $rc_param->newInstance(...$argsByName);
-            }
             /** @var Param $param */
             $inputParameters[] = $param->getInputParameter();
         }

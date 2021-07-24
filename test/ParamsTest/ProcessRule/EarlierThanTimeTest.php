@@ -37,18 +37,24 @@ class EarlierThanTimeTest extends BaseTestCase
         $this->assertFalse($validationResult->isFinalResult());
     }
 
+    public function providesErrorsCorrectly()
+    {
+        yield ['2020-01-01', '2001-01-01'];
+        yield ['2020-01-01 12:00:00', '2020-01-01 12:00:00'];
+    }
 
     /**
      * @covers \Params\ProcessRule\EarlierThanTime
+     * @dataProvider providesErrorsCorrectly
      */
-    public function testErrorsCorrectly()
+    public function testErrorsCorrectly($input_time, $boundary_time)
     {
-        $value = new \DateTime('2020-01-01');
+        $value = new \DateTime($input_time);
 
         $processedValues = ProcessedValues::fromArray([]);
         $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
 
-        $compareTime = new \DateTime('2001-01-01');
+        $compareTime = new \DateTime($boundary_time);
         $rule = new EarlierThanTime($compareTime);
         $validationResult = $rule->process($value, $processedValues, $dataLocator);
 

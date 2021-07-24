@@ -23,6 +23,8 @@ use function Params\normalise_order_parameter;
  */
 class Order implements ProcessRule
 {
+    use CheckString;
+
     /** @var string[] */
     private array $knownOrderNames;
 
@@ -40,6 +42,10 @@ class Order implements ProcessRule
         ProcessedValues $processedValues,
         InputStorage $inputStorage
     ): ValidationResult {
+
+        $this->checkString($value);
+        /** @var string $value */
+
         $parts = explode(',', $value);
         $orderElements = [];
 

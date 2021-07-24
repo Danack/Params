@@ -20,6 +20,8 @@ use Params\ValidationResult;
  */
 class ValidCharacters implements ProcessRule
 {
+    use CheckString;
+
     private string $patternValidCharacters;
 
     public function __construct(string $patternValidCharacters)
@@ -32,6 +34,10 @@ class ValidCharacters implements ProcessRule
         ProcessedValues $processedValues,
         InputStorage $inputStorage
     ): ValidationResult {
+
+        $this->checkString($value);
+        /** @var string $value */
+
         $patternInvalidCharacters = "/[^" . $this->patternValidCharacters . "]+/xu";
         $matches = [];
         $count = preg_match($patternInvalidCharacters, $value, $matches, PREG_OFFSET_CAPTURE);

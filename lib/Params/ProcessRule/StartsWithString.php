@@ -16,6 +16,8 @@ use Params\ValidationResult;
  */
 class StartsWithString implements ProcessRule
 {
+    use CheckString;
+
     private string $prefix;
 
     public function __construct(string $prefix)
@@ -28,7 +30,11 @@ class StartsWithString implements ProcessRule
         ProcessedValues $processedValues,
         InputStorage $inputStorage
     ): ValidationResult {
-        if (strpos((string)$value, $this->prefix) !== 0) {
+
+        $this->checkString($value);
+        /** @var string $value */
+
+        if (strpos($value, $this->prefix) !== 0) {
             $message = sprintf(
                 Messages::STRING_REQUIRES_PREFIX,
                 $this->prefix

@@ -12,13 +12,16 @@ use Params\ValidationResult;
 
 class ValidDatetime implements ProcessRule
 {
+    use CheckString;
 
     public function process(
         $value,
         ProcessedValues $processedValues,
         InputStorage $inputStorage
     ): ValidationResult {
-        $value = (string)$value;
+
+        $this->checkString($value);
+        /** @var string $value */
 
         $dateTime = \DateTime::createFromFormat(\DateTime::RFC3339, $value);
         if ($dateTime instanceof \DateTime) {

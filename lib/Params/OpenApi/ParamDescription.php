@@ -98,6 +98,7 @@ interface ParamDescription
     const COLLECTION_PIPES = 'pipes';  // - pipe separated values foo|bar.
 
     public function setCollectionFormat(string $collectionFormat): void;
+    public function getCollectionFormat(): ?string;
 
 
     // * Declares the value of the parameter that the server will use if none

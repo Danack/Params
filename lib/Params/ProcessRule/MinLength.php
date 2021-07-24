@@ -12,6 +12,8 @@ use Params\Messages;
 
 class MinLength implements ProcessRule
 {
+    use CheckString;
+
     private int $minLength;
 
     public function __construct(int $minLength)
@@ -24,8 +26,10 @@ class MinLength implements ProcessRule
         ProcessedValues $processedValues,
         InputStorage $inputStorage
     ): ValidationResult {
-        // TODO - handle to string conversion better.
-        $value = (string)$value;
+
+        $this->checkString($value);
+        /** @var string $value */
+
         if (mb_strlen($value) < $this->minLength) {
             $message = sprintf(
                 Messages::STRING_TOO_SHORT,

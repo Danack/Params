@@ -11,6 +11,7 @@ use Params\ProcessRule\Order;
 use Params\Value\Ordering;
 use Params\ProcessedValues;
 use Params\Messages;
+use Params\OpenApi\ParamDescription;
 
 /**
  * @coversNothing
@@ -91,5 +92,10 @@ class OrderTest extends BaseTestCase
         $orderParams = ['time', 'distance'];
         $rule = new Order($orderParams);
         $description = $this->applyRuleToDescription($rule);
+
+        $this->assertSame(
+            ParamDescription::COLLECTION_CSV,
+            $description->getCollectionFormat()
+        );
     }
 }

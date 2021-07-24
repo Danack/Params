@@ -12,6 +12,8 @@ use Params\ValidationResult;
 
 class RangeLength implements ProcessRule
 {
+    use CheckString;
+
     private int $minLength;
 
     private int $maxLength;
@@ -34,8 +36,8 @@ class RangeLength implements ProcessRule
         InputStorage $inputStorage
     ): ValidationResult {
 
-        // TODO - handle to string conversion better.
-        $value = (string)$value;
+        $this->checkString($value);
+        /** @var string $value */
 
         // Check min length
         if (mb_strlen($value) < $this->minLength) {

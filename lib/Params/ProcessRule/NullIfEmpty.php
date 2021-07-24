@@ -15,6 +15,8 @@ use Params\ValidationResult;
  */
 class NullIfEmpty implements ProcessRule
 {
+    use CheckString;
+
     public function process(
         $value,
         ProcessedValues $processedValues,
@@ -24,7 +26,10 @@ class NullIfEmpty implements ProcessRule
             return ValidationResult::finalValueResult(null);
         }
 
-        $temp_value = (string)$value;
+        $this->checkString($value);
+        /** @var string $value */
+
+        $temp_value = $value;
         $temp_value = trim($temp_value);
 
         if (strlen($temp_value) === 0) {

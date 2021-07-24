@@ -22,6 +22,8 @@ use function Params\array_value_exists;
  */
 class MultipleEnum implements ProcessRule
 {
+    use CheckString;
+
     /** @var string[] */
     private array $allowedValues;
 
@@ -38,12 +40,15 @@ class MultipleEnum implements ProcessRule
         ProcessedValues $processedValues,
         InputStorage $inputStorage
     ): ValidationResult {
-        // TODO - handle to string conversion better.
-        $value = trim((string)$value);
+
+        $this->checkString($value);
+        /** @var string $value */
+
+        $value = trim($value);
         $enumStringParts = explode(',', $value);
         $enumElements = [];
         foreach ($enumStringParts as $enumStringPart) {
-            $enumStringPart = trim($enumStringPart);
+//            $enumStringPart = trim($enumStringPart);
             if (strlen($enumStringPart) === 0) {
                 // TODO - needs unit test.
                 // treat empty segments as no value

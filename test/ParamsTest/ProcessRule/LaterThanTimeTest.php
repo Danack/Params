@@ -16,6 +16,7 @@ use ParamsTest\BaseTestCase;
  */
 class LaterThanTimeTest extends BaseTestCase
 {
+
     /**
      * @covers \Params\ProcessRule\LaterThanTime
      */
@@ -51,6 +52,28 @@ class LaterThanTimeTest extends BaseTestCase
         $validationResult = $rule->process($value, $processedValues, $dataLocator);
 
         $this->assertCount(1, $validationResult->getValidationProblems());
+
+        $this->assertValidationProblemRegexp(
+            '/newtime',
+            Messages::TIME_MUST_BE_AFTER_TIME,
+            $validationResult->getValidationProblems()
+        );
+        $this->assertTrue($validationResult->isFinalResult());
+    }
+
+    /**
+     * @covers \Params\ProcessRule\LaterThanTime
+     */
+    public function testSameTimeErrors()
+    {
+        $value = new \DateTime('2000-01-01 12:00:00');
+
+        $processedValues = ProcessedValues::fromArray([]);
+        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
+
+        $compareTime = new \DateTime('2000-01-01 12:00:00');
+        $rule = new LaterThanTime($compareTime);
+        $validationResult = $rule->process($value, $processedValues, $dataLocator);
 
         $this->assertValidationProblemRegexp(
             '/newtime',

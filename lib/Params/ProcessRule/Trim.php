@@ -11,14 +11,18 @@ use Params\ValidationResult;
 
 class Trim implements ProcessRule
 {
+    use CheckString;
+
     public function process(
         $value,
         ProcessedValues $processedValues,
         InputStorage $inputStorage
     ): ValidationResult {
 
-        // TODO - handle string conversion more safely?
-        return ValidationResult::valueResult(trim((string)$value));
+        $this->checkString($value);
+        /** @var string $value */
+
+        return ValidationResult::valueResult(trim($value));
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

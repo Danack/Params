@@ -38,6 +38,7 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     private ?int $maxItems = null;
 
+    private ?string $collectionFormat = null;
 
     /**
      * @var mixed
@@ -303,12 +304,19 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     public function setCollectionFormat(string $collectionFormat): void
     {
+        $this->collectionFormat = $collectionFormat;
 //        simple
         // CSV
 
         // TODO - version 3, replaces collectionFormat
         // with style = simple
 //        throw new \Exception("setCollectionFormat not implemented yet.");
+    }
+
+
+    public function getCollectionFormat(): ?string
+    {
+        return $this->collectionFormat;
     }
 
     public function setDefault($default): void

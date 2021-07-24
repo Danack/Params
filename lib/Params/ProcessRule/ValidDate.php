@@ -12,14 +12,16 @@ use Params\ValidationResult;
 
 class ValidDate implements ProcessRule
 {
+    use CheckString;
 
     public function process(
         $value,
         ProcessedValues $processedValues,
         InputStorage $inputStorage
     ): ValidationResult {
-        // TODO - should we handle this better?
-        $value = (string)$value;
+        $this->checkString($value);
+        /** @var string $value */
+
         $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d', $value);
         if ($dateTime instanceof \DateTimeImmutable) {
             $dateTime = $dateTime->setTime(0, 0, 0, 0);

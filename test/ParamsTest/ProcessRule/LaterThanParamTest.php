@@ -46,6 +46,39 @@ class LaterThanParamTest extends BaseTestCase
     /**
      * @covers \Params\ProcessRule\LaterThanParam
      */
+    public function testSameTimeErrors()
+    {
+        $previousTime = \DateTimeImmutable::createFromFormat(
+            \DateTime::RFC3339,
+            '2002-10-02T10:00:00-05:00'
+        );
+
+        $value = \DateTimeImmutable::createFromFormat(
+            \DateTime::RFC3339,
+            '2002-10-02T10:00:00-05:00'
+        );
+
+        $processedValues = ProcessedValues::fromArray(['foo' => $previousTime]);
+        $dataLocator = ArrayInputStorage::fromSingleValue('bar', $value);
+
+        $rule = new LaterThanParam('foo', 0);
+
+        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+
+        $this->assertValidationProblemRegexp(
+            '/bar',
+            Messages::TIME_MUST_BE_X_MINUTES_AFTER_TIME,
+            $validationResult->getValidationProblems()
+        );
+
+        $this->assertCount(1, $validationResult->getValidationProblems());
+        $this->assertTrue($validationResult->isFinalResult());
+    }
+
+
+    /**
+     * @covers \Params\ProcessRule\LaterThanParam
+     */
     public function testInvalidMinutes()
     {
         $this->expectExceptionMessageMatchesTemplateString(Messages::MINUTES_MUST_BE_GREATER_THAN_ZERO);
