@@ -71,8 +71,14 @@ class ValidCharactersTest extends BaseTestCase
      */
     public function testDescription()
     {
-        $this->markTestSkipped();
         $rule = new ValidCharacters('a-zA-Z');
         $description = $this->applyRuleToDescription($rule);
+
+        $schema = $description->toArray();
+
+//        type: string
+//      maxLength: 10
+//      pattern: ^[A-Za-z0-9]{3,10}$
+
     }
 }

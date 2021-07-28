@@ -168,7 +168,6 @@ function getInputParameterListForClass(string $className)
 
 
 /**
- * TODO - replace this with the named params version.
  * @template T
  * @param class-string<T> $classname
  * @param array $values
@@ -178,8 +177,6 @@ function getInputParameterListForClass(string $className)
  */
 function createObjectFromParams(string $classname, array $values)
 {
-    // TODO - replace this with the named params version.
-
     $reflection_class = new \ReflectionClass($classname);
 
     $r_constructor = $reflection_class->getConstructor();

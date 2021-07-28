@@ -15,25 +15,25 @@ use ParamsTest\ImagickColorParam;
 
 class TestObject
 {
-    private string $foo;
-    private int $bar;
+    private string $name;
+    private int $age;
 
     public function __construct(
-        string $foo,
-        int $bar
+        string $name,
+        int $age
     ) {
-        $this->foo = $foo;
-        $this->bar = $bar;
+        $this->name = $name;
+        $this->age = $age;
     }
 
-    public function getFoo(): string
+    public function getName(): string
     {
-        return $this->foo;
+        return $this->name;
     }
 
-    public function getBar(): int
+    public function getAge(): int
     {
-        return $this->bar;
+        return $this->age;
     }
 }
 

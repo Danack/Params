@@ -193,21 +193,44 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_CreateObjectFromParams()
     {
-        $fooValue = 'John';
-        $barValue = 123;
+        $name = 'John';
+        $age = 34;
 
         $object = \Params\createObjectFromParams(
             \TestObject::class,
             [
-                'foo' => $fooValue,
-                'bar' => $barValue
+                'name' => $name,
+                'age' => $age
             ]
         );
 
         $this->assertInstanceOf(\TestObject::class, $object);
-        $this->assertSame($fooValue, $object->getFoo());
-        $this->assertSame($barValue, $object->getBar());
+        $this->assertSame($name, $object->getName());
+        $this->assertSame($age, $object->getAge());
     }
+
+    /**
+     * @covers ::\Params\createObjectFromParams
+     * @group wtf
+     */
+    public function test_CreateObjectFromParams_out_of_order()
+    {
+        $nameValue = 'John';
+        $ageValue = 36;
+
+        $object = \Params\createObjectFromParams(
+            \TestObject::class,
+            [
+                'age' => $ageValue,
+                'name' => $nameValue
+            ]
+        );
+
+        $this->assertInstanceOf(\TestObject::class, $object);
+        $this->assertSame($ageValue, $object->getAge());
+        $this->assertSame($nameValue, $object->getName());
+    }
+
 
     /**
      * @covers ::\Params\createTypeFromAnnotations
@@ -758,7 +781,6 @@ class FunctionsTest extends BaseTestCase
 
     /**
      * @covers ::\Params\getParamsFromAnnotations
-     * @group wip
      */
     public function test_getParamsFromAnnotations()
     {
@@ -777,7 +799,6 @@ class FunctionsTest extends BaseTestCase
 
     /**
      * @covers ::\Params\getParamsFromAnnotations
-     * @group wip
      */
     public function test_getParamsFromAnnotations_non_existant_param_class()
     {
@@ -795,7 +816,6 @@ class FunctionsTest extends BaseTestCase
 
     /**
      * @covers ::\Params\getParamsFromAnnotations
-     * @group wip
      */
     public function testMultipleParamsErrors()
     {
@@ -814,7 +834,6 @@ class FunctionsTest extends BaseTestCase
 
     /**
      * @covers ::\Params\getParamsFromAnnotations
-     * @group wip
      */
     public function test_getParamsFromAnnotations_skips_non_param_annotation()
     {
@@ -831,7 +850,6 @@ class FunctionsTest extends BaseTestCase
 
     /**
      * @covers ::\Params\getDefaultSupportedTimeFormats
-     * @group wip
      */
     public function test_getDefaultSupportedTimeFormats()
     {

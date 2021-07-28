@@ -51,6 +51,9 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     private ?bool $nullAllowed = null;
 
+    private ?string $pattern = null;
+
+
     public function __construct(string $name)
     {
         $this->name = $name;
@@ -133,13 +136,19 @@ class OpenApiV300ParamDescription implements ParamDescription
         if ($this->maxLength !== null) {
             $schema['maxLength'] = $this->maxLength;
         }
-
         if ($this->exclusiveMaximum !== null) {
             $schema['exclusiveMaximum'] = $this->exclusiveMaximum;
         }
         if ($this->exclusiveMinimum !== null) {
             $schema['exclusiveMinimum'] = $this->exclusiveMinimum;
         }
+
+        // pattern (This string SHOULD be a valid regular expression, according
+        // to the ECMA 262 regular expression dialect)
+        if ($this->pattern !== null) {
+            $schema['pattern'] = $this->pattern;
+        }
+
         if ($this->nullAllowed !== null) {
             $schema['nullable'] = $this->nullAllowed;
         }
@@ -159,19 +168,11 @@ class OpenApiV300ParamDescription implements ParamDescription
 //title
 //multipleOf
 
-//exclusiveMaximum
-
-//exclusiveMinimum
-
-//pattern (This string SHOULD be a valid regular expression, according to the ECMA 262 regular expression dialect)
 //maxItems
 //minItems
 //uniqueItems
 //maxProperties
 //minProperties
-
-
-
 
 //    allOf - Inline or referenced schema MUST be of a Schema Object and not a standard JSON Schema.
 //    oneOf - Inline or referenced schema MUST be of a Schema Object and not a standard JSON Schema.
@@ -366,9 +367,19 @@ class OpenApiV300ParamDescription implements ParamDescription
 
     public function setPattern(string $pattern): void
     {
+        //https://262.ecma-international.org/5.1/#sec-15.10.1
+
         // pattern: '^\d{3}-\d{2}-\d{4}$'
         // TODO: Implement setPattern() method.
-        throw new \Exception("setPattern not implemented yet.");
+        $this->pattern = $pattern;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPattern(): ?string
+    {
+        return $this->pattern;
     }
 
     public function setMaxItems(int $maxItems): void
