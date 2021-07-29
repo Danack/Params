@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\ArrayDataStorage;
 use function JsonSafe\json_decode_safe;
 use function Params\createOrError;
 
@@ -21,8 +21,8 @@ trait CreateOrErrorFromJson
         $data = json_decode_safe($json);
 
         $namedRules = static::getInputParameterList();
-        $dataLocator = ArrayInputStorage::fromArray($data);
+        $dataStorage = ArrayDataStorage::fromArray($data);
 
-        return createOrError(static::class, $namedRules, $dataLocator);
+        return createOrError(static::class, $namedRules, $dataStorage);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\NullIfEmpty;
 use Params\ProcessedValues;
@@ -34,9 +34,9 @@ class NullIfEmptyTest extends BaseTestCase
     {
         $rule = new NullIfEmpty();
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
         $this->assertNoProblems($validationResult);
 

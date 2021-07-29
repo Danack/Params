@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\ProcessedValues;
 use Params\Rule;
 use Params\ValidationResult;
@@ -18,11 +18,11 @@ interface ExtractRule extends Rule
 {
     /**
      * @param ProcessedValues $processedValues
-     * @param InputStorage $dataLocator
+     * @param DataStorage $dataStorage
      * @return ValidationResult
      */
     public function process(
         ProcessedValues $processedValues,
-        InputStorage $dataLocator
+        DataStorage $dataStorage
     ) : ValidationResult;
 }

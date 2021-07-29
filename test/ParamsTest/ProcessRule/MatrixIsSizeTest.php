@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\ProcessedValues;
 use Params\ProcessRule\MatrixIsSize;
@@ -51,10 +51,10 @@ class MatrixIsSizeTest extends BaseTestCase
         $rule = new MatrixIsSize($row, $columns);
         $processedValues = new ProcessedValues();
 
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
 
         $validationResult = $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
 
         $this->assertNoProblems($validationResult);
@@ -91,12 +91,12 @@ class MatrixIsSizeTest extends BaseTestCase
     {
         $rule = new MatrixIsSize($row, $columns);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
 
         $validationResult = $rule->process(
             $testValue,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertValidationProblemRegexp(

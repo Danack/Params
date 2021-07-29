@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Trim;
@@ -23,7 +23,7 @@ class TrimTest extends BaseTestCase
         $rule = new Trim();
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
-            ' bar ', $processedValues, ArrayInputStorage::fromArraySetFirstValue([' bar '])
+            ' bar ', $processedValues, TestArrayDataStorage::fromArraySetFirstValue([' bar '])
         );
         $this->assertNoProblems($validationResult);
         $this->assertEquals($validationResult->getValue(), 'bar');

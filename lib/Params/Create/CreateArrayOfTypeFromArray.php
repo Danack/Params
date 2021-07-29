@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\ArrayDataStorage;
 use Params\Exception\ValidationException;
 use Params\ExtractRule\GetType;
 use VarMap\VarMap;
@@ -24,7 +24,7 @@ trait CreateArrayOfTypeFromArray
     public static function createArrayOfTypeFromArray(array $data)
     {
         $getType = GetType::fromClass(self::class);
-        $dataStorage = ArrayInputStorage::fromArray($data);
+        $dataStorage = ArrayDataStorage::fromArray($data);
 
         $validationResult = createArrayOfTypeFromInputStorage(
             $dataStorage,

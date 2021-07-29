@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\Order;
 use ParamsTest\BaseTestCase;
@@ -35,9 +35,9 @@ class MultipleEnumTest extends BaseTestCase
     {
         $rule = new MultipleEnum(['foo', 'bar']);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            $inputString, $processedValues, $dataLocator
+            $inputString, $processedValues, $dataStorage
         );
         $this->assertNoProblems($validationResult);
 
@@ -60,7 +60,7 @@ class MultipleEnumTest extends BaseTestCase
         $validationResult = $rule->process(
             $badValue,
             $processedValues,
-            ArrayInputStorage::fromSingleValue('foo', $badValue)
+            TestArrayDataStorage::fromSingleValue('foo', $badValue)
         );
 
         $this->assertValidationProblemRegexp(
@@ -86,9 +86,9 @@ class MultipleEnumTest extends BaseTestCase
     {
         $enumRule = new MultipleEnum(['foo', 'bar']);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $result = $enumRule->process(
-            $input, $processedValues, $dataLocator
+            $input, $processedValues, $dataStorage
         );
 
         $this->assertEmpty($result->getValidationProblems());
@@ -113,9 +113,9 @@ class MultipleEnumTest extends BaseTestCase
     {
         $rule = new MultipleEnum(['time', 'distance']);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
 
         $value = $validationResult->getValue();
@@ -141,9 +141,9 @@ class MultipleEnumTest extends BaseTestCase
 
         $rule = new MultipleEnum($values);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
         $validationResult = $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
 
         $this->assertValidationProblemRegexp(

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\RangeLength;
@@ -87,9 +87,9 @@ class RangeLengthTest extends BaseTestCase
     ) {
         $rule = new RangeLength($minLength, $maxLength);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $string);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $string);
         $validationResult = $rule->process(
-            $string, $processedValues, $dataLocator
+            $string, $processedValues, $dataStorage
         );
 
         if ($expectedError === null) {

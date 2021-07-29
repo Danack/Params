@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
@@ -13,14 +13,14 @@ class GetOptionalString implements ExtractRule
 {
     public function process(
         ProcessedValues $processedValues,
-        InputStorage $dataLocator
+        DataStorage $dataStorage
     ): ValidationResult {
-        if ($dataLocator->isValueAvailable() !== true) {
+        if ($dataStorage->isValueAvailable() !== true) {
             return ValidationResult::valueResult(null);
         }
 
         // TODO - convert strings better.
-        $value = (string)$dataLocator->getCurrentValue();
+        $value = (string)$dataStorage->getCurrentValue();
 
         return ValidationResult::valueResult($value);
     }

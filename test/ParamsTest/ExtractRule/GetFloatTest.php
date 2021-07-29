@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetFloat;
@@ -24,7 +24,7 @@ class GetFloatTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::createMissing('foo')
+            TestArrayDataStorage::createMissing('foo')
         );
 
         $this->assertProblems(
@@ -53,7 +53,7 @@ class GetFloatTest extends BaseTestCase
         $validator = new ProcessedValues();
         $rule = new GetFloat();
         $validationResult = $rule->process(
-            $validator, ArrayInputStorage::fromArraySetFirstValue([$variableName => $input])
+            $validator, TestArrayDataStorage::fromArraySetFirstValue([$variableName => $input])
         );
 
         $this->assertNoProblems($validationResult);
@@ -76,7 +76,7 @@ class GetFloatTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::fromSingleValue('foo', $value)
+            TestArrayDataStorage::fromSingleValue('foo', $value)
         );
 
         $this->assertValidationProblemRegexp(

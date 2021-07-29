@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidCharacters;
@@ -35,10 +35,10 @@ class ValidCharactersTest extends BaseTestCase
     {
         $rule = new ValidCharacters($validCharactersPattern);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
 
         $validationResult = $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
         if ($expectedErrorPosition !== null) {
             $this->assertValidationProblemRegexp(

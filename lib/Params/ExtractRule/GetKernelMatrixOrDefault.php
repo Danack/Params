@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ProcessRule\FloatInput;
@@ -38,14 +38,14 @@ class GetKernelMatrixOrDefault implements ExtractRule
 
     public function process(
         ProcessedValues $processedValues,
-        InputStorage $dataLocator
+        DataStorage $dataStorage
     ): ValidationResult {
-        if ($dataLocator->isValueAvailable() !== true) {
+        if ($dataStorage->isValueAvailable() !== true) {
             return ValidationResult::valueResult($this->default);
         }
 
         $floatRule = new FloatInput();
-        $currentValue = $dataLocator->getCurrentValue();
+        $currentValue = $dataStorage->getCurrentValue();
 
         if (is_string($currentValue) !== true) {
             throw new LogicException("Value must be json string");
@@ -56,12 +56,12 @@ class GetKernelMatrixOrDefault implements ExtractRule
         $matrix_value = json_decode($currentValue, $associative = true, 4);
         $lastError = json_last_error();
         if ($lastError !== JSON_ERROR_NONE) {
-            return ValidationResult::errorResult($dataLocator, "Error parsing matrix" . json_last_error_msg());
+            return ValidationResult::errorResult($dataStorage, "Error parsing matrix" . json_last_error_msg());
         }
 
         if (is_array($matrix_value) !== true) {
             $message = "2d array expected but value is " . var_export($matrix_value, true);
-            return ValidationResult::errorResult($dataLocator, $message);
+            return ValidationResult::errorResult($dataStorage, $message);
         }
 
         $validationProblems = [];
@@ -69,7 +69,7 @@ class GetKernelMatrixOrDefault implements ExtractRule
 
         foreach ($matrix_value as $row) {
             if (is_array($row) !== true) {
-                return ValidationResult::errorResult($dataLocator, "Row $row_count - 2d array expected");
+                return ValidationResult::errorResult($dataStorage, "Row $row_count - 2d array expected");
             }
 
             $column_count = 0;
@@ -81,7 +81,7 @@ class GetKernelMatrixOrDefault implements ExtractRule
                         $column_count,
                     );
 
-                    return ValidationResult::errorResult($dataLocator, $message);
+                    return ValidationResult::errorResult($dataStorage, $message);
                 }
 
                 $column_count += 1;
@@ -91,7 +91,7 @@ class GetKernelMatrixOrDefault implements ExtractRule
                 $floatRuleResult = $floatRule->process(
                     $value,
                     $processedValues,
-                    $dataLocator
+                    $dataStorage
                 );
 
                 if ($floatRuleResult->anyErrorsFound()) {

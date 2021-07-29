@@ -8,7 +8,7 @@ use Params\ExtractRule\GetArrayOfTypeOrNull;
 use ParamsTest\BaseTestCase;
 use ParamsTest\Integration\ReviewScore;
 use Params\ProcessedValues;
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -18,7 +18,6 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
 
     /**
      * @covers \Params\ExtractRule\GetArrayOfTypeOrNull
-     * @group
      */
     public function testWorks()
     {
@@ -30,7 +29,7 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
         $processedValues = new ProcessedValues();
         $result = $rule->process(
             $processedValues,
-            ArrayInputStorage::fromArray($data)
+            TestArrayDataStorage::fromArray($data)
         );
 
         $this->assertNoProblems($result);
@@ -49,7 +48,7 @@ class GetArrayOfTypeOrNullTest extends BaseTestCase
      */
     public function testWorksWhenNotSet()
     {
-        $dataStorage = ArrayInputStorage::fromArray([]);
+        $dataStorage = TestArrayDataStorage::fromArray([]);
         $dataStorageAtItems = $dataStorage->moveKey('items');
         $rule = new GetArrayOfTypeOrNull(ReviewScore::class);
 

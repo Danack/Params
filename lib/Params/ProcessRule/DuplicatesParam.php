@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -29,7 +29,7 @@ class DuplicatesParam implements ProcessRule
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorage $inputStorage
+        DataStorage $inputStorage
     ): ValidationResult {
         if ($processedValues->hasValue($this->paramToDuplicate) !== true) {
             $message = sprintf(

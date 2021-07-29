@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\ArrayDataStorage;
 use VarMap\VarMap;
 use function Params\createOrError;
 
@@ -18,8 +18,8 @@ trait CreateOrErrorFromVarMap
     public static function createOrErrorFromVarMap(VarMap $variableMap)
     {
         $namedRules = static::getInputParameterList();
-        $dataLocator = ArrayInputStorage::fromVarMap($variableMap);
+        $dataStorage = ArrayDataStorage::fromArray($variableMap->toArray());
 
-        return createOrError(static::class, $namedRules, $dataLocator);
+        return createOrError(static::class, $namedRules, $dataStorage);
     }
 }

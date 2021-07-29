@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysEndsRule;
 use Params\ProcessedValues;
@@ -22,11 +22,11 @@ class AlwaysEndsRuleTest extends BaseTestCase
         $finalValue = 123;
         $rule = new AlwaysEndsRule($finalValue);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $result = $rule->process(
             $unused_input = 4,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertNoProblems($result);

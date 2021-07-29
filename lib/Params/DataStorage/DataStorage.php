@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Params\InputStorage;
+namespace Params\DataStorage;
 
 /**
  * When iterating over the input data, we need to be able to
@@ -17,15 +17,14 @@ namespace Params\InputStorage;
  * The path format is JSON pointer: https://tools.ietf.org/html/rfc6901
  *
  */
-interface InputStorage
+interface DataStorage
 {
     /**
      * Get the value from the current position in the storage.
      * @return mixed
-     * @TODO - could this be converted so that we are only ever
-     * dealing with strings?
+     * @throw \Params\Exception\InvalidLocationException
      */
-    public function getCurrentValue();
+    public function getCurrentValue(): mixed;
 
     /**
      * Get the current path in JSON pointer format. e.g. /bar/2

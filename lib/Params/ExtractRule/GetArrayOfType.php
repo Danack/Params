@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -38,19 +38,19 @@ class GetArrayOfType implements ExtractRule
 
     public function process(
         ProcessedValues $processedValues,
-        InputStorage $dataLocator
+        DataStorage $dataStorage
     ): ValidationResult {
 
         // Check it is set
-        if ($dataLocator->isValueAvailable() !== true) {
+        if ($dataStorage->isValueAvailable() !== true) {
             return ValidationResult::errorResult(
-                $dataLocator,
+                $dataStorage,
                 Messages::ERROR_MESSAGE_NOT_SET_VARIANT_1
             );
         }
 
         return createArrayOfTypeFromInputStorage(
-            $dataLocator,
+            $dataStorage,
             $this->typeExtractor
         );
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessRule\ImagickRgbColorRule;
 use ParamsTest\BaseTestCase;
@@ -35,15 +35,14 @@ class ValidDateTest extends BaseTestCase
     /**
      * @dataProvider provideTestWorksCases
      * @covers \Params\ProcessRule\ValidDate
-     * @group heisenbug
      */
     public function testValidationWorks($input, $expectedTime)
     {
         $rule = new ValidDate();
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            $input, $processedValues, $dataLocator
+            $input, $processedValues, $dataStorage
         );
 
         $this->assertNoProblems($validationResult);
@@ -69,7 +68,7 @@ class ValidDateTest extends BaseTestCase
         $validationResult = $rule->process(
             $input,
             $processedValues,
-            ArrayInputStorage::fromSingleValue('foo', $input)
+            TestArrayDataStorage::fromSingleValue('foo', $input)
         );
 
         $this->assertValidationProblemRegexp(

@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace ParamsTest;
 
 use Params\ValidationProblem;
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -17,7 +17,7 @@ class ValidationProblemTest extends BaseTestCase
      */
     public function testWorks()
     {
-        $dataStorage = ArrayInputStorage::fromArray([]);
+        $dataStorage = TestArrayDataStorage::fromArray([]);
 
         $key = 'nonexistent';
 

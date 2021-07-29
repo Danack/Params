@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\Create;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\ArrayDataStorage;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use function Params\create;
@@ -25,13 +25,13 @@ trait CreateFromJson
     {
         $rules = static::getInputParameterList();
         $data = json_decode_safe($json);
-        $dataLocator = ArrayInputStorage::fromArray($data);
+        $dataStorage = ArrayDataStorage::fromArray($data);
 
         $variableMap = new ArrayVarMap($data);
         $object = create(
             static::class,
             $rules,
-            $dataLocator
+            $dataStorage
         );
 
         /** @var $object self */

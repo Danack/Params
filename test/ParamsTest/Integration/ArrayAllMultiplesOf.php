@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ParamsTest\Integration;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ProcessRule\ProcessRule;
@@ -33,13 +33,13 @@ class ArrayAllMultiplesOf implements ProcessRule
     /**
      * @param mixed $value
      * @param ProcessedValues $processedValues
-     * @param InputStorage $inputStorage
+     * @param DataStorage $inputStorage
      * @return ValidationResult
      */
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorage $inputStorage
+        DataStorage $inputStorage
     ): ValidationResult {
         $errors = [];
 

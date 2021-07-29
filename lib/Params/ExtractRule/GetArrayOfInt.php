@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ExtractRule;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -25,21 +25,21 @@ class GetArrayOfInt implements ExtractRule
 
     public function process(
         ProcessedValues $processedValues,
-        InputStorage $dataLocator
+        DataStorage $dataStorage
     ): ValidationResult {
 
         // Check its set
-        if ($dataLocator->isValueAvailable() !== true) {
+        if ($dataStorage->isValueAvailable() !== true) {
             $message = sprintf(Messages::ERROR_MESSAGE_NOT_SET);
-            return ValidationResult::errorResult($dataLocator, $message);
+            return ValidationResult::errorResult($dataStorage, $message);
         }
 
-        $itemData = $dataLocator->getCurrentValue();
+        $itemData = $dataStorage->getCurrentValue();
 
         // Check its an array
         if (is_array($itemData) !== true) {
             $message = sprintf(Messages::ERROR_MESSAGE_NOT_ARRAY);
-            return ValidationResult::errorResult($dataLocator, $message);
+            return ValidationResult::errorResult($dataStorage, $message);
         }
 
         // Setup stuff
@@ -51,10 +51,10 @@ class GetArrayOfInt implements ExtractRule
         $intRule = new IntegerInput();
 
         foreach ($itemData as $itemDatum) {
-            $dataLocatorForItem = $dataLocator->moveKey($index);
+            $dataStorageForItem = $dataStorage->moveKey($index);
 
             // Process the int rule for the item
-            $result = $intRule->process($itemDatum, $processedValues, $dataLocatorForItem);
+            $result = $intRule->process($itemDatum, $processedValues, $dataStorageForItem);
 
             // If error, add it and attempt next entry in array
             if ($result->anyErrorsFound()) {
@@ -73,7 +73,7 @@ class GetArrayOfInt implements ExtractRule
             $validator2 = new ProcessedValues();
             [$newValidationProblems, $processedValue] = processProcessingRules(
                 $result->getValue(),
-                $dataLocatorForItem,
+                $dataStorageForItem,
                 $validator2,
                 ...$this->subsequentRules
             );

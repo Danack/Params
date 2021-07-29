@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
@@ -35,9 +35,9 @@ class MinimumCountTest extends BaseTestCase
     {
         $rule = new MinimumCount($minimumCount);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            $values, $processedValues, $dataLocator
+            $values, $processedValues, $dataStorage
         );
         $this->assertNoProblems($validationResult);
         $this->assertFalse($validationResult->isFinalResult());
@@ -62,7 +62,7 @@ class MinimumCountTest extends BaseTestCase
         $rule = new MinimumCount($minimumCount);
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
-            $values, $processedValues, ArrayInputStorage::fromArray([$values])
+            $values, $processedValues, TestArrayDataStorage::fromArray([$values])
         );
         $this->assertNull($validationResult->getValue());
         $this->assertTrue($validationResult->isFinalResult());
@@ -104,7 +104,7 @@ class MinimumCountTest extends BaseTestCase
         );
 
         $rule->process(
-            'a banana', $processedValues, ArrayInputStorage::fromArraySetFirstValue(['a banana'])
+            'a banana', $processedValues, TestArrayDataStorage::fromArraySetFirstValue(['a banana'])
         );
     }
 

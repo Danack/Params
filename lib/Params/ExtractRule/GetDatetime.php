@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -36,28 +36,28 @@ class GetDatetime implements ExtractRule
 
     public function process(
         ProcessedValues $processedValues,
-        InputStorage $dataLocator
+        DataStorage $dataStorage
     ): ValidationResult {
-        if ($dataLocator->isValueAvailable() !== true) {
-            return ValidationResult::errorResult($dataLocator, Messages::VALUE_NOT_SET);
+        if ($dataStorage->isValueAvailable() !== true) {
+            return ValidationResult::errorResult($dataStorage, Messages::VALUE_NOT_SET);
         }
 
-        $value = $dataLocator->getCurrentValue();
+        $value = $dataStorage->getCurrentValue();
 
         if (is_array($value) === true) {
-            return ValidationResult::errorResult($dataLocator, Messages::ERROR_DATETIME_MUST_START_AS_STRING);
+            return ValidationResult::errorResult($dataStorage, Messages::ERROR_DATETIME_MUST_START_AS_STRING);
         }
 
         if (is_scalar($value) !== true) {
             return ValidationResult::errorResult(
-                $dataLocator,
+                $dataStorage,
                 Messages::ERROR_DATETIME_MUST_START_AS_STRING,
             );
         }
 
         // TODO - reject bools/ints?
         // TODO - needs string input
-        $value = (string)$dataLocator->getCurrentValue();
+        $value = (string)$dataStorage->getCurrentValue();
 
         foreach ($this->allowedFormats as $allowedFormat) {
             $dateTime = \DateTimeImmutable::createFromFormat($allowedFormat, $value);
@@ -67,7 +67,7 @@ class GetDatetime implements ExtractRule
             }
         }
 
-        return ValidationResult::errorResult($dataLocator, Messages::ERROR_INVALID_DATETIME);
+        return ValidationResult::errorResult($dataStorage, Messages::ERROR_INVALID_DATETIME);
     }
 
     public function updateParamDescription(ParamDescription $paramDescription): void

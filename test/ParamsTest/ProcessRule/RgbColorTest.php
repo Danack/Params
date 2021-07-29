@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\ProcessedValues;
 use Params\ProcessRule\RgbColorRule;
@@ -33,10 +33,10 @@ class RgbColorTest extends BaseTestCase
         $rule = new RgbColorRule();
         $processedValues = new ProcessedValues();
 
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
 
         $validationResult = $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
 
         $this->assertNoProblems($validationResult);
@@ -51,7 +51,7 @@ class RgbColorTest extends BaseTestCase
         $rule = new RgbColorRule();
         $processedValues = new ProcessedValues();
 
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
 
         $this->expectException(InvalidRulesException::class);
         $this->expectExceptionMessageMatchesTemplateString(
@@ -59,7 +59,7 @@ class RgbColorTest extends BaseTestCase
         );
 
         $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
     }
 
@@ -78,12 +78,12 @@ class RgbColorTest extends BaseTestCase
     {
         $rule = new RgbColorRule();
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
 
         $validationResult = $rule->process(
             $testValue,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertValidationProblemRegexp(

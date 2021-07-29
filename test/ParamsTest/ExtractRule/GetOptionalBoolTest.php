@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalBool;
@@ -40,7 +40,7 @@ class GetOptionalBoolTest extends BaseTestCase
         $rule = new GetOptionalBool();
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
-            $validator, ArrayInputStorage::fromSingleValue('foo', $input)
+            $validator, TestArrayDataStorage::fromSingleValue('foo', $input)
         );
 
         $this->assertNoProblems($validationResult);
@@ -56,7 +56,7 @@ class GetOptionalBoolTest extends BaseTestCase
         $rule = new GetOptionalBool();
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
-            $validator, ArrayInputStorage::createMissing('foo')
+            $validator, TestArrayDataStorage::createMissing('foo')
         );
 
         $this->assertNoProblems($validationResult);
@@ -81,7 +81,7 @@ class GetOptionalBoolTest extends BaseTestCase
         $rule = new GetOptionalBool();
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::fromSingleValue('foo', $inputValue)
+            TestArrayDataStorage::fromSingleValue('foo', $inputValue)
         );
 
         $this->assertValidationProblemRegexp(

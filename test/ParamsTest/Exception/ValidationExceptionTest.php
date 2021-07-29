@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
 use Params\Exception\ValidationException;
 use Params\ValidationProblem;
@@ -19,14 +19,14 @@ class ValidationExceptionTest extends BaseTestCase
      */
     public function testGetting()
     {
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
 
         $message1 = 'foo was invalid';
         $message2 = 'bar was invalid';
 
         $validationMessages = [
-            new ValidationProblem($dataLocator, $message1),
-            new ValidationProblem($dataLocator, $message2)
+            new ValidationProblem($dataStorage, $message1),
+            new ValidationProblem($dataStorage, $message2)
         ];
 
         $exception = new ValidationException(
@@ -54,10 +54,10 @@ class ValidationExceptionTest extends BaseTestCase
         $detail_of_problem = "";
         $general_description = 'General description';
 
-        $dataLocator = ArrayInputStorage::fromArray(['foo' => 'bar']);
-        $dataLocatorAtFoo = $dataLocator->moveKey('foo');
+        $dataStorage = TestArrayDataStorage::fromArray(['foo' => 'bar']);
+        $dataStorageAtFoo = $dataStorage->moveKey('foo');
 
-        $validationProblem = new ValidationProblem($dataLocatorAtFoo, $detail_of_problem);
+        $validationProblem = new ValidationProblem($dataStorageAtFoo, $detail_of_problem);
 
         $exception = new ValidationException(
             $general_description,

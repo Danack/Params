@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\ValidationProblem;
 use ParamsTest\BaseTestCase;
 use Params\ValidationResult;
@@ -27,12 +27,12 @@ class ValidationResultTest extends BaseTestCase
     public function testErrorResult()
     {
         $path = 'foo';
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
-        $dataLocatorForPath = $dataLocator->moveKey($path);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
+        $dataStorageForPath = $dataStorage->moveKey($path);
 
         $validationMessage = 'Something went wrong';
         $validationResult = ValidationResult::errorResult(
-            $dataLocatorForPath,
+            $dataStorageForPath,
             $validationMessage
         );
 
@@ -61,7 +61,7 @@ class ValidationResultTest extends BaseTestCase
 
     public function testFromValidationProblemsWorks()
     {
-        $dataStorage = ArrayInputStorage::fromArray([]);
+        $dataStorage = TestArrayDataStorage::fromArray([]);
 
         $key = 'nonexistent';
 
@@ -77,7 +77,7 @@ class ValidationResultTest extends BaseTestCase
 
     public function testFromValidationProblemsBadKey()
     {
-        $dataStorage = ArrayInputStorage::fromArray([]);
+        $dataStorage = TestArrayDataStorage::fromArray([]);
 
         $key = 'nonexistent';
 

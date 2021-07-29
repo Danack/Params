@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Params\InputStorage;
+namespace Params\DataStorage;
 
 use Params\Exception\InvalidLocationException;
 use VarMap\VarMap;
@@ -11,13 +11,13 @@ use function Params\getJsonPointerParts;
 /**
  * Implementation of InputStorage that wraps around a simple array.
  */
-class ArrayInputStorage implements InputStorage
+class ArrayDataStorage implements DataStorage
 {
     private array $data;
 
     private array $currentLocation = [];
 
-    private function __construct(array $data)
+    protected function __construct(array $data)
     {
         $this->data = $data;
     }
@@ -30,72 +30,9 @@ class ArrayInputStorage implements InputStorage
     }
 
     /**
-     * @param int|string $key
-     * @param mixed $value
-     * @return self
-     */
-    public static function fromSingleValue($key, $value): self
-    {
-        $data = [$key => $value];
-        $instance = self::fromArray($data);
-
-        return $instance->moveKey($key);
-    }
-
-    /**
-     * @param int|string $key
-     * @param mixed $value
-     * @return self
-     */
-    public static function fromSingleValueButRoot($key, $value): self
-    {
-        $data = [$key => $value];
-        $instance = self::fromArray($data);
-
-        return $instance;
-    }
-
-    /**
-     * Used for testing missing data mostly.
-     * @param string $key
-     * @return self
-     */
-    public static function createMissing(string $key): self
-    {
-        $instance = new self([]);
-
-        return $instance->moveKey($key);
-    }
-
-
-    /**
-     * @todo - remove usages of this
-     */
-    public static function fromArraySetFirstValue(array $data): self
-    {
-        $instance = new self($data);
-
-        foreach ($data as $key => $value) {
-            return $instance->moveKey($key);
-        }
-
-        return $instance;
-    }
-
-    public static function fromVarMap(VarMap $varMap): self
-    {
-        return self::fromArray($varMap->toArray());
-    }
-
-    public static function fromVarMapAndSetFirstValue(VarMap $varMap): self
-    {
-        return self::fromArraySetFirstValue($varMap->toArray());
-    }
-
-    /**
      * @return mixed
      */
-    public function getCurrentValue()
+    public function getCurrentValue(): mixed
     {
         $data = $this->data;
 
@@ -120,10 +57,6 @@ class ArrayInputStorage implements InputStorage
         $data = $this->data;
 
         foreach ($this->currentLocation as $location) {
-            if (is_array($data) === false) {
-                return false;
-            }
-
             if (array_key_exists($location, $data) === false) {
                 return false;
             }

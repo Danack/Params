@@ -9,7 +9,7 @@ use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetArrayOfInt;
 use Params\ProcessedValues;
 use Params\ProcessRule\MaxIntValue;
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -25,13 +25,13 @@ class GetArrayOfIntTest extends BaseTestCase
 
         $input = ['foo' => $data];
 
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue($input);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue($input);
 
         $rule = new GetArrayOfInt();
         $validator = new ProcessedValues();
         $result = $rule->process(
             $validator,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertNoProblems($result);
@@ -49,7 +49,7 @@ class GetArrayOfIntTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::createMissing('foo')
+            TestArrayDataStorage::createMissing('foo')
         );
 
         $this->assertProblems(
@@ -71,7 +71,7 @@ class GetArrayOfIntTest extends BaseTestCase
 
         $validationResult = $rule->process(
             $validator,
-            $dataLocator = ArrayInputStorage::fromSingleValue('foo', $input)
+            $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $input)
         );
 
         $this->assertProblems(
@@ -96,7 +96,7 @@ class GetArrayOfIntTest extends BaseTestCase
         $rule = new GetArrayOfInt();
         $validator = new ProcessedValues();
         $result = $rule->process(
-            $validator, ArrayInputStorage::fromArray($data)
+            $validator, TestArrayDataStorage::fromArray($data)
         );
 
         $this->assertTrue($result->isFinalResult());
@@ -124,7 +124,7 @@ class GetArrayOfIntTest extends BaseTestCase
         $validator = new ProcessedValues();
 
         $result = $rule->process(
-            $validator, ArrayInputStorage::fromArray($data)
+            $validator, TestArrayDataStorage::fromArray($data)
         );
 
         $this->assertTrue($result->isFinalResult());

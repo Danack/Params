@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace ParamsTest;
 
 use Params\Exception\AnnotationClassDoesNotExistException;
+use Params\Exception\IncorrectNumberOfParamsException;
+use Params\Exception\MissingConstructorParameterNameException;
 use Params\Exception\PropertyHasMultipleParamAnnotationsException;
 use Params\ExtractRule\GetStringOrDefault;
-use Params\InputStorage\ArrayInputStorage;
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\TestArrayDataStorage;
+use Params\DataStorage\DataStorage;
 use Params\Exception\InputParameterListException;
 use Params\Exception\TypeNotInputParameterListException;
 use Params\ExtractRule\ExtractRule;
@@ -28,6 +30,8 @@ use Params\ExtractRule\GetType;
 use Params\ValidationResult;
 use Params\Exception\ValidationException;
 use VarMap\ArrayVarMap;
+use ParamsTest\Integration\FooParams;
+use Params\Exception\NoConstructorException;
 use function Params\createTypeFromAnnotations;
 use function Params\unescapeJsonPointer;
 use function Params\array_value_exists;
@@ -45,7 +49,10 @@ use function Params\createArrayOfTypeOrError;
 use function Params\checkAllowedFormatsAreStrings;
 use function Params\getParamsFromAnnotations;
 use function Params\getDefaultSupportedTimeFormats;
-use ParamsTest\Integration\FooParams;
+use function Params\getReflectionClassOfAttribute;
+use function Params\instantiateParam;
+use function Params\createObjectFromParams;
+
 
 /**
  * @coversNothing
@@ -211,7 +218,6 @@ class FunctionsTest extends BaseTestCase
 
     /**
      * @covers ::\Params\createObjectFromParams
-     * @group wtf
      */
     public function test_CreateObjectFromParams_out_of_order()
     {
@@ -231,6 +237,58 @@ class FunctionsTest extends BaseTestCase
         $this->assertSame($nameValue, $object->getName());
     }
 
+    /**
+     * @covers ::\Params\createObjectFromParams
+     */
+    public function test_CreateObjectFromParams_no_constructor()
+    {
+        $this->expectExceptionMessageMatchesTemplateString(Messages::CLASS_LACKS_CONSTRUCTOR);
+        $this->expectException(\Params\Exception\NoConstructorException::class);
+        createObjectFromParams(
+            \ThreeColorsNoConstructor::class,
+            []
+        );
+    }
+
+    /**
+     * @covers ::\Params\createObjectFromParams
+     */
+    public function test_CreateObjectFromParams_private_constructor()
+    {
+        $this->expectExceptionMessageMatchesTemplateString(Messages::CLASS_LACKS_PUBLIC_CONSTRUCTOR);
+        $this->expectException(\Params\Exception\NoConstructorException::class);
+        createObjectFromParams(
+            \ThreeColorsPrivateConstructor::class,
+            []
+        );
+    }
+
+    /**
+     * @covers ::\Params\createObjectFromParams
+     */
+    public function test_CreateObjectFromParams_wrong_number_params()
+    {
+        $this->expectException(IncorrectNumberOfParamsException::class);
+        createObjectFromParams(
+            \NotActuallyAParam::class,
+            []
+        );
+    }
+
+    /**
+     * @covers ::\Params\createObjectFromParams
+     */
+    public function test_CreateObjectFromParams_missing_param()
+    {
+        $this->expectException(MissingConstructorParameterNameException::class);
+        createObjectFromParams(
+            \NotActuallyAParam::class,
+            [
+                'name' => 'John',
+                'this_is_invalid' => 'Foo'
+            ]
+        );
+    }
 
     /**
      * @covers ::\Params\createTypeFromAnnotations
@@ -273,6 +331,8 @@ class FunctionsTest extends BaseTestCase
     {
         $message = "We should move to actually support json pointer correctly to make it easier to implement";
         $message .= "Also, I can't remember what the correct behaviour is meant to be here.";
+        // The current behaviour is probably wrong for json pointer...there is a conflict
+        // between following that and useful (to PHP developers) error messages.
 
         $this->markTestSkipped($message);
         $actual = \Params\getJsonPointerParts($input);
@@ -325,7 +385,7 @@ class FunctionsTest extends BaseTestCase
     public function test_processInputParameters()
     {
         $inputParameters = \AlwaysErrorsParams::getInputParameterList();
-        $dataStorage = ArrayInputStorage::fromArray([
+        $dataStorage = TestArrayDataStorage::fromArray([
             'foo' => 'foo string',
             'bar' => 'bar string'
         ]);
@@ -351,7 +411,7 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_processProcessingRules_works()
     {
-        $dataStorage = ArrayInputStorage::fromArray([
+        $dataStorage = TestArrayDataStorage::fromArray([
             'bar' => 'bar string'
         ]);
         $dataStorage = $dataStorage->moveKey('bar');
@@ -382,7 +442,7 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_processProcessingRules_errors()
     {
-        $dataStorage = ArrayInputStorage::fromArray([
+        $dataStorage = TestArrayDataStorage::fromArray([
             'bar' => 'bar string'
         ]);
         $dataStorage = $dataStorage->moveKey('bar');
@@ -422,7 +482,7 @@ class FunctionsTest extends BaseTestCase
             ['name' => 'John 3'],
         ];
 
-        $dataStorage = ArrayInputStorage::fromArray($data);
+        $dataStorage = TestArrayDataStorage::fromArray($data);
         $getType = GetType::fromClass(\TestParams::class);
 
         $result = createArrayOfTypeFromInputStorage(
@@ -457,7 +517,7 @@ class FunctionsTest extends BaseTestCase
             ['name_this_is_typo' => 'John 3'],
         ];
 
-        $dataStorage = ArrayInputStorage::fromArray($data);
+        $dataStorage = TestArrayDataStorage::fromArray($data);
         $getType = GetType::fromClass(\TestParams::class);
 
         $result = createArrayOfTypeFromInputStorage(
@@ -481,7 +541,7 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_createArrayOfType_not_array_data()
     {
-        $dataStorage = ArrayInputStorage::fromSingleValue('foo', 'bar');
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', 'bar');
         $getType = GetType::fromClass(\TestParams::class);
 
         $result = createArrayOfTypeFromInputStorage(
@@ -510,7 +570,7 @@ class FunctionsTest extends BaseTestCase
             new GetString()
         );
 
-        $dataStorage = ArrayInputStorage::fromArray([
+        $dataStorage = TestArrayDataStorage::fromArray([
             'bar' => 'bar string'
         ]);
 
@@ -539,7 +599,7 @@ class FunctionsTest extends BaseTestCase
             new GetInt()
         );
 
-        $dataStorage = ArrayInputStorage::fromArray([
+        $dataStorage = TestArrayDataStorage::fromArray([
             'bar' => 'This is not an integer'
         ]);
 
@@ -576,7 +636,7 @@ class FunctionsTest extends BaseTestCase
 
             public function process(
                 ProcessedValues $processedValues,
-                InputStorage $dataLocator
+                DataStorage $dataStorage
             ): ValidationResult {
                 return ValidationResult::finalValueResult($this->value);
             }
@@ -592,7 +652,7 @@ class FunctionsTest extends BaseTestCase
             $extractIsFinal
         );
 
-        $dataStorage = ArrayInputStorage::fromArray([
+        $dataStorage = TestArrayDataStorage::fromArray([
             'bar' => 'hello world'
         ]);
 
@@ -623,7 +683,7 @@ class FunctionsTest extends BaseTestCase
             new AlwaysErrorsRule($errorMessage)
         );
 
-        $dataStorage = ArrayInputStorage::fromArray([
+        $dataStorage = TestArrayDataStorage::fromArray([
             'foo' => 'foo string',
             'bar' => 'bar string'
         ]);
@@ -857,5 +917,113 @@ class FunctionsTest extends BaseTestCase
         foreach ($formats as $format) {
             $this->assertIsString($format);
         }
+    }
+
+    /**
+     * @covers ::\Params\getReflectionClassOfAttribute
+     */
+    public function test_getReflectionClassOfAttribute_works()
+    {
+        $rc = new \ReflectionClass(\ReflectionClassOfAttributeObject::class);
+
+        $refl_property_no_constructor = $rc->getProperty('attribute_exists_no_constructor');
+        $attribute = $refl_property_no_constructor->getAttributes()[0];
+
+        $blah = getReflectionClassOfAttribute(
+            \ReflectionClassOfAttributeObject::class,
+            $attribute->getName(),
+            $refl_property_no_constructor
+        );
+
+        $this->assertSame(\AttributesExistsNoConstructor::class, $blah->getName());
+    }
+
+
+
+
+    /**
+     * @covers ::\Params\getReflectionClassOfAttribute
+     */
+    public function test_getReflectionClassOfAttribute_attribute_doesnt_exist()
+    {
+        $rc = new \ReflectionClass(\ReflectionClassOfAttributeObject::class);
+
+        $refl_property_no_constructor = $rc->getProperty('attribute_not_exists');
+        $attribute = $refl_property_no_constructor->getAttributes()[0];
+
+        $this->expectException(AnnotationClassDoesNotExistException::class);
+        getReflectionClassOfAttribute(
+            \ReflectionClassOfAttributeObject::class,
+            $attribute->getName(),
+            $refl_property_no_constructor
+        );
+    }
+
+
+
+
+    /**
+     * @covers ::\Params\instantiateParam
+     */
+    public function test_instantiateParam_works()
+    {
+        $rc = new \ReflectionClass(\ReflectionClassOfAttributeObject::class);
+
+        $refl_property_no_constructor = $rc->getProperty('attribute_exists_no_constructor');
+        $attribute = $refl_property_no_constructor->getAttributes()[0];
+
+        $refl_of_attribute = new \ReflectionClass($attribute->getName());
+
+        $result = instantiateParam(
+            $refl_of_attribute,
+            $attribute,
+          'default_name',
+        );
+        $this->assertInstanceOf(\AttributesExistsNoConstructor::class, $result);
+    }
+
+
+    /**
+     * @covers ::\Params\instantiateParam
+     */
+    public function test_instantiateParam_works_param_but_no_name()
+    {
+        $rc = new \ReflectionClass(\ReflectionClassOfAttributeObject::class);
+
+        $refl_property_no_constructor = $rc->getProperty('attribute_exists_has_constructor');
+        $attribute = $refl_property_no_constructor->getAttributes()[0];
+
+        $refl_of_attribute = new \ReflectionClass($attribute->getName());
+
+        $result = instantiateParam(
+            $refl_of_attribute,
+            $attribute,
+            'default_name',
+        );
+        $this->assertInstanceOf(\AttributesExistsHasConstructor::class, $result);
+        $this->assertSame(10, $result->getFoo());
+    }
+
+    /**
+     * @covers ::\Params\instantiateParam
+     */
+    public function test_instantiateParam_works_param_with_name()
+    {
+        $rc = new \ReflectionClass(\ReflectionClassOfAttributeObject::class);
+
+        $refl_property_no_constructor = $rc->getProperty('attribute_exists_has_constructor_with_name');
+        $attribute = $refl_property_no_constructor->getAttributes()[0];
+
+        $refl_of_attribute = new \ReflectionClass($attribute->getName());
+
+        $result = instantiateParam(
+            $refl_of_attribute,
+            $attribute,
+            'default_name'
+        );
+        $this->assertInstanceOf(\AttributesExistsHasConstructorWithName::class, $result);
+        $this->assertSame(10, $result->getFoo());
+
+        $this->assertSame( 'default_name', $result->getName());
     }
 }

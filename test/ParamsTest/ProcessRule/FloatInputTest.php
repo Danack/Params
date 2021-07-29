@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\FloatInput;
@@ -34,9 +34,9 @@ class FloatInputTest extends BaseTestCase
     {
         $rule = new FloatInput();
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            $inputValue, $processedValues, $dataLocator
+            $inputValue, $processedValues, $dataStorage
         );
 
         $this->assertNoProblems($validationResult);
@@ -69,7 +69,7 @@ class FloatInputTest extends BaseTestCase
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            ArrayInputStorage::fromSingleValue('foo', $inputValue)
+            TestArrayDataStorage::fromSingleValue('foo', $inputValue)
         );
 
         $this->assertValidationProblemRegexp(

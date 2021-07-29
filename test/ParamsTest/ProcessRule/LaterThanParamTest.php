@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\LaterThanParam;
@@ -32,11 +32,11 @@ class LaterThanParamTest extends BaseTestCase
         );
 
         $processedValues = ProcessedValues::fromArray(['foo' => $previousTime]);
-        $dataLocator = ArrayInputStorage::fromArray([]);
+        $dataStorage = TestArrayDataStorage::fromArray([]);
 
         $rule = new LaterThanParam('foo', 0);
 
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        $validationResult = $rule->process($value, $processedValues, $dataStorage);
         $this->assertNoProblems($validationResult);
 
         $this->assertSame($value, $validationResult->getValue());
@@ -59,11 +59,11 @@ class LaterThanParamTest extends BaseTestCase
         );
 
         $processedValues = ProcessedValues::fromArray(['foo' => $previousTime]);
-        $dataLocator = ArrayInputStorage::fromSingleValue('bar', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('bar', $value);
 
         $rule = new LaterThanParam('foo', 0);
 
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        $validationResult = $rule->process($value, $processedValues, $dataStorage);
 
         $this->assertValidationProblemRegexp(
             '/bar',
@@ -95,11 +95,11 @@ class LaterThanParamTest extends BaseTestCase
             '2002-10-03T10:00:00-05:00'
         );
         $processedValues = ProcessedValues::fromArray([]);
-        $dataLocator = ArrayInputStorage::fromArray([]);
-        $dataLocator = $dataLocator->moveKey('foo');
+        $dataStorage = TestArrayDataStorage::fromArray([]);
+        $dataStorage = $dataStorage->moveKey('foo');
 
         $rule = new LaterThanParam('foo', 0);
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        $validationResult = $rule->process($value, $processedValues, $dataStorage);
 
         $this->assertValidationProblemRegexp(
             '/foo',
@@ -123,11 +123,11 @@ class LaterThanParamTest extends BaseTestCase
         );
 
         $processedValues = ProcessedValues::fromArray(['foo' => 'John']);
-        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $rule = new LaterThanParam('foo', 0);
 
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        $validationResult = $rule->process($value, $processedValues, $dataStorage);
 
 
         $this->assertValidationProblemRegexp(
@@ -154,11 +154,11 @@ class LaterThanParamTest extends BaseTestCase
         );
 
         $processedValues = ProcessedValues::fromArray(['foo' => $previousTime]);
-        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $rule = new LaterThanParam('foo', 0);
 
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        $validationResult = $rule->process($value, $processedValues, $dataStorage);
 
         $this->assertValidationProblemRegexp(
             '/newtime',
@@ -187,11 +187,11 @@ class LaterThanParamTest extends BaseTestCase
         );
 
         $processedValues = ProcessedValues::fromArray(['foo' => $afterTime]);
-        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $rule = new LaterThanParam('foo', 0);
 
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        $validationResult = $rule->process($value, $processedValues, $dataStorage);
 
         $this->assertValidationProblemRegexp(
             '/newtime',

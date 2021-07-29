@@ -9,7 +9,7 @@ use ParamsTest\Integration\ReviewScore;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetOptionalType;
 use Params\ProcessedValues;
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -27,7 +27,7 @@ class GetOptionalTypeTest extends BaseTestCase
 
         $rule = GetOptionalType::fromClass(ReviewScore::class);
         $validationResult = $rule->process(
-            $validator, ArrayInputStorage::fromArray($data)
+            $validator, TestArrayDataStorage::fromArray($data)
         );
 
         $this->assertNoErrors($validationResult);
@@ -53,7 +53,7 @@ class GetOptionalTypeTest extends BaseTestCase
             ReviewScore::getInputParameterList()
         );
         $validationResult = $rule->process(
-            $validator, ArrayInputStorage::fromArray($data)
+            $validator, TestArrayDataStorage::fromArray($data)
         );
 
         $this->assertNoErrors($validationResult);
@@ -75,7 +75,7 @@ class GetOptionalTypeTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::createMissing('foo')
+            TestArrayDataStorage::createMissing('foo')
         );
 
         $this->assertNoErrors($validationResult);
@@ -93,7 +93,7 @@ class GetOptionalTypeTest extends BaseTestCase
 
         $rule = GetOptionalType::fromClass(ReviewScore::class);
         $validationResult = $rule->process(
-            $validator, ArrayInputStorage::fromArray($data)
+            $validator, TestArrayDataStorage::fromArray($data)
         );
 
         $this->assertProblems(

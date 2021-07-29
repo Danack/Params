@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessedValues;
@@ -25,11 +25,11 @@ class EarlierThanTimeTest extends BaseTestCase
         $value = new \DateTime('2000-01-01');
 
         $processedValues = ProcessedValues::fromArray([]);
-        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime('2001-01-01');
         $rule = new EarlierThanTime($compareTime);
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        $validationResult = $rule->process($value, $processedValues, $dataStorage);
 
         $this->assertNoProblems($validationResult);
 
@@ -52,11 +52,11 @@ class EarlierThanTimeTest extends BaseTestCase
         $value = new \DateTime($input_time);
 
         $processedValues = ProcessedValues::fromArray([]);
-        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime($boundary_time);
         $rule = new EarlierThanTime($compareTime);
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        $validationResult = $rule->process($value, $processedValues, $dataStorage);
 
         $this->assertValidationProblemRegexp(
             '/newtime',
@@ -77,11 +77,11 @@ class EarlierThanTimeTest extends BaseTestCase
         $value = new \StdClass();
 
         $processedValues = ProcessedValues::fromArray([]);
-        $dataLocator = ArrayInputStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime('2000-01-01');
         $rule = new EarlierThanTime($compareTime);
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        $validationResult = $rule->process($value, $processedValues, $dataStorage);
 
         $this->assertValidationProblemRegexp(
             '/newtime',

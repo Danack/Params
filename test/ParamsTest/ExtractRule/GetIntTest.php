@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetInt;
@@ -24,7 +24,7 @@ class GetIntTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::createMissing('foo')
+            TestArrayDataStorage::createMissing('foo')
         );
         $this->assertProblems(
             $validationResult,
@@ -48,10 +48,10 @@ class GetIntTest extends BaseTestCase
     {
         $validator = new ProcessedValues();
         $rule = new GetInt();
-        $dataLocator  = ArrayInputStorage::fromSingleValue('foo', $input);
+        $dataStorage  = TestArrayDataStorage::fromSingleValue('foo', $input);
 
         $validationResult = $rule->process(
-            $validator, $dataLocator
+            $validator, $dataStorage
         );
 
         $this->assertNoProblems($validationResult);
@@ -75,11 +75,11 @@ class GetIntTest extends BaseTestCase
     {
         $rule = new GetInt();
         $validator = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $input);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $input);
 
         $validationResult = $rule->process(
             $validator,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertValidationProblemRegexp(

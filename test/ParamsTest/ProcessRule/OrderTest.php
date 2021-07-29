@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\Order;
@@ -35,10 +35,10 @@ class OrderTest extends BaseTestCase
 
         $rule = new Order($orderParams);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
 
         $validationResult = $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
 
         $value = $validationResult->getValue();
@@ -64,12 +64,12 @@ class OrderTest extends BaseTestCase
 
         $rule = new Order($orderParams);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
 
         $validationResult = $rule->process(
             $testValue,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertValidationProblemRegexp(

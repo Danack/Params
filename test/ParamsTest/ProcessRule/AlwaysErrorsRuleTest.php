@@ -8,7 +8,7 @@ use Params\ProcessedValues;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\AlwaysErrorsRule;
 use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -23,11 +23,11 @@ class AlwaysErrorsRuleTest extends BaseTestCase
         $message = 'test message';
         $rule = new AlwaysErrorsRule($message);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', 'bar');
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', 'bar');
         $result = $rule->process(
             $unused_input = 5,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertCount(1, $result->getValidationProblems());

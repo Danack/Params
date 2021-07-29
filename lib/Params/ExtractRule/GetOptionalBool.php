@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ProcessRule\BoolInput;
@@ -20,18 +20,18 @@ class GetOptionalBool implements ExtractRule
 {
     public function process(
         ProcessedValues $processedValues,
-        InputStorage $dataLocator
+        DataStorage $dataStorage
     ): ValidationResult {
 
-        if ($dataLocator->isValueAvailable() !== true) {
+        if ($dataStorage->isValueAvailable() !== true) {
             return ValidationResult::valueResult(null);
         }
 
         $intRule = new BoolInput();
         return $intRule->process(
-            $dataLocator->getCurrentValue(),
+            $dataStorage->getCurrentValue(),
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\ProcessedValues;
 use Params\ProcessRule\ImagickRgbColorRule;
@@ -34,10 +34,10 @@ class ImagickRgbColorTest extends BaseTestCase
         $rule = new ImagickRgbColorRule();
         $processedValues = new ProcessedValues();
 
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
 
         $validationResult = $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
 
         $this->assertNoProblems($validationResult);
@@ -54,7 +54,7 @@ class ImagickRgbColorTest extends BaseTestCase
         $rule = new ImagickRgbColorRule();
         $processedValues = new ProcessedValues();
 
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
 
         $this->expectException(InvalidRulesException::class);
         $this->expectExceptionMessageMatchesTemplateString(
@@ -62,7 +62,7 @@ class ImagickRgbColorTest extends BaseTestCase
         );
 
         $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
     }
 

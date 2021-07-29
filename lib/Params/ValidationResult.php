@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\Exception\LogicException;
 
 /**
@@ -36,12 +36,12 @@ class ValidationResult
 
     /**
      * this is for a single value processing.
-     * @param InputStorage $inputStorage
+     * @param DataStorage $inputStorage
      * @param string $message
      * @return ValidationResult
      */
     public static function errorResult(
-        InputStorage $inputStorage,
+        DataStorage $inputStorage,
         string $message
     ): ValidationResult {
         return new self(

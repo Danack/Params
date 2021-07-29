@@ -157,7 +157,6 @@ class NotAParameter
 class OneColor
 {
     use SafeAccess;
-//    use CreateFromVarMap;
 
     #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
@@ -373,4 +372,58 @@ class MultipleParamAnnotations
     {
         return $this->stroke_color;
     }
+}
+
+class AttributesExistsNoConstructor
+{
+
+}
+
+class AttributesExistsHasConstructor
+{
+    public function __construct(private int $foo)
+    {
+    }
+
+    /**
+     * @return int
+     */
+    public function getFoo(): int
+    {
+        return $this->foo;
+    }
+}
+
+
+class AttributesExistsHasConstructorWithName
+{
+    public function __construct(private int $foo, private string $name)
+    {
+    }
+
+    public function getFoo(): int
+    {
+        return $this->foo;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+}
+
+
+class ReflectionClassOfAttributeObject
+{
+    #[AttributeNotExist()]
+    private $attribute_not_exists;
+
+    #[AttributesExistsNoConstructor()]
+    private $attribute_exists_no_constructor;
+
+    #[AttributesExistsHasConstructor(10)]
+    private $attribute_exists_has_constructor;
+
+    #[AttributesExistsHasConstructorWithName(10)]
+    private $attribute_exists_has_constructor_with_name;
 }

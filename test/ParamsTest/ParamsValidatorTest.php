@@ -10,7 +10,7 @@ use Params\ProcessRule\MaxIntValue;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
 use Params\ProcessRule\AlwaysEndsRule;
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use function Params\processInputParameter;
 
 /**
@@ -66,7 +66,7 @@ class ParamsValidatorTest extends BaseTestCase
         $errors = processInputParameter(
             $param,
             $processedValues,
-            ArrayInputStorage::fromArray(['foo' => 5])
+            TestArrayDataStorage::fromArray(['foo' => 5])
         );
 
         $this->assertNoValidationProblems($errors);

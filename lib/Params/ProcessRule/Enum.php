@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params\ProcessRule;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
@@ -32,13 +32,13 @@ class Enum implements ProcessRule
     /**
      * @param mixed $value
      * @param ProcessedValues $processedValues
-     * @param InputStorage $inputStorage
+     * @param DataStorage $inputStorage
      * @return ValidationResult
      */
     public function process(
         $value,
         ProcessedValues $processedValues,
-        InputStorage $inputStorage
+        DataStorage $inputStorage
     ): ValidationResult {
         if (in_array($value, $this->allowedValues, true) !== true) {
             $message = sprintf(

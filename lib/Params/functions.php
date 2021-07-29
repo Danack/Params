@@ -3,8 +3,8 @@
 namespace Params;
 
 use Params\Exception\InvalidDatetimeFormatException;
-use Params\InputStorage\ArrayInputStorage;
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\ArrayDataStorage;
+use Params\DataStorage\DataStorage;
 use Params\Exception\InputParameterListException;
 use Params\Exception\InvalidJsonPointerException;
 use Params\Exception\LogicException;
@@ -30,7 +30,7 @@ use Params\Exception\AnnotationClassDoesNotExistException;
  */
 function createArrayOfType(string $type, array $data): array
 {
-    $dataStorage = ArrayInputStorage::fromArray($data);
+    $dataStorage = ArrayDataStorage::fromArray($data);
     $getType = GetType::fromClass($type);
     $validationResult = createArrayOfTypeFromInputStorage($dataStorage, $getType);
 
@@ -54,7 +54,7 @@ function createArrayOfType(string $type, array $data): array
  */
 function createArrayOfTypeOrError(string $type, array $data): array
 {
-    $dataStorage = ArrayInputStorage::fromArray($data);
+    $dataStorage = ArrayDataStorage::fromArray($data);
     $getType = GetType::fromClass($type);
     $validationResult = createArrayOfTypeFromInputStorage($dataStorage, $getType);
 
@@ -71,12 +71,12 @@ function createArrayOfTypeOrError(string $type, array $data): array
 /**
  *
  *
- * @param InputStorage $dataLocator
+ * @param DataStorage $dataStorage
  * @param GetType $typeExtractor
  * @return ValidationResult
  */
 function createArrayOfTypeFromInputStorage(
-    InputStorage $dataLocator,
+    DataStorage $dataStorage,
     GetType $typeExtractor
 ): ValidationResult {
 
@@ -87,18 +87,18 @@ function createArrayOfTypeFromInputStorage(
     $paramsValuesImpl = new ProcessedValues();
     $index = 0;
 
-    $itemData = $dataLocator->getCurrentValue();
+    $itemData = $dataStorage->getCurrentValue();
 
     if (is_array($itemData) !== true) {
-        return ValidationResult::errorResult($dataLocator, Messages::ERROR_MESSAGE_NOT_ARRAY_VARIANT_1);
+        return ValidationResult::errorResult($dataStorage, Messages::ERROR_MESSAGE_NOT_ARRAY_VARIANT_1);
     }
 
     foreach ($itemData as $key => $value) {
-        $dataLocatorForItem = $dataLocator->moveKey($key);
+        $dataStorageForItem = $dataStorage->moveKey($key);
 
         $result = $typeExtractor->process(
             $paramsValuesImpl,
-            $dataLocatorForItem
+            $dataStorageForItem
         );
 
         if ($result->anyErrorsFound() === true) {
@@ -181,6 +181,8 @@ function createObjectFromParams(string $classname, array $values)
 
     $r_constructor = $reflection_class->getConstructor();
 
+    // TODO - why do we forbid this? Although a class without constructor
+    // is probably a mistake, it's not necessarily a mistake.
     if ($r_constructor === null) {
         throw NoConstructorException::noConstructor($classname);
     }
@@ -219,7 +221,7 @@ function createObjectFromParams(string $classname, array $values)
  * @template T
  * @param class-string<T> $classname
  * @param \Params\InputParameter[] $params
- * @param ArrayInputStorage $dataLocator
+ * @param ArrayDataStorage $dataStorage
  * @return T of object
  * @throws ValidationException
  * @throws \ReflectionException
@@ -227,14 +229,14 @@ function createObjectFromParams(string $classname, array $values)
 function create(
     $classname,
     $params,
-    ArrayInputStorage $dataLocator
+    DataStorage $dataStorage
 ) {
     $paramsValuesImpl = new ProcessedValues();
 
     $validationProblems = processInputParameters(
         $params,
         $paramsValuesImpl,
-        $dataLocator
+        $dataStorage
     );
 
     if (count($validationProblems) !== 0) {
@@ -259,12 +261,12 @@ function createTypeFromAnnotations(\VarMap\VarMap $varMap, string $class)
 {
     $rules = getParamsFromAnnotations($class);
 
-    $dataLocator = ArrayInputStorage::fromVarMap($varMap);
+    $dataStorage = ArrayDataStorage::fromArray($varMap->toArray());
 
     $object = create(
         $class,
         $rules,
-        $dataLocator
+        $dataStorage
     );
 
     return $object;
@@ -283,14 +285,14 @@ function createTypeFromAnnotations(\VarMap\VarMap $varMap, string $class)
  * The rules are passed separately to the classname so that we can
  * support rules coming both from static info and from factory objects.
  */
-function createOrError($classname, $params, ArrayInputStorage $dataLocator)
+function createOrError($classname, $params, ArrayDataStorage $dataStorage)
 {
     $paramsValuesImpl = new ProcessedValues();
 
     $validationProblems = processInputParameters(
         $params,
         $paramsValuesImpl,
-        $dataLocator
+        $dataStorage
     );
 
     if (count($validationProblems) !== 0) {
@@ -445,19 +447,19 @@ function normalise_order_parameter(string $part)
 
 /**
  * @param mixed $value
- * @param InputStorage $dataLocator
+ * @param DataStorage $dataStorage
  * @param ProcessRule ...$processRules
  * @return array{0:\Params\ValidationProblem[], 1:?mixed}
  * @throws Exception\ParamMissingException
  */
 function processProcessingRules(
     $value,
-    InputStorage $dataLocator,
+    DataStorage $dataStorage,
     ProcessedValues $processedValues,
     ProcessRule ...$processRules
 ) {
     foreach ($processRules as $processRule) {
-        $validationResult = $processRule->process($value, $processedValues, $dataLocator);
+        $validationResult = $processRule->process($value, $processedValues, $dataStorage);
         if ($validationResult->anyErrorsFound()) {
             return [$validationResult->getValidationProblems(), null];
         }
@@ -475,21 +477,21 @@ function processProcessingRules(
 /**
  * @param \Params\InputParameter $param
  * @param ProcessedValues $paramValues
- * @param InputStorage $dataLocator
+ * @param DataStorage $dataStorage
  * @return ValidationProblem[]
  * @throws Exception\ParamMissingException
  */
 function processInputParameter(
     InputParameter $param,
     ProcessedValues $paramValues,
-    InputStorage $dataLocator
+    DataStorage $dataStorage
 ) {
 
-    $dataLocatorForItem = $dataLocator->moveKey($param->getInputName());
+    $dataStorageForItem = $dataStorage->moveKey($param->getInputName());
     $extractRule = $param->getExtractRule();
     $validationResult = $extractRule->process(
         $paramValues,
-        $dataLocatorForItem
+        $dataStorageForItem
     );
 
     if ($validationResult->anyErrorsFound()) {
@@ -507,7 +509,7 @@ function processInputParameter(
     // Extract rule wasn't a final result, so process
     [$validationProblems, $value] = processProcessingRules(
         $value,
-        $dataLocatorForItem,
+        $dataStorageForItem,
         $paramValues,
         ...$param->getProcessRules()
     );
@@ -523,14 +525,14 @@ function processInputParameter(
 /**
  * @param \Params\InputParameter[] $inputParameters
  * @param ProcessedValues $paramValues
- * @param InputStorage $dataLocator
+ * @param DataStorage $dataStorage
  * @return \Params\ValidationProblem[]
  * @throws Exception\ParamMissingException
  */
 function processInputParameters(
     array $inputParameters,
     ProcessedValues $paramValues,
-    InputStorage $dataLocator
+    DataStorage $dataStorage
 ) {
     $validationProblems = [];
 
@@ -538,7 +540,7 @@ function processInputParameters(
         $newValidationProblems = processInputParameter(
             $inputParameter,
             $paramValues,
-            $dataLocator
+            $dataStorage
         );
 
         if (count($newValidationProblems) !== 0) {
@@ -606,17 +608,22 @@ function checkAllowedFormatsAreStrings(array $allowedFormats): array
     return $allowedFormats;
 }
 
-
+/**
+ * @param \ReflectionClass $rc_param - the reflection class of the attribute
+ * @param \ReflectionAttribute $attribute - the attribute itself
+ * @param string $defaultName - a default name to use.
+ * @return object
+ * @throws \ReflectionException
+ */
 function instantiateParam(
     \ReflectionClass $rc_param,
     \ReflectionAttribute $attribute,
     string $defaultName
 ) {
 
-    // TODO - replace this code with $attribute->newInstance();
+    // TODO - maybe replace this code with $attribute->newInstance();
     // But that means every param needs to have it's name listed...
     // which is probably not the worst thing ever.
-
     $param_constructor = $rc_param->getConstructor();
 
     if ($param_constructor === null) {
@@ -637,9 +644,19 @@ function instantiateParam(
         $argsByName[$name] = $args[$count];
         $count += 1;
     }
+    $has_name = false;
+    foreach ($param_constructor_parameters as $param_constructor_parameter) {
+        if ($param_constructor_parameter->getName() === 'name') {
+            $has_name = true;
+        }
+    }
 
-    if (array_key_exists('name', $argsByName) !== true) {
-        $argsByName['name'] = $defaultName;
+    // if the constructor expects a name, set the default one
+    // if none was set.
+    if ($has_name) {
+        if (array_key_exists('name', $argsByName) !== true) {
+            $argsByName['name'] = $defaultName;
+        }
     }
 
     return $rc_param->newInstance(...$argsByName);
@@ -648,20 +665,18 @@ function instantiateParam(
 
 function getReflectionClassOfAttribute(
     string $class,
-    \ReflectionAttribute $attribute,
+    string $attributeClassname,
     \ReflectionProperty $property
 ) {
-
-    $classname = $attribute->getName();
-    if (class_exists($classname, true) !== true) {
+    if (class_exists($attributeClassname, true) !== true) {
         throw AnnotationClassDoesNotExistException::create(
             $class,
             $property->getName(),
-            $classname
+            $attributeClassname
         );
     }
 
-    return new \ReflectionClass($classname);
+    return new \ReflectionClass($attributeClassname);
 }
 
 /**
@@ -680,9 +695,10 @@ function getParamsFromAnnotations(string $class): array
         $attributes = $property->getAttributes();
         $current_property_has_param = false;
         foreach ($attributes as $attribute) {
+
             $rc_of_attribute = getReflectionClassOfAttribute(
                 $class,
-                $attribute,
+                $attribute->getName(),
                 $property
             );
 

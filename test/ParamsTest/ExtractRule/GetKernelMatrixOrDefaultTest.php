@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace ParamsTest\ExtractRule;
 
 use Params\ExtractRule\GetArrayOfInt;
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetInt;
@@ -38,7 +38,7 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
         $rule = new GetKernelMatrixOrDefault($default);
         $validator = new ProcessedValues();
 
-        $dataStorage = ArrayInputStorage::fromSingleValue('foo', $input);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $input);
 
         $validationResult = $rule->process(
             $validator,
@@ -66,7 +66,7 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
         $rule = new GetKernelMatrixOrDefault($default);
         $validator = new ProcessedValues();
 
-        $dataStorage = ArrayInputStorage::createMissing('foo');
+        $dataStorage = TestArrayDataStorage::createMissing('foo');
 
         $validationResult = $rule->process(
             $validator,

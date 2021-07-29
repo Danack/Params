@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\RangeFloatValue;
@@ -64,9 +64,9 @@ class RangeFloatValueTest extends BaseTestCase
     {
         $rule = new RangeFloatValue($minValue, $maxValue);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            $inputValue, $processedValues, $dataLocator
+            $inputValue, $processedValues, $dataStorage
         );
 
         $this->assertNoProblems($validationResult);
@@ -103,11 +103,11 @@ class RangeFloatValueTest extends BaseTestCase
     {
         $rule = new RangeFloatValue($minValue, $maxValue);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $inputValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $inputValue);
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertValidationProblemRegexp(

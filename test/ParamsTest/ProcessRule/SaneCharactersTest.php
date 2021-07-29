@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\ProcessRule\RangeFloatValue;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SaneCharacters;
@@ -52,9 +52,9 @@ class SaneCharactersTest extends BaseTestCase
     {
         $rule = new SaneCharacters();
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
         $this->assertNoProblems($validationResult);
     }
@@ -67,11 +67,11 @@ class SaneCharactersTest extends BaseTestCase
     {
         $rule = new SaneCharacters();
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
         $validationResult = $rule->process(
             $testValue,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertValidationProblemRegexp(
@@ -87,9 +87,9 @@ class SaneCharactersTest extends BaseTestCase
         $testValue = "danack_a̧͈͖r͒͑_more_a̧͈͖r͒͑";
         $rule = new SaneCharacters();
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            $testValue, $processedValues, $dataLocator
+            $testValue, $processedValues, $dataStorage
         );
 //        $messages = $validationResult->getValidationProblems();
 

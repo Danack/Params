@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Params\ExtractRule;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ProcessRule\IntegerInput;
@@ -51,15 +51,15 @@ class GetOptionalType implements ExtractRule
 
     public function process(
         ProcessedValues $processedValues,
-        InputStorage $dataLocator
+        DataStorage $dataStorage
     ): ValidationResult {
-        if ($dataLocator->isValueAvailable() !== true) {
+        if ($dataStorage->isValueAvailable() !== true) {
             return ValidationResult::valueResult(null);
         }
 
         return $this->getType->process(
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
     }
 

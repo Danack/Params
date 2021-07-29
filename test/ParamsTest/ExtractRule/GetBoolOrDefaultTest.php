@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetBoolOrDefault;
 use Params\ProcessedValues;
@@ -22,7 +22,7 @@ class GetBoolOrDefaultTest extends BaseTestCase
     {
         $defaults = [true, false];
 
-        $dataStorage = ArrayInputStorage::fromArray([]);
+        $dataStorage = TestArrayDataStorage::fromArray([]);
         $dataStorage = $dataStorage->moveKey('foo');
 
         foreach ($defaults as $default) {
@@ -60,7 +60,7 @@ class GetBoolOrDefaultTest extends BaseTestCase
         $rule = new GetBoolOrDefault(false);
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::fromSingleValue('foo', $input)
+            TestArrayDataStorage::fromSingleValue('foo', $input)
         );
 
         $this->assertNoProblems($validationResult);
@@ -87,7 +87,7 @@ class GetBoolOrDefaultTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::fromArraySetFirstValue(['foo' => $value])
+            TestArrayDataStorage::fromArraySetFirstValue(['foo' => $value])
         );
 
         $this->assertValidationProblemRegexp(

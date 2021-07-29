@@ -4,46 +4,68 @@ declare(strict_types = 1);
 
 namespace ParamsTest\DataLocator;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\ArrayDataStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
+use Params\Exception\InvalidLocationException;
 use function Params\getJsonPointerParts;
-
 use function JsonSafe\json_decode_safe;
 
 /**
- * @covers \Params\InputStorage\ArrayInputStorage
- * @group data_locator
+ * @covers \Params\DataStorage\ArrayDataStorage
  */
-class DataStorageTest extends BaseTestCase
+class ArrayDataStorageTest extends BaseTestCase
 {
     public function testValueNotAvailable()
     {
-        $dataLocator = ArrayInputStorage::fromArray([]);
-        $dataLocatorAtFoo = $dataLocator->moveKey('foo');
+        $dataStorage = ArrayDataStorage::fromArray([]);
+        $dataStorageAtFoo = $dataStorage->moveKey('foo');
 
-        $available = $dataLocatorAtFoo->isValueAvailable();
+        $available = $dataStorageAtFoo->isValueAvailable();
         $this->assertFalse($available);
     }
 
     public function testMovingSeparatesPosition()
     {
-        $dataLocator = ArrayInputStorage::fromArray([]);
-        $dataLocatorAtFoo = $dataLocator->moveKey('foo');
-        $dataLocatorAtFooBar = $dataLocator->moveKey('bar');
+        $dataStorage = ArrayDataStorage::fromArray([]);
+        $dataStorageAtFoo = $dataStorage->moveKey('foo');
+        $dataStorageAtFooBar = $dataStorage->moveKey('bar');
 
-        $this->assertSame('/foo', $dataLocatorAtFoo->getPath());
-        $this->assertSame('/bar', $dataLocatorAtFooBar->getPath());
+        $this->assertSame('/foo', $dataStorageAtFoo->getPath());
+        $this->assertSame('/bar', $dataStorageAtFooBar->getPath());
     }
 
     public function testValueCorrect()
     {
-        $dataLocator = ArrayInputStorage::fromArray(['foo' => 'bar']);
-        $dataLocatorAtFoo = $dataLocator->moveKey('foo');
+        $dataStorage = ArrayDataStorage::fromArray(['foo' => 'bar']);
+        $dataStorageAtFoo = $dataStorage->moveKey('foo');
 
-        $available = $dataLocatorAtFoo->isValueAvailable();
+        $available = $dataStorageAtFoo->isValueAvailable();
         $this->assertTrue($available);
-        $this->assertSame('bar', $dataLocatorAtFoo->getCurrentValue());
+        $this->assertSame('bar', $dataStorageAtFoo->getCurrentValue());
     }
+
+
+    public function testInvalidLocation()
+    {
+        $dataStorage = ArrayDataStorage::fromArray(['foo' => 'bar']);
+        $dataStorageAtFoo = $dataStorage->moveKey('foo');
+        $this->assertTrue($dataStorageAtFoo->isValueAvailable());
+
+        $dataStorageAtJohn = $dataStorage->moveKey('john');
+        $this->assertFalse($dataStorageAtJohn->isValueAvailable());
+
+        $this->expectException(InvalidLocationException::class);
+        $dataStorageAtJohn->getCurrentValue();
+    }
+
+    public function testBadData()
+    {
+        $dataStorage = TestArrayDataStorage::createMissing('foo');
+        $this->assertFalse($dataStorage->isValueAvailable());
+    }
+
+
 
     public function providesPathsAreCorrect()
     {
@@ -61,12 +83,11 @@ class DataStorageTest extends BaseTestCase
     }
 
     /**
-     * @group data_locator
      * @dataProvider providesPathsAreCorrect
      */
     public function testPathsAreCorrect($expected, $pathParts)
     {
-        $dataStorage = ArrayInputStorage::fromArray([]);
+        $dataStorage = ArrayDataStorage::fromArray([]);
 
         foreach ($pathParts as $pathPart) {
             $dataStorage = $dataStorage->moveKey($pathPart);
@@ -137,11 +158,11 @@ JSON;
      */
     public function testJsonPointer($jsonPointer, $expectedData)
     {
-        $dataLocator = ArrayInputStorage::fromArray(self::getTestJson());
+        $dataStorage = ArrayDataStorage::fromArray(self::getTestJson());
 
-        $dataLocatorAtLocation = $dataLocator->setLocationFromJsonPointer($jsonPointer);
+        $dataStorageAtLocation = $dataStorage->setLocationFromJsonPointer($jsonPointer);
 
-        $this->assertSame($expectedData, $dataLocatorAtLocation->getCurrentValue());
+        $this->assertSame($expectedData, $dataStorageAtLocation->getCurrentValue());
     }
 
 

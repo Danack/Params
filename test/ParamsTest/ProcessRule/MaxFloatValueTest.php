@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
@@ -40,11 +40,11 @@ class MaxFloatValueTest extends BaseTestCase
     {
         $rule = new MaxFloatValue($maxValue);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
 
@@ -77,11 +77,11 @@ class MaxFloatValueTest extends BaseTestCase
     {
         $rule = new MaxFloatValue($maxValue);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $inputValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $inputValue);
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertValidationProblemRegexp(

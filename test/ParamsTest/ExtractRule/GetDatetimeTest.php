@@ -9,7 +9,7 @@ use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ExtractRule\GetDatetime;
 use Params\ProcessedValues;
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -25,7 +25,7 @@ class GetDatetimeTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::createMissing('foo')
+            TestArrayDataStorage::createMissing('foo')
         );
 
         $this->assertValidationProblemRegexp(
@@ -72,7 +72,7 @@ class GetDatetimeTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::fromArraySetFirstValue([$inputValue])
+            TestArrayDataStorage::fromArraySetFirstValue([$inputValue])
         );
 
         $this->assertNoProblems($validationResult);
@@ -103,7 +103,7 @@ class GetDatetimeTest extends BaseTestCase
     {
         $allowedFormats = [\DateTime::RFC3339];
         $rule = new GetDatetime($allowedFormats);
-        $dataStorage = ArrayInputStorage::fromSingleValue('foo', 'Some invalid string');
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', 'Some invalid string');
 
         $validationResult = $rule->process(
             new ProcessedValues(),
@@ -130,7 +130,7 @@ class GetDatetimeTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::fromArraySetFirstValue($data)
+            TestArrayDataStorage::fromArraySetFirstValue($data)
         );
 
         $this->assertValidationProblemRegexp(
@@ -154,7 +154,7 @@ class GetDatetimeTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            ArrayInputStorage::fromArraySetFirstValue($data)
+            TestArrayDataStorage::fromArraySetFirstValue($data)
         );
 
         $this->assertValidationProblemRegexp(

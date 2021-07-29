@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
@@ -54,11 +54,11 @@ class MaxLengthTest extends BaseTestCase
     {
         $rule = new MaxLength($maxLength);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
             $string,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertNoProblems($validationResult);
@@ -90,11 +90,11 @@ class MaxLengthTest extends BaseTestCase
     {
         $rule = new MaxLength($maxLength);
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $string);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $string);
         $validationResult = $rule->process(
             $string,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
         // TODO - replace this with text comparison.

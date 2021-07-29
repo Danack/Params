@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\ProcessRule\DuplicatesParam;
@@ -23,10 +23,10 @@ class DuplicatesParamTest extends BaseTestCase
     {
         $value = 'my_voice_is_my_password';
         $processedValues = ProcessedValues::fromArray(['foo' => $value]);
-        $dataLocator = ArrayInputStorage::fromArray([]);
+        $dataStorage = TestArrayDataStorage::fromArray([]);
 
         $rule = new DuplicatesParam('foo');
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        $validationResult = $rule->process($value, $processedValues, $dataStorage);
 
         $this->assertNoProblems($validationResult);
 
@@ -41,11 +41,11 @@ class DuplicatesParamTest extends BaseTestCase
     {
         $value = 'my_voice_is_my_password';
         $processedValues = ProcessedValues::fromArray([]);
-        $dataLocator = ArrayInputStorage::fromArray([]);
-        $dataLocator = $dataLocator->moveKey('foo');
+        $dataStorage = TestArrayDataStorage::fromArray([]);
+        $dataStorage = $dataStorage->moveKey('foo');
 
         $rule = new DuplicatesParam('foo');
-        $validationResult = $rule->process($value, $processedValues, $dataLocator);
+        $validationResult = $rule->process($value, $processedValues, $dataStorage);
 
         $this->assertValidationProblemRegexp(
             '/foo',
@@ -63,11 +63,11 @@ class DuplicatesParamTest extends BaseTestCase
     public function testWrongType()
     {
         $processedValues = ProcessedValues::fromArray(['foo' => 'my_voice_is_my_password']);
-        $dataLocator = ArrayInputStorage::fromArray([]);
+        $dataStorage = TestArrayDataStorage::fromArray([]);
 
         $rule = new DuplicatesParam('foo');
-        $dataLocator = $dataLocator->moveKey('foo');
-        $validationResult = $rule->process(12345, $processedValues, $dataLocator);
+        $dataStorage = $dataStorage->moveKey('foo');
+        $validationResult = $rule->process(12345, $processedValues, $dataStorage);
 
         $this->assertValidationProblemRegexp(
             '/foo',
@@ -86,11 +86,11 @@ class DuplicatesParamTest extends BaseTestCase
     public function testWrongValue()
     {
         $processedValues = ProcessedValues::fromArray(['foo' => 'my_voice_is_my_password']);
-        $dataLocator = ArrayInputStorage::fromArray([]);
+        $dataStorage = TestArrayDataStorage::fromArray([]);
 
         $rule = new DuplicatesParam('foo');
-        $dataLocator = $dataLocator->moveKey('foo');
-        $validationResult = $rule->process('not_the_same', $processedValues, $dataLocator);
+        $dataStorage = $dataStorage->moveKey('foo');
+        $validationResult = $rule->process('not_the_same', $processedValues, $dataStorage);
 
         $this->assertValidationProblemRegexp(
             '/foo',

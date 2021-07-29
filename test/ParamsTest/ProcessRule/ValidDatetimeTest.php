@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessRule\ValidDate;
@@ -53,9 +53,9 @@ class ValidDatetimeTest extends BaseTestCase
     {
         $rule = new ValidDatetime();
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
-            $input, $processedValues, $dataLocator
+            $input, $processedValues, $dataStorage
         );
 
         $this->assertNoProblems($validationResult);
@@ -79,10 +79,10 @@ class ValidDatetimeTest extends BaseTestCase
         $rule = new ValidDatetime();
         $processedValues = new ProcessedValues();
 
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', $input);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $input);
 
         $validationResult = $rule->process(
-            $input, $processedValues, $dataLocator
+            $input, $processedValues, $dataStorage
         );
 
         $this->assertValidationProblemRegexp(

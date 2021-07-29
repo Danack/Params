@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\InputStorage\ArrayInputStorage;
+use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\NotNull;
@@ -22,11 +22,11 @@ class NotNullTest extends BaseTestCase
     {
         $rule1 = new NotNull();
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromSingleValue('foo', null);
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', null);
         $validationResult = $rule1->process(
             null,
             $processedValues,
-            $dataLocator
+            $dataStorage
         );
 
         $this->assertValidationProblemRegexp(
@@ -37,9 +37,9 @@ class NotNullTest extends BaseTestCase
 
         $rule2 = new NotNull();
         $processedValues = new ProcessedValues();
-        $dataLocator = ArrayInputStorage::fromArraySetFirstValue([]);
+        $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule2->process(
-            5, $processedValues, $dataLocator
+            5, $processedValues, $dataStorage
         );
         $this->assertNoProblems($validationResult);
     }

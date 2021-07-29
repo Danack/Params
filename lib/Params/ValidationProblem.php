@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Params;
 
-use Params\InputStorage\InputStorage;
+use Params\DataStorage\DataStorage;
 
 class ValidationProblem
 {
@@ -12,20 +12,20 @@ class ValidationProblem
      * The inputStorage in the state when the parameter that has a validation
      * problem was being validated.
      */
-    private InputStorage $inputStorage;
+    private DataStorage $inputStorage;
 
     /**
      * A text description of the problem.
      */
     private string $problemMessage;
 
-    public function __construct(InputStorage $dataLocator, string $description)
+    public function __construct(DataStorage $dataStorage, string $description)
     {
-        $this->inputStorage = $dataLocator;
+        $this->inputStorage = $dataStorage;
         $this->problemMessage = $description;
     }
 
-    public function getInputStorage(): InputStorage
+    public function getInputStorage(): DataStorage
     {
         return $this->inputStorage;
     }
