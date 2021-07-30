@@ -71,7 +71,7 @@ class GetArticlesParams implements InputParameterList
     {
         return [
             new InputParameter(
-                'order',
+                'ordering',
                 new GetStringOrDefault('-date'),
                 new Order(self::getKnownOrderNames())
             ),
@@ -82,7 +82,7 @@ class GetArticlesParams implements InputParameterList
                 new MaxIntValue(self::LIMIT_MAX)
             ),
             new InputParameter(
-                'after',
+                'afterId',
                 new GetStringOrDefault(null),
                 new SkipIfNull(),
                 new MinIntValue(0),

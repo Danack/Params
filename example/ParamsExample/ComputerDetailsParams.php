@@ -48,7 +48,7 @@ class ComputerDetailsParams implements InputParameterList
                 new MaxLength(1024)
             ),
 
-            MacAddressType::getParamInfo('mac_address'),
+            MacAddressType::getParamInfo('macAddress'),
         ];
     }
 

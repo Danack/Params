@@ -24,7 +24,7 @@ class CheckStringTest extends BaseTestCase
         };
 
         $result = $obj->checkString("foo");
-        $this->assertNull($result);
+        $this->assertIsString($result);
 
         $this->expectException(InvalidRulesException::class);
         $this->expectExceptionMessageMatchesTemplateString(

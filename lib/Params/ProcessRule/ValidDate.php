@@ -19,8 +19,7 @@ class ValidDate implements ProcessRule
         ProcessedValues $processedValues,
         DataStorage $inputStorage
     ): ValidationResult {
-        $this->checkString($value);
-        /** @var string $value */
+        $value = $this->checkString($value);
 
         $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d', $value);
         if ($dateTime instanceof \DateTimeImmutable) {

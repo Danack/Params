@@ -127,7 +127,7 @@ class ImagickRgbColorRule extends RgbColorRule
         DataStorage $inputStorage
     ): ValidationResult {
 
-        $this->checkString($value);
+        $value = $this->checkString($value);
 
         if (in_array($value, $this->listOfColors, true) === true) {
             return \Params\ValidationResult::finalValueResult($value);

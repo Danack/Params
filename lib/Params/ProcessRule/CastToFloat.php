@@ -14,7 +14,7 @@ use Params\ValidationResult;
  * Takes user input and converts it to an float value, or
  * generates appropriate validationProblems.
  */
-class FloatInput implements ProcessRule
+class CastToFloat implements ProcessRule
 {
     /**
      * Convert a generic input value to an integer

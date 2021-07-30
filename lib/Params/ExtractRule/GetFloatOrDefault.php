@@ -7,7 +7,7 @@ namespace Params\ExtractRule;
 use Params\DataStorage\DataStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\ProcessRule\FloatInput;
+use Params\ProcessRule\CastToFloat;
 use Params\ValidationResult;
 
 class GetFloatOrDefault implements ExtractRule
@@ -31,7 +31,7 @@ class GetFloatOrDefault implements ExtractRule
             return ValidationResult::valueResult($this->default);
         }
 
-        $floatInput = new FloatInput();
+        $floatInput = new CastToFloat();
 
         return $floatInput->process(
             $dataStorage->getCurrentValue(),

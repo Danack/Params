@@ -9,7 +9,7 @@ use Params\InputParameter;
 use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
-use Params\ProcessRule\IntegerInput;
+use Params\ProcessRule\CastToInt;
 use Params\InputParameterList;
 
 class SingleIntParams implements InputParameterList
@@ -29,7 +29,7 @@ class SingleIntParams implements InputParameterList
             new InputParameter(
                 'limit',
                 new GetInt(),
-                new IntegerInput(),
+                new CastToInt(),
                 new MinIntValue(0),
                 new MaxIntValue(100)
             )

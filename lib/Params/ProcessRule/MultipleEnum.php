@@ -41,8 +41,7 @@ class MultipleEnum implements ProcessRule
         DataStorage $inputStorage
     ): ValidationResult {
 
-        $this->checkString($value);
-        /** @var string $value */
+        $value = $this->checkString($value);
 
         $value = trim($value);
         $enumStringParts = explode(',', $value);

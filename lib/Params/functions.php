@@ -146,7 +146,6 @@ function getInputParameterListForClass(string $className)
         }
 
         // Type is okay, get data and validate
-        // @phpstan-ignore-next-line
         $inputParameterList = call_user_func([$className, 'getInputParameterList']);
     }
     // TODO - end fold into single function
@@ -221,7 +220,7 @@ function createObjectFromParams(string $classname, array $values)
  * @template T
  * @param class-string<T> $classname
  * @param \Params\InputParameter[] $params
- * @param ArrayDataStorage $dataStorage
+ * @param DataStorage $dataStorage
  * @return T of object
  * @throws ValidationException
  * @throws \ReflectionException
@@ -609,17 +608,18 @@ function checkAllowedFormatsAreStrings(array $allowedFormats): array
 }
 
 /**
- * @param \ReflectionClass $rc_param - the reflection class of the attribute
+ * @template T of object
+ * @param \ReflectionClass<T> $rc_param - the reflection class of the attribute
  * @param \ReflectionAttribute $attribute - the attribute itself
  * @param string $defaultName - a default name to use.
- * @return object
+ * @return T
  * @throws \ReflectionException
  */
 function instantiateParam(
     \ReflectionClass $rc_param,
     \ReflectionAttribute $attribute,
     string $defaultName
-) {
+): object {
 
     // TODO - maybe replace this code with $attribute->newInstance();
     // But that means every param needs to have it's name listed...
@@ -667,7 +667,7 @@ function getReflectionClassOfAttribute(
     string $class,
     string $attributeClassname,
     \ReflectionProperty $property
-) {
+): \ReflectionClass {
     if (class_exists($attributeClassname, true) !== true) {
         throw AnnotationClassDoesNotExistException::create(
             $class,
@@ -695,7 +695,6 @@ function getParamsFromAnnotations(string $class): array
         $attributes = $property->getAttributes();
         $current_property_has_param = false;
         foreach ($attributes as $attribute) {
-
             $rc_of_attribute = getReflectionClassOfAttribute(
                 $class,
                 $attribute->getName(),

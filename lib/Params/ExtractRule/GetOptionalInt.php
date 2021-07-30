@@ -7,7 +7,7 @@ namespace Params\ExtractRule;
 use Params\DataStorage\DataStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\ProcessRule\IntegerInput;
+use Params\ProcessRule\CastToInt;
 use Params\ValidationResult;
 
 /**
@@ -27,7 +27,7 @@ class GetOptionalInt implements ExtractRule
             return ValidationResult::valueResult(null);
         }
 
-        $intRule = new IntegerInput();
+        $intRule = new CastToInt();
         return $intRule->process(
             $dataStorage->getCurrentValue(),
             $processedValues,

@@ -89,8 +89,7 @@ class SaneCharacters implements ProcessRule
         DataStorage $inputStorage
     ): ValidationResult {
 
-        $this->checkString($value);
-        /** @var string $value */
+        $value = $this->checkString($value);
 
         $validationResult = $this->validCharacters->process($value, $processedValues, $inputStorage);
 

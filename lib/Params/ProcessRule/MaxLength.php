@@ -32,8 +32,7 @@ class MaxLength implements ProcessRule
     ): ValidationResult {
         // TODO - handle to string conversion better.
 
-        $this->checkString($value);
-        /** @var string $value */
+        $value = $this->checkString($value);
 
         if (mb_strlen($value) > $this->maxLength) {
             $message = sprintf(

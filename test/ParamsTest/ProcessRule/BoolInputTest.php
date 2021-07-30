@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\BoolInput;
+use Params\ProcessRule\CastToBool;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
 
@@ -35,11 +35,11 @@ class BoolInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideBoolValueWorksCases
-     * @covers \Params\ProcessRule\BoolInput
+     * @covers \Params\ProcessRule\CastToBool
      */
     public function testValidationWorks($inputValue, bool $expectedValue)
     {
-        $rule = new BoolInput();
+        $rule = new CastToBool();
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
@@ -60,11 +60,11 @@ class BoolInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideBoolValueErrorsCases
-     * @covers \Params\ProcessRule\BoolInput
+     * @covers \Params\ProcessRule\CastToBool
      */
     public function testValidationErrors($inputValue, $message)
     {
-        $rule = new BoolInput();
+        $rule = new CastToBool();
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
@@ -80,11 +80,11 @@ class BoolInputTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\BoolInput
+     * @covers \Params\ProcessRule\CastToBool
      */
     public function testDescription()
     {
-        $rule = new BoolInput();
+        $rule = new CastToBool();
         $description = $this->applyRuleToDescription($rule);
         $this->assertSame('boolean', $description->getType());
     }

@@ -11,7 +11,7 @@ class TestArrayDataStorage extends ArrayDataStorage
     /**
      * @param int|string $key
      * @param mixed $value
-     * @return self
+     * @return DataStorage
      */
     public static function fromSingleValue($key, $value): DataStorage
     {
@@ -24,7 +24,7 @@ class TestArrayDataStorage extends ArrayDataStorage
     /**
      * @param int|string $key
      * @param mixed $value
-     * @return self
+     * @return DataStorage
      */
     public static function fromSingleValueButRoot($key, $value): DataStorage
     {
@@ -38,7 +38,7 @@ class TestArrayDataStorage extends ArrayDataStorage
     /**
      * Used for testing missing data mostly.
      * @param string $key
-     * @return self
+     * @return DataStorage
      */
     public static function createMissing(string $key): DataStorage
     {
@@ -48,7 +48,7 @@ class TestArrayDataStorage extends ArrayDataStorage
     }
 
     /**
-     * @todo - remove usages of this
+     * @todo - is this needed?
      */
     public static function fromArraySetFirstValue(array $data): DataStorage
     {

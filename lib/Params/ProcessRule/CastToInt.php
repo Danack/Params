@@ -14,7 +14,7 @@ use Params\ValidationResult;
  * Takes user input and converts it to an int value, or
  * generates appropriate validationProblems.
  */
-class IntegerInput implements ProcessRule
+class CastToInt implements ProcessRule
 {
     const MAX_SANE_VALUE = 999_999_999_999_999;
 

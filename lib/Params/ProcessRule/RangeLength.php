@@ -36,8 +36,8 @@ class RangeLength implements ProcessRule
         DataStorage $inputStorage
     ): ValidationResult {
 
-        $this->checkString($value);
-        /** @var string $value */
+        $value = $this->checkString($value);
+
 
         // Check min length
         if (mb_strlen($value) < $this->minLength) {

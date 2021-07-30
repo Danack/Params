@@ -7,7 +7,7 @@ namespace Params\ExtractRule;
 use Params\DataStorage\DataStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\ProcessRule\BoolInput;
+use Params\ProcessRule\CastToBool;
 use Params\ValidationResult;
 
 /**
@@ -34,7 +34,7 @@ class GetBoolOrDefault implements ExtractRule
             return ValidationResult::valueResult($this->default);
         }
 
-        $intRule = new BoolInput();
+        $intRule = new CastToBool();
 
         return $intRule->process(
             $dataStorage->getCurrentValue(),

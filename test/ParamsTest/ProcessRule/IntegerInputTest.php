@@ -6,7 +6,7 @@ namespace ParamsTest\ProcessRule;
 
 use Params\DataStorage\TestArrayDataStorage;
 use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\IntegerInput;
+use Params\ProcessRule\CastToInt;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
 use Params\Messages;
@@ -22,17 +22,17 @@ class IntegerInputTest extends BaseTestCase
             ['5', 5],
             ['-10', -10],
             ['555555', 555555],
-            [(string)IntegerInput::MAX_SANE_VALUE, IntegerInput::MAX_SANE_VALUE]
+            [(string)CastToInt::MAX_SANE_VALUE, CastToInt::MAX_SANE_VALUE]
         ];
     }
 
     /**
      * @dataProvider provideIntValueWorksCases
-     * @covers \Params\ProcessRule\IntegerInput
+     * @covers \Params\ProcessRule\CastToInt
      */
     public function testValidationWorks(string $inputValue, int $expectedValue)
     {
-        $rule = new IntegerInput();
+        $rule = new CastToInt();
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
@@ -53,17 +53,17 @@ class IntegerInputTest extends BaseTestCase
             ['5.5', Messages::INT_REQUIRED_FOUND_NON_DIGITS2],
             ['banana', Messages::INT_REQUIRED_FOUND_NON_DIGITS2],
             ['', Messages::INT_REQUIRED_FOUND_EMPTY_STRING],
-            [(string)(IntegerInput::MAX_SANE_VALUE + 1), Messages::INTEGER_TOO_LONG]
+            [(string)(CastToInt::MAX_SANE_VALUE + 1), Messages::INTEGER_TOO_LONG]
         ];
     }
 
     /**
      * @dataProvider providesDetectsErrorsCorrectly
-     * @covers \Params\ProcessRule\IntegerInput
+     * @covers \Params\ProcessRule\CastToInt
      */
     public function testDetectsErrorsCorrectly($inputValue, $message)
     {
-        $rule = new IntegerInput();
+        $rule = new CastToInt();
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
@@ -80,11 +80,11 @@ class IntegerInputTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\IntegerInput
+     * @covers \Params\ProcessRule\CastToInt
      */
     public function testDescription()
     {
-        $rule = new IntegerInput();
+        $rule = new CastToInt();
         $description = $this->applyRuleToDescription($rule);
         $this->assertSame('integer', $description->getType());
     }

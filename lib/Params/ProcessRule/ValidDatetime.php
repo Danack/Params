@@ -20,8 +20,7 @@ class ValidDatetime implements ProcessRule
         DataStorage $inputStorage
     ): ValidationResult {
 
-        $this->checkString($value);
-        /** @var string $value */
+        $value  = $this->checkString($value);
 
         $dateTime = \DateTime::createFromFormat(\DateTime::RFC3339, $value);
         if ($dateTime instanceof \DateTime) {

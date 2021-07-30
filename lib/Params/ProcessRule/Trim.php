@@ -19,8 +19,8 @@ class Trim implements ProcessRule
         DataStorage $inputStorage
     ): ValidationResult {
 
-        $this->checkString($value);
-        /** @var string $value */
+        $value = $this->checkString($value);
+
 
         return ValidationResult::valueResult(trim($value));
     }

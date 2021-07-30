@@ -8,7 +8,7 @@ use Params\DataStorage\DataStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\ProcessRule\IntegerInput;
+use Params\ProcessRule\CastToInt;
 use Params\ProcessRule\ProcessRule;
 use Params\ValidationResult;
 use function Params\processProcessingRules;
@@ -48,7 +48,7 @@ class GetArrayOfInt implements ExtractRule
         $validationProblems = [];
         $index = 0;
 
-        $intRule = new IntegerInput();
+        $intRule = new CastToInt();
 
         foreach ($itemData as $itemDatum) {
             $dataStorageForItem = $dataStorage->moveKey($index);

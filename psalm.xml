@@ -102,14 +102,13 @@
 
         <MixedArgument>
             <errorLevel type="suppress">
-                <file name="lib/Params/InputStorage/ArrayInputStorage.php"/>
+                <file name="lib/Params/DataStorage/ArrayDataStorage.php"/>
                 <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedArgument>
 
         <MixedArrayAccess>
             <errorLevel type="suppress">
-<!--                <file name="lib/Params/DataLocator/DataStorage.php"/>-->
                 <file name="lib/Params/functions.php"/>
             </errorLevel>
         </MixedArrayAccess>

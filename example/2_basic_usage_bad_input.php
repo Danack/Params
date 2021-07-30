@@ -11,7 +11,7 @@ require __DIR__ . "/../vendor/autoload.php";
 $varMap = new ArrayVarMap([]);
 
 try {
-    $varMap = new ArrayVarMap(['order' => 'not a valid value']);
+    $varMap = new ArrayVarMap(['ordering' => 'not a valid value']);
     $articleGetIndexParams = GetArticlesParams::createFromVarMap($varMap);
 
     echo "shouldn't reach here.";

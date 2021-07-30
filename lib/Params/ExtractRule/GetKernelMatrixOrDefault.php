@@ -7,7 +7,7 @@ namespace Params\ExtractRule;
 use Params\DataStorage\DataStorage;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\ProcessRule\FloatInput;
+use Params\ProcessRule\CastToFloat;
 use Params\ValidationResult;
 use Params\Exception\LogicException;
 use Params\Messages;
@@ -44,7 +44,7 @@ class GetKernelMatrixOrDefault implements ExtractRule
             return ValidationResult::valueResult($this->default);
         }
 
-        $floatRule = new FloatInput();
+        $floatRule = new CastToFloat();
         $currentValue = $dataStorage->getCurrentValue();
 
         if (is_string($currentValue) !== true) {

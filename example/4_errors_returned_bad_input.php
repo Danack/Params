@@ -8,7 +8,7 @@ use VarMap\ArrayVarMap;
 require __DIR__ . "/../vendor/autoload.php";
 
 // Handle errors
-$varmap = new ArrayVarMap(['order' => 'error']);
+$varmap = new ArrayVarMap(['ordering' => 'error']);
 [$articleGetIndexParams, $validationErrors] = GetArticlesParams::createOrErrorFromVarMap($varmap);
 
 if (count($validationErrors) !== 0) {

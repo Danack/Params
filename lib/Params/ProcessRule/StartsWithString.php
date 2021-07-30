@@ -31,8 +31,7 @@ class StartsWithString implements ProcessRule
         DataStorage $inputStorage
     ): ValidationResult {
 
-        $this->checkString($value);
-        /** @var string $value */
+        $value = $this->checkString($value);
 
         if (strpos($value, $this->prefix) !== 0) {
             $message = sprintf(

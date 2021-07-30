@@ -26,8 +26,7 @@ class NullIfEmpty implements ProcessRule
             return ValidationResult::finalValueResult(null);
         }
 
-        $this->checkString($value);
-        /** @var string $value */
+        $value = $this->checkString($value);
 
         $temp_value = $value;
         $temp_value = trim($temp_value);

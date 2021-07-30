@@ -10,7 +10,7 @@ use Params\ProcessRule\MaxIntValue;
 use Params\ProcessRule\MinIntValue;
 use Params\SafeAccess;
 use Params\InputParameterList;
-use Params\ProcessRule\IntegerInput;
+use Params\ProcessRule\CastToInt;
 
 class FooParams implements InputParameterList
 {
@@ -33,7 +33,7 @@ class FooParams implements InputParameterList
             new InputParameter(
                 'limit',
                 new GetInt(),
-                new IntegerInput(),
+                new CastToInt(),
                 new MinIntValue(0),
                 new MaxIntValue(100)
             )

@@ -9,12 +9,13 @@ bash runUnitTests.sh --no-coverage
 bash runCodeSniffer.sh
 
 echo "Running PHPStan"
-php ./phpstan.phar analyze -c ./phpstan.neon -l 7 lib
+php ./phpstan.phar analyze -c ./phpstan.neon -l 8 lib
 
 echo "Running Psalm"
 php ./psalm.phar
 
-bash runMutationTests.sh
+# Exclude mutation tests for now.
+# bash runMutationTests.sh
 
 bash runExamples.sh
 

@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Params\DataStorage;
 
 use Params\Exception\InvalidLocationException;
-use VarMap\VarMap;
 use function Params\getJsonPointerParts;
 
 /**
@@ -22,7 +21,7 @@ class ArrayDataStorage implements DataStorage
         $this->data = $data;
     }
 
-    public static function fromArray(array $data): self
+    public static function fromArray(array $data): DataStorage
     {
         $instance = new self($data);
 
@@ -70,7 +69,7 @@ class ArrayDataStorage implements DataStorage
     /**
      * @inheritDoc
      */
-    public function moveKey($name): self
+    public function moveKey($name): DataStorage
     {
         $clone = clone $this;
         $clone->currentLocation[] = $name;

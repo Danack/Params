@@ -8,10 +8,17 @@ use Params\Exception\InvalidRulesException;
 
 trait CheckString
 {
-    public function checkString(mixed $value): void
+    public function checkString(mixed $value): string
     {
-        if (is_string($value) !== true) {
-            throw InvalidRulesException::expectsStringForProcessing(get_called_class());
+        if (is_string($value) === true) {
+            return $value;
         }
+
+        if (is_object($value) === true &&
+            is_a($value, \Stringable::class) === true) {
+            return (string)$value;
+        }
+
+        throw InvalidRulesException::expectsStringForProcessing(get_called_class());
     }
 }

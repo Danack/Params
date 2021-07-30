@@ -43,8 +43,7 @@ class Order implements ProcessRule
         DataStorage $inputStorage
     ): ValidationResult {
 
-        $this->checkString($value);
-        /** @var string $value */
+        $value = $this->checkString($value);
 
         $parts = explode(',', $value);
         $orderElements = [];

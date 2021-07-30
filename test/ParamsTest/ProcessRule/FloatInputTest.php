@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\FloatInput;
+use Params\ProcessRule\CastToFloat;
 use ParamsTest\BaseTestCase;
 use Params\ProcessedValues;
 
@@ -28,11 +28,11 @@ class FloatInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideWorksCases
-     * @covers \Params\ProcessRule\FloatInput
+     * @covers \Params\ProcessRule\CastToFloat
      */
     public function testValidationWorks(string $inputValue, float $expectedValue)
     {
-        $rule = new FloatInput();
+        $rule = new CastToFloat();
         $processedValues = new ProcessedValues();
         $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
@@ -60,11 +60,11 @@ class FloatInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideErrorCases
-     * @covers \Params\ProcessRule\FloatInput
+     * @covers \Params\ProcessRule\CastToFloat
      */
     public function testValidationErrors($inputValue, $message)
     {
-        $rule = new FloatInput();
+        $rule = new CastToFloat();
         $processedValues = new ProcessedValues();
         $validationResult = $rule->process(
             $inputValue,
@@ -80,11 +80,11 @@ class FloatInputTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\FloatInput
+     * @covers \Params\ProcessRule\CastToFloat
      */
     public function testDescription()
     {
-        $rule = new FloatInput();
+        $rule = new CastToFloat();
         $description = $this->applyRuleToDescription($rule);
         $this->assertSame('float', $description->getType());
     }

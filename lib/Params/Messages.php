@@ -96,11 +96,11 @@ class Messages
     public const INCORRECT_NUMBER_OF_PARAMS = "Class %s expects %d params but we have %d.";
 
 
-    public const MISSING_PARAM_NAME = "Class %s requires a parameter named %s, but that is missing.";
+    public const MISSING_PARAM_NAME = "Class '%s' requires a parameter named '%s', but that is missing.";
 
-    public const PROPERTY_MULTIPLE_PARAMS = "Property %s in class %s has more than one Param annotation.";
+    public const PROPERTY_MULTIPLE_PARAMS = "Property '%s' in class %s has more than one Param annotation.";
 
-    public const PROPERTY_ANNOTATION_DOES_NOT_EXIST = "Property %s in class %s has an annotation for %s, but that class does not exist.";
+    public const PROPERTY_ANNOTATION_DOES_NOT_EXIST = "Property '%s' in class %s has an annotation for %s, but that class does not exist.";
 
 
 
@@ -111,7 +111,7 @@ class Messages
     // Rule erors
     public const ERROR_DIFFERENT_TYPES = "Parameter cannot by the same as %s as they different types, %s and %s.";
 
-    public const ERROR_NO_PREVIOUS_PARAM = "Param named %s was not previously processed.";
+    public const ERROR_NO_PREVIOUS_PARAM = "Param named '%s' was not previously processed.";
     public const ERROR_DIFFERENT_VALUE = "Parameter is different to parameter '%s'.";
 
     public const ERROR_MAXIMUM_COUNT_MINIMUM = "Maximum count must be zero or above.";

@@ -24,7 +24,7 @@ use Params\ValidationResult;
  * any other input - error
  *
  */
-class BoolInput implements ProcessRule
+class CastToBool implements ProcessRule
 {
     public function process(
         $value,

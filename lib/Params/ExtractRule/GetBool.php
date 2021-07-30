@@ -8,7 +8,7 @@ use Params\DataStorage\DataStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\ProcessRule\BoolInput;
+use Params\ProcessRule\CastToBool;
 use Params\ValidationResult;
 
 class GetBool implements ExtractRule
@@ -21,7 +21,7 @@ class GetBool implements ExtractRule
             return ValidationResult::errorResult($dataStorage, Messages::VALUE_NOT_SET);
         }
 
-        $intRule = new BoolInput();
+        $intRule = new CastToBool();
 
         return $intRule->process(
             $dataStorage->getCurrentValue(),

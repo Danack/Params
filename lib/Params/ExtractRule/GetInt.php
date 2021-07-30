@@ -8,7 +8,7 @@ use Params\DataStorage\DataStorage;
 use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
-use Params\ProcessRule\IntegerInput;
+use Params\ProcessRule\CastToInt;
 use Params\ValidationResult;
 
 class GetInt implements ExtractRule
@@ -21,7 +21,7 @@ class GetInt implements ExtractRule
             return ValidationResult::errorResult($dataStorage, Messages::VALUE_NOT_SET);
         }
 
-        $intRule = new IntegerInput();
+        $intRule = new CastToInt();
         $value = $dataStorage->getCurrentValue();
         return $intRule->process($value, $processedValues, $dataStorage);
     }

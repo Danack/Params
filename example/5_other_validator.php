@@ -10,19 +10,24 @@ require __DIR__ . "/../vendor/autoload.php";
 
 $correctData = [
     'name' => 'Dan',
-    'mac_address' => 'a1:b2:c3:d4:e5:f6'
+    'macAddress' => 'a1:b2:c3:d4:e5:f6'
 ];
 
 /** @var ComputerDetailsParams $computerDetails */
 [$computerDetails, $validationErrors] =
     ComputerDetailsParams::createOrErrorFromArray($correctData);
 
+if (count($validationErrors) !== 0) {
+    echo "Unexpected problems.";
+    var_dump($validationErrors);
+    exit(-1);
+}
+
 printf(
     "Correct data\n\tName: [%s]\tMac address [%s]\n",
     $computerDetails->getName(),
     $computerDetails->getMacAddress()
 );
-
 
 $badData = [
     'name' => 'Dan',

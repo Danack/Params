@@ -53,7 +53,6 @@ use function Params\getReflectionClassOfAttribute;
 use function Params\instantiateParam;
 use function Params\createObjectFromParams;
 
-
 /**
  * @coversNothing
  */
@@ -977,7 +976,7 @@ class FunctionsTest extends BaseTestCase
         $result = instantiateParam(
             $refl_of_attribute,
             $attribute,
-          'default_name',
+            'default_name',
         );
         $this->assertInstanceOf(\AttributesExistsNoConstructor::class, $result);
     }
@@ -1024,6 +1023,6 @@ class FunctionsTest extends BaseTestCase
         $this->assertInstanceOf(\AttributesExistsHasConstructorWithName::class, $result);
         $this->assertSame(10, $result->getFoo());
 
-        $this->assertSame( 'default_name', $result->getName());
+        $this->assertSame('default_name', $result->getName());
     }
 }

@@ -79,6 +79,5 @@ class ValidCharactersTest extends BaseTestCase
 //        type: string
 //      maxLength: 10
 //      pattern: ^[A-Za-z0-9]{3,10}$
-
     }
 }

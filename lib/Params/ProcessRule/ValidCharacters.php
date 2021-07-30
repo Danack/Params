@@ -35,8 +35,7 @@ class ValidCharacters implements ProcessRule
         DataStorage $inputStorage
     ): ValidationResult {
 
-        $this->checkString($value);
-        /** @var string $value */
+        $value = $this->checkString($value);
 
         $patternInvalidCharacters = "/[^" . $this->patternValidCharacters . "]+/xu";
         $matches = [];

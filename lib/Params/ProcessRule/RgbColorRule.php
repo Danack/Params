@@ -38,8 +38,7 @@ class RgbColorRule implements ProcessRule
         DataStorage $inputStorage
     ): ValidationResult {
 
-        $this->checkString($value);
-        /** @var string $value */
+        $value = $this->checkString($value);
 
         // TODO - this is to imprecise. Need to match web css colors
         // more precisely
