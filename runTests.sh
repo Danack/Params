@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
 set -e
-# set -x
+set -x
 
-
+echo "**************DJA";
 time bash runUnitTests.sh --no-coverage
+
+
 
 bash runCodeSniffer.sh
 
