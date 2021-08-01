@@ -4,7 +4,7 @@ set -e
 # set -x
 
 
-bash runUnitTests.sh --no-coverage
+time bash runUnitTests.sh --no-coverage
 
 bash runCodeSniffer.sh
 
