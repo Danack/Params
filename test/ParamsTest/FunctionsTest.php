@@ -20,7 +20,7 @@ use Params\InputParameter;
 use Params\Messages;
 use Params\ProcessedValues;
 use Params\ProcessRule\AlwaysEndsRule;
-use Params\ProcessRule\ImagickRgbColorRule;
+use Params\ProcessRule\ImagickIsRgbColor;
 use Params\ProcessRule\MinLength;
 use Params\OpenApi\ParamDescription;
 use Params\Value\Ordering;
@@ -244,7 +244,7 @@ class FunctionsTest extends BaseTestCase
         $this->expectExceptionMessageMatchesTemplateString(Messages::CLASS_LACKS_CONSTRUCTOR);
         $this->expectException(\Params\Exception\NoConstructorException::class);
         createObjectFromParams(
-            \ThreeColorsNoConstructor::class,
+            \OneColorNoConstructor::class,
             []
         );
     }
@@ -291,6 +291,7 @@ class FunctionsTest extends BaseTestCase
 
     /**
      * @covers ::\Params\createTypeFromAnnotations
+     * @group deadish
      */
     public function test_createTypeFromAnnotations()
     {
@@ -743,17 +744,16 @@ class FunctionsTest extends BaseTestCase
             ['limit' => -10]
         ];
 
-        [$values, $errors] = createArrayOfTypeOrError(
+        [$values, $validationProblems] = createArrayOfTypeOrError(
             FooParams::class,
             $data
         );
 
         $this->assertNull($values);
+        $this->assertValidationErrorCount(1, $validationProblems);
 
-        $this->assertCount(1, $errors);
-
-        /** @var \Params\ValidationProblem[] $errors */
-        $validationProblem = $errors[0];
+        /** @var \Params\ValidationProblem[] $validationProblems */
+        $validationProblem = $validationProblems[0];
 
         $this->assertStringMatchesTemplateString(
             Messages::INT_TOO_SMALL,
@@ -851,7 +851,7 @@ class FunctionsTest extends BaseTestCase
             $processRules = $inputParameter->getProcessRules();
             $this->assertCount(1, $processRules);
             $processRule = $processRules[0];
-            $this->assertInstanceOf(ImagickRgbColorRule::class, $processRule);
+            $this->assertInstanceOf(ImagickIsRgbColor::class, $processRule);
         }
     }
 

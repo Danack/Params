@@ -15,7 +15,7 @@ use Params\ValidationResult;
  * Class RgbColorRule
  * Validates an RGB or RGBA color string
  */
-class RgbColorRule implements ProcessRule
+class IsRgbColor implements ProcessRule
 {
     use CheckString;
 

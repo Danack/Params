@@ -155,4 +155,6 @@ class Messages
 
     public const MATRIX_MUST_BE_OF_ROW_SIZE = "Matrix must have %d rows, but has %d.";
     public const MATRIX_MUST_BE_OF_COLUMN_SIZE = "Matrix must have %d columns, but has %d.";
+
+    public const UNKNOWN_INPUT_PARAMETER = "Unknown input parameter '%s'.";
 }

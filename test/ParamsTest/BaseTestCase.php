@@ -245,4 +245,29 @@ class BaseTestCase extends TestCase
 
         return $description;
     }
+
+    /**
+     * @param int $expected_count
+     * @param \Params\ValidationProblem[] $validationProblems
+     */
+    public function assertValidationErrorCount(int $expected_count, array $validationProblems)
+    {
+        if (count($validationProblems) === $expected_count) {
+            return;
+        }
+
+        $message = sprintf(
+            "Incorrect number of validation problems. Was expecting %d but have %d\n",
+            $expected_count,
+            count($validationProblems)
+        );
+
+        $message .= "They are: \n";
+
+        foreach ($validationProblems as $validationProblem) {
+            $message .= "\t" . $validationProblem->toString() . "\n";
+        }
+
+        $this->fail($message);
+    }
 }

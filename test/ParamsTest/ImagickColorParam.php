@@ -8,7 +8,7 @@ namespace ParamsTest;
 use Params\Param;
 use Params\InputParameter;
 use Params\ExtractRule\GetStringOrDefault;
-use Params\ProcessRule\ImagickRgbColorRule;
+use Params\ProcessRule\ImagickIsRgbColor;
 
 class ImagickColorParam implements Param
 {
@@ -23,7 +23,7 @@ class ImagickColorParam implements Param
         return new InputParameter(
             $this->name,
             new GetStringOrDefault($this->default),
-            new ImagickRgbColorRule()
+            new ImagickIsRgbColor()
         );
     }
 }

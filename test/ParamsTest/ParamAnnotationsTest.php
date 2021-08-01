@@ -7,7 +7,7 @@ namespace ParamsTest;
 use Params\ExtractRule\GetStringOrDefault;
 use Params\InputParameter;
 use Params\Messages;
-use Params\ProcessRule\ImagickRgbColorRule;
+use Params\ProcessRule\ImagickIsRgbColor;
 use VarMap\ArrayVarMap;
 use Params\Exception\AnnotationClassDoesNotExistException;
 use Params\Exception\IncorrectNumberOfParamsException;
@@ -22,6 +22,9 @@ use function \Params\createTypeFromAnnotations;
  */
 class ParamAnnotationsTest extends BaseTestCase
 {
+    /**
+     * @group deadish
+     */
     public function testCreateWorks()
     {
         $varMap = new ArrayVarMap([
@@ -97,6 +100,10 @@ class ParamAnnotationsTest extends BaseTestCase
     }
 
 
+    /**
+     * @group deadish
+     * @group needs_fixing
+     */
     public function testMissingConstructorParamErrors()
     {
         $varMap = new ArrayVarMap([
@@ -111,24 +118,29 @@ class ParamAnnotationsTest extends BaseTestCase
         createTypeFromAnnotations($varMap, \ThreeColorsMissingConstructorParam::class);
     }
 
+    /**
+     * @group deadish
+     */
     public function testMissingPropertyParamErrors()
     {
         $varMap = new ArrayVarMap([
             'background_color' => 'red',
             'stroke_color' => 'rgb(255, 0, 255)',
-            'fill_color' => 'white',
+//            'fill_color' => 'white',
         ]);
 
         $this->expectException(IncorrectNumberOfParamsException::class);
+        $this->markTestSkipped("This test is needed.");
         createTypeFromAnnotations($varMap, \ThreeColorsMissingPropertyParam::class);
     }
 
+    /**
+     * @group deadish
+     */
     public function testMissingConstructor()
     {
         $varMap = new ArrayVarMap([
             'background_color' => 'red',
-            'stroke_color' => 'rgb(255, 0, 255)',
-            'fill_color' => 'white',
         ]);
 
         $this->expectException(NoConstructorException::class);
@@ -136,10 +148,13 @@ class ParamAnnotationsTest extends BaseTestCase
             Messages::CLASS_LACKS_CONSTRUCTOR
         );
 
-        createTypeFromAnnotations($varMap, \ThreeColorsNoConstructor::class);
+        createTypeFromAnnotations($varMap, \OneColorNoConstructor::class);
     }
 
 
+    /**
+     * @group deadish
+     */
     public function testNoPublicConstructor()
     {
         $varMap = new ArrayVarMap([
@@ -157,7 +172,9 @@ class ParamAnnotationsTest extends BaseTestCase
         createTypeFromAnnotations($varMap, \ThreeColorsPrivateConstructor::class);
     }
 
-
+    /**
+     * @group deadish
+     */
     public function testIncorrectContructorParameterName()
     {
         $varMap = new ArrayVarMap([
@@ -171,16 +188,21 @@ class ParamAnnotationsTest extends BaseTestCase
         createTypeFromAnnotations($varMap, \ThreeColorsIncorrectParamName::class);
     }
 
+    /**
+     * @group deadish
+     */
     public function testOneParamWithOneOtherPropertyName()
     {
         $varMap = new ArrayVarMap([
             'background_color' => 'red',
         ]);
 
-//        $this->expectException(MissingConstructorParameterNameException::class);
-        createTypeFromAnnotations($varMap, \OneColor::class);
+        createTypeFromAnnotations($varMap, \TwoColors::class);
     }
 
+    /**
+     * @group deadish
+     */
     public function testOneParamName()
     {
         $varMap = new ArrayVarMap([
@@ -197,7 +219,9 @@ class ParamAnnotationsTest extends BaseTestCase
         );
     }
 
-
+    /**
+     * @group deadish
+     */
     public function testNonExistentParamErrorsSensibly()
     {
         $varMap = new ArrayVarMap([
@@ -218,7 +242,9 @@ class ParamAnnotationsTest extends BaseTestCase
     }
 
 
-
+    /**
+     * @group deadish
+     */
     public function testMultipleParamsErrors()
     {
         $varMap = new ArrayVarMap([

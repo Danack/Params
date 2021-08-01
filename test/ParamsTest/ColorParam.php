@@ -8,7 +8,7 @@ namespace ParamsTest;
 use Params\Param;
 use Params\InputParameter;
 use Params\ExtractRule\GetStringOrDefault;
-use Params\ProcessRule\RgbColorRule;
+use Params\ProcessRule\IsRgbColor;
 
 class ColorParam implements Param
 {
@@ -23,7 +23,7 @@ class ColorParam implements Param
         return new InputParameter(
             $this->name,
             new GetStringOrDefault($this->default),
-            new RgbColorRule()
+            new IsRgbColor()
         );
     }
 }

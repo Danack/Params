@@ -24,6 +24,7 @@
   <groups>
     <exclude>
       <group>needs_fixing</group>
+      <group>deadish</group>
     </exclude>
   </groups>
   <logging>

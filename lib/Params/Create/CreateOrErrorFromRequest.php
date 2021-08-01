@@ -9,6 +9,7 @@ use Params\Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use VarMap\Psr7VarMap;
 use function Params\createOrError;
+use function Params\getInputParameterListForClass;
 
 trait CreateOrErrorFromRequest
 {
@@ -21,7 +22,7 @@ trait CreateOrErrorFromRequest
     public static function createOrErrorFromRequest(ServerRequestInterface $request)
     {
         $variableMap = new Psr7VarMap($request);
-        $rules = static::getInputParameterList();
+        $rules = getInputParameterListForClass(self::class);
         $dataStorage = ArrayDataStorage::fromArray($variableMap->toArray());
 
         return createOrError(static::class, $rules, $dataStorage);

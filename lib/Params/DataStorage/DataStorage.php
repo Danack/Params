@@ -54,4 +54,6 @@ interface DataStorage
      * @return bool
      */
     public function isValueAvailable(): bool;
+
+    public function getCurrentValues(): array;
 }

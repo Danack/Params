@@ -9,7 +9,7 @@ use Params\Messages;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\PositiveInt;
 use Params\ProcessedValues;
-use Params\ProcessRule\RgbColorRule;
+use Params\ProcessRule\IsRgbColor;
 
 /**
  * @coversNothing
@@ -26,11 +26,11 @@ class ColorTest extends BaseTestCase
 
     /**
      * @dataProvider provideRgbColorWorks
-     * @covers \Params\ProcessRule\RgbColorRule
+     * @covers \Params\ProcessRule\IsRgbColor
      */
     public function testValidation($inputString)
     {
-        $rule = new RgbColorRule();
+        $rule = new IsRgbColor();
         $processedValues = new ProcessedValues();
         $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
         $validationResult = $rule->process(
@@ -43,18 +43,18 @@ class ColorTest extends BaseTestCase
     public function provideRgbColorErrors()
     {
         return [
-            ['rgb(255, 255, )', RgbColorRule::BAD_COLOR_STRING],
+            ['rgb(255, 255, )', IsRgbColor::BAD_COLOR_STRING],
         ];
     }
 
 
     /**
      * @dataProvider provideRgbColorErrors
-     * @covers \Params\ProcessRule\RgbColorRule
+     * @covers \Params\ProcessRule\IsRgbColor
      */
     public function testErrors($testValue, $message)
     {
-        $rule = new RgbColorRule();
+        $rule = new IsRgbColor();
         $processedValues = new ProcessedValues();
         $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
         $validationResult = $rule->process(
@@ -70,11 +70,11 @@ class ColorTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\RgbColorRule
+     * @covers \Params\ProcessRule\IsRgbColor
      */
     public function testDescription()
     {
-        $rule = new RgbColorRule();
+        $rule = new IsRgbColor();
         $description = $this->applyRuleToDescription($rule);
 
 //        $this->assertSame(0, $description->getMinimum());

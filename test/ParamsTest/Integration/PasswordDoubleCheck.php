@@ -11,8 +11,9 @@ use Params\ProcessRule\MinLength;
 use Params\ProcessRule\MaxLength;
 use Params\Create\CreateOrErrorFromVarMap;
 use Params\ProcessRule\DuplicatesParam;
+use Params\InputParameterList;
 
-class PasswordDoubleCheck
+class PasswordDoubleCheck implements InputParameterList
 {
     use SafeAccess;
     use CreateOrErrorFromVarMap;
@@ -29,7 +30,7 @@ class PasswordDoubleCheck
         $this->password_repeat = $password_repeat;
     }
 
-    public static function getInputParameterList()
+    public static function getInputParameterList(): array
     {
         return [
             new InputParameter(

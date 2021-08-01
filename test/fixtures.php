@@ -9,9 +9,11 @@ use Params\InputParameterList;
 use Params\InputParameter;
 use Params\Param;
 use Params\ProcessRule\AlwaysErrorsRule;
-use Params\ProcessRule\ImagickRgbColorRule;
+use Params\ProcessRule\ImagickIsRgbColor;
 use Params\SafeAccess;
 use ParamsTest\ImagickColorParam;
+use Params\Create\CreateFromArray;
+use Params\Create\CreateOrErrorFromArray;
 
 class TestObject
 {
@@ -154,9 +156,32 @@ class NotAParameter
 }
 
 
+
 class OneColor
 {
     use SafeAccess;
+    use CreateFromArray;
+
+    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+    private string $background_color;
+
+    public function __construct(string $stroke_color, string $background_color)
+    {
+        $this->background_color = $background_color;
+        $this->stroke_color = $stroke_color;
+    }
+
+    public function getBackgroundColor(): string
+    {
+        return $this->background_color;
+    }
+}
+
+
+class TwoColors
+{
+    use SafeAccess;
+    use CreateOrErrorFromArray;
 
     #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
@@ -196,7 +221,6 @@ class OneColor
 class OneColorWithOtherAnnotationThatIsNotAParam
 {
     use SafeAccess;
-//    use CreateFromVarMap;
 
     #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
@@ -282,7 +306,6 @@ class ThreeColorsMissingPropertyParam
     #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
     private string $stroke_color;
 
-
     private string $fill_color;
 
     public function __construct(string $background_color, string $stroke_color, string $fill_color)
@@ -294,7 +317,7 @@ class ThreeColorsMissingPropertyParam
 }
 
 
-class ThreeColorsNoConstructor
+class OneColorNoConstructor
 {
     use SafeAccess;
 

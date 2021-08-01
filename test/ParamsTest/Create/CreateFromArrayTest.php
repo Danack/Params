@@ -46,7 +46,7 @@ class CreateFromArrayTest extends BaseTestCase
         [$intArrayParams, $errors] = IntArrayParams::createOrErrorFromArray($data);
 
         $this->assertNull($intArrayParams);
-        $this->assertCount(1, $errors);
+        $this->assertValidationErrorCount(1, $errors);
 
         $this->assertValidationProblem(
             '/counts[2]',

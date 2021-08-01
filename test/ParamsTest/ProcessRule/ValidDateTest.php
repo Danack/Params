@@ -6,7 +6,7 @@ namespace ParamsTest\ProcessRule;
 
 use Params\DataStorage\TestArrayDataStorage;
 use Params\OpenApi\ParamDescription;
-use Params\ProcessRule\ImagickRgbColorRule;
+use Params\ProcessRule\ImagickIsRgbColor;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\ValidDate;
 use Params\ProcessedValues;

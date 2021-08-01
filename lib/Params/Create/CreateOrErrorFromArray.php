@@ -6,6 +6,7 @@ namespace Params\Create;
 
 use Params\DataStorage\ArrayDataStorage;
 use function Params\createOrError;
+use function Params\getInputParameterListForClass;
 
 trait CreateOrErrorFromArray
 {
@@ -17,9 +18,9 @@ trait CreateOrErrorFromArray
      */
     public static function createOrErrorFromArray(array $data)
     {
-        $namedRules = static::getInputParameterList();
+        $rules = getInputParameterListForClass(self::class);
         $dataStorage = ArrayDataStorage::fromArray($data);
 
-        return createOrError(static::class, $namedRules, $dataStorage);
+        return createOrError(static::class, $rules, $dataStorage);
     }
 }

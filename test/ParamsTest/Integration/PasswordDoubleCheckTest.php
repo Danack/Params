@@ -20,17 +20,16 @@ class PasswordDoubleCheckTest extends BaseTestCase
     {
         $password = 'abcde12345';
         $data = [
-            'days' => 5,
             'password' => $password,
             'password_repeat' => $password,
         ];
 
         /** @var PasswordDoubleCheck $duplicateParams */
-        [$duplicateParams, $error] = PasswordDoubleCheck::createOrErrorFromVarMap(
+        [$duplicateParams, $errors] = PasswordDoubleCheck::createOrErrorFromVarMap(
             new ArrayVarMap($data)
         );
 
-        $this->assertEmpty($error);
+        $this->assertValidationErrorCount(0, $errors);
 
         $this->assertInstanceOf(PasswordDoubleCheck::class, $duplicateParams);
         $this->assertSame($password, $duplicateParams->getPassword());

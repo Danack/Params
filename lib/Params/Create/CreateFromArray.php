@@ -8,6 +8,7 @@ use Params\DataStorage\ArrayDataStorage;
 use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use function Params\create;
+use function Params\getInputParameterListForClass;
 
 /**
  * Use this trait when the parameters arrive as named parameters e.g
@@ -22,11 +23,10 @@ trait CreateFromArray
      */
     public static function createFromArray($data)
     {
-        $rules = static::getInputParameterList();
+        $rules = getInputParameterListForClass(self::class);
 
         $dataStorage = ArrayDataStorage::fromArray($data);
 
-//        $variableMap = new ArrayVarMap($data);
         $object = create(
             static::class,
             $rules,

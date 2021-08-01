@@ -48,6 +48,11 @@ class ArrayDataStorage implements DataStorage
         return $data;
     }
 
+    public function getCurrentValues(): array
+    {
+        return $this->getCurrentValue();
+    }
+
     /**
      * @inheritDoc
      */

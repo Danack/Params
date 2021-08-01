@@ -9,6 +9,7 @@ use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use function Params\create;
 use function JsonSafe\json_decode_safe;
+use function Params\getInputParameterListForClass;
 
 /**
  * Use this trait when the parameters arrive as named parameters e.g
@@ -23,7 +24,7 @@ trait CreateFromJson
      */
     public static function createFromJson($json)
     {
-        $rules = static::getInputParameterList();
+        $rules = getInputParameterListForClass(self::class);
         $data = json_decode_safe($json);
         $dataStorage = ArrayDataStorage::fromArray($data);
 

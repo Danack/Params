@@ -7,7 +7,7 @@ namespace ParamsTest;
 use ThreeColors;
 use Params\InputParameter;
 use Params\ExtractRule\GetStringOrDefault;
-use Params\ProcessRule\ImagickRgbColorRule;
+use Params\ProcessRule\ImagickIsRgbColor;
 
 /**
  * @coversNothing
@@ -29,7 +29,7 @@ class InputParameterListFromAttributesTest extends BaseTestCase
             $processRules = $inputParameter->getProcessRules();
             $this->assertCount(1, $processRules);
             $processRule = $processRules[0];
-            $this->assertInstanceOf(ImagickRgbColorRule::class, $processRule);
+            $this->assertInstanceOf(ImagickIsRgbColor::class, $processRule);
         }
     }
 }

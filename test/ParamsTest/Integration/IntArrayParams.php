@@ -18,8 +18,9 @@ use Params\SafeAccess;
 use Params\ProcessRule\MinLength;
 use Params\ProcessRule\MaxLength;
 use Params\ExtractRule\GetString;
+use Params\InputParameterList;
 
-class IntArrayParams
+class IntArrayParams implements InputParameterList
 {
     use SafeAccess;
     use CreateFromArray;
@@ -47,8 +48,7 @@ class IntArrayParams
         $this->counts = $counts;
     }
 
-
-    public static function getInputParameterList()
+    public static function getInputParameterList(): array
     {
         return [
             new InputParameter(

@@ -7,7 +7,7 @@ namespace ParamsTest\ProcessRule;
 use Params\DataStorage\TestArrayDataStorage;
 use Params\Messages;
 use Params\ProcessedValues;
-use Params\ProcessRule\ImagickRgbColorRule;
+use Params\ProcessRule\ImagickIsRgbColor;
 use ParamsTest\BaseTestCase;
 use Params\OpenApi\OpenApiV300ParamDescription;
 use Params\Exception\InvalidRulesException;
@@ -27,11 +27,11 @@ class ImagickRgbColorTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorks
-     * @covers \Params\ProcessRule\ImagickRgbColorRule
+     * @covers \Params\ProcessRule\ImagickIsRgbColor
      */
     public function testWorks(string $testValue)
     {
-        $rule = new ImagickRgbColorRule();
+        $rule = new ImagickIsRgbColor();
         $processedValues = new ProcessedValues();
 
         $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
@@ -45,13 +45,13 @@ class ImagickRgbColorTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\ImagickRgbColorRule
+     * @covers \Params\ProcessRule\ImagickIsRgbColor
      */
     public function testOnlyString()
     {
         $testValue = 15;
 
-        $rule = new ImagickRgbColorRule();
+        $rule = new ImagickIsRgbColor();
         $processedValues = new ProcessedValues();
 
         $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
@@ -67,11 +67,11 @@ class ImagickRgbColorTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\ImagickRgbColorRule
+     * @covers \Params\ProcessRule\ImagickIsRgbColor
      */
     public function testDescription()
     {
-        $rule = new ImagickRgbColorRule();
+        $rule = new ImagickIsRgbColor();
         $description = $this->applyRuleToDescription($rule);
         $this->assertSame('color', $description->getFormat());
     }

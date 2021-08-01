@@ -7,6 +7,7 @@ namespace Params\Create;
 use Params\DataStorage\ArrayDataStorage;
 use function JsonSafe\json_decode_safe;
 use function Params\createOrError;
+use function Params\getInputParameterListForClass;
 
 trait CreateOrErrorFromJson
 {
@@ -20,9 +21,9 @@ trait CreateOrErrorFromJson
     {
         $data = json_decode_safe($json);
 
-        $namedRules = static::getInputParameterList();
+        $rules = getInputParameterListForClass(self::class);
         $dataStorage = ArrayDataStorage::fromArray($data);
 
-        return createOrError(static::class, $namedRules, $dataStorage);
+        return createOrError(static::class, $rules, $dataStorage);
     }
 }

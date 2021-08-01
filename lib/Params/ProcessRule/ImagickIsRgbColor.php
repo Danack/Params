@@ -11,7 +11,7 @@ use Params\ProcessedValues;
 use Params\ProcessRule\ProcessRule;
 use Params\ValidationResult;
 
-class ImagickRgbColorRule extends RgbColorRule
+class ImagickIsRgbColor extends IsRgbColor
 {
     use CheckString;
 

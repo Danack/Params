@@ -10,6 +10,7 @@ use Params\Exception\ValidationException;
 use Params\ExtractRule\GetInt;
 use Params\ExtractRule\GetIntOrDefault;
 use ParamsTest\BaseTestCase;
+use Params\Messages;
 use VarMap\ArrayVarMap;
 use Params\ProcessRule\AlwaysEndsRule;
 use Params\ProcessRule\MaxIntValue;
@@ -19,11 +20,17 @@ use Params\ValidationResult;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\InputParameter;
+use Params\Exception\UnknownParamException;
 use function Params\create;
 use function Params\createOrError;
+use function Params\createTypeFromAnnotations;
 use function Params\processInputParameters;
 
 /**
+ * This is a general test suite for integration type stuff.
+ *
+ * aka, if you're not sure where a test should go, put it here.
+ *
  * @coversNothing
  */
 class ParamsTest extends BaseTestCase
@@ -53,37 +60,6 @@ class ParamsTest extends BaseTestCase
 //        $processedValues = \Params\ParamsExecutor::executeRules($rules, new ArrayVarMap([]));
         $this->assertSame(['foo' => 5], $processedValues->getAllValues());
     }
-
-//    /**
-//     * @covers \Params\Params::executeRules
-//     * @covers \Params\Params::executeRulesWithValidator
-//     */
-//    public function testMissingRuleThrows()
-//    {
-//        $rules = [
-//
-//            'foo' => []
-//        ];
-//
-//        $this->expectException(RulesEmptyException::class);
-//        \Params\Params::executeRules($rules, new ArrayVarMap([]));
-//    }
-
-//    /**
-//     * @covers \Params\Params::executeRules
-//     */
-//    public function testBadFirstRuleThrows()
-//    {
-//        $rules = [
-//            'foo' => [
-//                new MaxLength(10)
-//            ]
-//        ];
-//
-//        $this->expectException(\Params\Exception\ParamsException::class);
-//        $this->expectExceptionMessage(ParamsException::ERROR_FIRST_RULE_MUST_IMPLEMENT_FIRST_RULE);
-//        \Params\Params::executeRules($rules, new ArrayVarMap([]));
-//    }
 
     /**
      *  todo - covers what?
@@ -133,8 +109,6 @@ class ParamsTest extends BaseTestCase
         $this->assertNoValidationProblems($validationProblems);
 
         $this->assertHasValue($finalValue, 'foo', $processedValues);
-//        $processedValues = ParamsExecutor::executeRules($rules, $arrayVarMap);
-//        $this->assertEquals($finalValue, ($processedValues->getAllValues())['foo']);
     }
 
     public function testErrorResultStopsProcessing()
@@ -189,22 +163,6 @@ class ParamsTest extends BaseTestCase
         }
     }
 
-//    /**
-//     * @covers \Params\Params::validate
-//     */
-//    public function testSkipOrNullCoverage()
-//    {
-//        $arrayVarMap = new ArrayVarMap([]);
-//        $rules = [
-//            'foo' => [
-//                new GetStringOrDefault(null),
-//                new SkipIfNull()
-//            ]
-//        ];
-//
-//        list($foo) = Params::validate($rules);
-//        $this->assertNull($foo);
-//    }
 
     /**
      * @covers ::Params\create
@@ -283,5 +241,26 @@ class ParamsTest extends BaseTestCase
         $this->assertNoValidationProblems($errors);
         /** @var $fooParams \ParamsTest\Integration\FooParams */
         $this->assertEquals(5, $fooParams->getLimit());
+    }
+
+    /**
+     * @group wip
+     */
+    public function testUnknownInputThrows()
+    {
+        $data = [
+            'background_color' => 'red',
+            'unknown_color' => 'blue'
+        ];
+
+        [$object, $validationProblems] =  \TwoColors::createOrErrorFromArray($data);
+
+        $this->assertNull($object);
+        $this->assertValidationProblemRegexp(
+            '/',
+            Messages::UNKNOWN_INPUT_PARAMETER,
+            $validationProblems
+        );
+
     }
 }

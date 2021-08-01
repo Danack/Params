@@ -230,46 +230,49 @@ function create(
     $params,
     DataStorage $dataStorage
 ) {
-    $paramsValuesImpl = new ProcessedValues();
+    $processedValues = new ProcessedValues();
 
     $validationProblems = processInputParameters(
         $params,
-        $paramsValuesImpl,
+        $processedValues,
         $dataStorage
     );
 
     if (count($validationProblems) !== 0) {
         throw new ValidationException("Validation problems", $validationProblems);
     }
-    $object = createObjectFromParams($classname, $paramsValuesImpl->getAllValues());
+    $object = createObjectFromParams($classname, $processedValues->getAllValues());
 
     /** @var T $object */
     return $object;
 }
 
-/**
- * @template T
- * @param string $class
- * @param \VarMap\VarMap $varMap
- * @psalm-param class-string<T> $class
- * @return T
- * @throws \ReflectionException
- * @throws ValidationException
- */
-function createTypeFromAnnotations(\VarMap\VarMap $varMap, string $class)
-{
-    $rules = getParamsFromAnnotations($class);
-
-    $dataStorage = ArrayDataStorage::fromArray($varMap->toArray());
-
-    $object = create(
-        $class,
-        $rules,
-        $dataStorage
-    );
-
-    return $object;
-}
+///**
+// * TODO - this isn't used?
+// *
+// *
+// * @template T
+// * @param string $class
+// * @param \VarMap\VarMap $varMap
+// * @psalm-param class-string<T> $class
+// * @return T
+// * @throws \ReflectionException
+// * @throws ValidationException
+// */
+//function createTypeFromAnnotations(\VarMap\VarMap $varMap, string $class)
+//{
+//    $rules = getParamsFromAnnotations($class);
+//
+//    $dataStorage = ArrayDataStorage::fromArray($varMap->toArray());
+//
+//    $object = create(
+//        $class,
+//        $rules,
+//        $dataStorage
+//    );
+//
+//    return $object;
+//}
 
 
 
@@ -277,6 +280,7 @@ function createTypeFromAnnotations(\VarMap\VarMap $varMap, string $class)
  * @template T
  * @param class-string<T> $classname
  * @param \Params\InputParameter[] $params
+ * @param DataStorage $dataStorage
  * @return array{0:?object, 1:\Params\ValidationProblem[]}
  * @throws Exception\ParamsException
  * @throws ValidationException
@@ -284,7 +288,7 @@ function createTypeFromAnnotations(\VarMap\VarMap $varMap, string $class)
  * The rules are passed separately to the classname so that we can
  * support rules coming both from static info and from factory objects.
  */
-function createOrError($classname, $params, ArrayDataStorage $dataStorage)
+function createOrError($classname, $params, DataStorage $dataStorage)
 {
     $paramsValuesImpl = new ProcessedValues();
 
@@ -535,7 +539,10 @@ function processInputParameters(
 ) {
     $validationProblems = [];
 
+    $knownInputNames = [];
+
     foreach ($inputParameters as $inputParameter) {
+        $knownInputNames[] = $inputParameter->getInputName();
         $newValidationProblems = processInputParameter(
             $inputParameter,
             $paramValues,
@@ -545,6 +552,23 @@ function processInputParameters(
         if (count($newValidationProblems) !== 0) {
             $validationProblems = [...$validationProblems, ...$newValidationProblems];
             continue;
+        }
+    }
+
+    $current_values = $dataStorage->getCurrentValues();
+
+    foreach ($current_values as $key => $value) {
+        if (in_array($key, $knownInputNames, true) === false) {
+
+            $message = sprintf(
+                Messages::UNKNOWN_INPUT_PARAMETER,
+                $key
+            );
+
+            $validationProblems[] = new ValidationProblem(
+                $dataStorage,
+                $message
+            );
         }
     }
 

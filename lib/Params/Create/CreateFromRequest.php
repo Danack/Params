@@ -8,6 +8,7 @@ use Params\DataStorage\ArrayDataStorage;
 use Psr\Http\Message\ServerRequestInterface;
 use VarMap\Psr7VarMap;
 use function Params\create;
+use function Params\getInputParameterListForClass;
 
 /**
  * Use this trait when the parameters arrive as named parameters e.g
@@ -23,7 +24,7 @@ trait CreateFromRequest
     public static function createFromRequest(ServerRequestInterface $request)
     {
         $variableMap = new Psr7VarMap($request);
-        $rules = static::getInputParameterList();
+        $rules = getInputParameterListForClass(self::class);
         $dataStorage = ArrayDataStorage::fromArray($variableMap->toArray());
 
         $object = create(static::class, $rules, $dataStorage);
