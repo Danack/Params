@@ -32,4 +32,31 @@ class CheckStringTest extends BaseTestCase
         );
         $obj->checkString(5);
     }
+
+    /**
+     * @covers \Params\ProcessRule\CheckString
+     */
+    public function testStdClassFails()
+    {
+        $obj = new class {
+            use CheckString;
+        };
+
+        $inputString = "foo";
+
+        $someString = new class($inputString) implements \stringable {
+            public function __construct(private string $name)
+            {
+            }
+
+            public function __toString()
+            {
+                return $this->name;
+            }
+        };
+
+
+        $result = $obj->checkString($someString);
+        $this->assertSame($inputString, $result);
+    }
 }

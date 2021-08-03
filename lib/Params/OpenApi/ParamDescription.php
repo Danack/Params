@@ -151,7 +151,6 @@ interface ParamDescription
     public function setMinLength(int $minLength): void;
     public function getMinLength(): ?int;
 
-
     // string See https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.3.
     public function setPattern(string $pattern): void;
 

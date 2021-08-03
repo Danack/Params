@@ -116,11 +116,11 @@ class ThreeColors implements InputParameterList
     use Params\InputParameterListFromAttributes;
 
     public function __construct(
-        #[ImagickColorParam('rgb(225, 225, 225)')]
+        #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
         private string $background_color,
-        #[ImagickColorParam('rgb(0, 0, 0)')]
+        #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
         private string $stroke_color,
-        #[ImagickColorParam('DodgerBlue2')]
+        #[ImagickColorParam('DodgerBlue2', 'fill_color')]
         private string $fill_color
     ) {
     }
@@ -141,7 +141,7 @@ class ThreeColors implements InputParameterList
     }
 }
 
-
+#[\Attribute]
 class NotActuallyAParam
 {
     public function __construct(
@@ -397,11 +397,13 @@ class MultipleParamAnnotations
     }
 }
 
+#[\Attribute]
 class AttributesExistsNoConstructor
 {
 
 }
 
+#[\Attribute]
 class AttributesExistsHasConstructor
 {
     public function __construct(private int $foo)
@@ -417,7 +419,7 @@ class AttributesExistsHasConstructor
     }
 }
 
-
+#[\Attribute]
 class AttributesExistsHasConstructorWithName
 {
     public function __construct(private int $foo, private string $name)

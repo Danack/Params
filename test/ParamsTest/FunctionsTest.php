@@ -50,7 +50,7 @@ use function Params\checkAllowedFormatsAreStrings;
 use function Params\getParamsFromAnnotations;
 use function Params\getDefaultSupportedTimeFormats;
 use function Params\getReflectionClassOfAttribute;
-use function Params\instantiateParam;
+//use function Params\instantiateParam;
 use function Params\createObjectFromParams;
 
 /**
@@ -961,68 +961,68 @@ class FunctionsTest extends BaseTestCase
 
 
 
-    /**
-     * @covers ::\Params\instantiateParam
-     */
-    public function test_instantiateParam_works()
-    {
-        $rc = new \ReflectionClass(\ReflectionClassOfAttributeObject::class);
+//    /**
+//     * @covers ::\Params\instantiateParam
+//     */
+//    public function test_instantiateParam_works()
+//    {
+//        $rc = new \ReflectionClass(\ReflectionClassOfAttributeObject::class);
+//
+//        $refl_property_no_constructor = $rc->getProperty('attribute_exists_no_constructor');
+//        $attribute = $refl_property_no_constructor->getAttributes()[0];
+//
+//        $refl_of_attribute = new \ReflectionClass($attribute->getName());
+//
+//        $result = instantiateParam(
+//            $refl_of_attribute,
+//            $attribute,
+//            'default_name',
+//        );
+//        $this->assertInstanceOf(\AttributesExistsNoConstructor::class, $result);
+//    }
 
-        $refl_property_no_constructor = $rc->getProperty('attribute_exists_no_constructor');
-        $attribute = $refl_property_no_constructor->getAttributes()[0];
 
-        $refl_of_attribute = new \ReflectionClass($attribute->getName());
+//    /**
+//     * @covers ::\Params\instantiateParam
+//     */
+//    public function test_instantiateParam_works_param_but_no_name()
+//    {
+//        $rc = new \ReflectionClass(\ReflectionClassOfAttributeObject::class);
+//
+//        $refl_property_no_constructor = $rc->getProperty('attribute_exists_has_constructor');
+//        $attribute = $refl_property_no_constructor->getAttributes()[0];
+//
+//        $refl_of_attribute = new \ReflectionClass($attribute->getName());
+//
+//        $result = instantiateParam(
+//            $refl_of_attribute,
+//            $attribute,
+//            'default_name',
+//        );
+//        $this->assertInstanceOf(\AttributesExistsHasConstructor::class, $result);
+//        $this->assertSame(10, $result->getFoo());
+//    }
 
-        $result = instantiateParam(
-            $refl_of_attribute,
-            $attribute,
-            'default_name',
-        );
-        $this->assertInstanceOf(\AttributesExistsNoConstructor::class, $result);
-    }
-
-
-    /**
-     * @covers ::\Params\instantiateParam
-     */
-    public function test_instantiateParam_works_param_but_no_name()
-    {
-        $rc = new \ReflectionClass(\ReflectionClassOfAttributeObject::class);
-
-        $refl_property_no_constructor = $rc->getProperty('attribute_exists_has_constructor');
-        $attribute = $refl_property_no_constructor->getAttributes()[0];
-
-        $refl_of_attribute = new \ReflectionClass($attribute->getName());
-
-        $result = instantiateParam(
-            $refl_of_attribute,
-            $attribute,
-            'default_name',
-        );
-        $this->assertInstanceOf(\AttributesExistsHasConstructor::class, $result);
-        $this->assertSame(10, $result->getFoo());
-    }
-
-    /**
-     * @covers ::\Params\instantiateParam
-     */
-    public function test_instantiateParam_works_param_with_name()
-    {
-        $rc = new \ReflectionClass(\ReflectionClassOfAttributeObject::class);
-
-        $refl_property_no_constructor = $rc->getProperty('attribute_exists_has_constructor_with_name');
-        $attribute = $refl_property_no_constructor->getAttributes()[0];
-
-        $refl_of_attribute = new \ReflectionClass($attribute->getName());
-
-        $result = instantiateParam(
-            $refl_of_attribute,
-            $attribute,
-            'default_name'
-        );
-        $this->assertInstanceOf(\AttributesExistsHasConstructorWithName::class, $result);
-        $this->assertSame(10, $result->getFoo());
-
-        $this->assertSame('default_name', $result->getName());
-    }
+//    /**
+//     * @covers ::\Params\instantiateParam
+//     */
+//    public function test_instantiateParam_works_param_with_name()
+//    {
+//        $rc = new \ReflectionClass(\ReflectionClassOfAttributeObject::class);
+//
+//        $refl_property_no_constructor = $rc->getProperty('attribute_exists_has_constructor_with_name');
+//        $attribute = $refl_property_no_constructor->getAttributes()[0];
+//
+//        $refl_of_attribute = new \ReflectionClass($attribute->getName());
+//
+//        $result = instantiateParam(
+//            $refl_of_attribute,
+//            $attribute,
+//            'default_name'
+//        );
+//        $this->assertInstanceOf(\AttributesExistsHasConstructorWithName::class, $result);
+//        $this->assertSame(10, $result->getFoo());
+//
+//        $this->assertSame('default_name', $result->getName());
+//    }
 }

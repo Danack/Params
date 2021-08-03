@@ -555,11 +555,10 @@ function processInputParameters(
         }
     }
 
-    $current_values = $dataStorage->getCurrentValues();
+    $current_values = $dataStorage->getCurrentValue();
 
     foreach ($current_values as $key => $value) {
         if (in_array($key, $knownInputNames, true) === false) {
-
             $message = sprintf(
                 Messages::UNKNOWN_INPUT_PARAMETER,
                 $key
@@ -631,60 +630,60 @@ function checkAllowedFormatsAreStrings(array $allowedFormats): array
     return $allowedFormats;
 }
 
-/**
- * @template T of object
- * @param \ReflectionClass<T> $rc_param - the reflection class of the attribute
- * @param \ReflectionAttribute $attribute - the attribute itself
- * @param string $defaultName - a default name to use.
- * @return T
- * @throws \ReflectionException
- */
-function instantiateParam(
-    \ReflectionClass $rc_param,
-    \ReflectionAttribute $attribute,
-    string $defaultName
-): object {
-
-    // TODO - maybe replace this code with $attribute->newInstance();
-    // But that means every param needs to have it's name listed...
-    // which is probably not the worst thing ever.
-    $param_constructor = $rc_param->getConstructor();
-
-    if ($param_constructor === null) {
-        // Need an example usage of this.
-        return $rc_param->newInstance();
-    }
-
-    $param_constructor_parameters = $param_constructor->getParameters();
-    $args = $attribute->getArguments();
-    $argsByName = [];
-
-    $count = 0;
-    foreach ($param_constructor_parameters as $param_constructor_parameter) {
-        if ($count >= count($args)) {
-            break;
-        }
-        $name = $param_constructor_parameter->getName();
-        $argsByName[$name] = $args[$count];
-        $count += 1;
-    }
-    $has_name = false;
-    foreach ($param_constructor_parameters as $param_constructor_parameter) {
-        if ($param_constructor_parameter->getName() === 'name') {
-            $has_name = true;
-        }
-    }
-
-    // if the constructor expects a name, set the default one
-    // if none was set.
-    if ($has_name) {
-        if (array_key_exists('name', $argsByName) !== true) {
-            $argsByName['name'] = $defaultName;
-        }
-    }
-
-    return $rc_param->newInstance(...$argsByName);
-}
+///**
+// * @template T of object
+// * @param \ReflectionClass<T> $rc_param - the reflection class of the attribute
+// * @param \ReflectionAttribute $attribute - the attribute itself
+// * @param string $defaultName - a default name to use.
+// * @return T
+// * @throws \ReflectionException
+// */
+//function instantiateParam(
+//    \ReflectionClass $rc_param,
+//    \ReflectionAttribute $attribute,
+//    string $defaultName
+//): object {
+//
+//    // TODO - maybe replace this code with $attribute->newInstance();
+//    // But that means every param needs to have it's name listed...
+//    // which is probably not the worst thing ever.
+//    $param_constructor = $rc_param->getConstructor();
+//
+//    if ($param_constructor === null) {
+//        // Need an example usage of this.
+//        return $rc_param->newInstance();
+//    }
+//
+//    $param_constructor_parameters = $param_constructor->getParameters();
+//    $args = $attribute->getArguments();
+//    $argsByName = [];
+//
+//    $count = 0;
+//    foreach ($param_constructor_parameters as $param_constructor_parameter) {
+//        if ($count >= count($args)) {
+//            break;
+//        }
+//        $name = $param_constructor_parameter->getName();
+//        $argsByName[$name] = $args[$count];
+//        $count += 1;
+//    }
+//    $has_name = false;
+//    foreach ($param_constructor_parameters as $param_constructor_parameter) {
+//        if ($param_constructor_parameter->getName() === 'name') {
+//            $has_name = true;
+//        }
+//    }
+//
+//    // if the constructor expects a name, set the default one
+//    // if none was set.
+//    if ($has_name) {
+//        if (array_key_exists('name', $argsByName) !== true) {
+//            $argsByName['name'] = $defaultName;
+//        }
+//    }
+//
+//    return $rc_param->newInstance(...$argsByName);
+//}
 
 
 function getReflectionClassOfAttribute(
@@ -724,7 +723,6 @@ function getParamsFromAnnotations(string $class): array
                 $attribute->getName(),
                 $property
             );
-
             $is_a_param = $rc_of_attribute->implementsInterface(Param::class);
 
             if ($is_a_param !== true) {
@@ -739,11 +737,7 @@ function getParamsFromAnnotations(string $class): array
             }
 
             $current_property_has_param = true;
-            $param = instantiateParam(
-                $rc_of_attribute,
-                $attribute,
-                $property->getName()
-            );
+            $param = $attribute->newInstance();
 
             /** @var Param $param */
             $inputParameters[] = $param->getInputParameter();

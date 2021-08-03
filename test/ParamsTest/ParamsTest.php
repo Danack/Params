@@ -261,6 +261,5 @@ class ParamsTest extends BaseTestCase
             Messages::UNKNOWN_INPUT_PARAMETER,
             $validationProblems
         );
-
     }
 }

@@ -28,6 +28,15 @@ class ArrayDataStorage implements DataStorage
         return $instance;
     }
 
+//    /**
+//     * @return array<mixed>
+//     * @throws InvalidLocationException
+//     */
+//    public function getCurrentValues(): array
+//    {
+//        return $this->getCurrentValue();
+//    }
+
     /**
      * @return mixed
      */
@@ -46,11 +55,6 @@ class ArrayDataStorage implements DataStorage
         }
 
         return $data;
-    }
-
-    public function getCurrentValues(): array
-    {
-        return $this->getCurrentValue();
     }
 
     /**

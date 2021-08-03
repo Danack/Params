@@ -149,16 +149,17 @@ JSON Patch - https://tools.ietf.org/html/rfc6902
 Some people care whether a parameter is in the query string or body. This library currently doesn't support differentiating them.
 
 
+
+
+
+
+
+
+
 ## TODO 
 
 * colors.
 
-* name remapping e.g. 'mac_address' to 'macAddress'. Or get people to drop PSR2.
-
 * Error on unknown/invalid names. e.g. when the input include 'namme', and so the 'name' param uses default value, that sounds like an error.
 
 * Generate OpenAPI stuff better.
-
-
-
-

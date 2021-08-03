@@ -344,6 +344,7 @@ class DescriptionTest extends BaseTestCase
         $this->performSchemaTest($schemaExpectations, $rules);
     }
 
+
     public function testPositiveInt()
     {
         $schemaExpectations = [

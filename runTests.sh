@@ -3,9 +3,7 @@
 set -e
 set -x
 
-echo "**************DJA";
-time bash runUnitTests.sh --no-coverage
-
+bash runUnitTests.sh --no-coverage
 
 
 bash runCodeSniffer.sh

@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace Params\DataStorage;
 
+use Params\Exception\InvalidLocationException;
+
 /**
  * When iterating over the input data, we need to be able to
  * store the current 'path' so that error messages can point
@@ -55,5 +57,9 @@ interface DataStorage
      */
     public function isValueAvailable(): bool;
 
-    public function getCurrentValues(): array;
+//    /**
+//     * @return array<mixed>
+//     * @throws InvalidLocationException
+//     */
+//    public function getCurrentValues(): array;
 }
