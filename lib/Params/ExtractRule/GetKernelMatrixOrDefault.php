@@ -23,12 +23,12 @@ class GetKernelMatrixOrDefault implements ExtractRule
     {
         foreach ($default as $row) {
             if (is_array($row) !== true) {
-                throw new \Exception(Messages::MATRIX_INVALID_BAD_ROW);
+                throw new LogicException(Messages::MATRIX_INVALID_BAD_ROW);
             }
 
             foreach ($row as $value) {
                 if (is_float($value) === false && is_int($value) === false) {
-                    throw new \Exception(Messages::MATRIX_INVALID_BAD_CELL);
+                    throw new LogicException(Messages::MATRIX_INVALID_BAD_CELL);
                 }
             }
         }
@@ -44,11 +44,13 @@ class GetKernelMatrixOrDefault implements ExtractRule
             return ValidationResult::valueResult($this->default);
         }
 
-        $floatRule = new CastToFloat();
         $currentValue = $dataStorage->getCurrentValue();
 
         if (is_string($currentValue) !== true) {
-            throw new LogicException("Value must be json string");
+            // TODO - this represent a programmer error - should it
+            // be an exception?
+
+            throw new LogicException(Messages::BAD_TYPE_FOR_KERNEL_MATRIX_PROCESS_RULE);
         }
 
         // TODO - this needs to be replaced with something that gives the
@@ -66,6 +68,7 @@ class GetKernelMatrixOrDefault implements ExtractRule
 
         $validationProblems = [];
         $row_count = 0;
+        $floatRule = new CastToFloat();
 
         foreach ($matrix_value as $row) {
             if (is_array($row) !== true) {

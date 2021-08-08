@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace ParamsTest\ProcessRule;
 
 use Params\DataStorage\TestArrayDataStorage;
-use Params\ProcessRule\RangeFloatValue;
 use ParamsTest\BaseTestCase;
 use Params\ProcessRule\SaneCharacters;
 use Params\ProcessedValues;
 use Params\Messages;
+
+// TODO - the regular expressions need documenting.
+// https://json-schema.org/understanding-json-schema/reference/regular_expressions.html
 
 /**
  * @coversNothing

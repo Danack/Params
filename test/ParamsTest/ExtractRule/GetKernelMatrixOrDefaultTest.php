@@ -127,4 +127,33 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
         $description = $this->applyRuleToDescription($rule);
         // TODO - inspect description
     }
+
+
+
+    /**
+     * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
+     * @dataProvider provideTestWorks
+     * @group wip
+     */
+    public function testBadInput_not_a_string()
+    {
+        $default = [
+            [-1, -1, -1],
+            [-1, 8, -1],
+            [-1, -1, -1],
+        ];
+
+        $rule = new GetKernelMatrixOrDefault($default);
+        $validator = new ProcessedValues();
+        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', 123);
+
+        $this->expectExceptionMessageMatchesTemplateString(
+            Messages::BAD_TYPE_FOR_KERNEL_MATRIX_PROCESS_RULE
+        );
+
+        $rule->process(
+            $validator,
+            $dataStorage
+        );
+    }
 }

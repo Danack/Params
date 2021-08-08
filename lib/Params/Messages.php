@@ -15,6 +15,7 @@ class Messages
     public const BAD_TYPE_FOR_ARRAY_ACCESS = "Cannot use type [%s] for array access";
 
     public const BAD_TYPE_FOR_STRING_PROCESS_RULE = "Rule %s can only process strings";
+    public const BAD_TYPE_FOR_KERNEL_MATRIX_PROCESS_RULE = "Kernel Matrix can only process json strings";
 
     public const ERROR_TOO_FEW_ELEMENTS = "Number of elements too small. Min allowed is %d but only got %d.";
 
