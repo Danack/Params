@@ -563,17 +563,19 @@ function processInputParameters(
 
     $current_values = $dataStorage->getCurrentValue();
 
-    foreach ($current_values as $key => $value) {
-        if (in_array($key, $knownInputNames, true) === false) {
-            $message = sprintf(
-                Messages::UNKNOWN_INPUT_PARAMETER,
-                $key
-            );
+    if (false) {
+        foreach ($current_values as $key => $value) {
+            if (in_array($key, $knownInputNames, true) === false) {
+                $message = sprintf(
+                    Messages::UNKNOWN_INPUT_PARAMETER,
+                    $key
+                );
 
-            $validationProblems[] = new ValidationProblem(
-                $dataStorage,
-                $message
-            );
+                $validationProblems[] = new ValidationProblem(
+                    $dataStorage,
+                    $message
+                );
+            }
         }
     }
 
