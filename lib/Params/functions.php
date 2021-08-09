@@ -169,12 +169,12 @@ function getInputParameterListForClass(string $className)
 /**
  * @template T
  * @param class-string<T> $classname
- * @param array $values
+ * @param ProcessedValues $processedValues
  * @return T of object
  * @throws \ReflectionException
  * @throws NoConstructorException
  */
-function createObjectFromParams(string $classname, array $values)
+function createObjectFromProcessedValues(string $classname, ProcessedValues $processedValues)
 {
     $reflection_class = new \ReflectionClass($classname);
 
@@ -190,26 +190,30 @@ function createObjectFromParams(string $classname, array $values)
         throw NoConstructorException::notPublicConstructor($classname);
     }
 
-    $params = $r_constructor->getParameters();
-    if (count($params) !== count($values)) {
+    $constructor_params = $r_constructor->getParameters();
+    if (count($constructor_params) !== $processedValues->getCount()) {
         throw IncorrectNumberOfParamsException::wrongNumber(
             $classname,
-            count($params),
-            count($values)
+            count($constructor_params),
+            $processedValues->getCount()
         );
     }
 
-    foreach ($params as $param) {
-        $name = $param->getName();
-        if (array_key_exists($name, $values) !== true) {
+    $built_params = [];
+
+    foreach ($constructor_params as $constructor_param) {
+        $name = $constructor_param->getName();
+        [$value, $available] = $processedValues->getValueForTargetParam($name);
+        if ($available !== true) {
             throw MissingConstructorParameterNameException::missingParam(
                 $classname,
                 $name
             );
         }
+        $built_params[] = $value;
     }
 
-    $object = $reflection_class->newInstanceArgs($values);
+    $object = $reflection_class->newInstanceArgs($built_params);
 
     /** @var T $object */
     return $object;
@@ -241,7 +245,7 @@ function create(
     if (count($validationProblems) !== 0) {
         throw new ValidationException("Validation problems", $validationProblems);
     }
-    $object = createObjectFromParams($classname, $processedValues->getAllValues());
+    $object = createObjectFromProcessedValues($classname, $processedValues);
 
     /** @var T $object */
     return $object;
@@ -302,7 +306,7 @@ function createOrError($classname, $params, DataStorage $dataStorage)
         return [null, $validationProblems];
     }
 
-    $object = createObjectFromParams($classname, $paramsValuesImpl->getAllValues());
+    $object = createObjectFromProcessedValues($classname, $paramsValuesImpl);
 
     // TODO - wrap this in an ResultObject.
     return [$object, []];
@@ -505,7 +509,8 @@ function processInputParameter(
 
     // Process has already ended.
     if ($validationResult->isFinalResult() === true) {
-        $paramValues->setValue($param->getInputName(), $value);
+        // TODO - modify here
+        $paramValues->setValue($param, $value);
         return [];
     }
 
@@ -518,7 +523,8 @@ function processInputParameter(
     );
 
     if (count($validationProblems) === 0) {
-        $paramValues->setValue($param->getInputName(), $value);
+        // TODO - modify here
+        $paramValues->setValue($param, $value);
     }
 
     return $validationProblems;
@@ -740,7 +746,10 @@ function getParamsFromAnnotations(string $class): array
             $param = $attribute->newInstance();
 
             /** @var Param $param */
-            $inputParameters[] = $param->getInputParameter();
+            $inputParameter = $param->getInputParameter();
+            $inputParameter->setTargetParameterName($property->getName());
+
+            $inputParameters[] = $inputParameter;
         }
     }
 

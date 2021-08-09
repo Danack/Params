@@ -24,7 +24,7 @@ class LaterThanTimeTest extends BaseTestCase
     {
         $value = new \DateTime('2000-01-01');
 
-        $processedValues = ProcessedValues::fromArray([]);
+        $processedValues = createProcessedValuesFromArray([]);
         $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime('1999-01-01');
@@ -44,7 +44,7 @@ class LaterThanTimeTest extends BaseTestCase
     {
         $value = new \DateTime('2000-01-01');
 
-        $processedValues = ProcessedValues::fromArray([]);
+        $processedValues = createProcessedValuesFromArray([]);
         $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime('2001-01-01');
@@ -68,7 +68,7 @@ class LaterThanTimeTest extends BaseTestCase
     {
         $value = new \DateTime('2000-01-01 12:00:00');
 
-        $processedValues = ProcessedValues::fromArray([]);
+        $processedValues = createProcessedValuesFromArray([]);
         $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime('2000-01-01 12:00:00');
@@ -91,7 +91,7 @@ class LaterThanTimeTest extends BaseTestCase
     {
         $value = new \StdClass();
 
-        $processedValues = ProcessedValues::fromArray([]);
+        $processedValues = createProcessedValuesFromArray([]);
         $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime('2000-01-01');

@@ -31,7 +31,7 @@ class EarlierThanParamTest extends BaseTestCase
             '2002-10-03T10:00:00-05:00'
         );
 
-        $processedValues = ProcessedValues::fromArray(['foo' => $previousTime]);
+        $processedValues = createProcessedValuesFromArray(['foo' => $previousTime]);
         $dataStorage = TestArrayDataStorage::fromArray([]);
 
         $rule = new EarlierThanParam('foo', 0);
@@ -61,7 +61,7 @@ class EarlierThanParamTest extends BaseTestCase
             \DateTime::RFC3339,
             '2002-10-03T10:00:00-05:00'
         );
-        $processedValues = ProcessedValues::fromArray([]);
+        $processedValues = createProcessedValuesFromArray([]);
         $dataStorage = TestArrayDataStorage::fromArray([]);
         $dataStorage = $dataStorage->moveKey('foo');
 
@@ -91,7 +91,8 @@ class EarlierThanParamTest extends BaseTestCase
             '2002-10-03T10:00:00-05:00'
         );
 
-        $processedValues = ProcessedValues::fromArray(['foo' => 'John']);
+//        $processedValues = ProcessedValues::fromArray(['foo' => 'John']);
+        $processedValues = createProcessedValuesFromArray(['foo' => 'John']);
         $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $rule = new EarlierThanParam('foo', 0);
@@ -122,7 +123,7 @@ class EarlierThanParamTest extends BaseTestCase
             '2002-10-02T10:00:00-05:00'
         );
 
-        $processedValues = ProcessedValues::fromArray(['foo' => $previousTime]);
+        $processedValues = createProcessedValuesFromArray(['foo' => $previousTime]);
         $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $rule = new EarlierThanParam('foo', 0);
@@ -154,7 +155,7 @@ class EarlierThanParamTest extends BaseTestCase
             '2002-10-03T10:00:00-05:00'
         );
 
-        $processedValues = ProcessedValues::fromArray(['foo' => $afterTime]);
+        $processedValues = createProcessedValuesFromArray(['foo' => $afterTime]);
         $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $rule = new EarlierThanParam('foo', 0);

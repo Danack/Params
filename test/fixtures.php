@@ -452,3 +452,25 @@ class ReflectionClassOfAttributeObject
     #[AttributesExistsHasConstructorWithName(10)]
     private $attribute_exists_has_constructor_with_name;
 }
+
+
+
+class OneColorGetsCorrectSpelling
+{
+    use SafeAccess;
+    use CreateFromArray;
+    use CreateOrErrorFromArray;
+
+    #[ImagickColorParam('rgb(225, 225, 225)', 'backgroundColor')] //this is input name
+    private string $background_color; // this is target name
+
+    public function __construct(string $background_color)
+    {
+        $this->background_color = $background_color;
+    }
+
+    public function getBackgroundColor(): string
+    {
+        return $this->background_color;
+    }
+}

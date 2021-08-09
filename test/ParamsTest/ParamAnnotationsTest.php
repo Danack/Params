@@ -8,13 +8,14 @@ use Params\ExtractRule\GetStringOrDefault;
 use Params\InputParameter;
 use Params\Messages;
 use Params\ProcessRule\ImagickIsRgbColor;
+use ParamsTest\Integration\IntArrayParams;
 use VarMap\ArrayVarMap;
 use Params\Exception\AnnotationClassDoesNotExistException;
 use Params\Exception\IncorrectNumberOfParamsException;
 use Params\Exception\NoConstructorException;
 use Params\Exception\MissingConstructorParameterNameException;
 use Params\Exception\PropertyHasMultipleParamAnnotationsException;
-use function \Params\createTypeFromAnnotations;
+use function Params\createOrError;
 
 /**
  * @coversNothing
@@ -255,5 +256,29 @@ class ParamAnnotationsTest extends BaseTestCase
         $this->expectExceptionMessageMatches('#.*background_color.*#iu');
 
         createTypeFromAnnotations($varMap, \MultipleParamAnnotations::class);
+    }
+
+
+    /**
+     * @group wip
+     */
+    public function testCorrectSpellingIsUsed()
+    {
+        // This is correct - it uses the name as per the annotation
+        $result = \OneColorGetsCorrectSpelling::createFromArray([
+            'backgroundColor' => 'red'
+        ]);
+        $this->assertInstanceOf(\OneColorGetsCorrectSpelling::class, $result);
+
+        // This is incorrect - it uses the name as per the property name
+        [$object, $validationProblems] = \OneColorGetsCorrectSpelling::createOrErrorFromArray([
+            'background_color' => 'red'
+        ]);
+        $this->assertNull($object);
+        $this->assertValidationProblemRegexp(
+            '/',
+            Messages::UNKNOWN_INPUT_PARAMETER,
+            $validationProblems
+        );
     }
 }

@@ -17,6 +17,8 @@ class InputParameter
      */
     private string $inputName;
 
+    private ?string $target_parameter_name = null;
+
     /**
      * The rule to extract the parameter from the input.
      */
@@ -42,6 +44,24 @@ class InputParameter
         $this->inputName = $input_name;
         $this->extractRule = $first_rule;
         $this->processRules = $subsequent_rules;
+    }
+
+
+    public function setTargetParameterName(string $name): void
+    {
+        $this->target_parameter_name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTargetParameterName(): string
+    {
+        if ($this->target_parameter_name === null) {
+            return $this->inputName;
+        }
+
+        return $this->target_parameter_name;
     }
 
     /**

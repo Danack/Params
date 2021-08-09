@@ -18,6 +18,7 @@ use Params\ExtractRule\GetInt;
 use Params\ExtractRule\GetString;
 use Params\InputParameter;
 use Params\Messages;
+use Params\ProcessedValue;
 use Params\ProcessedValues;
 use Params\ProcessRule\AlwaysEndsRule;
 use Params\ProcessRule\ImagickIsRgbColor;
@@ -32,7 +33,7 @@ use Params\Exception\ValidationException;
 use VarMap\ArrayVarMap;
 use ParamsTest\Integration\FooParams;
 use Params\Exception\NoConstructorException;
-use function Params\createTypeFromAnnotations;
+//use function Params\createTypeFromAnnotations;
 use function Params\unescapeJsonPointer;
 use function Params\array_value_exists;
 use function Params\check_only_digits;
@@ -50,8 +51,7 @@ use function Params\checkAllowedFormatsAreStrings;
 use function Params\getParamsFromAnnotations;
 use function Params\getDefaultSupportedTimeFormats;
 use function Params\getReflectionClassOfAttribute;
-//use function Params\instantiateParam;
-use function Params\createObjectFromParams;
+use function Params\createObjectFromProcessedValues;
 
 /**
  * @coversNothing
@@ -202,12 +202,12 @@ class FunctionsTest extends BaseTestCase
         $name = 'John';
         $age = 34;
 
-        $object = \Params\createObjectFromParams(
+        $object = \Params\createObjectFromProcessedValues(
             \TestObject::class,
-            [
+            createProcessedValuesFromArray([
                 'name' => $name,
                 'age' => $age
-            ]
+            ])
         );
 
         $this->assertInstanceOf(\TestObject::class, $object);
@@ -223,12 +223,12 @@ class FunctionsTest extends BaseTestCase
         $nameValue = 'John';
         $ageValue = 36;
 
-        $object = \Params\createObjectFromParams(
+        $object = \Params\createObjectFromProcessedValues(
             \TestObject::class,
-            [
+            createProcessedValuesFromArray([
                 'age' => $ageValue,
                 'name' => $nameValue
-            ]
+            ])
         );
 
         $this->assertInstanceOf(\TestObject::class, $object);
@@ -243,9 +243,9 @@ class FunctionsTest extends BaseTestCase
     {
         $this->expectExceptionMessageMatchesTemplateString(Messages::CLASS_LACKS_CONSTRUCTOR);
         $this->expectException(\Params\Exception\NoConstructorException::class);
-        createObjectFromParams(
+        createObjectFromProcessedValues(
             \OneColorNoConstructor::class,
-            []
+            createProcessedValuesFromArray([])
         );
     }
 
@@ -256,9 +256,9 @@ class FunctionsTest extends BaseTestCase
     {
         $this->expectExceptionMessageMatchesTemplateString(Messages::CLASS_LACKS_PUBLIC_CONSTRUCTOR);
         $this->expectException(\Params\Exception\NoConstructorException::class);
-        createObjectFromParams(
+        createObjectFromProcessedValues(
             \ThreeColorsPrivateConstructor::class,
-            []
+            createProcessedValuesFromArray([])
         );
     }
 
@@ -268,9 +268,9 @@ class FunctionsTest extends BaseTestCase
     public function test_CreateObjectFromParams_wrong_number_params()
     {
         $this->expectException(IncorrectNumberOfParamsException::class);
-        createObjectFromParams(
+        createObjectFromProcessedValues(
             \NotActuallyAParam::class,
-            []
+            createProcessedValuesFromArray([])
         );
     }
 
@@ -280,12 +280,12 @@ class FunctionsTest extends BaseTestCase
     public function test_CreateObjectFromParams_missing_param()
     {
         $this->expectException(MissingConstructorParameterNameException::class);
-        createObjectFromParams(
+        createObjectFromProcessedValues(
             \NotActuallyAParam::class,
-            [
+            createProcessedValuesFromArray([
                 'name' => 'John',
                 'this_is_invalid' => 'Foo'
-            ]
+            ])
         );
     }
 

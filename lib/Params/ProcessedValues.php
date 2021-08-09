@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Params;
 
 use Params\Exception\LogicException;
+use Params\InputParameter;
 
 /**
  * A class to stores the processed parameters, so that they can be accessed by subsequent rules.
@@ -14,35 +15,55 @@ use Params\Exception\LogicException;
  */
 class ProcessedValues
 {
-    /** @var array<int|string, mixed>  */
-    private array $paramValues = [];
+    /** @var ProcessedValue[]  */
+    private array $processedValues = [];
 
     /**
-     * @param array $values
+     * @param ProcessedValue[] $processedValues
      * @return self
      * @throws LogicException
      */
-    public static function fromArray(array $values): self
+    public static function fromArray(array $processedValues): self
     {
-        foreach ($values as $key => $value) {
-            if (is_string($key) !== true) {
-                throw LogicException::keysMustBeStrings();
+        foreach ($processedValues as $processedValue) {
+            /** @psalm-suppress DocblockTypeContradiction */
+            if (!($processedValue instanceof ProcessedValue)) {
+                throw new LogicException("Procesed values must all be instances of ProcessedValue.");
             }
         }
 
         $instance = new self();
-        $instance->paramValues = $values;
+        $instance->processedValues = $processedValues;
 
         return $instance;
     }
 
     /**
+     * TODO - is this required?
      * Gets the currently processed params.
      * @return array<int|string, mixed>
      */
     public function getAllValues()
     {
-        return $this->paramValues;
+        $values = [];
+        foreach ($this->processedValues as $processedValue) {
+            $values[$processedValue->getParam()->getInputName()] = $processedValue->getValue();
+        }
+
+        return $values;
+    }
+
+    public function getCount(): int
+    {
+        return count($this->processedValues);
+    }
+
+    /**
+     * @return ProcessedValue[]
+     */
+    public function getProcessedValues(): array
+    {
+        return $this->processedValues;
     }
 
     /**
@@ -50,29 +71,52 @@ class ProcessedValues
      */
     public function hasValue($name): bool
     {
-        return array_key_exists($name, $this->paramValues);
+        foreach ($this->processedValues as $processedValue) {
+            if ($name === $processedValue->getParam()->getInputName()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * @param string $name
      * @return mixed
      */
-    public function getValue($name)
+    public function getValue(string $name): mixed
     {
-        if (array_key_exists($name, $this->paramValues) === false) {
-            throw LogicException::missingValue($name);
+        foreach ($this->processedValues as $processedValue) {
+            if ($name === $processedValue->getParam()->getInputName()) {
+                return $processedValue->getValue();
+            }
         }
-
-        return $this->paramValues[$name];
+        throw LogicException::missingValue($name);
     }
 
 
     /**
-     * @param string|int $name
+     * @param InputParameter $param
      * @param mixed $value
      */
-    public function setValue($name, $value): void
+    public function setValue(InputParameter $param, mixed $value): void
     {
-        $this->paramValues[$name] = $value;
+        $this->processedValues[] = new ProcessedValue($param, $value);
+    }
+
+    public function getValueForTargetParam(string $name): array
+    {
+        foreach ($this->processedValues as $processedValue) {
+//            echo "name = $name \n";
+//            echo "target name = " . $processedValue->getParam()->getTargetParameterName() . "\n";
+//            echo "input name = " . $processedValue->getParam()->getInputName() . "\n";
+//            echo "value " .$processedValue->getValue() . "\n";
+//            exit(0);
+
+            if ($name === $processedValue->getParam()->getTargetParameterName()) {
+                return [$processedValue->getValue(), true];
+            }
+        }
+
+        return [null, false];
     }
 }

@@ -6,6 +6,9 @@ namespace ParamsTest;
 
 use Params\ProcessedValues;
 use Params\Exception\LogicException;
+use Params\InputParameter;
+use Params\ExtractRule\GetStringOrDefault;
+use Params\ProcessedValue;
 
 /**
  * @coversNothing
@@ -22,7 +25,7 @@ class ProcessedValuesTest extends BaseTestCase
             'zebransky' => 'zoqfotpik'
         ];
 
-        $processedValues = ProcessedValues::fromArray($data);
+        $processedValues = createProcessedValuesFromArray($data);
         $this->assertSame($data, $processedValues->getAllValues());
         $this->assertSame('bar', $processedValues->getValue('foo'));
 
@@ -35,7 +38,7 @@ class ProcessedValuesTest extends BaseTestCase
      */
     public function testMissingGivesException()
     {
-        $processedValues = ProcessedValues::fromArray([]);
+        $processedValues = createProcessedValuesFromArray([]);
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatchesTemplateString(LogicException::MISSING_VALUE);
@@ -43,13 +46,30 @@ class ProcessedValuesTest extends BaseTestCase
     }
 
 
-    /**
-     * @covers \Params\ProcessedValues
-     */
-    public function testBadArrayException()
+//    /**
+//     * @covers \Params\ProcessedValues
+//     */
+//    public function testBadArrayException()
+//    {
+//        $this->expectException(LogicException::class);
+//        $this->expectExceptionMessageMatchesTemplateString(LogicException::ONLY_KEYS);
+//        $processedValues = ProcessedValues::fromArray(['foo']);
+//    }
+
+
+    public function testGetCorrectTarget()
     {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessageMatchesTemplateString(LogicException::ONLY_KEYS);
-        $processedValues = ProcessedValues::fromArray(['foo']);
+        $inputParameter = new InputParameter(
+            'background_color',
+            new GetStringOrDefault('red')
+        );
+
+        $inputParameter->setTargetParameterName('backgroundColor');
+        $processedValue = new ProcessedValue($inputParameter, 'red');
+        $processedValues = ProcessedValues::fromArray([$processedValue]);
+
+        [$value_for_target, $available] = $processedValues->getValueForTargetParam('backgroundColor');
+        $this->assertTrue($available);
+        $this->assertSame('red', $value_for_target);
     }
 }

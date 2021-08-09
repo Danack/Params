@@ -24,7 +24,7 @@ class EarlierThanTimeTest extends BaseTestCase
     {
         $value = new \DateTime('2000-01-01');
 
-        $processedValues = ProcessedValues::fromArray([]);
+        $processedValues = createProcessedValuesFromArray([]);
         $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime('2001-01-01');
@@ -51,7 +51,7 @@ class EarlierThanTimeTest extends BaseTestCase
     {
         $value = new \DateTime($input_time);
 
-        $processedValues = ProcessedValues::fromArray([]);
+        $processedValues = createProcessedValuesFromArray([]);
         $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime($boundary_time);
@@ -76,7 +76,7 @@ class EarlierThanTimeTest extends BaseTestCase
     {
         $value = new \StdClass();
 
-        $processedValues = ProcessedValues::fromArray([]);
+        $processedValues = createProcessedValuesFromArray([]);
         $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
 
         $compareTime = new \DateTime('2000-01-01');

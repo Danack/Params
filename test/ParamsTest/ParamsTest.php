@@ -243,9 +243,6 @@ class ParamsTest extends BaseTestCase
         $this->assertEquals(5, $fooParams->getLimit());
     }
 
-    /**
-     * @group wip
-     */
     public function testUnknownInputThrows()
     {
         $data = [

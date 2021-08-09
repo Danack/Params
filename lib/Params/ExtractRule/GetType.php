@@ -9,7 +9,7 @@ use Params\Messages;
 use Params\OpenApi\ParamDescription;
 use Params\ProcessedValues;
 use Params\ValidationResult;
-use function Params\createObjectFromParams;
+use function Params\createObjectFromProcessedValues;
 use function Params\getInputParameterListForClass;
 use function Params\processInputParameters;
 
@@ -75,7 +75,7 @@ class GetType implements ExtractRule
             return ValidationResult::fromValidationProblems($validationProblems);
         }
 
-        $item = createObjectFromParams($this->className, $paramsValuesImpl->getAllValues());
+        $item = createObjectFromProcessedValues($this->className, $paramsValuesImpl);
 
         return ValidationResult::valueResult($item);
     }

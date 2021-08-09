@@ -22,7 +22,8 @@ class DuplicatesParamTest extends BaseTestCase
     public function testWorks()
     {
         $value = 'my_voice_is_my_password';
-        $processedValues = ProcessedValues::fromArray(['foo' => $value]);
+//        $processedValues = ProcessedValues::fromArray(['foo' => $value]);
+        $processedValues = createProcessedValuesFromArray(['foo' => $value]);
         $dataStorage = TestArrayDataStorage::fromArray([]);
 
         $rule = new DuplicatesParam('foo');
@@ -40,7 +41,7 @@ class DuplicatesParamTest extends BaseTestCase
     public function testMissing()
     {
         $value = 'my_voice_is_my_password';
-        $processedValues = ProcessedValues::fromArray([]);
+        $processedValues = createProcessedValuesFromArray([]);
         $dataStorage = TestArrayDataStorage::fromArray([]);
         $dataStorage = $dataStorage->moveKey('foo');
 
@@ -62,7 +63,8 @@ class DuplicatesParamTest extends BaseTestCase
      */
     public function testWrongType()
     {
-        $processedValues = ProcessedValues::fromArray(['foo' => 'my_voice_is_my_password']);
+//        $processedValues = ProcessedValues::fromArray(['foo' => 'my_voice_is_my_password']);
+        $processedValues = createProcessedValuesFromArray(['foo' => 'my_voice_is_my_password']);
         $dataStorage = TestArrayDataStorage::fromArray([]);
 
         $rule = new DuplicatesParam('foo');
@@ -85,7 +87,8 @@ class DuplicatesParamTest extends BaseTestCase
      */
     public function testWrongValue()
     {
-        $processedValues = ProcessedValues::fromArray(['foo' => 'my_voice_is_my_password']);
+//        $processedValues = ProcessedValues::fromArray(['foo' => 'my_voice_is_my_password']);
+        $processedValues = createProcessedValuesFromArray(['foo' => 'my_voice_is_my_password']);
         $dataStorage = TestArrayDataStorage::fromArray([]);
 
         $rule = new DuplicatesParam('foo');

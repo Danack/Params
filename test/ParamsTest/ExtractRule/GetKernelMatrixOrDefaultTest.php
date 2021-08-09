@@ -133,7 +133,6 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
     /**
      * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
      * @dataProvider provideTestWorks
-     * @group wip
      */
     public function testBadInput_not_a_string()
     {
