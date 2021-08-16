@@ -87,6 +87,7 @@ class CastToFloat implements ProcessRule
 
     public function updateParamDescription(ParamDescription $paramDescription): void
     {
-        $paramDescription->setType(ParamDescription::FORMAT_FLOAT);
+        $paramDescription->setType(ParamDescription::TYPE_NUMBER);
+        $paramDescription->setFormat(ParamDescription::FORMAT_FLOAT);
     }
 }
