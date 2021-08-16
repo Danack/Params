@@ -31,7 +31,7 @@ class NullIfEmpty implements ProcessRule
         $temp_value = $value;
         $temp_value = trim($temp_value);
 
-        if (strlen($temp_value) === 0) {
+        if (mb_strlen($temp_value) === 0) {
             return ValidationResult::finalValueResult(null);
         }
 
