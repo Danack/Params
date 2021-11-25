@@ -10,18 +10,18 @@ use function Params\getJsonPointerParts;
 /**
  * Implementation of InputStorage that wraps around a simple array.
  */
-class ArrayDataStorage implements DataStorage
+class ObjectDataStorage implements DataStorage
 {
-    private array $data;
+    private object $dto;
 
     private array $currentLocation = [];
 
-    protected function __construct(array $data)
+    protected function __construct(object $data)
     {
-        $this->data = $data;
+        $this->dto = $data;
     }
 
-    public static function fromArray(array $data): DataStorage
+    public static function fromObject(object $data): DataStorage
     {
         $instance = new self($data);
 
@@ -34,19 +34,21 @@ class ArrayDataStorage implements DataStorage
      */
     public function getCurrentValue(): mixed
     {
-        $data = $this->data;
+        $dto = $this->dto;
 
         foreach ($this->currentLocation as $key) {
-            if (array_key_exists($key, $data) !== true) {
+            if (property_exists($dto, $key) === false) {
                 // This would only happen if this was called
                 // when the data had been move to a 'wrong' place.
                 throw new InvalidLocationException();
             }
-
-            $data = $data[$key];
+            /** @phpstan-ignore-next-line
+             *  @psalm-suppress TypeDoesNotContainType
+             */
+            $dto = $dto->{$key};
         }
 
-        return $data;
+        return $dto;
     }
 
     /**
@@ -54,14 +56,16 @@ class ArrayDataStorage implements DataStorage
      */
     public function isValueAvailable(): bool
     {
-        $data = $this->data;
-
+        $dto = $this->dto;
         foreach ($this->currentLocation as $location) {
-            if (array_key_exists($location, $data) === false) {
+            if (property_exists($dto, $location) === false) {
                 return false;
             }
 
-            $data = $data[$location];
+            /** @phpstan-ignore-next-line
+             *  @psalm-suppress TypeDoesNotContainType
+             */
+            $dto = $dto->{$location};
         }
 
         return true;

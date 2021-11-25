@@ -4,6 +4,7 @@ namespace Params;
 
 use Params\Exception\InvalidDatetimeFormatException;
 use Params\DataStorage\ArrayDataStorage;
+use Params\DataStorage\ObjectDataStorage;
 use Params\DataStorage\DataStorage;
 use Params\Exception\InputParameterListException;
 use Params\Exception\InvalidJsonPointerException;
@@ -677,4 +678,35 @@ function getParamsFromAnnotations(string $class): array
     }
 
     return $inputParameters;
+}
+
+
+/**
+ * @param object $dto
+ * @return array{0:?object, 1:\Params\ValidationProblem[]}
+ * @throws Exception\ParamsException
+ * @throws InputParameterListException
+ * @throws MissingClassException
+ * @throws TypeNotInputParameterListException
+ * @throws ValidationException
+ */
+function params_validate(object $dto)
+{
+    $class = get_class($dto);
+
+//    if ($class === false) {
+//        throw new \Exception("how can this happen?");
+//    }
+    /** @var class-string $class */
+    $inputParameterList = getInputParameterListForClass($class);
+
+    $dataStorage = ObjectDataStorage::fromObject($dto);
+
+    [$object, $validationProblems] = createOrError(
+        $class,
+        $inputParameterList,
+        $dataStorage
+    );
+
+    return [$object, $validationProblems];
 }
