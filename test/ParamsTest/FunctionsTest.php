@@ -195,7 +195,7 @@ class FunctionsTest extends BaseTestCase
     }
 
     /**
-     * @covers ::\Params\createObjectFromParams
+     * @covers ::\Params\createObjectFromProcessedValues
      */
     public function test_CreateObjectFromParams()
     {
@@ -216,7 +216,7 @@ class FunctionsTest extends BaseTestCase
     }
 
     /**
-     * @covers ::\Params\createObjectFromParams
+     * @covers ::\Params\createObjectFromProcessedValues
      */
     public function test_CreateObjectFromParams_out_of_order()
     {
@@ -237,7 +237,7 @@ class FunctionsTest extends BaseTestCase
     }
 
     /**
-     * @covers ::\Params\createObjectFromParams
+     * @covers ::\Params\createObjectFromProcessedValues
      */
     public function test_CreateObjectFromParams_no_constructor()
     {
@@ -250,7 +250,7 @@ class FunctionsTest extends BaseTestCase
     }
 
     /**
-     * @covers ::\Params\createObjectFromParams
+     * @covers ::\Params\createObjectFromProcessedValues
      */
     public function test_CreateObjectFromParams_private_constructor()
     {
@@ -263,7 +263,7 @@ class FunctionsTest extends BaseTestCase
     }
 
     /**
-     * @covers ::\Params\createObjectFromParams
+     * @covers ::\Params\createObjectFromProcessedValues
      */
     public function test_CreateObjectFromParams_wrong_number_params()
     {
@@ -275,7 +275,7 @@ class FunctionsTest extends BaseTestCase
     }
 
     /**
-     * @covers ::\Params\createObjectFromParams
+     * @covers ::\Params\createObjectFromProcessedValues
      */
     public function test_CreateObjectFromParams_missing_param()
     {

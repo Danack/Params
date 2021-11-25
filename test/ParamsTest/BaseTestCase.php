@@ -126,6 +126,48 @@ class BaseTestCase extends TestCase
 
     /**
      * @param string $identifier
+     * @param string|int|float $needle
+     * @param \Params\ValidationProblem[] $validationProblems
+     */
+    protected function assertValidationProblemContains(
+        string $identifier,
+        string|int|float $needle,
+        array $validationProblems
+    ) {
+        foreach ($validationProblems as $validationProblem) {
+            if ($validationProblem->getInputStorage()->getPath() !== $identifier) {
+                continue;
+            }
+
+            if (strpos($validationProblem->getProblemMessage(), $needle) !== false) {
+                // Needle was found
+                return;
+            }
+
+            $message = sprintf(
+                "Failed to find [%s] in validation problem text of [%s]",
+                $needle,
+                $validationProblem->getProblemMessage()
+            );
+            $this->fail($message);
+        }
+
+        // Todo - make a function
+        // Identifier not found
+        $pathsAsStrings = [];
+        foreach ($validationProblems as $validationProblem) {
+            $pathsAsStrings[] = $validationProblem->getInputStorage()->getPath();
+        }
+        $missingIndentifierText = sprintf(
+            "Identifier '%s' not found in validation problems. Identifiers found are '%s'",
+            $identifier,
+            implode(", ", $pathsAsStrings)
+        );
+
+        $this->fail($missingIndentifierText);
+    }
+    /**
+     * @param string $identifier
      * @param string $expectedProblem
      * @param \Params\ValidationProblem[] $validationProblems
      */
@@ -156,12 +198,12 @@ class BaseTestCase extends TestCase
             $this->fail($incorrectMessageText);
         }
 
+        // Todo - make a function
         // Identifier not found
         $pathsAsStrings = [];
         foreach ($validationProblems as $validationProblem) {
             $pathsAsStrings[] = $validationProblem->getInputStorage()->getPath();
         }
-
         $missingIndentifierText = sprintf(
             "Identifier '%s' not found in validation problems. Identifiers found are '%s'",
             $identifier,

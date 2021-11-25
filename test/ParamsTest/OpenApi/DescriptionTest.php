@@ -462,11 +462,18 @@ class DescriptionTest extends BaseTestCase
         }
     }
 
-    public function testNonStringEnumThrows()
+    public function testStringIntEnumAllowed()
+    {
+        $description = new OpenApiV300ParamDescription('John');
+        $description->setEnum(['foo', 5]);
+    }
+
+
+    public function testNonStringNonIntEnumThrows()
     {
         $description = new OpenApiV300ParamDescription('John');
         $this->expectException(OpenApiException::class);
-        $description->setEnum(['foo', 5]);
+        $description->setEnum(['foo', [123, 456]]);
     }
 
     /**
