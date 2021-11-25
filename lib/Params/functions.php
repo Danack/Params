@@ -690,7 +690,7 @@ function getParamsFromAnnotations(string $class): array
  * @throws TypeNotInputParameterListException
  * @throws ValidationException
  */
-function params_validate(object $dto)
+function validate(object $dto)
 {
     $class = get_class($dto);
 
