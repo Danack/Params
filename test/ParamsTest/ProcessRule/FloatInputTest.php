@@ -86,6 +86,6 @@ class FloatInputTest extends BaseTestCase
     {
         $rule = new CastToFloat();
         $description = $this->applyRuleToDescription($rule);
-        $this->assertSame('float', $description->getType());
+        $this->assertSame('number', $description->getType());
     }
 }
