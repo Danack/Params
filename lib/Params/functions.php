@@ -251,34 +251,6 @@ function create(
     return $object;
 }
 
-///**
-// * TODO - this isn't used?
-// *
-// *
-// * @template T
-// * @param string $class
-// * @param \VarMap\VarMap $varMap
-// * @psalm-param class-string<T> $class
-// * @return T
-// * @throws \ReflectionException
-// * @throws ValidationException
-// */
-//function createTypeFromAnnotations(\VarMap\VarMap $varMap, string $class)
-//{
-//    $rules = getParamsFromAnnotations($class);
-//
-//    $dataStorage = ArrayDataStorage::fromArray($varMap->toArray());
-//
-//    $object = create(
-//        $class,
-//        $rules,
-//        $dataStorage
-//    );
-//
-//    return $object;
-//}
-
-
 
 /**
  * @template T
