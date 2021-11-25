@@ -1,11 +1,10 @@
 includes:
   - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
-  bootstrap: null
   checkGenericClassInNonGenericObjectType: false
   checkMissingIterableValueType: false
   treatPhpDocTypesAsCertain: false
-  excludes_analyse:
+  excludePaths:
     - *GetArticlesParams*
     - *CreateFromVarMap*
     - *Params/OpenApi/OpenApiV300ParamDescription.php

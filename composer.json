@@ -15,7 +15,7 @@
     "danack/php-unit-helper": "^0.3.1",
     "infection/infection": "^0.23.0",
     "phpunit/phpunit": "9.5.6",
-    "phpstan/phpstan-strict-rules": "^0.12.9",
+    "phpstan/phpstan-strict-rules": "^1.1.0",
     "psr/http-message": "^1.0",
     "respect/validation":  "^1.1.31",
     "slevomat/coding-standard": "^7.0.9",
