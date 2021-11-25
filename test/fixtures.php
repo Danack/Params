@@ -461,7 +461,9 @@ class OneColorGetsCorrectSpelling
     use CreateFromArray;
     use CreateOrErrorFromArray;
 
-    #[ImagickColorParam('rgb(225, 225, 225)', 'backgroundColor')] //this is input name
+    const DEFAULT_COLOR = "rgb(225, 225, 225)";
+
+    #[ImagickColorParam(self::DEFAULT_COLOR, 'backgroundColor')] //this is input name
     private string $background_color; // this is target name
 
     public function __construct(string $background_color)

@@ -272,9 +272,15 @@ class ParamAnnotationsTest extends BaseTestCase
 
         // This is incorrect - it uses the name as per the property name
         [$object, $validationProblems] = \OneColorGetsCorrectSpelling::createOrErrorFromArray([
-            'background_color' => 'red'
+            'this_is_invalid' => 'red'
         ]);
-        $this->assertNull($object);
+        $this->assertInstanceOf(\OneColorGetsCorrectSpelling::class, $object);
+        $this->assertSame(
+            \OneColorGetsCorrectSpelling::DEFAULT_COLOR,
+            $object->getBackgroundColor()
+        );
+
+        $this->assertCount(1, $validationProblems, "if zero, unknown param 'this_is_invalid' not used.");
         $this->assertValidationProblemRegexp(
             '/',
             Messages::UNKNOWN_INPUT_PARAMETER,
