@@ -4,7 +4,7 @@ namespace Params;
 
 use Params\Exception\InvalidDatetimeFormatException;
 use Params\DataStorage\ArrayDataStorage;
-use Params\DataStorage\ObjectDataStorage;
+use Params\DataStorage\ComplexDataStorage;
 use Params\DataStorage\DataStorage;
 use Params\Exception\InputParameterListException;
 use Params\Exception\InvalidJsonPointerException;
@@ -694,13 +694,10 @@ function validate(object $dto)
 {
     $class = get_class($dto);
 
-//    if ($class === false) {
-//        throw new \Exception("how can this happen?");
-//    }
     /** @var class-string $class */
     $inputParameterList = getInputParameterListForClass($class);
 
-    $dataStorage = ObjectDataStorage::fromObject($dto);
+    $dataStorage = ComplexDataStorage::fromData($dto);
 
     [$object, $validationProblems] = createOrError(
         $class,

@@ -138,7 +138,6 @@
     <projectFiles>
         <directory name="lib"/>
         <ignoreFiles>
-            <file name="lib/Params/DataStorage/ObjectDataStorage.php"/>
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>

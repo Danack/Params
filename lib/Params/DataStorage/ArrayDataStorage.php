@@ -9,11 +9,18 @@ use function Params\getJsonPointerParts;
 
 /**
  * Implementation of InputStorage that wraps around a simple array.
+ *
+ * All entries in the hierarchy of data must be either an array or a scalar value.
+ * i.e. no objects in it.
+ *
  */
 class ArrayDataStorage implements DataStorage
 {
     private array $data;
 
+    /**
+     * @var array<string|int>
+     */
     private array $currentLocation = [];
 
     protected function __construct(array $data)
@@ -40,7 +47,7 @@ class ArrayDataStorage implements DataStorage
             if (array_key_exists($key, $data) !== true) {
                 // This would only happen if this was called
                 // when the data had been move to a 'wrong' place.
-                throw new InvalidLocationException();
+                throw InvalidLocationException::badArrayDataStorage($this->currentLocation);
             }
 
             $data = $data[$key];

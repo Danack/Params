@@ -15,6 +15,9 @@ echo "Running Psalm"
 php ./psalm.phar
 
 # Exclude mutation tests for now.
+# They are disabled as they are very slow to run, and not
+# providing much value. I'm open to most pull requests that fix any of them
+# or disabling ones that aren't that great.
 # bash runMutationTests.sh
 
 bash runExamples.sh
