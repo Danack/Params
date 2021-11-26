@@ -43,6 +43,19 @@ class InvalidLocationException extends ParamsException
         );
     }
 
+    public static function intNotAllowedComplexDataStorage(array $location): self
+    {
+        $message = sprintf(
+            "Tried to use int as key to object in ComplexDataStorage. This shouldn't happen and is likely a bug in the params library. Location was %s",
+            implode(", ", $location)
+        );
+
+        return new self(
+            $location,
+            $message
+        );
+    }
+
     /**
      * @return array
      */

@@ -15,6 +15,7 @@ class ComplexDataStorage implements DataStorage
 {
     private array|object $dto;
 
+    /** @var array<string|int> */
     private array $currentLocation = [];
 
     protected function __construct(array|object $data)
@@ -39,6 +40,9 @@ class ComplexDataStorage implements DataStorage
 
         foreach ($this->currentLocation as $key) {
             if (is_object($dto) === true) {
+                if (is_int($key) === true) {
+                    throw InvalidLocationException::intNotAllowedComplexDataStorage($this->currentLocation);
+                }
                 if (property_exists($dto, $key) === false) {
                     // This would only happen if this was called
                     // when the data had been move to a 'wrong' place.
@@ -75,6 +79,9 @@ class ComplexDataStorage implements DataStorage
         $dto = $this->dto;
         foreach ($this->currentLocation as $location) {
             if (is_object($dto) === true) {
+                if (is_int($location) === true) {
+                    throw InvalidLocationException::intNotAllowedComplexDataStorage($this->currentLocation);
+                }
                 if (property_exists($dto, $location) === false) {
                     return false;
                 }
@@ -102,7 +109,7 @@ class ComplexDataStorage implements DataStorage
     /**
      * @inheritDoc
      */
-    public function moveKey($name): DataStorage
+    public function moveKey(string|int $name): DataStorage
     {
         $clone = clone $this;
         $clone->currentLocation[] = $name;

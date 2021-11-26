@@ -77,7 +77,7 @@ class ArrayDataStorage implements DataStorage
     /**
      * @inheritDoc
      */
-    public function moveKey($name): DataStorage
+    public function moveKey(string|int $name): DataStorage
     {
         $clone = clone $this;
         $clone->currentLocation[] = $name;

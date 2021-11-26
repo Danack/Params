@@ -48,7 +48,7 @@ interface DataStorage
      * @param int|string $name
      * @return self
      */
-    public function moveKey($name): self;
+    public function moveKey(string|int $name): self;
 
     /**
      * Is there a value available available in the current path position.
@@ -56,10 +56,4 @@ interface DataStorage
      * @return bool
      */
     public function isValueAvailable(): bool;
-
-//    /**
-//     * @return array<mixed>
-//     * @throws InvalidLocationException
-//     */
-//    public function getCurrentValues(): array;
 }
