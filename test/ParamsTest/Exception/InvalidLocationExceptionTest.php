@@ -48,4 +48,23 @@ class InvalidLocationExceptionTest extends BaseTestCase
         );
         $this->assertStringContainsString(implode(", ", $location), $exception->getMessage());
     }
+
+
+    /**
+     * @covers \Params\Exception\InvalidLocationException
+     */
+    public function testWorksBadInPositionOnObject()
+    {
+        $location = ['foo', 0];
+
+        $exception = InvalidLocationException::intNotAllowedComplexDataStorage(
+            $location
+        );
+
+        $this->assertSame(
+            $location,
+            $exception->getLocation()
+        );
+        $this->assertStringContainsString(implode(", ", $location), $exception->getMessage());
+    }
 }

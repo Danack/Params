@@ -106,12 +106,6 @@ class ProcessedValues
     public function getValueForTargetParam(string $name): array
     {
         foreach ($this->processedValues as $processedValue) {
-//            echo "name = $name \n";
-//            echo "target name = " . $processedValue->getParam()->getTargetParameterName() . "\n";
-//            echo "input name = " . $processedValue->getParam()->getInputName() . "\n";
-//            echo "value " .$processedValue->getValue() . "\n";
-//            exit(0);
-
             if ($name === $processedValue->getParam()->getTargetParameterName()) {
                 return [$processedValue->getValue(), true];
             }

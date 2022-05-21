@@ -12,6 +12,9 @@
         "text": "infection-log.txt"
     },
     "mutators": {
+        "MBString": false
     },
     "minCoveredMsi": 90
 }
+
+

@@ -74,7 +74,7 @@ class ValidCharactersTest extends BaseTestCase
         $rule = new ValidCharacters('a-zA-Z');
         $description = $this->applyRuleToDescription($rule);
 
-        $schema = $description->toArray();
+//        $schema = $description->toArray();
 
 //        type: string
 //      maxLength: 10

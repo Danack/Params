@@ -121,12 +121,24 @@ function createArrayOfTypeFromInputStorage(
 
 /**
  * @param string $className
+ * @return InputParameter[]
+ * @throws InputParameterListException
+ * @throws MissingClassException
+ * @throws TypeNotInputParameterListException
+ */
+function getParamForClass(string $className): array
+{
+    return getInputParameterListForClass($className);
+}
+
+/**
+ * @param string $className
  * @return \Params\InputParameter[]
  * @throws InputParameterListException
  * @throws MissingClassException
  * @throws TypeNotInputParameterListException
  */
-function getInputParameterListForClass(string $className)
+function getInputParameterListForClass(string $className): array
 {
     if (class_exists($className) !== true) {
         throw MissingClassException::fromClassname($className);
@@ -501,6 +513,29 @@ function processInputParameter(
     }
 
     return $validationProblems;
+}
+
+/**
+ * @param Param $param
+ * @param ProcessedValues $paramValues
+ * @param DataStorage $dataStorage
+ * @return ValidationProblem[]
+ * @throws Exception\ParamMissingException
+ */
+function processSingleInputParameter(
+    Param $param,
+    ProcessedValues $paramValues,
+    DataStorage $dataStorage
+): array {
+    $knownInputNames = [];
+    $inputParameter = $param->getInputParameter();
+
+    $knownInputNames[] = $inputParameter->getInputName();
+    return processInputParameter(
+        $inputParameter,
+        $paramValues,
+        $dataStorage
+    );
 }
 
 

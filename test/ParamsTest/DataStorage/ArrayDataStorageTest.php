@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace ParamsTest\DataLocator;
+namespace ParamsTest\DataStorage;
 
 use Params\DataStorage\ArrayDataStorage;
 use Params\DataStorage\TestArrayDataStorage;

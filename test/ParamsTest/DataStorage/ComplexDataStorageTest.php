@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace ParamsTest\DataLocator;
+namespace ParamsTest\DataStorage;
 
 use Params\DataStorage\ComplexDataStorage;
 use Params\DataStorage\TestArrayDataStorage;
@@ -49,6 +49,24 @@ class ComplexDataStorageTest extends BaseTestCase
         $dataStorageAtBadPosition->isValueAvailable();
     }
 
+
+    public function testErrorIntPositionOnObject_isValueAvailable()
+    {
+        $dataStorage = ComplexDataStorage::fromData(new \StdClass());
+        $dataStorageAtFoo = $dataStorage->moveKey(0);
+
+        $this->expectException(InvalidLocationException::class);
+        $dataStorageAtFoo->isValueAvailable();
+    }
+
+    public function testErrorIntPositionOnObject_getCurrentValue()
+    {
+        $dataStorage = ComplexDataStorage::fromData(new \StdClass());
+        $dataStorageAtFoo = $dataStorage->moveKey(0);
+
+        $this->expectException(InvalidLocationException::class);
+        $dataStorageAtFoo->getCurrentValue();
+    }
 
     public function testGettingValueNotAvailableAsScalar()
     {

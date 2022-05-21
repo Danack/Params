@@ -18,6 +18,7 @@ use Params\ExtractRule\GetInt;
 use Params\ExtractRule\GetString;
 use Params\InputParameter;
 use Params\Messages;
+use Params\Param;
 use Params\ProcessedValue;
 use Params\ProcessedValues;
 use Params\ProcessRule\AlwaysEndsRule;
@@ -33,7 +34,7 @@ use Params\Exception\ValidationException;
 use VarMap\ArrayVarMap;
 use ParamsTest\Integration\FooParams;
 use Params\Exception\NoConstructorException;
-//use function Params\createTypeFromAnnotations;
+use ParamsTest\PropertyTypes\Quantity;
 use function Params\unescapeJsonPointer;
 use function Params\array_value_exists;
 use function Params\check_only_digits;
@@ -52,6 +53,8 @@ use function Params\getParamsFromAnnotations;
 use function Params\getDefaultSupportedTimeFormats;
 use function Params\getReflectionClassOfAttribute;
 use function Params\createObjectFromProcessedValues;
+use function Params\processSingleInputParameter;
+use function Params\getParamForClass;
 
 /**
  * @coversNothing
@@ -377,6 +380,48 @@ class FunctionsTest extends BaseTestCase
         $inputParameters = getInputParameterListForClass(
             \ReturnsBadInputParameterList::class
         );
+    }
+
+
+
+
+
+    /**
+     * @covers ::\Params\getParamForClass
+     */
+    public function test_getParamForClass()
+    {
+        $param = getParamForClass(\TestParams::class);
+    }
+
+
+
+    /**
+     * @group wip
+     */
+    public function test_processSingleInputParameter()
+    {
+        $inputValue = 5;
+
+        $paramValues  = new ProcessedValues();
+
+        $dataStorage = TestArrayDataStorage::fromArray([
+            'foo' => $inputValue,
+        ]);
+
+        $param = new Quantity('foo');
+
+        $result = processSingleInputParameter(
+            $param,
+            $paramValues,
+            $dataStorage
+        );
+
+        $this->assertEmpty($result);
+
+        $values = $paramValues->getAllValues();
+        $this->assertCount(1, $values);
+        $this->assertSame($inputValue, $values['foo']);
     }
 
     /**
