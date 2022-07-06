@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\RangeLength;
-use Params\ProcessedValues;
+use Type\ProcessRule\RangeLength;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -77,7 +77,7 @@ class RangeLengthTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxLengthCases
-     * @covers \Params\ProcessRule\RangeLength
+     * @covers \Type\ProcessRule\RangeLength
      */
     public function testValidation(
         int $minLength,
@@ -106,7 +106,7 @@ class RangeLengthTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\RangeLength
+     * @covers \Type\ProcessRule\RangeLength
      */
     public function testDescription()
     {

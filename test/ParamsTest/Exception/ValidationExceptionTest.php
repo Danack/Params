@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
-use Params\Exception\ValidationException;
-use Params\ValidationProblem;
+use Type\Exception\ValidationException;
+use Type\ValidationProblem;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ use Params\ValidationProblem;
 class ValidationExceptionTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Exception\ValidationException
+     * @covers \Type\Exception\ValidationException
      */
     public function testGetting()
     {

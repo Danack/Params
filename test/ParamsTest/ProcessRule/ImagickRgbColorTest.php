@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\ProcessedValues;
-use Params\ProcessRule\ImagickIsRgbColor;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\ProcessedValues;
+use Type\ProcessRule\ImagickIsRgbColor;
 use ParamsTest\BaseTestCase;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\Exception\InvalidRulesException;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\Exception\InvalidRulesException;
 
 /**
  * @coversNothing
@@ -27,7 +27,7 @@ class ImagickRgbColorTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorks
-     * @covers \Params\ProcessRule\ImagickIsRgbColor
+     * @covers \Type\ProcessRule\ImagickIsRgbColor
      */
     public function testWorks(string $testValue)
     {
@@ -45,7 +45,7 @@ class ImagickRgbColorTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\ImagickIsRgbColor
+     * @covers \Type\ProcessRule\ImagickIsRgbColor
      */
     public function testOnlyString()
     {
@@ -58,7 +58,7 @@ class ImagickRgbColorTest extends BaseTestCase
 
         $this->expectException(InvalidRulesException::class);
         $this->expectExceptionMessageMatchesTemplateString(
-            \Params\Messages::BAD_TYPE_FOR_STRING_PROCESS_RULE
+            \Type\Messages::BAD_TYPE_FOR_STRING_PROCESS_RULE
         );
 
         $rule->process(
@@ -67,7 +67,7 @@ class ImagickRgbColorTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\ImagickIsRgbColor
+     * @covers \Type\ProcessRule\ImagickIsRgbColor
      */
     public function testDescription()
     {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\Enum;
-use Params\ProcessedValues;
+use Type\ProcessRule\Enum;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -29,7 +29,7 @@ class EnumTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\ProcessRule\Enum
+     * @covers \Type\ProcessRule\Enum
      */
     public function testWorks($testValue, $expectedValue)
     {
@@ -54,7 +54,7 @@ class EnumTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrors
-     * @covers \Params\ProcessRule\Enum
+     * @covers \Type\ProcessRule\Enum
      */
     public function testValidationErrors($testValue)
     {
@@ -78,7 +78,7 @@ class EnumTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\Enum
+     * @covers \Type\ProcessRule\Enum
      */
     public function testDescription()
     {

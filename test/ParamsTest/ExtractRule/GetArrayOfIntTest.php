@@ -4,12 +4,12 @@ declare(strict_types = 1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetArrayOfInt;
-use Params\ProcessedValues;
-use Params\ProcessRule\MaxIntValue;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\ExtractRule\GetArrayOfInt;
+use Type\ProcessedValues;
+use Type\ProcessRule\MaxIntValue;
+use Type\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -17,7 +17,7 @@ use Params\DataStorage\TestArrayDataStorage;
 class GetArrayOfIntTest extends BaseTestCase
 {
     /**
-     * @covers  \Params\ExtractRule\GetArrayOfInt
+     * @covers  \Type\ExtractRule\GetArrayOfInt
      */
     public function testWorks()
     {
@@ -41,7 +41,7 @@ class GetArrayOfIntTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfInt
+     * @covers \Type\ExtractRule\GetArrayOfInt
      */
     public function testMissingGivesError()
     {
@@ -60,7 +60,7 @@ class GetArrayOfIntTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfInt
+     * @covers \Type\ExtractRule\GetArrayOfInt
      */
     public function testNotAnArrayErrors()
     {
@@ -86,7 +86,7 @@ class GetArrayOfIntTest extends BaseTestCase
 
 
     /**
-     * @covers  \Params\ExtractRule\GetArrayOfInt
+     * @covers  \Type\ExtractRule\GetArrayOfInt
      */
     public function testErrorsOnType()
     {
@@ -112,7 +112,7 @@ class GetArrayOfIntTest extends BaseTestCase
     }
 
     /**
-     * @covers  \Params\ExtractRule\GetArrayOfInt
+     * @covers  \Type\ExtractRule\GetArrayOfInt
      */
     public function testErrorsOnSubsequentRule()
     {
@@ -139,7 +139,7 @@ class GetArrayOfIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfInt
+     * @covers \Type\ExtractRule\GetArrayOfInt
      */
     public function testDescription()
     {

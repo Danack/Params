@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetArrayOfParam;
+use Type\ExtractRule\GetArrayOfParam;
 use ParamsTest\Integration\ReviewScore;
-use Params\ProcessedValues;
+use Type\ProcessedValues;
 use ParamsTest\Integration\SingleIntParams;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 use ParamsTest\PropertyTypes\Quantity;
 
 /**
@@ -20,7 +20,7 @@ class GetArrayOfParamTest extends BaseTestCase
 {
     /**
      * @group wip
-     * @covers \Params\ExtractRule\GetArrayOfParam
+     * @covers \Type\ExtractRule\GetArrayOfParam
      */
     public function testWorksForComplexType()
     {

@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace ParamsTest;
 
-use Params\ValidationProblem;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\ValidationProblem;
+use Type\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -13,7 +13,7 @@ use Params\DataStorage\TestArrayDataStorage;
 class ValidationProblemTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ValidationProblem
+     * @covers \Type\ValidationProblem
      */
     public function testWorks()
     {

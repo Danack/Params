@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\ProcessRule\MinimumCount;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\ProcessRule\MinimumCount;
 use ParamsTest\BaseTestCase;
-use Params\Exception\LogicException;
-use Params\ProcessedValues;
+use Type\Exception\LogicException;
+use Type\ProcessedValues;
 use function \Danack\PHPUnitHelper\templateStringToRegExp;
 
 /**
@@ -29,7 +29,7 @@ class MinimumCountTest extends BaseTestCase
 
     /**
      * @dataProvider provideWorksCases
-     * @covers \Params\ProcessRule\MinimumCount
+     * @covers \Type\ProcessRule\MinimumCount
      */
     public function testWorks(int $minimumCount, $values)
     {
@@ -55,7 +55,7 @@ class MinimumCountTest extends BaseTestCase
 
     /**
      * @dataProvider provideFailsCases
-     * @covers \Params\ProcessRule\MinimumCount
+     * @covers \Type\ProcessRule\MinimumCount
      */
     public function testFails(int $minimumCount, $values)
     {
@@ -81,7 +81,7 @@ class MinimumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MinimumCount
+     * @covers \Type\ProcessRule\MinimumCount
      */
     public function testMinimimCountZero()
     {
@@ -91,7 +91,7 @@ class MinimumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MinimumCount
+     * @covers \Type\ProcessRule\MinimumCount
      */
     public function testInvalidOperand()
     {
@@ -110,7 +110,7 @@ class MinimumCountTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\MinimumCount
+     * @covers \Type\ProcessRule\MinimumCount
      */
     public function testDescription()
     {

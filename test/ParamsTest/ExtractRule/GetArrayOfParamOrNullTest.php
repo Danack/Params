@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\ExtractRule\GetArrayOfTypeOrNull;
+use Type\ExtractRule\GetArrayOfTypeOrNull;
 use ParamsTest\BaseTestCase;
 use ParamsTest\Integration\ReviewScore;
-use Params\ProcessedValues;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\ProcessedValues;
+use Type\DataStorage\TestArrayDataStorage;
 use ParamsTest\PropertyTypes\Quantity;
 
 /**
@@ -17,7 +17,7 @@ use ParamsTest\PropertyTypes\Quantity;
 class GetArrayOfParamOrNullTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\GetArrayOfParamOrNull
+     * @covers \Type\ExtractRule\GetArrayOfParamOrNull
      */
     public function testWorks()
     {

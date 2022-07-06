@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\ValidCharacters;
-use Params\ProcessRule\SaneCharacters;
-use Params\ProcessedValues;
+use Type\ProcessRule\ValidCharacters;
+use Type\ProcessRule\SaneCharacters;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -29,7 +29,7 @@ class ValidCharactersTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\ProcessRule\ValidCharacters
+     * @covers \Type\ProcessRule\ValidCharacters
      */
     public function testValidation($validCharactersPattern, $testValue, $expectedErrorPosition)
     {
@@ -43,7 +43,7 @@ class ValidCharactersTest extends BaseTestCase
         if ($expectedErrorPosition !== null) {
             $this->assertValidationProblemRegexp(
                 '/foo',
-                \Params\Messages::STRING_FOUND_INVALID_CHAR,
+                \Type\Messages::STRING_FOUND_INVALID_CHAR,
                 $validationResult->getValidationProblems()
             );
 
@@ -67,7 +67,7 @@ class ValidCharactersTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\ValidCharacters
+     * @covers \Type\ProcessRule\ValidCharacters
      */
     public function testDescription()
     {

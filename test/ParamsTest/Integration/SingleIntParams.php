@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
-use Params\ExtractRule\GetInt;
-use Params\InputParameter;
-use Params\ProcessRule\MaxIntValue;
-use Params\ProcessRule\MinIntValue;
-use Params\SafeAccess;
-use Params\ProcessRule\CastToInt;
-use Params\InputParameterList;
+use Type\ExtractRule\GetInt;
+use Type\PropertyDefinition;
+use Type\ProcessRule\MaxIntValue;
+use Type\ProcessRule\MinIntValue;
+use Type\SafeAccess;
+use Type\ProcessRule\CastToInt;
+use Type\Type;
 
-class SingleIntParams implements InputParameterList
+class SingleIntParams implements Type
 {
     use SafeAccess;
 
@@ -23,10 +23,10 @@ class SingleIntParams implements InputParameterList
         $this->limit = $limit;
     }
 
-    public static function getInputParameterList(): array
+    public static function getPropertyDefinitionList(): array
     {
         return [
-            new InputParameter(
+            new PropertyDefinition(
                 'limit',
                 new GetInt(),
                 new CastToInt(),

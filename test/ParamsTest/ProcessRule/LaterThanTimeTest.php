@@ -4,11 +4,11 @@ declare(strict_types = 1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessedValues;
-use Params\ProcessRule\LaterThanTime;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\ProcessedValues;
+use Type\ProcessRule\LaterThanTime;
 use ParamsTest\BaseTestCase;
 
 /**
@@ -18,7 +18,7 @@ class LaterThanTimeTest extends BaseTestCase
 {
 
     /**
-     * @covers \Params\ProcessRule\LaterThanTime
+     * @covers \Type\ProcessRule\LaterThanTime
      */
     public function testWorks()
     {
@@ -38,7 +38,7 @@ class LaterThanTimeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\LaterThanTime
+     * @covers \Type\ProcessRule\LaterThanTime
      */
     public function testErrorsCorrectly()
     {
@@ -62,7 +62,7 @@ class LaterThanTimeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\LaterThanTime
+     * @covers \Type\ProcessRule\LaterThanTime
      */
     public function testSameTimeErrors()
     {
@@ -85,7 +85,7 @@ class LaterThanTimeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\LaterThanTime
+     * @covers \Type\ProcessRule\LaterThanTime
      */
     public function testPreviousTimeWrongType()
     {
@@ -111,7 +111,7 @@ class LaterThanTimeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\LaterThanTime
+     * @covers \Type\ProcessRule\LaterThanTime
      */
     public function testFormatting()
     {
@@ -125,7 +125,7 @@ class LaterThanTimeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\LaterThanTime
+     * @covers \Type\ProcessRule\LaterThanTime
      */
     public function testDescription()
     {

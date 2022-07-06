@@ -15,7 +15,7 @@ use function JsonSafe\json_encode_safe;
 class CreateOrErrorFromRequestTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Create\CreateOrErrorFromRequest
+     * @covers \Type\Create\CreateOrErrorFromRequest
      */
     public function testWorks()
     {

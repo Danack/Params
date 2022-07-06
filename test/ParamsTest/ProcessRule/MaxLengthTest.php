@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\MaxLength;
-use Params\ProcessedValues;
+use Type\ProcessRule\MaxLength;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -48,7 +48,7 @@ class MaxLengthTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxLengthWorks
-     * @covers \Params\ProcessRule\MaxLength
+     * @covers \Type\ProcessRule\MaxLength
      */
     public function testValidationWorks(int $maxLength, string $string)
     {
@@ -84,7 +84,7 @@ class MaxLengthTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxLengthErrors
-     * @covers \Params\ProcessRule\MaxLength
+     * @covers \Type\ProcessRule\MaxLength
      */
     public function testErrors(int $maxLength, string $string)
     {
@@ -107,7 +107,7 @@ class MaxLengthTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\MaxLength
+     * @covers \Type\ProcessRule\MaxLength
      */
     public function testDescription()
     {

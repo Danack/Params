@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\InputParameterListException;
+use Type\Exception\TypeDefinitionException;
 
 /**
  * @coversNothing
@@ -29,18 +29,18 @@ class InputParameterListExceptionTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\Exception\InputParameterListException
+     * @covers \Type\Exception\TypeDefinitionException
      */
     public function testInputParameterListException_foundNonInputParameter()
     {
         $position = 3;
         $classname = 'John';
 
-        $exception = InputParameterListException::foundNonInputParameter($position, $classname);
+        $exception = TypeDefinitionException::foundNonPropertyDefinition($position, $classname);
 
 
         $this->assertStringMatchesTemplateString(
-            Messages::MUST_RETURN_ARRAY_OF__INPUT_PARAMETER,
+            Messages::MUST_RETURN_ARRAY_OF_PROPERTY_DEFINITION,
             $exception->getMessage()
         );
         $this->assertStringContainsString((string)$position, $exception->getMessage());

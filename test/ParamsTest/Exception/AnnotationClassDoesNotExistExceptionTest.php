@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\AnnotationClassDoesNotExistException;
+use Type\Exception\AnnotationClassDoesNotExistException;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ class AnnotationClassDoesNotExistExceptionTest extends BaseTestCase
 {
     /**
      * This test seems dumb.
-     * @covers \Params\Exception\AnnotationClassDoesNotExistException
+     * @covers \Type\Exception\AnnotationClassDoesNotExistException
      */
     public function testWorks()
     {

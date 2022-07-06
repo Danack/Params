@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\PositiveInt;
-use Params\ProcessedValues;
-use Params\ProcessRule\IsRgbColor;
+use Type\ProcessRule\PositiveInt;
+use Type\ProcessedValues;
+use Type\ProcessRule\IsRgbColor;
 
 /**
  * @coversNothing
@@ -26,7 +26,7 @@ class ColorTest extends BaseTestCase
 
     /**
      * @dataProvider provideRgbColorWorks
-     * @covers \Params\ProcessRule\IsRgbColor
+     * @covers \Type\ProcessRule\IsRgbColor
      */
     public function testValidation($inputString)
     {
@@ -50,7 +50,7 @@ class ColorTest extends BaseTestCase
 
     /**
      * @dataProvider provideRgbColorErrors
-     * @covers \Params\ProcessRule\IsRgbColor
+     * @covers \Type\ProcessRule\IsRgbColor
      */
     public function testErrors($testValue, $message)
     {
@@ -70,7 +70,7 @@ class ColorTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\IsRgbColor
+     * @covers \Type\ProcessRule\IsRgbColor
      */
     public function testDescription()
     {

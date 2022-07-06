@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\Order;
-use Params\Value\Ordering;
-use Params\ProcessedValues;
-use Params\Messages;
-use Params\ProcessRule\MatrixIsSquare;
+use Type\ProcessRule\Order;
+use Type\Value\Ordering;
+use Type\ProcessedValues;
+use Type\Messages;
+use Type\ProcessRule\MatrixIsSquare;
 
 /**
  * @coversNothing
@@ -36,7 +36,7 @@ class MatrixIsSquareTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\ProcessRule\MatrixIsSquare
+     * @covers \Type\ProcessRule\MatrixIsSquare
      */
     public function testValidation($testValue)
     {
@@ -77,7 +77,7 @@ class MatrixIsSquareTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrors
-     * @covers \Params\ProcessRule\MatrixIsSquare
+     * @covers \Type\ProcessRule\MatrixIsSquare
      */
     public function testErrors($testValue, $expectedErrorMessage, $rows, $columns)
     {
@@ -103,7 +103,7 @@ class MatrixIsSquareTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MatrixIsSquare
+     * @covers \Type\ProcessRule\MatrixIsSquare
      */
     public function testDescription()
     {

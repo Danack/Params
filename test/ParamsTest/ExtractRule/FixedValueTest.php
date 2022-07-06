@@ -4,13 +4,13 @@ declare(strict_types = 1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\FixedValue;
-use Params\ProcessedValues;
+use Type\ExtractRule\FixedValue;
+use Type\ProcessedValues;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\DataStorage\ArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\ArrayDataStorage;
 
 /**
  * @coversNothing
@@ -18,7 +18,7 @@ use Params\DataStorage\ArrayDataStorage;
 class FixedValueTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\FixedValue
+     * @covers \Type\ExtractRule\FixedValue
      */
     public function testMissingGivesError()
     {
@@ -36,7 +36,7 @@ class FixedValueTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\FixedValue
+     * @covers \Type\ExtractRule\FixedValue
      */
     public function coverage()
     {

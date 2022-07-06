@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use ParamsExample\DTOTypes\TestDTO;
-use function Params\validate;
+use TypeExample\DTOTypes\TestDTO;
+use function Type\validate;
 
 require __DIR__ . "/../vendor/autoload.php";
 
@@ -19,7 +19,7 @@ $dto = new TestDTO('purple', -15);
 echo "2 - there were " . count($validationProblems) . " validation problems.\n";
 
 foreach ($validationProblems as $validationProblem) {
-    /** @var \Params\ValidationProblem $validationProblem */
+    /** @var \Type\ValidationProblem $validationProblem */
     echo $validationProblem->getProblemMessage() . "\n";
 }
 

@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace ParamsTest;
 
-use Params\InputParameter;
-use Params\ProcessedValue;
-use Params\ExtractRule\FixedValue;
+use Type\PropertyDefinition;
+use Type\ProcessedValue;
+use Type\ExtractRule\FixedValue;
 
 /**
  * @coversNothing
@@ -15,12 +15,12 @@ class ProcessedValueTest extends BaseTestCase
 {
 
         /**
-     * @covers \Params\ProcessedValue
+     * @covers \Type\ProcessedValue
      */
     public function testMissingGivesException()
     {
         $value = 5;
-        $foo = new InputParameter(
+        $foo = new PropertyDefinition(
             'john',
             new FixedValue($value)
         );

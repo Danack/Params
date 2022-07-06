@@ -3,17 +3,17 @@
 declare(strict_types=1);
 
 
-use Params\ExtractRule\GetString;
-use Params\ExtractRule\GetStringOrDefault;
-use Params\InputParameterList;
-use Params\InputParameter;
-use Params\Param;
-use Params\ProcessRule\AlwaysErrorsRule;
-use Params\ProcessRule\ImagickIsRgbColor;
-use Params\SafeAccess;
-use ParamsTest\ImagickColorParam;
-use Params\Create\CreateFromArray;
-use Params\Create\CreateOrErrorFromArray;
+use Type\ExtractRule\GetString;
+use Type\ExtractRule\GetStringOrDefault;
+use Type\Type;
+use Type\PropertyDefinition;
+use Type\TypeProperty;
+use Type\ProcessRule\AlwaysErrorsRule;
+use Type\ProcessRule\ImagickIsRgbColor;
+use Type\SafeAccess;
+use ParamsTest\ImagickColorTypeProperty;
+use Type\Create\CreateFromArray;
+use Type\Create\CreateOrErrorFromArray;
 
 class TestObject
 {
@@ -44,9 +44,9 @@ class DoesNotImplementInputParameterList
 }
 
 
-class ReturnsBadInputParameterList implements InputParameterList
+class ReturnsBadType implements Type
 {
-    public static function getInputParameterList(): array
+    public static function getPropertyDefinitionList(): array
     {
         return [
             // Wrong type
@@ -55,7 +55,7 @@ class ReturnsBadInputParameterList implements InputParameterList
     }
 }
 
-class TestParams implements InputParameterList
+class TestParams implements Type
 {
     private string $name;
 
@@ -68,10 +68,10 @@ class TestParams implements InputParameterList
         $this->name = $name;
     }
 
-    public static function getInputParameterList(): array
+    public static function getPropertyDefinitionList(): array
     {
         return [
-            new InputParameter(
+            new PropertyDefinition(
                 'name',
                 new GetString(),
             )
@@ -88,18 +88,18 @@ class TestParams implements InputParameterList
 }
 
 
-class AlwaysErrorsParams implements InputParameterList
+class AlwaysErrorsParams implements Type
 {
     public const ERROR_MESSAGE = 'Forced error';
 
-    public static function getInputParameterList(): array
+    public static function getPropertyDefinitionList(): array
     {
         return [
-            new InputParameter(
+            new PropertyDefinition(
                 'foo',
                 new GetString(),
             ),
-            new InputParameter(
+            new PropertyDefinition(
                 'bar',
                 new GetString(),
                 new AlwaysErrorsRule(self::ERROR_MESSAGE)
@@ -109,18 +109,18 @@ class AlwaysErrorsParams implements InputParameterList
 }
 
 
-class ThreeColors implements InputParameterList
+class ThreeColors implements Type
 {
     use SafeAccess;
-    use Params\Create\CreateFromVarMap;
-    use Params\InputParameterListFromAttributes;
+    use Type\Create\CreateFromVarMap;
+    use Type\InputParameterListFromAttributes;
 
     public function __construct(
-        #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+        #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]
         private string $background_color,
-        #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
+        #[ImagickColorTypeProperty('rgb(0, 0, 0)', 'stroke_color')]
         private string $stroke_color,
-        #[ImagickColorParam('DodgerBlue2', 'fill_color')]
+        #[ImagickColorTypeProperty('DodgerBlue2', 'fill_color')]
         private string $fill_color
     ) {
     }
@@ -162,7 +162,7 @@ class OneColor
     use SafeAccess;
     use CreateFromArray;
 
-    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+    #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
     public function __construct(string $stroke_color, string $background_color)
@@ -183,13 +183,13 @@ class TwoColors
     use SafeAccess;
     use CreateOrErrorFromArray;
 
-    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+    #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
     #[NotActuallyAParam('fill_color', 'rgb(0, 0, 0)')]
     private string $fill_color;
 
-    #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
+    #[ImagickColorTypeProperty('rgb(0, 0, 0)', 'stroke_color')]
     private string $stroke_color;
 
     #[NotAParameter()]
@@ -222,7 +222,7 @@ class OneColorWithOtherAnnotationThatIsNotAParam
 {
     use SafeAccess;
 
-    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+    #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
     #[NotActuallyAParam('stroke_color', 'rgb(0, 0, 0)')]
@@ -255,7 +255,7 @@ class OneColorWithOtherAnnotationThatDoesNotExist
 {
     use SafeAccess;
 
-    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+    #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
     #[ThisClassDoesNotExistParam('stroke_color', 'rgb(0, 0, 0)')]
@@ -277,13 +277,13 @@ class ThreeColorsMissingConstructorParam
 {
     use SafeAccess;
 
-    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+    #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
-    #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
+    #[ImagickColorTypeProperty('rgb(0, 0, 0)', 'stroke_color')]
     private string $stroke_color;
 
-    #[ImagickColorParam('DodgerBlue2', 'fill_color')]
+    #[ImagickColorTypeProperty('DodgerBlue2', 'fill_color')]
     private string $fill_color;
 
     public function __construct(string $background_color, string $stroke_color)
@@ -300,10 +300,10 @@ class ThreeColorsMissingPropertyParam
 {
     use SafeAccess;
 
-    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+    #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
-    #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
+    #[ImagickColorTypeProperty('rgb(0, 0, 0)', 'stroke_color')]
     private string $stroke_color;
 
     private string $fill_color;
@@ -321,7 +321,7 @@ class OneColorNoConstructor
 {
     use SafeAccess;
 
-    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+    #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 }
 
@@ -329,7 +329,7 @@ class ThreeColorsPrivateConstructor
 {
     use SafeAccess;
 
-    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+    #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
     /**
@@ -348,13 +348,13 @@ class ThreeColorsIncorrectParamName
 {
     use SafeAccess;
 
-    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
+    #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]
     private string $background_color;
 
-    #[ImagickColorParam('rgb(0, 0, 0)', 'stroke_color')]
+    #[ImagickColorTypeProperty('rgb(0, 0, 0)', 'stroke_color')]
     private string $stroke_color;
 
-    #[ImagickColorParam('rgb(0, 0, 255)', 'fill_color')]
+    #[ImagickColorTypeProperty('rgb(0, 0, 255)', 'fill_color')]
     private string $fill_color;
 
     public function __construct(string $background_color, string $stroke_color, string $solid_color)
@@ -371,8 +371,8 @@ class MultipleParamAnnotations
 {
     use SafeAccess;
 
-    #[ImagickColorParam('rgb(225, 225, 225)', 'background_color')]
-    #[ImagickColorParam('rgb(225, 225, 225)', 'fill_color')]
+    #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]
+    #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'fill_color')]
     private string $background_color;
 
     /**
@@ -463,7 +463,7 @@ class OneColorGetsCorrectSpelling
 
     const DEFAULT_COLOR = "rgb(225, 225, 225)";
 
-    #[ImagickColorParam(self::DEFAULT_COLOR, 'backgroundColor')] //this is input name
+    #[ImagickColorTypeProperty(self::DEFAULT_COLOR, 'backgroundColor')] //this is input name
     private string $background_color; // this is target name
 
     public function __construct(string $background_color)

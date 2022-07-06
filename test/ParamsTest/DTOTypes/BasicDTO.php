@@ -6,7 +6,7 @@ namespace ParamsTest\DTOTypes;
 
 use ParamsTest\PropertyTypes\KnownColors;
 use ParamsTest\PropertyTypes\Quantity;
-use Params\InputParameterListFromAttributes;
+use Type\InputParameterListFromAttributes;
 
 class BasicDTO
 {

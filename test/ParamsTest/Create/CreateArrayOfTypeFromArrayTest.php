@@ -6,7 +6,7 @@ namespace ParamsTest\Create;
 
 use ParamsTest\BaseTestCase;
 use ParamsTest\Integration\ReviewScore;
-use Params\Exception\ValidationException;
+use Type\Exception\ValidationException;
 
 /**
  * @coversNothing
@@ -14,7 +14,7 @@ use Params\Exception\ValidationException;
 class CreateArrayOfTypeFromArrayTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Create\CreateArrayOfTypeFromArray
+     * @covers \Type\Create\CreateArrayOfTypeFromArray
      */
     public function testWorks()
     {
@@ -42,7 +42,7 @@ class CreateArrayOfTypeFromArrayTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\Create\CreateArrayOfTypeFromArray
+     * @covers \Type\Create\CreateArrayOfTypeFromArray
      */
     public function testErrors()
     {

@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace ParamsTest\DTOTypes;
 
 use ParamsTest\PropertyTypes\MultipleBasicArray;
-use Params\InputParameterListFromAttributes;
+use Type\InputParameterListFromAttributes;
 
 class DTOThatHasArrayOfParam
 {

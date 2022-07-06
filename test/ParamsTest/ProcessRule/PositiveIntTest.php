@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\PositiveInt;
-use Params\ProcessedValues;
+use Type\ProcessRule\PositiveInt;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -27,7 +27,7 @@ class PositiveIntTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\ProcessRule\PositiveInt
+     * @covers \Type\ProcessRule\PositiveInt
      */
     public function testValidation($testValue, $expectedResult, $expectError)
     {
@@ -54,7 +54,7 @@ class PositiveIntTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrors
-     * @covers \Params\ProcessRule\PositiveInt
+     * @covers \Type\ProcessRule\PositiveInt
      */
     public function testErrors($testValue, $message)
     {
@@ -74,7 +74,7 @@ class PositiveIntTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\PositiveInt
+     * @covers \Type\ProcessRule\PositiveInt
      */
     public function testDescription()
     {

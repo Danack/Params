@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\ProcessedValues;
-use Params\ProcessRule\IsRgbColor;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\ProcessedValues;
+use Type\ProcessRule\IsRgbColor;
 use ParamsTest\BaseTestCase;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\Exception\InvalidRulesException;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\Exception\InvalidRulesException;
 
 /**
  * @coversNothing
@@ -106,7 +106,7 @@ class IsRgbColorTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorks
-     * @covers \Params\ProcessRule\IsRgbColor
+     * @covers \Type\ProcessRule\IsRgbColor
      */
     public function testWorks(string $testValue)
     {
@@ -135,7 +135,7 @@ class IsRgbColorTest extends BaseTestCase
 
         $this->expectException(InvalidRulesException::class);
         $this->expectExceptionMessageMatchesTemplateString(
-            \Params\Messages::BAD_TYPE_FOR_STRING_PROCESS_RULE
+            \Type\Messages::BAD_TYPE_FOR_STRING_PROCESS_RULE
         );
 
         $rule->process(
@@ -152,7 +152,7 @@ class IsRgbColorTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrors
-     * @covers \Params\ProcessRule\IsRgbColor
+     * @covers \Type\ProcessRule\IsRgbColor
      */
     public function testErrors($testValue)
     {
@@ -175,7 +175,7 @@ class IsRgbColorTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\IsRgbColor
+     * @covers \Type\ProcessRule\IsRgbColor
      */
     public function testDescription()
     {

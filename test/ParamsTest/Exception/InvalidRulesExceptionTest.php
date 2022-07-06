@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\InvalidRulesException;
+use Type\Exception\InvalidRulesException;
 
 /**
  * @coversNothing
@@ -22,7 +22,7 @@ class InvalidRulesExceptionTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Exception\InvalidRulesException
+     * @covers \Type\Exception\InvalidRulesException
      * @dataProvider providesInvalidRulesException
      */
     public function testInvalidRulesException($badValue, $badTypeString)
@@ -39,7 +39,7 @@ class InvalidRulesExceptionTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Exception\InvalidRulesException
+     * @covers \Type\Exception\InvalidRulesException
      */
     public function testExpectsStringForProcessing()
     {

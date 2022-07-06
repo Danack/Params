@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\MinFloatValue;
-use Params\ProcessedValues;
+use Type\ProcessRule\MinFloatValue;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -35,7 +35,7 @@ class MinFloatValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideMinFloatValueCases
-     * @covers \Params\ProcessRule\MinFloatValue
+     * @covers \Type\ProcessRule\MinFloatValue
      */
     public function testValidation(float $minValue, string $inputValue)
     {
@@ -67,7 +67,7 @@ class MinFloatValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideMinFloatValueErrors
-     * @covers \Params\ProcessRule\MinFloatValue
+     * @covers \Type\ProcessRule\MinFloatValue
      */
     public function testErrors(float $minValue, string $inputValue)
     {
@@ -88,7 +88,7 @@ class MinFloatValueTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MinFloatValue
+     * @covers \Type\ProcessRule\MinFloatValue
      */
     public function testDescription()
     {

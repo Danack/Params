@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ParamsTest\Integration;
 
-use Params\Messages;
+use Type\Messages;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
 

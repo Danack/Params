@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\LaterThanParam;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\ProcessRule\LaterThanParam;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValues;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -17,7 +17,7 @@ use Params\ProcessedValues;
 class LaterThanParamTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Type\ProcessRule\LaterThanParam
      */
     public function testWorks()
     {
@@ -44,7 +44,7 @@ class LaterThanParamTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Type\ProcessRule\LaterThanParam
      */
     public function testSameTimeErrors()
     {
@@ -77,7 +77,7 @@ class LaterThanParamTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Type\ProcessRule\LaterThanParam
      */
     public function testInvalidMinutes()
     {
@@ -86,7 +86,7 @@ class LaterThanParamTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Type\ProcessRule\LaterThanParam
      */
     public function testMissing()
     {
@@ -113,7 +113,7 @@ class LaterThanParamTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Type\ProcessRule\LaterThanParam
      */
     public function testPreviousTimeWrongType()
     {
@@ -142,7 +142,7 @@ class LaterThanParamTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Type\ProcessRule\LaterThanParam
      */
     public function testCurrentTimeWrongType()
     {
@@ -171,7 +171,7 @@ class LaterThanParamTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Type\ProcessRule\LaterThanParam
      */
     public function testErrorsCorrect()
     {
@@ -205,7 +205,7 @@ class LaterThanParamTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\LaterThanParam
+     * @covers \Type\ProcessRule\LaterThanParam
      */
     public function testDescription()
     {

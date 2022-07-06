@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\DataStorage\DataStorage;
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Exception\ValidationException;
-use Params\ExtractRule\GetInt;
-use Params\ExtractRule\GetIntOrDefault;
+use Type\DataStorage\DataStorage;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Exception\ValidationException;
+use Type\ExtractRule\GetInt;
+use Type\ExtractRule\GetIntOrDefault;
 use ParamsTest\BaseTestCase;
-use Params\Messages;
+use Type\Messages;
 use VarMap\ArrayVarMap;
-use Params\ProcessRule\AlwaysEndsRule;
-use Params\ProcessRule\MaxIntValue;
-use Params\ProcessRule\AlwaysErrorsRule;
-use Params\ProcessRule\ProcessRule;
-use Params\ValidationResult;
-use Params\OpenApi\ParamDescription;
-use Params\ProcessedValues;
-use Params\InputParameter;
-use Params\Exception\UnknownParamException;
-use function Params\create;
-use function Params\createOrError;
-use function Params\createTypeFromAnnotations;
-use function Params\processInputParameters;
+use Type\ProcessRule\AlwaysEndsRule;
+use Type\ProcessRule\MaxIntValue;
+use Type\ProcessRule\AlwaysErrorsRule;
+use Type\ProcessRule\ProcessPropertyRule;
+use Type\ValidationResult;
+use Type\OpenApi\ParamDescription;
+use Type\ProcessedValues;
+use Type\PropertyDefinition;
+use Type\Exception\UnknownParamException;
+use function Type\create;
+use function Type\createOrError;
+use function Type\createTypeFromAnnotations;
+use function Type\processInputParameters;
 
 /**
  * This is a general test suite for integration type stuff.
@@ -41,7 +41,7 @@ class ParamsTest extends BaseTestCase
     public function testWorksBasic()
     {
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'foo',
                 new GetIntOrDefault(5)
             )
@@ -70,13 +70,13 @@ class ParamsTest extends BaseTestCase
         $dataStorage = TestArrayDataStorage::fromArraySetFirstValue([]);
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'foo',
                 new GetInt()
             )
         ];
 
-        $this->expectException(\Params\Exception\ValidationException::class);
+        $this->expectException(\Type\Exception\ValidationException::class);
         // TODO - we should output the keys as well.
         $this->expectExceptionMessage("Value not set.");
         create('Foo', $rules, $dataStorage);
@@ -93,7 +93,7 @@ class ParamsTest extends BaseTestCase
         $dataStorage = TestArrayDataStorage::fromArray($data);
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'foo',
                 new GetInt(),
                 // This rule will stop processing
@@ -113,7 +113,7 @@ class ParamsTest extends BaseTestCase
 
     public function testErrorResultStopsProcessing()
     {
-        $shouldntBeInvoked = new class($this) implements ProcessRule {
+        $shouldntBeInvoked = new class($this) implements ProcessPropertyRule {
             private $test;
             public function __construct(BaseTestCase $test)
             {
@@ -139,7 +139,7 @@ class ParamsTest extends BaseTestCase
         $dataStorage = TestArrayDataStorage::fromArray($data);
 
         $inputParameters = [
-            new InputParameter(
+            new PropertyDefinition(
                 'foo',
                 new GetInt(),
                 // This rule will stop processing
@@ -169,8 +169,8 @@ class ParamsTest extends BaseTestCase
      */
     public function testException()
     {
-        $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
-        $this->expectException(\Params\Exception\ParamsException::class);
+        $rules = \ParamsTest\Integration\FooParams::getPropertyDefinitionList();
+        $this->expectException(\Type\Exception\ParamsException::class);
 
         $dataStorage =  TestArrayDataStorage::fromArraySetFirstValue([]);
 
@@ -186,7 +186,7 @@ class ParamsTest extends BaseTestCase
         $data = ['limit' => 5];
         $dataStorage =  TestArrayDataStorage::fromArray($data);
 
-        $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
+        $rules = \ParamsTest\Integration\FooParams::getPropertyDefinitionList();
         $fooParams = create(
             \ParamsTest\Integration\FooParams::class,
             $rules,
@@ -204,7 +204,7 @@ class ParamsTest extends BaseTestCase
     {
         $dataStorage = TestArrayDataStorage::fromArray([]);
 
-        $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
+        $rules = \ParamsTest\Integration\FooParams::getPropertyDefinitionList();
         [$params, $validationProblems] = createOrError(
             \ParamsTest\Integration\FooParams::class,
             $rules,
@@ -213,7 +213,7 @@ class ParamsTest extends BaseTestCase
         $this->assertNull($params);
 
         $this->assertCount(1, $validationProblems);
-        /** @var \Params\ValidationProblem $firstProblem */
+        /** @var \Type\ValidationProblem $firstProblem */
 
         $this->assertCount(1, $validationProblems);
 
@@ -231,7 +231,7 @@ class ParamsTest extends BaseTestCase
     {
         $dataStorage = TestArrayDataStorage::fromArray(['limit' => 5]);
 
-        $rules = \ParamsTest\Integration\FooParams::getInputParameterList();
+        $rules = \ParamsTest\Integration\FooParams::getPropertyDefinitionList();
         [$fooParams, $errors] = createOrError(
             \ParamsTest\Integration\FooParams::class,
             $rules,

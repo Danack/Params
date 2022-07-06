@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\NullIfEmpty;
-use Params\ProcessedValues;
+use Type\ProcessRule\NullIfEmpty;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -28,7 +28,7 @@ class NullIfEmptyTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorksCases
-     * @covers \Params\ProcessRule\NullIfEmpty
+     * @covers \Type\ProcessRule\NullIfEmpty
      */
     public function testValidationWorks($testValue, $shouldBeNull)
     {

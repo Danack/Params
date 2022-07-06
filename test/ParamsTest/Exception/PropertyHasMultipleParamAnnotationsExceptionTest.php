@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\PropertyHasMultipleParamAnnotationsException;
+use Type\Exception\PropertyHasMultipleParamAnnotationsException;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ class PropertyHasMultipleParamAnnotationsExceptionTest extends BaseTestCase
 {
     /**
      * This test seems dumb.
-     * @covers \Params\Exception\PropertyHasMultipleParamAnnotationsException
+     * @covers \Type\Exception\PropertyHasMultipleParamAnnotationsException
      */
     public function testWorks()
     {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
-use Params\Value\OrderElement;
-use Params\Value\Ordering;
+use Type\Value\OrderElement;
+use Type\Value\Ordering;
 
 /**
  * @coversNothing
@@ -14,8 +14,8 @@ use Params\Value\Ordering;
 class OrderingTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Value\OrderElement
-     * @covers \Params\Value\Ordering
+     * @covers \Type\Value\OrderElement
+     * @covers \Type\Value\Ordering
      */
     public function testBasic()
     {

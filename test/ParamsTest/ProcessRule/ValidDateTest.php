@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\OpenApi\ParamDescription;
-use Params\ProcessRule\ImagickIsRgbColor;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\OpenApi\ParamDescription;
+use Type\ProcessRule\ImagickIsRgbColor;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\ValidDate;
-use Params\ProcessedValues;
-use Params\Messages;
+use Type\ProcessRule\ValidDate;
+use Type\ProcessedValues;
+use Type\Messages;
 
 /**
  * @coversNothing
@@ -34,7 +34,7 @@ class ValidDateTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorksCases
-     * @covers \Params\ProcessRule\ValidDate
+     * @covers \Type\ProcessRule\ValidDate
      */
     public function testValidationWorks($input, $expectedTime)
     {
@@ -59,7 +59,7 @@ class ValidDateTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrorsCases
-     * @covers \Params\ProcessRule\ValidDate
+     * @covers \Type\ProcessRule\ValidDate
      */
     public function testValidationErrors($input)
     {
@@ -79,7 +79,7 @@ class ValidDateTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\ValidDate
+     * @covers \Type\ProcessRule\ValidDate
      */
     public function testDescription()
     {

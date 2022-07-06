@@ -13,7 +13,7 @@ use ParamsTest\Integration\IntArrayParams;
 class CreateFromArrayTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Create\CreateFromArray
+     * @covers \Type\Create\CreateFromArray
      */
     public function testWorks()
     {

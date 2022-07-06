@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\CastToBool;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\ProcessRule\CastToBool;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValues;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -35,7 +35,7 @@ class BoolInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideBoolValueWorksCases
-     * @covers \Params\ProcessRule\CastToBool
+     * @covers \Type\ProcessRule\CastToBool
      */
     public function testValidationWorks($inputValue, bool $expectedValue)
     {
@@ -60,7 +60,7 @@ class BoolInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideBoolValueErrorsCases
-     * @covers \Params\ProcessRule\CastToBool
+     * @covers \Type\ProcessRule\CastToBool
      */
     public function testValidationErrors($inputValue, $message)
     {
@@ -80,7 +80,7 @@ class BoolInputTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\CastToBool
+     * @covers \Type\ProcessRule\CastToBool
      */
     public function testDescription()
     {

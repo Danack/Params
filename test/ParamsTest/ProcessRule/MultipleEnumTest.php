@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\Order;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\ProcessRule\Order;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\MultipleEnum;
-use Params\Value\MultipleEnums;
-use Params\ProcessedValues;
-use Params\Messages;
+use Type\ProcessRule\MultipleEnum;
+use Type\Value\MultipleEnums;
+use Type\ProcessedValues;
+use Type\Messages;
 
 /**
  * @coversNothing
@@ -29,7 +29,7 @@ class MultipleEnumTest extends BaseTestCase
 
     /**
      * @dataProvider providesMultipleEnumWorks
-     * @covers \Params\ProcessRule\MultipleEnum
+     * @covers \Type\ProcessRule\MultipleEnum
      */
     public function testMultipleEnumWorks($inputString, $expectedResult)
     {
@@ -44,13 +44,13 @@ class MultipleEnumTest extends BaseTestCase
         $validationValue = $validationResult->getValue();
 
         $this->assertInstanceOf(MultipleEnums::class, $validationValue);
-        /** @var $validationValue \Params\Value\MultipleEnums */
+        /** @var $validationValue \Type\Value\MultipleEnums */
 
         $this->assertEquals($expectedResult, $validationValue->getValues());
     }
 
     /**
-     * @covers \Params\ProcessRule\MultipleEnum
+     * @covers \Type\ProcessRule\MultipleEnum
      */
     public function testMultipleEnumErrors()
     {
@@ -80,7 +80,7 @@ class MultipleEnumTest extends BaseTestCase
 
     /**
      * @dataProvider provideMultipleEnumCases
-     * @covers \Params\ProcessRule\MultipleEnum
+     * @covers \Type\ProcessRule\MultipleEnum
      */
     public function testMultipleEnum_emptySegments($input, $expectedOutput)
     {
@@ -107,7 +107,7 @@ class MultipleEnumTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\ProcessRule\MultipleEnum
+     * @covers \Type\ProcessRule\MultipleEnum
      */
     public function testValidation($testValue, $expectedMultipleEnumValues, $expectError)
     {
@@ -121,7 +121,7 @@ class MultipleEnumTest extends BaseTestCase
         $value = $validationResult->getValue();
         $this->assertInstanceOf(MultipleEnums::class, $value);
 
-        /** @var $value \Params\Value\MultipleEnums */
+        /** @var $value \Type\Value\MultipleEnums */
         $this->assertEquals($expectedMultipleEnumValues, $value->getValues());
     }
 
@@ -133,7 +133,7 @@ class MultipleEnumTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrors
-     * @covers \Params\ProcessRule\MultipleEnum
+     * @covers \Type\ProcessRule\MultipleEnum
      */
     public function testErrors($testValue)
     {
@@ -158,7 +158,7 @@ class MultipleEnumTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MultipleEnum
+     * @covers \Type\ProcessRule\MultipleEnum
      */
     public function testDescription()
     {

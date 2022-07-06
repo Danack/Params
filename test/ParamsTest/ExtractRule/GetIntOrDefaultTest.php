@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\ExtractRule\GetIntOrDefault;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\ExtractRule\GetIntOrDefault;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValues;
-use Params\Messages;
+use Type\ProcessedValues;
+use Type\Messages;
 
 /**
  * @coversNothing
@@ -36,7 +36,7 @@ class GetIntOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetIntOrDefault
+     * @covers \Type\ExtractRule\GetIntOrDefault
      * @dataProvider provideTestCases
      */
     public function testValidation($data, $default, $expectedValue)
@@ -66,7 +66,7 @@ class GetIntOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetIntOrDefault
+     * @covers \Type\ExtractRule\GetIntOrDefault
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($inputValue, $message)
@@ -88,7 +88,7 @@ class GetIntOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetIntOrDefault
+     * @covers \Type\ExtractRule\GetIntOrDefault
      */
     public function testDescription()
     {

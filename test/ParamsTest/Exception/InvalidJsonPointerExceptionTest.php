@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\InvalidJsonPointerException;
+use Type\Exception\InvalidJsonPointerException;
 
 /**
  * @coversNothing
@@ -14,7 +14,7 @@ use Params\Exception\InvalidJsonPointerException;
 class InvalidJsonPointerExceptionTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Exception\InvalidJsonPointerException
+     * @covers \Type\Exception\InvalidJsonPointerException
      */
     public function testInputParameterListException_notArray()
     {

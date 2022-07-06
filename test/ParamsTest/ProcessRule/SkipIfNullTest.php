@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\SkipIfNull;
-use Params\ProcessedValues;
+use Type\ProcessRule\SkipIfNull;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -29,7 +29,7 @@ class SkipIfNullTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\ProcessRule\SkipIfNull
+     * @covers \Type\ProcessRule\SkipIfNull
      */
     public function testValidation($testValue, $expectIsFinalResult)
     {
@@ -43,7 +43,7 @@ class SkipIfNullTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\SkipIfNull
+     * @covers \Type\ProcessRule\SkipIfNull
      */
     public function testDescription()
     {

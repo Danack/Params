@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\MissingConstructorParameterNameException;
+use Type\Exception\MissingConstructorParameterNameException;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ class MissingConstructorParameterNameExceptionTest extends BaseTestCase
 {
     /**
      * This test seems dumb.
-     * @covers \Params\Exception\MissingConstructorParameterNameException
+     * @covers \Type\Exception\MissingConstructorParameterNameException
      */
     public function testWorks()
     {

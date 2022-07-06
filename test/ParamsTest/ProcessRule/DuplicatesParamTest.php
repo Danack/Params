@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\DuplicatesParam;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\ProcessRule\DuplicatesParam;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValues;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -17,7 +17,7 @@ use Params\ProcessedValues;
 class DuplicatesParamTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ProcessRule\DuplicatesParam
+     * @covers \Type\ProcessRule\DuplicatesParam
      */
     public function testWorks()
     {
@@ -36,7 +36,7 @@ class DuplicatesParamTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\DuplicatesParam
+     * @covers \Type\ProcessRule\DuplicatesParam
      */
     public function testMissing()
     {
@@ -59,7 +59,7 @@ class DuplicatesParamTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\DuplicatesParam
+     * @covers \Type\ProcessRule\DuplicatesParam
      */
     public function testWrongType()
     {
@@ -83,7 +83,7 @@ class DuplicatesParamTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\DuplicatesParam
+     * @covers \Type\ProcessRule\DuplicatesParam
      */
     public function testWrongValue()
     {
@@ -108,7 +108,7 @@ class DuplicatesParamTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\DuplicatesParam
+     * @covers \Type\ProcessRule\DuplicatesParam
      */
     public function testDescription()
     {

@@ -4,14 +4,14 @@ declare(strict_types = 1);
 
 namespace ParamsTest\DataStorage;
 
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
 
 /**
  * The class TestArrayDataStorage is only used for testing.
  * This test class mostly just provides coverage.
  *
- * @covers \Params\DataStorage\TestArrayDataStorage
+ * @covers \Type\DataStorage\TestArrayDataStorage
  */
 class TestArrayDataStorageTest extends BaseTestCase
 {

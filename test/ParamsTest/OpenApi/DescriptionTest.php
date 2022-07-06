@@ -4,28 +4,28 @@ declare(strict_types=1);
 
 namespace ParamsTest\OpenApi;
 
-use Params\InputParameter;
-use Params\OpenApi\ShouldNeverBeCalledParamDescription;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\Enum;
-use Params\ExtractRule\GetInt;
-use Params\ExtractRule\GetIntOrDefault;
-use Params\ExtractRule\GetOptionalInt;
-use Params\ExtractRule\GetOptionalString;
-use Params\ExtractRule\GetString;
-use Params\ExtractRule\GetStringOrDefault;
-use Params\ProcessRule\MaxIntValue;
-use Params\ProcessRule\MaxLength;
-use Params\ProcessRule\MinIntValue;
-use Params\ProcessRule\MinLength;
-use Params\ProcessRule\PositiveInt;
-use Params\ProcessRule\Trim;
-use Params\ProcessRule\ValidDate;
-use Params\ProcessRule\ValidDatetime;
+use Type\PropertyDefinition;
+use Type\OpenApi\ShouldNeverBeCalledParamDescription;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\ProcessRule\Enum;
+use Type\ExtractRule\GetInt;
+use Type\ExtractRule\GetIntOrDefault;
+use Type\ExtractRule\GetOptionalInt;
+use Type\ExtractRule\GetOptionalString;
+use Type\ExtractRule\GetString;
+use Type\ExtractRule\GetStringOrDefault;
+use Type\ProcessRule\MaxIntValue;
+use Type\ProcessRule\MaxLength;
+use Type\ProcessRule\MinIntValue;
+use Type\ProcessRule\MinLength;
+use Type\ProcessRule\PositiveInt;
+use Type\ProcessRule\Trim;
+use Type\ProcessRule\ValidDate;
+use Type\ProcessRule\ValidDatetime;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\AlwaysEndsRule;
-use Params\Exception\OpenApiException;
-use Params\ProcessRule\NullIfEmpty;
+use Type\ProcessRule\AlwaysEndsRule;
+use Type\Exception\OpenApiException;
+use Type\ProcessRule\NullIfEmpty;
 
 /**
  * @coversNothing
@@ -44,7 +44,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules =  [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetString(),
                 new Enum($values)
@@ -93,7 +93,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetInt()
             ),
@@ -114,7 +114,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetIntOrDefault($default)
             ),
@@ -135,7 +135,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetStringOrDefault($default)
             ),
@@ -154,7 +154,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetOptionalInt()
             ),
@@ -173,7 +173,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetOptionalString()
             ),
@@ -191,7 +191,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetInt(),
                 new MinIntValue($maxValue)
@@ -209,7 +209,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetString(),
                 new MaxLength($maxLength)
@@ -234,7 +234,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetString(),
                 new MinLength($minLength)
@@ -256,7 +256,7 @@ class DescriptionTest extends BaseTestCase
     public function testInvalidMininumLength($minLength)
     {
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetString(),
                 new MinLength($minLength)
@@ -280,7 +280,7 @@ class DescriptionTest extends BaseTestCase
     public function testInvalidMaximumLength($maxLength)
     {
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetString(),
                 new MaxLength($maxLength)
@@ -303,7 +303,7 @@ class DescriptionTest extends BaseTestCase
     public function testValidMaximumLength($maxLength)
     {
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetString(),
                 new MaxLength($maxLength)
@@ -334,7 +334,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetInt(),
                 new MaxIntValue($maxValue)
@@ -354,7 +354,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetInt(),
                 new PositiveInt()
@@ -387,7 +387,7 @@ class DescriptionTest extends BaseTestCase
             'format' => 'date'
         ];
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetString(),
                 new ValidDate()
@@ -404,7 +404,7 @@ class DescriptionTest extends BaseTestCase
             'format' => 'date-time'
         ];
         $rules = [
-            new InputParameter(
+            new PropertyDefinition(
                 'value',
                 new GetString(),
                 new ValidDatetime()
@@ -417,7 +417,7 @@ class DescriptionTest extends BaseTestCase
 
     /**
      * @param $schemaExpectations
-     * @param InputParameter[] $rules
+     * @param PropertyDefinition[] $rules
      * @throws OpenApiException
  */
     private function performSchemaTest($schemaExpectations, $rules)
@@ -490,7 +490,7 @@ class DescriptionTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\NullIfEmpty
+     * @covers \Type\ProcessRule\NullIfEmpty
      */
     public function testNullIfEmpty()
     {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\IncorrectNumberOfParamsException;
+use Type\Exception\IncorrectNumberOfParamsException;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ class IncorrectNumberOfParamsExceptionTest extends BaseTestCase
 {
     /**
      * This test seems dumb.
-     * @covers \Params\Exception\IncorrectNumberOfParamsException
+     * @covers \Type\Exception\IncorrectNumberOfParamsException
      */
     public function testWorks()
     {

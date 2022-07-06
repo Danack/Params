@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\CastToInt;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\ProcessRule\CastToInt;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValues;
-use Params\Messages;
+use Type\ProcessedValues;
+use Type\Messages;
 
 /**
  * @coversNothing
@@ -28,7 +28,7 @@ class IntegerInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideIntValueWorksCases
-     * @covers \Params\ProcessRule\CastToInt
+     * @covers \Type\ProcessRule\CastToInt
      */
     public function testValidationWorks(string $inputValue, int $expectedValue)
     {
@@ -59,7 +59,7 @@ class IntegerInputTest extends BaseTestCase
 
     /**
      * @dataProvider providesDetectsErrorsCorrectly
-     * @covers \Params\ProcessRule\CastToInt
+     * @covers \Type\ProcessRule\CastToInt
      */
     public function testDetectsErrorsCorrectly($inputValue, $message)
     {
@@ -80,7 +80,7 @@ class IntegerInputTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\CastToInt
+     * @covers \Type\ProcessRule\CastToInt
      */
     public function testDescription()
     {

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace ParamsTest;
 
 use ParamsTest\DTOTypes\BasicDTO;
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\PropertyTypes\KnownColors;
 use ParamsTest\PropertyTypes\MultipleBasicDTO;
 use ParamsTest\DTOTypes\DTOThatHasArrayOfParam;
 use ParamsTest\DTOTypes\AdvancedDTO;
-use function Params\validate;
+use function Type\validate;
 
 /**
  * @coversNothing

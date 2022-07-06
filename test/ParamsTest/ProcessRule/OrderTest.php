@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\Order;
-use Params\Value\Ordering;
-use Params\ProcessedValues;
-use Params\Messages;
-use Params\OpenApi\ParamDescription;
+use Type\ProcessRule\Order;
+use Type\Value\Ordering;
+use Type\ProcessedValues;
+use Type\Messages;
+use Type\OpenApi\ParamDescription;
 
 /**
  * @coversNothing
@@ -27,7 +27,7 @@ class OrderTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\ProcessRule\Order
+     * @covers \Type\ProcessRule\Order
      */
     public function testValidation($testValue, $expectedOrdering, $expectError)
     {
@@ -56,7 +56,7 @@ class OrderTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrors
-     * @covers \Params\ProcessRule\Order
+     * @covers \Type\ProcessRule\Order
      */
     public function testErrors($testValue, $expectedOrdering, $expectError)
     {
@@ -85,7 +85,7 @@ class OrderTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\Order
+     * @covers \Type\ProcessRule\Order
      */
     public function testDescription()
     {

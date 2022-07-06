@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\OpenApi;
 
-use Params\ExtractRule\GetInt;
-use Params\InputParameter;
-use Params\ProcessRule\MaxIntValue;
-use Params\ProcessRule\MinIntValue;
-use Params\SafeAccess;
-use Params\Create\CreateFromVarMap;
+use Type\ExtractRule\GetInt;
+use Type\PropertyDefinition;
+use Type\ProcessRule\MaxIntValue;
+use Type\ProcessRule\MinIntValue;
+use Type\SafeAccess;
+use Type\Create\CreateFromVarMap;
 
 class RequiredIntExample
 {
@@ -25,7 +25,7 @@ class RequiredIntExample
     public static function getInputParameterList()
     {
         return [
-            new InputParameter(
+            new PropertyDefinition(
                 self::NAME,
                 new GetInt(),
                 new MinIntValue(self::MIN),

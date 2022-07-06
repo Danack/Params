@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\ValidationProblem;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\ValidationProblem;
 use ParamsTest\BaseTestCase;
-use Params\ValidationResult;
-use Params\Exception\LogicException;
+use Type\ValidationResult;
+use Type\Exception\LogicException;
 
 /**
- * @covers \Params\ValidationResult
+ * @covers \Type\ValidationResult
  */
 class ValidationResultTest extends BaseTestCase
 {

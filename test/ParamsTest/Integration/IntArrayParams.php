@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
-use Params\Create\CreateFromArray;
-use Params\Create\CreateFromJson;
-use Params\Create\CreateFromRequest;
-use Params\Create\CreateOrErrorFromArray;
-use Params\Create\CreateOrErrorFromJson;
-use Params\Create\CreateOrErrorFromRequest;
-use Params\ExtractRule\GetArrayOfInt;
-use Params\InputParameter;
-use Params\ProcessRule\MaxIntValue;
-use Params\ProcessRule\MinIntValue;
-use Params\SafeAccess;
-use Params\ProcessRule\MinLength;
-use Params\ProcessRule\MaxLength;
-use Params\ExtractRule\GetString;
-use Params\InputParameterList;
+use Type\Create\CreateFromArray;
+use Type\Create\CreateFromJson;
+use Type\Create\CreateFromRequest;
+use Type\Create\CreateOrErrorFromArray;
+use Type\Create\CreateOrErrorFromJson;
+use Type\Create\CreateOrErrorFromRequest;
+use Type\ExtractRule\GetArrayOfInt;
+use Type\PropertyDefinition;
+use Type\ProcessRule\MaxIntValue;
+use Type\ProcessRule\MinIntValue;
+use Type\SafeAccess;
+use Type\ProcessRule\MinLength;
+use Type\ProcessRule\MaxLength;
+use Type\ExtractRule\GetString;
+use Type\Type;
 
-class IntArrayParams implements InputParameterList
+class IntArrayParams implements Type
 {
     use SafeAccess;
     use CreateFromArray;
@@ -48,16 +48,16 @@ class IntArrayParams implements InputParameterList
         $this->counts = $counts;
     }
 
-    public static function getInputParameterList(): array
+    public static function getPropertyDefinitionList(): array
     {
         return [
-            new InputParameter(
+            new PropertyDefinition(
                 'name',
                 new GetString(),
                 new MinLength(4),
                 new MaxLength(16)
             ),
-            new InputParameter(
+            new PropertyDefinition(
                 'counts',
                 new GetArrayOfInt(
                     new MinIntValue(1),

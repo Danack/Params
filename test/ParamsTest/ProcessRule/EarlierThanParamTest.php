@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\EarlierThanParam;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\ProcessRule\EarlierThanParam;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValues;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -17,7 +17,7 @@ use Params\ProcessedValues;
 class EarlierThanParamTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ProcessRule\EarlierThanParam
+     * @covers \Type\ProcessRule\EarlierThanParam
      */
     public function testWorks()
     {
@@ -44,7 +44,7 @@ class EarlierThanParamTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\EarlierThanParam
+     * @covers \Type\ProcessRule\EarlierThanParam
      */
     public function testInvalidMinutes()
     {
@@ -53,7 +53,7 @@ class EarlierThanParamTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\EarlierThanParam
+     * @covers \Type\ProcessRule\EarlierThanParam
      */
     public function testMissing()
     {
@@ -82,7 +82,7 @@ class EarlierThanParamTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\EarlierThanParam
+     * @covers \Type\ProcessRule\EarlierThanParam
      */
     public function testPreviousTimeWrongType()
     {
@@ -112,7 +112,7 @@ class EarlierThanParamTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\EarlierThanParam
+     * @covers \Type\ProcessRule\EarlierThanParam
      */
     public function testCurrentTimeWrongType()
     {
@@ -141,7 +141,7 @@ class EarlierThanParamTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\EarlierThanParam
+     * @covers \Type\ProcessRule\EarlierThanParam
      */
     public function testErrorsCorrect()
     {
@@ -174,7 +174,7 @@ class EarlierThanParamTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\EarlierThanParam
+     * @covers \Type\ProcessRule\EarlierThanParam
      */
     public function testDescription()
     {

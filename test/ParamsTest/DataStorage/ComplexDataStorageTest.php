@@ -4,15 +4,15 @@ declare(strict_types = 1);
 
 namespace ParamsTest\DataStorage;
 
-use Params\DataStorage\ComplexDataStorage;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\ComplexDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
-use Params\Exception\InvalidLocationException;
-use function Params\getJsonPointerParts;
+use Type\Exception\InvalidLocationException;
+use function Type\getJsonPointerParts;
 use function JsonSafe\json_decode_safe;
 
 /**
- * @covers \Params\DataStorage\ComplexDataStorage
+ * @covers \Type\DataStorage\ComplexDataStorage
  */
 class ComplexDataStorageTest extends BaseTestCase
 {

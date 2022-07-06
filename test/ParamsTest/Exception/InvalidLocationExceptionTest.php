@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Exception;
 
 use ParamsTest\BaseTestCase;
-use Params\Exception\InvalidLocationException;
+use Type\Exception\InvalidLocationException;
 
 /**
  * @coversNothing
@@ -13,7 +13,7 @@ use Params\Exception\InvalidLocationException;
 class InvalidLocationExceptionTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Exception\InvalidLocationException
+     * @covers \Type\Exception\InvalidLocationException
      */
     public function testWorksBadArray()
     {
@@ -32,7 +32,7 @@ class InvalidLocationExceptionTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\Exception\InvalidLocationException
+     * @covers \Type\Exception\InvalidLocationException
      */
     public function testWorksBadComplex()
     {
@@ -51,7 +51,7 @@ class InvalidLocationExceptionTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\Exception\InvalidLocationException
+     * @covers \Type\Exception\InvalidLocationException
      */
     public function testWorksBadInPositionOnObject()
     {

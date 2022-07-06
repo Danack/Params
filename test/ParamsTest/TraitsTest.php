@@ -14,7 +14,7 @@ use ParamsTest\Integration\FooParamsCreateOrErrorFromVarMap;
 class TraitsTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Create\CreateFromVarMap
+     * @covers \Type\Create\CreateFromVarMap
      */
     public function testCreateFromVarMap()
     {
@@ -26,7 +26,7 @@ class TraitsTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\Create\CreateOrErrorFromVarMap
+     * @covers \Type\Create\CreateOrErrorFromVarMap
      */
     public function testCreateOrErrorFromVarMap()
     {

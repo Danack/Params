@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\MinLength;
-use Params\ProcessedValues;
+use Type\ProcessRule\MinLength;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -50,7 +50,7 @@ class MinLengthTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxLengthCases
-     * @covers \Params\ProcessRule\MinLength
+     * @covers \Type\ProcessRule\MinLength
      */
     public function testValidation(int $minLength, string $string)
     {
@@ -85,7 +85,7 @@ class MinLengthTest extends BaseTestCase
 
     /**
      * @dataProvider provideMinLengthErrors
-     * @covers \Params\ProcessRule\MinLength
+     * @covers \Type\ProcessRule\MinLength
      */
     public function testErrors(int $minLength, string $string)
     {
@@ -107,7 +107,7 @@ class MinLengthTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\MinLength
+     * @covers \Type\ProcessRule\MinLength
      */
     public function testDescription()
     {

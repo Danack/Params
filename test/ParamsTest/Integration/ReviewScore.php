@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
-use Params\Create\CreateFromVarMap;
-use Params\Create\CreateArrayOfTypeFromArray;
-use Params\ExtractRule\GetInt;
-use Params\ExtractRule\GetString;
-use Params\InputParameter;
-use Params\ProcessRule\MaxIntValue;
-use Params\ProcessRule\MinLength;
-use Params\SafeAccess;
-use Params\InputParameterList;
+use Type\Create\CreateFromVarMap;
+use Type\Create\CreateArrayOfTypeFromArray;
+use Type\ExtractRule\GetInt;
+use Type\ExtractRule\GetString;
+use Type\PropertyDefinition;
+use Type\ProcessRule\MaxIntValue;
+use Type\ProcessRule\MinLength;
+use Type\SafeAccess;
+use Type\Type;
 
-class ReviewScore implements InputParameterList
+class ReviewScore implements Type
 {
     use SafeAccess;
     use CreateFromVarMap;
@@ -36,17 +36,17 @@ class ReviewScore implements InputParameterList
     }
 
     /**
-     * @return \Params\InputParameter[]
+     * @return \Type\PropertyDefinition[]
      */
-    public static function getInputParameterList(): array
+    public static function getPropertyDefinitionList(): array
     {
         return [
-            new InputParameter(
+            new PropertyDefinition(
                 'score',
                 new GetInt(),
                 new MaxIntValue(100)
             ),
-            new InputParameter(
+            new PropertyDefinition(
                 'comment',
                 new GetString(),
                 new MinLength(4)

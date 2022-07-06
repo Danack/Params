@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\InputParameterList;
-use Params\Messages;
+use Type\Type;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\TypeNotInputParameterListException;
+use Type\Exception\TypeNotInputParameterListException;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ use Params\Exception\TypeNotInputParameterListException;
 class TypeNotInputParameterListExceptionTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Exception\TypeNotInputParameterListException
+     * @covers \Type\Exception\TypeNotInputParameterListException
      */
     public function testInputParameterListException()
     {
@@ -26,7 +26,7 @@ class TypeNotInputParameterListExceptionTest extends BaseTestCase
         );
 
         // This should survive class renaming.
-        $this->assertStringContainsString(InputParameterList::class, $exception->getMessage());
+        $this->assertStringContainsString(Type::class, $exception->getMessage());
         $this->assertStringContainsString(self::class, $exception->getMessage());
         $this->assertSame(0, $exception->getCode());
     }

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
-use Params\ExtractRule\GetString;
+use Type\ExtractRule\GetString;
 
-use Params\InputParameter;
-use Params\ProcessRule\MaxLength;
-use Params\SafeAccess;
-use Params\Create\CreateFromVarMap;
-use Params\Create\CreateOrErrorFromVarMap;
-use Params\ExtractRule\GetArrayOfType;
-use Params\InputParameterList;
+use Type\PropertyDefinition;
+use Type\ProcessRule\MaxLength;
+use Type\SafeAccess;
+use Type\Create\CreateFromVarMap;
+use Type\Create\CreateOrErrorFromVarMap;
+use Type\ExtractRule\GetArrayOfType;
+use Type\Type;
 
-class ItemListParams implements InputParameterList
+class ItemListParams implements Type
 {
     use SafeAccess;
     use CreateFromVarMap;
@@ -36,14 +36,14 @@ class ItemListParams implements InputParameterList
         $this->description = $description;
     }
 
-    public static function getInputParameterList(): array
+    public static function getPropertyDefinitionList(): array
     {
         return [
-            new InputParameter(
+            new PropertyDefinition(
                 'items',
                 new GetArrayOfType(ReviewScore::class)
             ),
-            new InputParameter(
+            new PropertyDefinition(
                 'description',
                 new GetString(),
                 new MaxLength(120)

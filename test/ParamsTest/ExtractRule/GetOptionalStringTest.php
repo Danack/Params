@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetOptionalString;
-use Params\ProcessedValues;
+use Type\ExtractRule\GetOptionalString;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ use Params\ProcessedValues;
 class GetOptionalStringTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\GetOptionalString
+     * @covers \Type\ExtractRule\GetOptionalString
      */
     public function testMissingGivesNull()
     {
@@ -31,7 +31,7 @@ class GetOptionalStringTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalString
+     * @covers \Type\ExtractRule\GetOptionalString
      */
     public function testValidation()
     {
@@ -51,7 +51,7 @@ class GetOptionalStringTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalString
+     * @covers \Type\ExtractRule\GetOptionalString
      */
     public function testDescription()
     {

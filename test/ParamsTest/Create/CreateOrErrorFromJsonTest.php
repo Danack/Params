@@ -14,7 +14,7 @@ use function JsonSafe\json_encode_safe;
 class CreateOrErrorFromJsonTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Create\CreateOrErrorFromJson
+     * @covers \Type\Create\CreateOrErrorFromJson
      */
     public function testWorks()
     {
@@ -37,7 +37,7 @@ class CreateOrErrorFromJsonTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\Create\CreateOrErrorFromJson
+     * @covers \Type\Create\CreateOrErrorFromJson
      */
     public function testErrors()
     {
@@ -57,11 +57,11 @@ class CreateOrErrorFromJsonTest extends BaseTestCase
 
         $this->assertCount(1, $errors);
         $validationProblem = $errors[0];
-        $this->assertInstanceOf(\Params\ValidationProblem::class, $validationProblem);
-        /** @var $validationProblem \Params\ValidationProblem */
+        $this->assertInstanceOf(\Type\ValidationProblem::class, $validationProblem);
+        /** @var $validationProblem \Type\ValidationProblem */
 
         $this->assertSame(
-            \Params\Messages::VALUE_NOT_SET,
+            \Type\Messages::VALUE_NOT_SET,
             $validationProblem->getProblemMessage()
         );
 

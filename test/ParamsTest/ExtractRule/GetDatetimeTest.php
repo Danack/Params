@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\Exception\InvalidDatetimeFormatException;
-use Params\Messages;
+use Type\Exception\InvalidDatetimeFormatException;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetDatetime;
-use Params\ProcessedValues;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\ExtractRule\GetDatetime;
+use Type\ProcessedValues;
+use Type\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -17,7 +17,7 @@ use Params\DataStorage\TestArrayDataStorage;
 class GetDatetimeTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\GetDatetime
+     * @covers \Type\ExtractRule\GetDatetime
      */
     public function testMissingGivesError()
     {
@@ -36,12 +36,12 @@ class GetDatetimeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetDatetime
+     * @covers \Type\ExtractRule\GetDatetime
      */
     public function testInvalidDateTimeTypeErrors()
     {
         $message = sprintf(
-            \Params\Messages::ERROR_DATE_FORMAT_MUST_BE_STRING,
+            \Type\Messages::ERROR_DATE_FORMAT_MUST_BE_STRING,
             'NULL',
             1
         );
@@ -64,7 +64,7 @@ class GetDatetimeTest extends BaseTestCase
 
     /**
      * @dataProvider providesValidationWorks
-     * @covers \Params\ExtractRule\GetDatetime
+     * @covers \Type\ExtractRule\GetDatetime
      */
     public function testValidationWorks($inputValue, $expectedValue)
     {
@@ -81,7 +81,7 @@ class GetDatetimeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetDatetime
+     * @covers \Type\ExtractRule\GetDatetime
      */
     public function testInvalidDatetimeFormat()
     {
@@ -97,7 +97,7 @@ class GetDatetimeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetDatetime
+     * @covers \Type\ExtractRule\GetDatetime
      */
     public function testInvalidDatetimeInput()
     {
@@ -118,7 +118,7 @@ class GetDatetimeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetDatetime
+     * @covers \Type\ExtractRule\GetDatetime
      */
     public function testFromArrayErrors()
     {
@@ -142,7 +142,7 @@ class GetDatetimeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetDatetime
+     * @covers \Type\ExtractRule\GetDatetime
      */
     public function testFromObjectErrors()
     {
@@ -166,7 +166,7 @@ class GetDatetimeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetDatetime
+     * @covers \Type\ExtractRule\GetDatetime
      */
     public function testDescription()
     {

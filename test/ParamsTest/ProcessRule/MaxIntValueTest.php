@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\MaxIntValue;
-use Params\ProcessedValues;
+use Type\ProcessRule\MaxIntValue;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -34,7 +34,7 @@ class MaxIntValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxIntCases
-     * @covers \Params\ProcessRule\MaxIntValue
+     * @covers \Type\ProcessRule\MaxIntValue
      */
     public function testValidation(int $maxValue, string $inputValue)
     {
@@ -71,7 +71,7 @@ class MaxIntValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxIntErrors
-     * @covers \Params\ProcessRule\MaxIntValue
+     * @covers \Type\ProcessRule\MaxIntValue
      */
     public function testErrors(int $maxValue, string $inputValue)
     {
@@ -94,7 +94,7 @@ class MaxIntValueTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MaxIntValue
+     * @covers \Type\ProcessRule\MaxIntValue
      */
     public function testDescription()
     {

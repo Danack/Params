@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\Integration\ReviewScore;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetOptionalType;
-use Params\ProcessedValues;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\ExtractRule\GetOptionalType;
+use Type\ProcessedValues;
+use Type\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -17,7 +17,7 @@ use Params\DataStorage\TestArrayDataStorage;
 class GetOptionalTypeTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\GetOptionalType
+     * @covers \Type\ExtractRule\GetOptionalType
      */
     public function testWorks()
     {
@@ -40,7 +40,7 @@ class GetOptionalTypeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalType
+     * @covers \Type\ExtractRule\GetOptionalType
      */
     public function testWorksWithRules()
     {
@@ -50,7 +50,7 @@ class GetOptionalTypeTest extends BaseTestCase
 
         $rule = GetOptionalType::fromClassAndRules(
             ReviewScore::class,
-            ReviewScore::getInputParameterList()
+            ReviewScore::getPropertyDefinitionList()
         );
         $validationResult = $rule->process(
             $validator, TestArrayDataStorage::fromArray($data)
@@ -67,7 +67,7 @@ class GetOptionalTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalType
+     * @covers \Type\ExtractRule\GetOptionalType
      */
     public function testMissingGivesNull()
     {
@@ -83,7 +83,7 @@ class GetOptionalTypeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalType
+     * @covers \Type\ExtractRule\GetOptionalType
      */
     public function testErrors()
     {
@@ -106,7 +106,7 @@ class GetOptionalTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalType
+     * @covers \Type\ExtractRule\GetOptionalType
      */
     public function testDescription()
     {

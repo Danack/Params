@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\NotNull;
-use Params\ProcessedValues;
+use Type\ProcessRule\NotNull;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -16,7 +16,7 @@ use Params\ProcessedValues;
 class NotNullTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ProcessRule\NotNull
+     * @covers \Type\ProcessRule\NotNull
      */
     public function testValidation()
     {
@@ -46,7 +46,7 @@ class NotNullTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\NotNull
+     * @covers \Type\ProcessRule\NotNull
      */
     public function testDescription()
     {

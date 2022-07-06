@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\NoConstructorException;
+use Type\Exception\NoConstructorException;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ class NoConstructorExceptionTest extends BaseTestCase
 {
     /**
      * This test seems dumb.
-     * @covers \Params\Exception\NoConstructorException
+     * @covers \Type\Exception\NoConstructorException
      */
     public function testNoConstructorWorks()
     {
@@ -32,7 +32,7 @@ class NoConstructorExceptionTest extends BaseTestCase
 
     /**
      * This test seems dumb.
-     * @covers \Params\Exception\NoConstructorException
+     * @covers \Type\Exception\NoConstructorException
      */
     public function testnotPublicConstructor()
     {

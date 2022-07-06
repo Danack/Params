@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\MaximumCount;
-use Params\Exception\LogicException;
-use Params\ProcessedValues;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\ProcessRule\MaximumCount;
+use Type\Exception\LogicException;
+use Type\ProcessedValues;
+use Type\DataStorage\TestArrayDataStorage;
 use function \Danack\PHPUnitHelper\templateStringToRegExp;
 
 /**
@@ -28,7 +28,7 @@ class MaximumCountTest extends BaseTestCase
 
     /**
      * @dataProvider provideWorksCases
-     * @covers \Params\ProcessRule\MaximumCount
+     * @covers \Type\ProcessRule\MaximumCount
      */
     public function testWorks(int $maximumCount, $values)
     {
@@ -52,7 +52,7 @@ class MaximumCountTest extends BaseTestCase
 
     /**
      * @dataProvider provideFailsCases
-     * @covers \Params\ProcessRule\MaximumCount
+     * @covers \Type\ProcessRule\MaximumCount
      */
     public function testFails(int $maximumCount, $values)
     {
@@ -80,7 +80,7 @@ class MaximumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MaximumCount
+     * @covers \Type\ProcessRule\MaximumCount
      */
     public function testMinimimCountZero()
     {
@@ -90,7 +90,7 @@ class MaximumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MaximumCount
+     * @covers \Type\ProcessRule\MaximumCount
      */
     public function testInvalidOperand()
     {
@@ -110,7 +110,7 @@ class MaximumCountTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MaximumCount
+     * @covers \Type\ProcessRule\MaximumCount
      */
     public function testDescription()
     {

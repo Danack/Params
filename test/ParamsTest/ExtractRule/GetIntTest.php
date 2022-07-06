@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetInt;
-use Params\ProcessedValues;
+use Type\ExtractRule\GetInt;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -16,7 +16,7 @@ use Params\ProcessedValues;
 class GetIntTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\GetInt
+     * @covers \Type\ExtractRule\GetInt
      */
     public function testMissingGivesError()
     {
@@ -41,7 +41,7 @@ class GetIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetInt
+     * @covers \Type\ExtractRule\GetInt
      * @dataProvider provideTestWorksCases
      */
     public function testWorks($input, $expectedValue)
@@ -68,7 +68,7 @@ class GetIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetInt
+     * @covers \Type\ExtractRule\GetInt
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($input, $message)
@@ -90,7 +90,7 @@ class GetIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetInt
+     * @covers \Type\ExtractRule\GetInt
      */
     public function testDescription()
     {

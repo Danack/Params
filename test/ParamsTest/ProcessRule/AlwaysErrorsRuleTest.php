@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\ProcessedValues;
+use Type\ProcessedValues;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\AlwaysErrorsRule;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\ProcessRule\AlwaysErrorsRule;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -16,7 +16,7 @@ use Params\DataStorage\TestArrayDataStorage;
 class AlwaysErrorsRuleTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ProcessRule\AlwaysErrorsRule
+     * @covers \Type\ProcessRule\AlwaysErrorsRule
      */
     public function testWorks()
     {
@@ -42,7 +42,7 @@ class AlwaysErrorsRuleTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\AlwaysErrorsRule
+     * @covers \Type\ProcessRule\AlwaysErrorsRule
      */
     public function testCoverage()
     {

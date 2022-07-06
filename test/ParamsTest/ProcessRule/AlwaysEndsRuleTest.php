@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\AlwaysEndsRule;
-use Params\ProcessedValues;
+use Type\ProcessRule\AlwaysEndsRule;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ use Params\ProcessedValues;
 class AlwaysEndsRuleTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ProcessRule\AlwaysEndsRule
+     * @covers \Type\ProcessRule\AlwaysEndsRule
      */
     public function testWorks()
     {
@@ -35,7 +35,7 @@ class AlwaysEndsRuleTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\AlwaysEndsRule
+     * @covers \Type\ProcessRule\AlwaysEndsRule
      */
     public function testDescription()
     {

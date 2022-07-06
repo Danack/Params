@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\LogicException;
+use Type\Exception\LogicException;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ class LogicExceptionTest extends BaseTestCase
 {
 
     /**
-     * @covers \Params\Exception\LogicException
+     * @covers \Type\Exception\LogicException
      */
     public function testWorks()
     {

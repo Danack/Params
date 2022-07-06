@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\ParamDescription;
-use Params\ProcessRule\ValidDate;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\ParamDescription;
+use Type\ProcessRule\ValidDate;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\ValidDatetime;
-use Params\ProcessedValues;
+use Type\ProcessRule\ValidDatetime;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -47,7 +47,7 @@ class ValidDatetimeTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorksCases
-     * @covers \Params\ProcessRule\ValidDatetime
+     * @covers \Type\ProcessRule\ValidDatetime
      */
     public function testValidationWorks($input, $expectedTime)
     {
@@ -72,7 +72,7 @@ class ValidDatetimeTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrorsCases
-     * @covers \Params\ProcessRule\ValidDatetime
+     * @covers \Type\ProcessRule\ValidDatetime
      */
     public function testValidationErrors($input)
     {
@@ -93,7 +93,7 @@ class ValidDatetimeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\ValidDatetime
+     * @covers \Type\ProcessRule\ValidDatetime
      */
     public function testDescription()
     {

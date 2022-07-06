@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetBoolOrDefault;
-use Params\ProcessedValues;
-use Params\Messages;
+use Type\ExtractRule\GetBoolOrDefault;
+use Type\ProcessedValues;
+use Type\Messages;
 
 /**
  * @coversNothing
@@ -16,7 +16,7 @@ use Params\Messages;
 class GetBoolOrDefaultTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\GetBoolOrDefault
+     * @covers \Type\ExtractRule\GetBoolOrDefault
      */
     public function testMissingCorrect()
     {
@@ -50,7 +50,7 @@ class GetBoolOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetBoolOrDefault
+     * @covers \Type\ExtractRule\GetBoolOrDefault
      * @dataProvider provideTestWorksCases
      */
     public function testWorks($input, $expectedValue)
@@ -78,7 +78,7 @@ class GetBoolOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetBoolOrDefault
+     * @covers \Type\ExtractRule\GetBoolOrDefault
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($value)
@@ -98,7 +98,7 @@ class GetBoolOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetBoolOrDefault
+     * @covers \Type\ExtractRule\GetBoolOrDefault
      */
     public function testDescription()
     {

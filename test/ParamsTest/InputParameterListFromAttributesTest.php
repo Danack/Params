@@ -5,9 +5,9 @@ declare(strict_types = 1);
 namespace ParamsTest;
 
 use ThreeColors;
-use Params\InputParameter;
-use Params\ExtractRule\GetStringOrDefault;
-use Params\ProcessRule\ImagickIsRgbColor;
+use Type\PropertyDefinition;
+use Type\ExtractRule\GetStringOrDefault;
+use Type\ProcessRule\ImagickIsRgbColor;
 
 /**
  * @coversNothing
@@ -15,15 +15,15 @@ use Params\ProcessRule\ImagickIsRgbColor;
 class InputParameterListFromAttributesTest extends BaseTestCase
 {
     /**
-     * @covers \Params\InputParameterListFromAttributes
+     * @covers \Type\InputParameterListFromAttributes
      * @covers \ThreeColors
      */
     function testWorks()
     {
-        $inputParameters = ThreeColors::getInputParameterList();
+        $inputParameters = ThreeColors::getPropertyDefinitionList();
 
         foreach ($inputParameters as $inputParameter) {
-            $this->assertInstanceOf(InputParameter::class, $inputParameter);
+            $this->assertInstanceOf(PropertyDefinition::class, $inputParameter);
             $this->assertInstanceOf(GetStringOrDefault::class, $inputParameter->getExtractRule());
 
             $processRules = $inputParameter->getProcessRules();

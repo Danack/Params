@@ -4,11 +4,11 @@ declare(strict_types = 1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessedValues;
-use Params\ProcessRule\EarlierThanTime;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\ProcessedValues;
+use Type\ProcessRule\EarlierThanTime;
 use ParamsTest\BaseTestCase;
 
 /**
@@ -18,7 +18,7 @@ class EarlierThanTimeTest extends BaseTestCase
 {
 
     /**
-     * @covers \Params\ProcessRule\EarlierThanTime
+     * @covers \Type\ProcessRule\EarlierThanTime
      */
     public function testWorks()
     {
@@ -44,7 +44,7 @@ class EarlierThanTimeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\EarlierThanTime
+     * @covers \Type\ProcessRule\EarlierThanTime
      * @dataProvider providesErrorsCorrectly
      */
     public function testErrorsCorrectly($input_time, $boundary_time)
@@ -70,7 +70,7 @@ class EarlierThanTimeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\EarlierThanTime
+     * @covers \Type\ProcessRule\EarlierThanTime
      */
     public function testPreviousTimeWrongType()
     {
@@ -96,7 +96,7 @@ class EarlierThanTimeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\EarlierThanTime
+     * @covers \Type\ProcessRule\EarlierThanTime
      */
     public function testFormatting()
     {
@@ -110,7 +110,7 @@ class EarlierThanTimeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\EarlierThanTime
+     * @covers \Type\ProcessRule\EarlierThanTime
      */
     public function testDescription()
     {

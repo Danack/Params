@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\Integration\ReviewScore;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetType;
-use Params\ProcessedValues;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\ExtractRule\GetType;
+use Type\ProcessedValues;
+use Type\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -17,7 +17,7 @@ use Params\DataStorage\TestArrayDataStorage;
 class GetTypeTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\GetType
+     * @covers \Type\ExtractRule\GetType
      */
     public function testWorks()
     {
@@ -40,7 +40,7 @@ class GetTypeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetType
+     * @covers \Type\ExtractRule\GetType
      */
     public function testWorksWithRules()
     {
@@ -50,7 +50,7 @@ class GetTypeTest extends BaseTestCase
 
         $rule = GetType::fromClassAndRules(
             ReviewScore::class,
-            ReviewScore::getInputParameterList()
+            ReviewScore::getPropertyDefinitionList()
         );
         $validationResult = $rule->process(
             $validator, TestArrayDataStorage::fromArray($data)
@@ -67,7 +67,7 @@ class GetTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetType
+     * @covers \Type\ExtractRule\GetType
      */
     public function testMissingGivesError()
     {
@@ -85,7 +85,7 @@ class GetTypeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetType
+     * @covers \Type\ExtractRule\GetType
      */
     public function testErrors()
     {
@@ -108,7 +108,7 @@ class GetTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetType
+     * @covers \Type\ExtractRule\GetType
      */
     public function testDescription()
     {

@@ -2,13 +2,13 @@
 
 namespace ParamsTest;
 
-use Params\Exception\LogicException;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\Rule;
-use Params\ValidationResult;
+use Type\Exception\LogicException;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\PropertyRule;
+use Type\ValidationResult;
 use PHPUnit\Framework\TestCase;
-use Params\ProcessedValues;
-use Params\OpenApi\ParamDescription;
+use Type\ProcessedValues;
+use Type\OpenApi\ParamDescription;
 use Danack\PHPUnitHelper\StringTemplateMatching;
 use function \Danack\PHPUnitHelper\templateStringToRegExp;
 
@@ -71,7 +71,7 @@ class BaseTestCase extends TestCase
     /**
      * @param string $identifier
      * @param string $problem
-     * @param \Params\ValidationProblem[] $validationProblems
+     * @param \Type\ValidationProblem[] $validationProblems
      */
     protected function assertValidationProblem(
         string $identifier,
@@ -127,7 +127,7 @@ class BaseTestCase extends TestCase
     /**
      * @param string $identifier
      * @param string|int|float $needle
-     * @param \Params\ValidationProblem[] $validationProblems
+     * @param \Type\ValidationProblem[] $validationProblems
      */
     protected function assertValidationProblemContains(
         string $identifier,
@@ -169,7 +169,7 @@ class BaseTestCase extends TestCase
     /**
      * @param string $identifier
      * @param string $expectedProblem
-     * @param \Params\ValidationProblem[] $validationProblems
+     * @param \Type\ValidationProblem[] $validationProblems
      */
     protected function assertValidationProblemRegexp(
         string $identifier,
@@ -233,7 +233,7 @@ class BaseTestCase extends TestCase
     }
 
     /**
-     * @param \Params\ValidationProblem[] $validationProblems
+     * @param \Type\ValidationProblem[] $validationProblems
      */
     public function assertNoValidationProblems(array $validationProblems)
     {
@@ -280,7 +280,7 @@ class BaseTestCase extends TestCase
     }
 
 
-    public function applyRuleToDescription(Rule $rule): ParamDescription
+    public function applyRuleToDescription(PropertyRule $rule): ParamDescription
     {
         $description = new OpenApiV300ParamDescription('John');
         $rule->updateParamDescription($description);
@@ -290,7 +290,7 @@ class BaseTestCase extends TestCase
 
     /**
      * @param int $expected_count
-     * @param \Params\ValidationProblem[] $validationProblems
+     * @param \Type\ValidationProblem[] $validationProblems
      */
     public function assertValidationErrorCount(int $expected_count, array $validationProblems)
     {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\OpenApi;
 
-use Params\InputParameter;
-use Params\ProcessRule\MaxLength;
-use Params\ProcessRule\MinLength;
-use Params\ExtractRule\GetString;
-use Params\SafeAccess;
-use Params\Create\CreateFromVarMap;
+use Type\PropertyDefinition;
+use Type\ProcessRule\MaxLength;
+use Type\ProcessRule\MinLength;
+use Type\ExtractRule\GetString;
+use Type\SafeAccess;
+use Type\Create\CreateFromVarMap;
 
 class RequiredStringExample
 {
@@ -25,7 +25,7 @@ class RequiredStringExample
     public static function getInputParameterList()
     {
         return [
-            new InputParameter(
+            new PropertyDefinition(
                 self::NAME,
                 new GetString(),
                 new MaxLength(self::MAX_LENGTH),

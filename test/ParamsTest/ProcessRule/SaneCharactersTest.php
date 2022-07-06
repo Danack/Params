@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\SaneCharacters;
-use Params\ProcessedValues;
-use Params\Messages;
+use Type\ProcessRule\SaneCharacters;
+use Type\ProcessedValues;
+use Type\Messages;
 
 // TODO - the regular expressions need documenting.
 // https://json-schema.org/understanding-json-schema/reference/regular_expressions.html
@@ -48,7 +48,7 @@ class SaneCharactersTest extends BaseTestCase
 
     /**
      * @dataProvider provideSuccessCases
-     * @covers \Params\ProcessRule\SaneCharacters
+     * @covers \Type\ProcessRule\SaneCharacters
      */
     public function testValidationSuccess($testValue)
     {
@@ -63,7 +63,7 @@ class SaneCharactersTest extends BaseTestCase
 
     /**
      * @dataProvider provideFailureCases
-     * @covers \Params\ProcessRule\SaneCharacters
+     * @covers \Type\ProcessRule\SaneCharacters
      */
     public function testValidationErrors($testValue)
     {
@@ -111,7 +111,7 @@ class SaneCharactersTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\SaneCharacters
+     * @covers \Type\ProcessRule\SaneCharacters
      */
     public function testDescription()
     {

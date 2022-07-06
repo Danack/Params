@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\MultipleEnum;
-use Params\ProcessRule\ValidCharacters;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\ProcessRule\MultipleEnum;
+use Type\ProcessRule\ValidCharacters;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\StartsWithString;
-use Params\ProcessedValues;
+use Type\ProcessRule\StartsWithString;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -28,7 +28,7 @@ class StartsWithStringTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorksCases
-     * @covers \Params\ProcessRule\StartsWithString
+     * @covers \Type\ProcessRule\StartsWithString
      */
     public function testValidationWorks(string $prefix, $testValue)
     {
@@ -53,7 +53,7 @@ class StartsWithStringTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestFailsCases
-     * @covers \Params\ProcessRule\StartsWithString
+     * @covers \Type\ProcessRule\StartsWithString
      */
     public function testValidationErrors(string $prefix, $testValue)
     {
@@ -72,7 +72,7 @@ class StartsWithStringTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\StartsWithString
+     * @covers \Type\ProcessRule\StartsWithString
      */
     public function testDescription()
     {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\MaxFloatValue;
-use Params\ProcessedValues;
+use Type\ProcessRule\MaxFloatValue;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -34,7 +34,7 @@ class MaxFloatValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxFloatCases
-     * @covers \Params\ProcessRule\MaxFloatValue
+     * @covers \Type\ProcessRule\MaxFloatValue
      */
     public function testValidation(float $maxValue, string $inputValue)
     {
@@ -71,7 +71,7 @@ class MaxFloatValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxFloatErrors
-     * @covers \Params\ProcessRule\MaxFloatValue
+     * @covers \Type\ProcessRule\MaxFloatValue
      */
     public function testErrors(float $maxValue, string $inputValue)
     {
@@ -94,7 +94,7 @@ class MaxFloatValueTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MaxFloatValue
+     * @covers \Type\ProcessRule\MaxFloatValue
      */
     public function testDescription()
     {

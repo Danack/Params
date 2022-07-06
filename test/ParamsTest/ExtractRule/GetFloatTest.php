@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetFloat;
-use Params\ProcessedValues;
+use Type\ExtractRule\GetFloat;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -16,7 +16,7 @@ use Params\ProcessedValues;
 class GetFloatTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\GetFloat
+     * @covers \Type\ExtractRule\GetFloat
      */
     public function testMissingGivesError()
     {
@@ -44,7 +44,7 @@ class GetFloatTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetFloat
+     * @covers \Type\ExtractRule\GetFloat
      * @dataProvider provideTestWorksCases
      */
     public function testWorks($input, $expectedValue)
@@ -67,7 +67,7 @@ class GetFloatTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetFloat
+     * @covers \Type\ExtractRule\GetFloat
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($value)
@@ -87,7 +87,7 @@ class GetFloatTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetFloat
+     * @covers \Type\ExtractRule\GetFloat
      */
     public function testDescription()
     {

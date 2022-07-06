@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\InvalidDatetimeFormatException;
+use Type\Exception\InvalidDatetimeFormatException;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ class InvalidDatetimeFormatExceptionTest extends BaseTestCase
 {
     /**
      * This test seems dumb.
-     * @covers \Params\Exception\InvalidDatetimeFormatException
+     * @covers \Type\Exception\InvalidDatetimeFormatException
      */
     public function testWorks()
     {

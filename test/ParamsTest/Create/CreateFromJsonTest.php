@@ -14,7 +14,7 @@ use function JsonSafe\json_encode_safe;
 class CreateFromJsonTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Create\CreateFromJson
+     * @covers \Type\Create\CreateFromJson
      */
     public function testWorks()
     {

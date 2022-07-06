@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParamsExample;
+namespace TypeExample;
 
 require __DIR__ . "/../vendor/autoload.php";
 
@@ -13,9 +13,9 @@ $correctData = [
     'macAddress' => 'a1:b2:c3:d4:e5:f6'
 ];
 
-/** @var ComputerDetailsParams $computerDetails */
+/** @var ComputerDetails $computerDetails */
 [$computerDetails, $validationErrors] =
-    ComputerDetailsParams::createOrErrorFromArray($correctData);
+    ComputerDetails::createOrErrorFromArray($correctData);
 
 if (count($validationErrors) !== 0) {
     echo "Unexpected problems.";
@@ -34,9 +34,9 @@ $badData = [
     'mac_address' => 'a1:b2:c3:d4:e5:banana'
 ];
 
-/** @var \Params\ValidationProblem[] $validationErrors */
+/** @var \Type\ValidationProblem[] $validationErrors */
 [$computerDetails, $validationErrors] =
-    ComputerDetailsParams::createOrErrorFromArray($badData);
+    ComputerDetails::createOrErrorFromArray($badData);
 
 if (count($validationErrors) === 0) {
     echo "";
@@ -47,7 +47,7 @@ if (count($validationErrors) === 0) {
 echo "Bad data correctly detected: \n";
 
 foreach ($validationErrors as $validationError) {
-    /** @var \Params\ValidationProblem $validationError */
+    /** @var \Type\ValidationProblem $validationError */
     echo "\t" . $validationError->getProblemMessage() . "\n";
 }
 

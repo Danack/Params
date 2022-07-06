@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetArrayOfType;
+use Type\ExtractRule\GetArrayOfType;
 use ParamsTest\Integration\ReviewScore;
-use Params\ProcessedValues;
+use Type\ProcessedValues;
 use ParamsTest\Integration\SingleIntParams;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -19,7 +19,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 {
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfType
+     * @covers \Type\ExtractRule\GetArrayOfType
      */
     public function testWorksForComplexType()
     {
@@ -59,7 +59,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfType
+     * @covers \Type\ExtractRule\GetArrayOfType
      */
     public function testWorksForComplexTypeForKey()
     {
@@ -104,7 +104,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfType
+     * @covers \Type\ExtractRule\GetArrayOfType
      */
     public function testWorksForIntType()
     {
@@ -131,7 +131,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfType
+     * @covers \Type\ExtractRule\GetArrayOfType
      */
     public function testEmptyInputProducesEmptyOutput()
     {
@@ -155,7 +155,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfType
+     * @covers \Type\ExtractRule\GetArrayOfType
      */
     public function testScalarInsteadOfArrayErrors()
     {
@@ -184,7 +184,7 @@ class GetArrayOfTypeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfType
+     * @covers \Type\ExtractRule\GetArrayOfType
      */
     public function testScalarInsteadOfEntryArrayErrors()
     {
@@ -214,7 +214,7 @@ class GetArrayOfTypeTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfType
+     * @covers \Type\ExtractRule\GetArrayOfType
      */
     public function testSingleError()
     {
@@ -243,7 +243,7 @@ class GetArrayOfTypeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfType
+     * @covers \Type\ExtractRule\GetArrayOfType
      */
     public function testMultipleErrors()
     {
@@ -277,7 +277,7 @@ class GetArrayOfTypeTest extends BaseTestCase
         );
     }
     /**
-     * @covers \Params\ExtractRule\GetArrayOfType
+     * @covers \Type\ExtractRule\GetArrayOfType
      */
     public function testWorksForEmptyData()
     {
@@ -298,7 +298,7 @@ class GetArrayOfTypeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetArrayOfType
+     * @covers \Type\ExtractRule\GetArrayOfType
      */
     public function testDescription()
     {

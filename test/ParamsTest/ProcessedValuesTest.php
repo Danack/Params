@@ -4,11 +4,11 @@ declare(strict_types = 1);
 
 namespace ParamsTest;
 
-use Params\ProcessedValues;
-use Params\Exception\LogicException;
-use Params\InputParameter;
-use Params\ExtractRule\GetStringOrDefault;
-use Params\ProcessedValue;
+use Type\ProcessedValues;
+use Type\Exception\LogicException;
+use Type\PropertyDefinition;
+use Type\ExtractRule\GetStringOrDefault;
+use Type\ProcessedValue;
 
 /**
  * @coversNothing
@@ -16,7 +16,7 @@ use Params\ProcessedValue;
 class ProcessedValuesTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ProcessedValues
+     * @covers \Type\ProcessedValues
      */
     public function testWorks()
     {
@@ -34,7 +34,7 @@ class ProcessedValuesTest extends BaseTestCase
     }
 
         /**
-     * @covers \Params\ProcessedValues
+     * @covers \Type\ProcessedValues
      */
     public function testMissingGivesException()
     {
@@ -59,7 +59,7 @@ class ProcessedValuesTest extends BaseTestCase
 
     public function testGetCorrectTarget()
     {
-        $inputParameter = new InputParameter(
+        $inputParameter = new PropertyDefinition(
             'background_color',
             new GetStringOrDefault('red')
         );

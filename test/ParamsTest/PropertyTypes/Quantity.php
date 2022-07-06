@@ -2,23 +2,23 @@
 
 namespace ParamsTest\PropertyTypes;
 
-use Params\ExtractRule\GetInt;
-use Params\InputParameter;
-use Params\Param;
-use Params\ProcessRule\MaxIntValue;
-use Params\ProcessRule\MinIntValue;
+use Type\ExtractRule\GetInt;
+use Type\PropertyDefinition;
+use Type\TypeProperty;
+use Type\ProcessRule\MaxIntValue;
+use Type\ProcessRule\MinIntValue;
 
 #[\Attribute]
-class Quantity implements Param
+class Quantity implements TypeProperty
 {
     public function __construct(
         private string $name
     ) {
     }
 
-    public function getInputParameter(): InputParameter
+    public function getPropertyRules(): PropertyDefinition
     {
-        return new InputParameter(
+        return new PropertyDefinition(
             $this->name,
             new GetInt(),
             new MinIntValue(1),

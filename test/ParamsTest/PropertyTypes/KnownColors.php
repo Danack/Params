@@ -3,13 +3,13 @@
 
 namespace ParamsTest\PropertyTypes;
 
-use Params\ExtractRule\GetStringOrDefault;
-use Params\ProcessRule\Enum;
-use Params\InputParameter;
-use Params\Param;
+use Type\ExtractRule\GetStringOrDefault;
+use Type\ProcessRule\Enum;
+use Type\PropertyDefinition;
+use Type\TypeProperty;
 
 #[\Attribute]
-class KnownColors implements Param
+class KnownColors implements TypeProperty
 {
     const KNOWN_COLORS = ['red', 'green', 'blue'];
 
@@ -18,9 +18,9 @@ class KnownColors implements Param
     ) {
     }
 
-    public function getInputParameter(): InputParameter
+    public function getPropertyRules(): PropertyDefinition
     {
-        return new InputParameter(
+        return new PropertyDefinition(
             $this->name,
             new GetStringOrDefault('blue'),
             new Enum(self::KNOWN_COLORS)

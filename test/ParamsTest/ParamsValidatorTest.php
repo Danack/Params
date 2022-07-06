@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\ExtractRule\GetInt;
-use Params\InputParameter;
-use Params\ProcessRule\MaxIntValue;
+use Type\ExtractRule\GetInt;
+use Type\PropertyDefinition;
+use Type\ProcessRule\MaxIntValue;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValues;
-use Params\ProcessRule\AlwaysEndsRule;
-use Params\DataStorage\TestArrayDataStorage;
-use function Params\processInputParameter;
+use Type\ProcessedValues;
+use Type\ProcessRule\AlwaysEndsRule;
+use Type\DataStorage\TestArrayDataStorage;
+use function Type\processInputParameter;
 
 /**
  * @coversNothing
@@ -46,13 +46,13 @@ class ParamsValidatorTest extends BaseTestCase
 //    }
 
     /**
-     * @covers \Params\ProcessedValues
+     * @covers \Type\ProcessedValues
      */
     public function testFinalResultStopsProcessing()
     {
         $finalValue = 123;
 
-        $param = new InputParameter(
+        $param = new PropertyDefinition(
             'foo',
             new GetInt(),
             // This rule will stop processing

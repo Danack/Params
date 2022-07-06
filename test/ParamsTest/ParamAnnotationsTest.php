@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\ExtractRule\GetStringOrDefault;
-use Params\InputParameter;
-use Params\Messages;
-use Params\ProcessRule\ImagickIsRgbColor;
+use Type\ExtractRule\GetStringOrDefault;
+use Type\PropertyDefinition;
+use Type\Messages;
+use Type\ProcessRule\ImagickIsRgbColor;
 use ParamsTest\Integration\IntArrayParams;
 use VarMap\ArrayVarMap;
-use Params\Exception\AnnotationClassDoesNotExistException;
-use Params\Exception\IncorrectNumberOfParamsException;
-use Params\Exception\NoConstructorException;
-use Params\Exception\MissingConstructorParameterNameException;
-use Params\Exception\PropertyHasMultipleParamAnnotationsException;
-use function Params\createOrError;
+use Type\Exception\AnnotationClassDoesNotExistException;
+use Type\Exception\IncorrectNumberOfParamsException;
+use Type\Exception\NoConstructorException;
+use Type\Exception\MissingConstructorParameterNameException;
+use Type\Exception\PropertyHasMultipleParamAnnotationsException;
+use function Type\createOrError;
 
 /**
  * @coversNothing
@@ -62,7 +62,7 @@ class ParamAnnotationsTest extends BaseTestCase
         $threeColors = \ThreeColors::createFromVarMap($varMap);
         $this->assertInstanceOf(\ThreeColors::class, $threeColors);
 
-        $inputParameters = $threeColors::getInputParameterList();
+        $inputParameters = $threeColors::getPropertyDefinitionList();
 
         $this->assertCount(3, $inputParameters);
 
@@ -77,7 +77,7 @@ class ParamAnnotationsTest extends BaseTestCase
             $expectedName = $namesAndDefaults[$count][0];
             $expectedDefault = $namesAndDefaults[$count][1];
 
-            $this->assertInstanceOf(InputParameter::class, $inputParameter);
+            $this->assertInstanceOf(PropertyDefinition::class, $inputParameter);
 
             $this->assertSame(
                 $expectedName,

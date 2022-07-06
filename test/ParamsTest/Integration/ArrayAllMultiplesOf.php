@@ -4,12 +4,12 @@ declare(strict_types = 1);
 
 namespace ParamsTest\Integration;
 
-use Params\DataStorage\DataStorage;
-use Params\OpenApi\ParamDescription;
-use Params\ProcessedValues;
-use Params\ProcessRule\ProcessRule;
-use Params\ValidationProblem;
-use Params\ValidationResult;
+use Type\DataStorage\DataStorage;
+use Type\OpenApi\ParamDescription;
+use Type\ProcessedValues;
+use Type\ProcessRule\ProcessPropertyRule;
+use Type\ValidationProblem;
+use Type\ValidationResult;
 
 /**
  * Example of processing an array, without processing each item individually
@@ -17,7 +17,7 @@ use Params\ValidationResult;
  *
  * @coversNothing
  */
-class ArrayAllMultiplesOf implements ProcessRule
+class ArrayAllMultiplesOf implements ProcessPropertyRule
 {
     private int $multiplicand;
 

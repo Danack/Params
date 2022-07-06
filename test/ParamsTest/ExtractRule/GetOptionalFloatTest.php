@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetOptionalFloat;
-use Params\ProcessedValues;
+use Type\ExtractRule\GetOptionalFloat;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -34,7 +34,7 @@ class GetOptionalFloatTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalFloat
+     * @covers \Type\ExtractRule\GetOptionalFloat
      * @dataProvider provideTestCases
      */
     public function testValidation($input, $expectedValue)
@@ -62,7 +62,7 @@ class GetOptionalFloatTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalInt
+     * @covers \Type\ExtractRule\GetOptionalInt
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($inputValue, $message)
@@ -84,7 +84,7 @@ class GetOptionalFloatTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalFloat
+     * @covers \Type\ExtractRule\GetOptionalFloat
      */
     public function testMissingGivesNull()
     {
@@ -101,7 +101,7 @@ class GetOptionalFloatTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalFloat
+     * @covers \Type\ExtractRule\GetOptionalFloat
      */
     public function testDescription()
     {

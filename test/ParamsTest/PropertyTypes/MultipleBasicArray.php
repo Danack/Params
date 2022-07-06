@@ -3,23 +3,23 @@
 
 namespace ParamsTest\PropertyTypes;
 
-use Params\ExtractRule\GetArrayOfParam;
-use Params\InputParameter;
-use Params\Param;
+use Type\ExtractRule\GetArrayOfParam;
+use Type\PropertyDefinition;
+use Type\TypeProperty;
 //use ParamsTest\DTOTypes\BasicDTO;
 use ParamsTest\PropertyTypes\Quantity;
 
 #[\Attribute]
-class MultipleBasicArray implements Param
+class MultipleBasicArray implements TypeProperty
 {
     public function __construct(
         private string $name
     ) {
     }
 
-    public function getInputParameter(): InputParameter
+    public function getPropertyRules(): PropertyDefinition
     {
-        return new InputParameter(
+        return new PropertyDefinition(
             $this->name,
             new GetArrayOfParam(Quantity::class),
         );

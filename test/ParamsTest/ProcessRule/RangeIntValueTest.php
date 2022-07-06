@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\RangeIntValue;
-use Params\ProcessedValues;
+use Type\ProcessRule\RangeIntValue;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -58,7 +58,7 @@ class RangeIntValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideRangeIntValueCases
-     * @covers \Params\ProcessRule\RangeIntValue
+     * @covers \Type\ProcessRule\RangeIntValue
      */
     public function testValidation(int $minValue, int $maxValue, string $inputValue)
     {
@@ -97,7 +97,7 @@ class RangeIntValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideRangeIntErrorCases
-     * @covers \Params\ProcessRule\RangeIntValue
+     * @covers \Type\ProcessRule\RangeIntValue
      */
     public function testErrors($minValue, $maxValue, $inputValue, $message)
     {
@@ -120,7 +120,7 @@ class RangeIntValueTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\RangeIntValue
+     * @covers \Type\ProcessRule\RangeIntValue
      */
     public function testDescription()
     {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\ProcessedValues;
-use Params\ProcessRule\MatrixIsSize;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\ProcessedValues;
+use Type\ProcessRule\MatrixIsSize;
 use ParamsTest\BaseTestCase;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\OpenApi\OpenApiV300ParamDescription;
 
 /**
  * @coversNothing
@@ -44,7 +44,7 @@ class MatrixIsSizeTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorks
-     * @covers \Params\ProcessRule\MatrixIsSize
+     * @covers \Type\ProcessRule\MatrixIsSize
      */
     public function testWorks($testValue, ?int $row, ?int $columns)
     {
@@ -85,7 +85,7 @@ class MatrixIsSizeTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrors
-     * @covers \Params\ProcessRule\MatrixIsSize
+     * @covers \Type\ProcessRule\MatrixIsSize
      */
     public function testErrors($testValue, ?int $row, ?int $columns, $expectedErrorMessage)
     {
@@ -122,7 +122,7 @@ class MatrixIsSizeTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MatrixIsSize
+     * @covers \Type\ProcessRule\MatrixIsSize
      */
     public function testDescription()
     {

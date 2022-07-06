@@ -4,14 +4,14 @@ declare(strict_types = 1);
 
 namespace SeparatingInputTypeFromStoredType;
 
-use Params\Create\CreateFromRequest;
-use Params\InputParameterList;
-use Params\InputParameter;
+use Type\Create\CreateFromRequest;
+use Type\Type;
+use Type\PropertyDefinition;
 
 /**
  * This represents the input data
  */
-class UserCreateParams implements InputParameterList
+class UserCreateParams implements Type
 {
     use ToArray;
     use CreateFromRequest;
@@ -32,18 +32,18 @@ class UserCreateParams implements InputParameterList
     }
 
     /**
-     * @return \Params\InputParameter[]
+     * @return \Type\PropertyDefinition[]
      */
-    public static function getInputParameterList(): array
+    public static function getPropertyDefinitionList(): array
     {
         return [
-            new InputParameter(
+            new PropertyDefinition(
                 'username',
                 new GetString(),
                 new MinLength(4),
                 new MaxLength(2048)
             ),
-            new InputParameter(
+            new PropertyDefinition(
                 'password',
                 new GetString(),
                 new MinLength(4),

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\EnumMap;
-use Params\ProcessedValues;
-use Params\Exception\InvalidRulesException;
+use Type\ProcessRule\EnumMap;
+use Type\ProcessedValues;
+use Type\Exception\InvalidRulesException;
 
 /**
  * @coversNothing
@@ -58,7 +58,7 @@ class EnumMapTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestWorks
-     * @covers \Params\ProcessRule\EnumMap
+     * @covers \Type\ProcessRule\EnumMap
      */
     public function testWorks($testValue, $expectedValue)
     {
@@ -93,7 +93,7 @@ class EnumMapTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrors
-     * @covers \Params\ProcessRule\EnumMap
+     * @covers \Type\ProcessRule\EnumMap
      */
     public function testErrors($testValue)
     {
@@ -133,7 +133,7 @@ class EnumMapTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\EnumMap
+     * @covers \Type\ProcessRule\EnumMap
      */
     public function testBadValueThrows()
     {
@@ -160,7 +160,7 @@ class EnumMapTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\EnumMap
+     * @covers \Type\ProcessRule\EnumMap
      */
     public function testDescription()
     {

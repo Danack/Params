@@ -4,15 +4,15 @@ declare(strict_types = 1);
 
 namespace ParamsTest\DataStorage;
 
-use Params\DataStorage\ArrayDataStorage;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\ArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 use ParamsTest\BaseTestCase;
-use Params\Exception\InvalidLocationException;
-use function Params\getJsonPointerParts;
+use Type\Exception\InvalidLocationException;
+use function Type\getJsonPointerParts;
 use function JsonSafe\json_decode_safe;
 
 /**
- * @covers \Params\DataStorage\ArrayDataStorage
+ * @covers \Type\DataStorage\ArrayDataStorage
  */
 class ArrayDataStorageTest extends BaseTestCase
 {

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\Exception\InvalidRulesException;
+use Type\Exception\InvalidRulesException;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\CheckString;
-use Params\Messages;
+use Type\ProcessRule\CheckString;
+use Type\Messages;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ use Params\Messages;
 class CheckStringTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ProcessRule\CheckString
+     * @covers \Type\ProcessRule\CheckString
      */
     public function testWorks()
     {
@@ -34,7 +34,7 @@ class CheckStringTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\CheckString
+     * @covers \Type\ProcessRule\CheckString
      */
     public function testStdClassFails()
     {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ParamsTest\Exception;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\Exception\MissingClassException;
+use Type\Exception\MissingClassException;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ class MissingClassExceptionTest extends BaseTestCase
 {
 
     /**
-     * @covers \Params\Exception\MissingClassException
+     * @covers \Type\Exception\MissingClassException
      */
     public function testInputParameterListException()
     {

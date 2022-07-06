@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ParamsTest\Exception\Validator;
 
 use ParamsTest\BaseTestCase;
-use Params\Value\MultipleEnums;
+use Type\Value\MultipleEnums;
 
 /**
  * @coversNothing
@@ -13,7 +13,7 @@ use Params\Value\MultipleEnums;
 class MultipleEnumsTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Value\MultipleEnums
+     * @covers \Type\Value\MultipleEnums
      */
     public function testBasic()
     {

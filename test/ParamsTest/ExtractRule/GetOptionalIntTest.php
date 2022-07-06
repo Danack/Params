@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetOptionalInt;
-use Params\ProcessedValues;
+use Type\ExtractRule\GetOptionalInt;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -30,7 +30,7 @@ class GetOptionalIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalInt
+     * @covers \Type\ExtractRule\GetOptionalInt
      * @dataProvider provideTestCases
      */
     public function testValidation($input, $expectedValue)
@@ -56,7 +56,7 @@ class GetOptionalIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalInt
+     * @covers \Type\ExtractRule\GetOptionalInt
      * @dataProvider provideTestErrorCases
      */
     public function testErrors($inputValue, $message)
@@ -78,7 +78,7 @@ class GetOptionalIntTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalInt
+     * @covers \Type\ExtractRule\GetOptionalInt
      */
     public function testMissingGivesNull()
     {
@@ -94,7 +94,7 @@ class GetOptionalIntTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetOptionalInt
+     * @covers \Type\ExtractRule\GetOptionalInt
      */
     public function testDescription()
     {

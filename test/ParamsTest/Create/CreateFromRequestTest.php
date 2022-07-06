@@ -14,7 +14,7 @@ use ParamsTest\Integration\IntArrayParams;
 class CreateFromRequestTest extends BaseTestCase
 {
     /**
-     * @covers \Params\Create\CreateFromRequest
+     * @covers \Type\Create\CreateFromRequest
      */
     public function testWorks()
     {

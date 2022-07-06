@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\Integration;
 
-use Params\ExtractRule\GetInt;
-use Params\InputParameter;
-use Params\SafeAccess;
-use Params\ExtractRule\GetString;
-use Params\Create\CreateOrErrorFromVarMap;
-use Params\ProcessRule\DuplicatesParam;
+use Type\ExtractRule\GetInt;
+use Type\PropertyDefinition;
+use Type\SafeAccess;
+use Type\ExtractRule\GetString;
+use Type\Create\CreateOrErrorFromVarMap;
+use Type\ProcessRule\DuplicatesParam;
 
 class DuplicateButWrongTypeParams
 {
@@ -29,11 +29,11 @@ class DuplicateButWrongTypeParams
     public static function getInputParameterList()
     {
         return [
-            new InputParameter(
+            new PropertyDefinition(
                 'days',
                 new GetInt()
             ),
-            new InputParameter(
+            new PropertyDefinition(
                 'days_repeat',
                 new GetString(),
                 new DuplicatesParam('days')

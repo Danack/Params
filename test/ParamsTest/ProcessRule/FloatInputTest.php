@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
-use Params\OpenApi\OpenApiV300ParamDescription;
-use Params\ProcessRule\CastToFloat;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
+use Type\OpenApi\OpenApiV300ParamDescription;
+use Type\ProcessRule\CastToFloat;
 use ParamsTest\BaseTestCase;
-use Params\ProcessedValues;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -28,7 +28,7 @@ class FloatInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideWorksCases
-     * @covers \Params\ProcessRule\CastToFloat
+     * @covers \Type\ProcessRule\CastToFloat
      */
     public function testValidationWorks(string $inputValue, float $expectedValue)
     {
@@ -60,7 +60,7 @@ class FloatInputTest extends BaseTestCase
 
     /**
      * @dataProvider provideErrorCases
-     * @covers \Params\ProcessRule\CastToFloat
+     * @covers \Type\ProcessRule\CastToFloat
      */
     public function testValidationErrors($inputValue, $message)
     {
@@ -80,7 +80,7 @@ class FloatInputTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\CastToFloat
+     * @covers \Type\ProcessRule\CastToFloat
      */
     public function testDescription()
     {

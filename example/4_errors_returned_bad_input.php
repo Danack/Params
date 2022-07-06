@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use ParamsExample\GetArticlesParams;
+use TypeExample\GetArticlesParams;
 use VarMap\ArrayVarMap;
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -14,7 +14,7 @@ $varmap = new ArrayVarMap(['ordering' => 'error']);
 if (count($validationErrors) !== 0) {
     echo "There were errors creating ArticleGetIndexParams from input\n  ";
     foreach ($validationErrors as $validationError) {
-        /** @var \Params\ValidationProblem $validationError */
+        /** @var \Type\ValidationProblem $validationError */
         echo "\n  " . $validationError->getProblemMessage();
     }
 

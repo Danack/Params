@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\Messages;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetString;
-use Params\ProcessedValues;
-use Params\DataStorage\TestArrayDataStorage;
+use Type\ExtractRule\GetString;
+use Type\ProcessedValues;
+use Type\DataStorage\TestArrayDataStorage;
 
 /**
  * @coversNothing
@@ -16,7 +16,7 @@ use Params\DataStorage\TestArrayDataStorage;
 class GetStringTest extends BaseTestCase
 {
     /**
-     * @covers \Params\ExtractRule\GetString
+     * @covers \Type\ExtractRule\GetString
      */
     public function testMissingGivesError()
     {
@@ -35,7 +35,7 @@ class GetStringTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetString
+     * @covers \Type\ExtractRule\GetString
      */
     public function testValidation()
     {
@@ -53,7 +53,7 @@ class GetStringTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetString
+     * @covers \Type\ExtractRule\GetString
      */
     public function testFromArrayErrors()
     {
@@ -77,7 +77,7 @@ class GetStringTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetString
+     * @covers \Type\ExtractRule\GetString
      */
     public function testFromObjectErrors()
     {
@@ -101,7 +101,7 @@ class GetStringTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetString
+     * @covers \Type\ExtractRule\GetString
      */
     public function testDescription()
     {

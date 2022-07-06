@@ -4,10 +4,10 @@ declare(strict_types = 1);
 
 namespace ParamsTest;
 
-use Params\ExtractRule\GetInt;
-use Params\InputParameter;
-use Params\DataStorage\TestArrayDataStorage;
-use Params\ProcessRule\RangeIntValue;
+use Type\ExtractRule\GetInt;
+use Type\PropertyDefinition;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\ProcessRule\RangeIntValue;
 
 /**
  * @coversNothing
@@ -15,7 +15,7 @@ use Params\ProcessRule\RangeIntValue;
 class InputParameterTest extends BaseTestCase
 {
     /**
-     * @covers \Params\InputParameter
+     * @covers \Type\PropertyDefinition
      */
     public function testWorks()
     {
@@ -23,7 +23,7 @@ class InputParameterTest extends BaseTestCase
         $getIntRule = new GetInt();
         $processRule = new RangeIntValue(10, 20);
 
-        $inputParamter = new InputParameter(
+        $inputParamter = new PropertyDefinition(
             $name,
             $getIntRule,
             $processRule

@@ -1,10 +1,10 @@
 <?php
 
 
-use Params\ExtractRule\GetInt;
-use Params\InputParameter;
-use Params\ProcessedValue;
-use Params\ProcessedValues;
+use Type\ExtractRule\GetInt;
+use Type\PropertyDefinition;
+use Type\ProcessedValue;
+use Type\ProcessedValues;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/fixtures.php";
@@ -17,7 +17,7 @@ function createProcessedValuesFromArray(array $keyValues): ProcessedValues
 
     foreach ($keyValues as $key => $value) {
         $extractRule = new GetInt();
-        $inputParameter = new InputParameter($key, $extractRule);
+        $inputParameter = new PropertyDefinition($key, $extractRule);
         $processedValues[] = new ProcessedValue($inputParameter, $value);
     }
 

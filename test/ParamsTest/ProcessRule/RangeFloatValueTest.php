@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\RangeFloatValue;
-use Params\ProcessedValues;
+use Type\ProcessRule\RangeFloatValue;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -58,7 +58,7 @@ class RangeFloatValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideRangeFloatValueCases
-     * @covers \Params\ProcessRule\RangeFloatValue
+     * @covers \Type\ProcessRule\RangeFloatValue
      */
     public function testValidation(float $minValue, float $maxValue, string $inputValue)
     {
@@ -97,7 +97,7 @@ class RangeFloatValueTest extends BaseTestCase
 
     /**
      * @dataProvider provideRangeFloatErrorCases
-     * @covers \Params\ProcessRule\RangeFloatValue
+     * @covers \Type\ProcessRule\RangeFloatValue
      */
     public function testErrors($minValue, $maxValue, $inputValue, $message)
     {
@@ -120,7 +120,7 @@ class RangeFloatValueTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ProcessRule\RangeFloatValue
+     * @covers \Type\ProcessRule\RangeFloatValue
      */
     public function testDescription()
     {

@@ -4,13 +4,13 @@ declare(strict_types = 1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\ExtractRule\GetArrayOfInt;
-use Params\DataStorage\TestArrayDataStorage;
-use Params\Messages;
+use Type\ExtractRule\GetArrayOfInt;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\Messages;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetInt;
-use Params\ProcessedValues;
-use Params\ExtractRule\GetKernelMatrixOrDefault;
+use Type\ExtractRule\GetInt;
+use Type\ProcessedValues;
+use Type\ExtractRule\GetKernelMatrixOrDefault;
 
 /**
  * @coversNothing
@@ -30,7 +30,7 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
+     * @covers \Type\ExtractRule\GetKernelMatrixOrDefault
      * @dataProvider provideTestWorks
      */
     public function testWorks($input, $expected, $default)
@@ -51,7 +51,7 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
+     * @covers \Type\ExtractRule\GetKernelMatrixOrDefault
      * @dataProvider provideTestWorks
      */
     public function testMissingGivesDefault()
@@ -81,7 +81,7 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
 
 
     /**
-     * * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
+     * * @covers \Type\ExtractRule\GetKernelMatrixOrDefault
      */
     public function testInvalidMatrixRows()
     {
@@ -98,7 +98,7 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
+     * @covers \Type\ExtractRule\GetKernelMatrixOrDefault
      */
     public function testInvalidMatrixCell()
     {
@@ -117,7 +117,7 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
+     * @covers \Type\ExtractRule\GetKernelMatrixOrDefault
      */
     public function testDescription()
     {
@@ -131,7 +131,7 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetKernelMatrixOrDefault
+     * @covers \Type\ExtractRule\GetKernelMatrixOrDefault
      * @dataProvider provideTestWorks
      */
     public function testBadInput_not_a_string()

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ParamsTest\ExtractRule;
 
-use Params\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\TestArrayDataStorage;
 use VarMap\ArrayVarMap;
 use ParamsTest\BaseTestCase;
-use Params\ExtractRule\GetStringOrDefault;
-use Params\ProcessedValues;
+use Type\ExtractRule\GetStringOrDefault;
+use Type\ProcessedValues;
 
 /**
  * @coversNothing
@@ -27,7 +27,7 @@ class GetStringOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetStringOrDefault
+     * @covers \Type\ExtractRule\GetStringOrDefault
      */
     public function testValidation()
     {
@@ -44,7 +44,7 @@ class GetStringOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetStringOrDefault
+     * @covers \Type\ExtractRule\GetStringOrDefault
      */
     public function testValidationForMissing()
     {
@@ -62,7 +62,7 @@ class GetStringOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ExtractRule\GetStringOrDefault
+     * @covers \Type\ExtractRule\GetStringOrDefault
      */
     public function testGetDefault()
     {
@@ -73,7 +73,7 @@ class GetStringOrDefaultTest extends BaseTestCase
 
 
     /**
-     * @covers \Params\ExtractRule\GetStringOrDefault
+     * @covers \Type\ExtractRule\GetStringOrDefault
      */
     public function testDescription()
     {

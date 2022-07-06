@@ -4,57 +4,57 @@ declare(strict_types=1);
 
 namespace ParamsTest;
 
-use Params\Exception\AnnotationClassDoesNotExistException;
-use Params\Exception\IncorrectNumberOfParamsException;
-use Params\Exception\MissingConstructorParameterNameException;
-use Params\Exception\PropertyHasMultipleParamAnnotationsException;
-use Params\ExtractRule\GetStringOrDefault;
-use Params\DataStorage\TestArrayDataStorage;
-use Params\DataStorage\DataStorage;
-use Params\Exception\InputParameterListException;
-use Params\Exception\TypeNotInputParameterListException;
-use Params\ExtractRule\ExtractRule;
-use Params\ExtractRule\GetInt;
-use Params\ExtractRule\GetString;
-use Params\InputParameter;
-use Params\Messages;
-use Params\Param;
-use Params\ProcessedValue;
-use Params\ProcessedValues;
-use Params\ProcessRule\AlwaysEndsRule;
-use Params\ProcessRule\ImagickIsRgbColor;
-use Params\ProcessRule\MinLength;
-use Params\OpenApi\ParamDescription;
-use Params\Value\Ordering;
-use Params\Exception\MissingClassException;
-use Params\ProcessRule\AlwaysErrorsRule;
-use Params\ExtractRule\GetType;
-use Params\ValidationResult;
-use Params\Exception\ValidationException;
+use Type\Exception\AnnotationClassDoesNotExistException;
+use Type\Exception\IncorrectNumberOfParamsException;
+use Type\Exception\MissingConstructorParameterNameException;
+use Type\Exception\PropertyHasMultipleParamAnnotationsException;
+use Type\ExtractRule\GetStringOrDefault;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\DataStorage\DataStorage;
+use Type\Exception\TypeDefinitionException;
+use Type\Exception\TypeNotInputParameterListException;
+use Type\ExtractRule\ExtractPropertyRule;
+use Type\ExtractRule\GetInt;
+use Type\ExtractRule\GetString;
+use Type\PropertyDefinition;
+use Type\Messages;
+use Type\TypeProperty;
+use Type\ProcessedValue;
+use Type\ProcessedValues;
+use Type\ProcessRule\AlwaysEndsRule;
+use Type\ProcessRule\ImagickIsRgbColor;
+use Type\ProcessRule\MinLength;
+use Type\OpenApi\ParamDescription;
+use Type\Value\Ordering;
+use Type\Exception\MissingClassException;
+use Type\ProcessRule\AlwaysErrorsRule;
+use Type\ExtractRule\GetType;
+use Type\ValidationResult;
+use Type\Exception\ValidationException;
 use VarMap\ArrayVarMap;
 use ParamsTest\Integration\FooParams;
-use Params\Exception\NoConstructorException;
+use Type\Exception\NoConstructorException;
 use ParamsTest\PropertyTypes\Quantity;
-use function Params\unescapeJsonPointer;
-use function Params\array_value_exists;
-use function Params\check_only_digits;
-use function Params\normalise_order_parameter;
-use function Params\escapeJsonPointer;
-use function Params\getRawCharacters;
-use function Params\getInputParameterListForClass;
-use function Params\processInputParameters;
-use function Params\processInputParameter;
-use function Params\processProcessingRules;
-use function Params\createArrayOfTypeFromInputStorage;
-use function Params\createArrayOfType;
-use function Params\createArrayOfTypeOrError;
-use function Params\checkAllowedFormatsAreStrings;
-use function Params\getParamsFromAnnotations;
-use function Params\getDefaultSupportedTimeFormats;
-use function Params\getReflectionClassOfAttribute;
-use function Params\createObjectFromProcessedValues;
-use function Params\processSingleInputParameter;
-use function Params\getParamForClass;
+use function Type\unescapeJsonPointer;
+use function Type\array_value_exists;
+use function Type\check_only_digits;
+use function Type\normalise_order_parameter;
+use function Type\escapeJsonPointer;
+use function Type\getRawCharacters;
+use function Type\getPropertyDefinitionsForClass;
+use function Type\processInputParameters;
+use function Type\processInputParameter;
+use function Type\processProcessingRules;
+use function Type\createArrayOfTypeFromInputStorage;
+use function Type\createArrayOfType;
+use function Type\createArrayOfTypeOrError;
+use function Type\checkAllowedFormatsAreStrings;
+use function Type\getPropertyDefinitionsFromAnnotations;
+use function Type\getDefaultSupportedTimeFormats;
+use function Type\getReflectionClassOfAttribute;
+use function Type\createObjectFromProcessedValues;
+use function Type\processSingleInputParameter;
+use function Type\getParamForClass;
 
 /**
  * @coversNothing
@@ -205,7 +205,7 @@ class FunctionsTest extends BaseTestCase
         $name = 'John';
         $age = 34;
 
-        $object = \Params\createObjectFromProcessedValues(
+        $object = \Type\createObjectFromProcessedValues(
             \TestObject::class,
             createProcessedValuesFromArray([
                 'name' => $name,
@@ -226,7 +226,7 @@ class FunctionsTest extends BaseTestCase
         $nameValue = 'John';
         $ageValue = 36;
 
-        $object = \Params\createObjectFromProcessedValues(
+        $object = \Type\createObjectFromProcessedValues(
             \TestObject::class,
             createProcessedValuesFromArray([
                 'age' => $ageValue,
@@ -245,7 +245,7 @@ class FunctionsTest extends BaseTestCase
     public function test_CreateObjectFromParams_no_constructor()
     {
         $this->expectExceptionMessageMatchesTemplateString(Messages::CLASS_LACKS_CONSTRUCTOR);
-        $this->expectException(\Params\Exception\NoConstructorException::class);
+        $this->expectException(\Type\Exception\NoConstructorException::class);
         createObjectFromProcessedValues(
             \OneColorNoConstructor::class,
             createProcessedValuesFromArray([])
@@ -258,7 +258,7 @@ class FunctionsTest extends BaseTestCase
     public function test_CreateObjectFromParams_private_constructor()
     {
         $this->expectExceptionMessageMatchesTemplateString(Messages::CLASS_LACKS_PUBLIC_CONSTRUCTOR);
-        $this->expectException(\Params\Exception\NoConstructorException::class);
+        $this->expectException(\Type\Exception\NoConstructorException::class);
         createObjectFromProcessedValues(
             \ThreeColorsPrivateConstructor::class,
             createProcessedValuesFromArray([])
@@ -338,7 +338,7 @@ class FunctionsTest extends BaseTestCase
         // between following that and useful (to PHP developers) error messages.
 
         $this->markTestSkipped($message);
-        $actual = \Params\getJsonPointerParts($input);
+        $actual = \Type\getJsonPointerParts($input);
         $this->assertSame($expected, $actual);
     }
 
@@ -347,7 +347,7 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_getInputParameterListForClass()
     {
-        $inputParameters = getInputParameterListForClass(\TestParams::class);
+        $inputParameters = getPropertyDefinitionsForClass(\TestParams::class);
         $this->assertCount(1, $inputParameters);
     }
 
@@ -357,7 +357,7 @@ class FunctionsTest extends BaseTestCase
     public function test_getInputParameterListForClass_missing_class()
     {
         $this->expectException(MissingClassException::class);
-        $inputParameters = getInputParameterListForClass("does_not_exist");
+        $inputParameters = getPropertyDefinitionsForClass("does_not_exist");
     }
 
     /**
@@ -366,7 +366,7 @@ class FunctionsTest extends BaseTestCase
     public function test_getInputParameterListForClass_missing_implements()
     {
         $this->expectException(TypeNotInputParameterListException::class);
-        $inputParameters = getInputParameterListForClass(
+        $inputParameters = getPropertyDefinitionsForClass(
             \DoesNotImplementInputParameterList::class
         );
     }
@@ -376,9 +376,9 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_getInputParameterListForClass_non_inputparameter()
     {
-        $this->expectException(InputParameterListException::class);
-        $inputParameters = getInputParameterListForClass(
-            \ReturnsBadInputParameterList::class
+        $this->expectException(TypeDefinitionException::class);
+        $inputParameters = getPropertyDefinitionsForClass(
+            \ReturnsBadType::class
         );
     }
 
@@ -429,7 +429,7 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_processInputParameters()
     {
-        $inputParameters = \AlwaysErrorsParams::getInputParameterList();
+        $inputParameters = \AlwaysErrorsParams::getPropertyDefinitionList();
         $dataStorage = TestArrayDataStorage::fromArray([
             'foo' => 'foo string',
             'bar' => 'bar string'
@@ -610,7 +610,7 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_processInputParameter_works()
     {
-        $inputParameter = new InputParameter(
+        $inputParameter = new PropertyDefinition(
             'bar',
             new GetString()
         );
@@ -639,7 +639,7 @@ class FunctionsTest extends BaseTestCase
     public function test_processInputParameter_errors_on_extract()
     {
 
-        $inputParameter = new InputParameter(
+        $inputParameter = new PropertyDefinition(
             'bar',
             new GetInt()
         );
@@ -670,7 +670,7 @@ class FunctionsTest extends BaseTestCase
     {
         $value = 12345;
 
-        $extractIsFinal = new class($value) implements ExtractRule  {
+        $extractIsFinal = new class($value) implements ExtractPropertyRule  {
 
             private $value;
 
@@ -692,7 +692,7 @@ class FunctionsTest extends BaseTestCase
             }
         };
 
-        $inputParameter = new InputParameter(
+        $inputParameter = new PropertyDefinition(
             'bar',
             $extractIsFinal
         );
@@ -722,7 +722,7 @@ class FunctionsTest extends BaseTestCase
     {
         $errorMessage = "There was error.";
 
-        $inputParameter = new InputParameter(
+        $inputParameter = new PropertyDefinition(
             'bar',
             new GetString(),
             new AlwaysErrorsRule($errorMessage)
@@ -797,7 +797,7 @@ class FunctionsTest extends BaseTestCase
         $this->assertNull($values);
         $this->assertValidationErrorCount(1, $validationProblems);
 
-        /** @var \Params\ValidationProblem[] $validationProblems */
+        /** @var \Type\ValidationProblem[] $validationProblems */
         $validationProblem = $validationProblems[0];
 
         $this->assertStringMatchesTemplateString(
@@ -888,9 +888,9 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_getParamsFromAnnotations()
     {
-        $inputParameters = getParamsFromAnnotations(\ThreeColors::class);
+        $inputParameters = getPropertyDefinitionsFromAnnotations(\ThreeColors::class);
         foreach ($inputParameters as $inputParameter) {
-            $this->assertInstanceOf(InputParameter::class, $inputParameter);
+            $this->assertInstanceOf(PropertyDefinition::class, $inputParameter);
             $this->assertInstanceOf(GetStringOrDefault::class, $inputParameter->getExtractRule());
 
             $processRules = $inputParameter->getProcessRules();
@@ -907,7 +907,7 @@ class FunctionsTest extends BaseTestCase
     public function test_getParamsFromAnnotations_non_existant_param_class()
     {
         try {
-            $inputParameters = getParamsFromAnnotations(
+            $inputParameters = getPropertyDefinitionsFromAnnotations(
                 \OneColorWithOtherAnnotationThatDoesNotExist::class
             );
         }
@@ -924,7 +924,7 @@ class FunctionsTest extends BaseTestCase
     public function testMultipleParamsErrors()
     {
         try {
-            $inputParameters = getParamsFromAnnotations(
+            $inputParameters = getPropertyDefinitionsFromAnnotations(
                 \MultipleParamAnnotations::class
             );
         }
@@ -942,7 +942,7 @@ class FunctionsTest extends BaseTestCase
     public function test_getParamsFromAnnotations_skips_non_param_annotation()
     {
 
-        $inputParameters = getParamsFromAnnotations(
+        $inputParameters = getPropertyDefinitionsFromAnnotations(
             \OneColorWithOtherAnnotationThatIsNotAParam::class
         );
 

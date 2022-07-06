@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace ParamsTest\ProcessRule;
 
-use Params\DataStorage\TestArrayDataStorage;
-use Params\OpenApi\OpenApiV300ParamDescription;
+use Type\DataStorage\TestArrayDataStorage;
+use Type\OpenApi\OpenApiV300ParamDescription;
 use ParamsTest\BaseTestCase;
-use Params\ProcessRule\Order;
-use Params\Value\Ordering;
-use Params\ProcessedValues;
-use Params\Messages;
-use Params\ProcessRule\MatrixIsOddSized;
+use Type\ProcessRule\Order;
+use Type\Value\Ordering;
+use Type\ProcessedValues;
+use Type\Messages;
+use Type\ProcessRule\MatrixIsOddSized;
 
 /**
  * Checks that a matrix has an odd number of both rows and columns.
@@ -39,7 +39,7 @@ class MatrixIsOddSizedTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \Params\ProcessRule\MatrixIsOddSized
+     * @covers \Type\ProcessRule\MatrixIsOddSized
      */
     public function testValidation($testValue)
     {
@@ -75,7 +75,7 @@ class MatrixIsOddSizedTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestErrors
-     * @covers \Params\ProcessRule\MatrixIsOddSized
+     * @covers \Type\ProcessRule\MatrixIsOddSized
      */
     public function testErrors($testValue, $expectedErrorMessage)
     {
@@ -97,7 +97,7 @@ class MatrixIsOddSizedTest extends BaseTestCase
     }
 
     /**
-     * @covers \Params\ProcessRule\MatrixIsOddSized
+     * @covers \Type\ProcessRule\MatrixIsOddSized
      */
     public function testDescription()
     {

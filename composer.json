@@ -24,7 +24,7 @@
   },
   "autoload": {
     "files": [
-      "lib/Params/functions.php"
+      "lib/Type/functions.php"
     ],
     "psr-0": {
       "Params\\": "lib/"

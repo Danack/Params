@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ParamsExample;
+namespace TypeExample;
 
-use Params\ExtractRule\GetArrayOfType;
+use Type\ExtractRule\GetArrayOfType;
 use VarMap\ArrayVarMap;
 use ParamsTest\Integration\ReviewScore;
 use ParamsTest\Integration\ItemListParams;
