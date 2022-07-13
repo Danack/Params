@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-
-use Type\ExtractRule\GetString;
-use Type\ExtractRule\GetStringOrDefault;
-use Type\Type;
-use Type\PropertyDefinition;
-use Type\TypeProperty;
-use Type\ProcessRule\AlwaysErrorsRule;
-use Type\ProcessRule\ImagickIsRgbColor;
-use Type\SafeAccess;
-use ParamsTest\ImagickColorTypeProperty;
-use Type\Create\CreateFromArray;
-use Type\Create\CreateOrErrorFromArray;
+use TypeSpec\ExtractRule\GetString;
+use TypeSpec\ExtractRule\GetStringOrDefault;
+use TypeSpec\TypeSpec;
+use TypeSpec\InputTypeSpec;
+use TypeSpec\TypeProperty;
+use TypeSpec\ProcessRule\AlwaysErrorsRule;
+use TypeSpec\ProcessRule\ImagickIsRgbColor;
+use TypeSpec\SafeAccess;
+use TypeSpecTest\ImagickColorTypeProperty;
+use TypeSpec\Create\CreateFromArray;
+use TypeSpec\Create\CreateOrErrorFromArray;
+use TypeSpec\Create\CreateFromVarMap;
+use TypeSpec\InputTypeSpecListFromAttributes;
 
 class TestObject
 {
@@ -44,9 +45,9 @@ class DoesNotImplementInputParameterList
 }
 
 
-class ReturnsBadType implements Type
+class ReturnsBadTypeSpec implements TypeSpec
 {
-    public static function getPropertyDefinitionList(): array
+    public static function getInputTypeSpecList(): array
     {
         return [
             // Wrong type
@@ -55,7 +56,7 @@ class ReturnsBadType implements Type
     }
 }
 
-class TestParams implements Type
+class TestParams implements TypeSpec
 {
     private string $name;
 
@@ -68,10 +69,10 @@ class TestParams implements Type
         $this->name = $name;
     }
 
-    public static function getPropertyDefinitionList(): array
+    public static function getInputTypeSpecList(): array
     {
         return [
-            new PropertyDefinition(
+            new InputTypeSpec(
                 'name',
                 new GetString(),
             )
@@ -88,18 +89,18 @@ class TestParams implements Type
 }
 
 
-class AlwaysErrorsParams implements Type
+class AlwaysErrorsParams implements TypeSpec
 {
     public const ERROR_MESSAGE = 'Forced error';
 
-    public static function getPropertyDefinitionList(): array
+    public static function getInputTypeSpecList(): array
     {
         return [
-            new PropertyDefinition(
+            new InputTypeSpec(
                 'foo',
                 new GetString(),
             ),
-            new PropertyDefinition(
+            new InputTypeSpec(
                 'bar',
                 new GetString(),
                 new AlwaysErrorsRule(self::ERROR_MESSAGE)
@@ -108,12 +109,11 @@ class AlwaysErrorsParams implements Type
     }
 }
 
-
-class ThreeColors implements Type
+class ThreeColors implements TypeSpec
 {
     use SafeAccess;
-    use Type\Create\CreateFromVarMap;
-    use Type\InputParameterListFromAttributes;
+    use CreateFromVarMap;
+    use InputTypeSpecListFromAttributes;
 
     public function __construct(
         #[ImagickColorTypeProperty('rgb(225, 225, 225)', 'background_color')]

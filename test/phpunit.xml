@@ -5,9 +5,9 @@
       <directory>../lib</directory>
     </include>
     <exclude>
-      <directory>../lib/Params/OpenApi</directory>
-      <file>../lib/Params/OpenApi/OpenApiV300Description.php</file>
-      <file>../lib/Params/OpenApi/ShouldNeverBeCalledParamDescription.php</file>
+      <directory>../lib/TypeSpec/OpenApi</directory>
+      <file>../lib/TypeSpec/OpenApi/OpenApiV300Description.php</file>
+      <file>../lib/TypeSpec/OpenApi/ShouldNeverBeCalledParamDescription.php</file>
     </exclude>
     <report>
       <html outputDirectory="../tmp/coverage" lowUpperBound="35" highLowerBound="70"/>

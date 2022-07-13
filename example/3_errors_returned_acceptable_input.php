@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use TypeExample\GetArticlesParams;
+use TypeSpecExample\GetArticlesParams;
 use VarMap\ArrayVarMap;
 
 require __DIR__ . "/../vendor/autoload.php";

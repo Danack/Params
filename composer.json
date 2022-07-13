@@ -24,16 +24,16 @@
   },
   "autoload": {
     "files": [
-      "lib/Type/functions.php"
+      "lib/TypeSpec/functions.php"
     ],
     "psr-0": {
-      "Params\\": "lib/"
+      "TypeSpec\\": "lib/"
     }
   },
   "autoload-dev": {
     "psr-0": {
-      "ParamsTest\\": "test/",
-      "ParamsExample\\": "example/"
+      "TypeSpecTest\\": "test/",
+      "TypeSpecExample\\": "example/"
     }
   },
   "config": {

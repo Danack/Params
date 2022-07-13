@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use TypeExample\GetArticlesParams;
+use TypeSpecExample\GetArticlesParams;
 use VarMap\ArrayVarMap;
-use Type\Exception\ValidationException;
+use TypeSpec\Exception\ValidationException;
 
 require __DIR__ . "/../vendor/autoload.php";
 

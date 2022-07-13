@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace TypeExample;
+namespace TypeSpecExample;
 
-use Type\OpenApi\OpenApiV300ParamDescription;
+use TypeSpec\OpenApi\OpenApiV300ParamDescription;
 
 require __DIR__ . "/../vendor/autoload.php";
 
-$inputToParamRuleList = GetArticlesParams::getPropertyDefinitionList();
+$inputToParamRuleList = GetArticlesParams::getInputTypeSpecList();
 
 $descriptions = OpenApiV300ParamDescription::createFromRules($inputToParamRuleList);
 

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace TypeExample;
+namespace TypeSpecExample;
 
-use Type\ExtractRule\GetArrayOfType;
+use TypeSpec\ExtractRule\GetArrayOfType;
 use VarMap\ArrayVarMap;
-use ParamsTest\Integration\ReviewScore;
-use ParamsTest\Integration\ItemListParams;
+use TypeSpecTest\Integration\ReviewScore;
+use TypeSpecTest\Integration\ItemListParams;
 
 require __DIR__ . "/../vendor/autoload.php";
 

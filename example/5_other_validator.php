@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TypeExample;
+namespace TypeSpecExample;
 
 require __DIR__ . "/../vendor/autoload.php";
 
@@ -34,7 +34,7 @@ $badData = [
     'mac_address' => 'a1:b2:c3:d4:e5:banana'
 ];
 
-/** @var \Type\ValidationProblem[] $validationErrors */
+/** @var \TypeSpec\ValidationProblem[] $validationErrors */
 [$computerDetails, $validationErrors] =
     ComputerDetails::createOrErrorFromArray($badData);
 
@@ -47,7 +47,7 @@ if (count($validationErrors) === 0) {
 echo "Bad data correctly detected: \n";
 
 foreach ($validationErrors as $validationError) {
-    /** @var \Type\ValidationProblem $validationError */
+    /** @var \TypeSpec\ValidationProblem $validationError */
     echo "\t" . $validationError->getProblemMessage() . "\n";
 }
 
