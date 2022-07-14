@@ -24,10 +24,10 @@
   },
   "autoload": {
     "files": [
-      "lib/TypeSpec/functions.php"
+      "src/TypeSpec/functions.php"
     ],
     "psr-0": {
-      "TypeSpec\\": "lib/"
+      "TypeSpec\\": "src/"
     }
   },
   "autoload-dev": {
