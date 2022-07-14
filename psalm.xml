@@ -18,20 +18,19 @@
         </PossiblyInvalidArgument>
 
 
-
         <!-- TODO - this needs to be re-enabled -->
         <MixedArgument>
             <errorLevel type="suppress">
-                <file name="lib/Params/functions.php"/>
+                <file name="lib/TypeSpec/functions.php"/>
             </errorLevel>
         </MixedArgument>
-
 
 
         <!-- TODO - find a better way of handling this. Or rewrite PHP preg functions. -->
         <MixedArrayAccess>
             <errorLevel type="suppress">
-                <file name="lib/Params/functions.php"/>
+                <file name="lib/TypeSpec/functions.php"/>
+                <file name="lib/TypeSpec/ProcessRule/SaneCharacters.php"/>
             </errorLevel>
         </MixedArrayAccess>
 
@@ -39,49 +38,38 @@
         <!-- TODO - this needs to be re-enabled -->
         <InvalidReturnStatement>
             <errorLevel type="suppress">
-                <file name="lib/Params/OpenApi/OpenApiV300ParamDescription.php" />
+                <file name="lib/TypeSpec/OpenApi/OpenApiV300ParamDescription.php" />
             </errorLevel>
         </InvalidReturnStatement>
 
         <!-- TODO - this needs to be re-enabled -->
         <InvalidReturnType>
             <errorLevel type="suppress">
-                <file name="lib/Params/OpenApi/OpenApiV300ParamDescription.php" />
+                <file name="lib/TypeSpec/OpenApi/OpenApiV300ParamDescription.php" />
             </errorLevel>
         </InvalidReturnType>
-
-
-
-
-
-        <!-- TODO - this needs to be re-enabled -->
-        <PossiblyInvalidArgument>
-            <errorLevel type="suppress">
-                <referencedFunction name="VarMap\VarMap::has"/>
-                <referencedFunction name="VarMap\VarMap::get"/>
-            </errorLevel>
-        </PossiblyInvalidArgument>
-
 
         <!-- TODO - this needs to be re-enabled -->
         <MixedArgumentTypeCoercion>
             <errorLevel type="suppress">
-                <file name="lib/Params/functions.php"/>
+                <file name="lib/TypeSpec/functions.php"/>
+                <file name="lib/TypeSpec/ProcessRule/ValidCharacters.php"/>
             </errorLevel>
         </MixedArgumentTypeCoercion>
-
 
         <!-- TODO - this needs to be re-enabled -->
         <MixedReturnStatement>
             <errorLevel type="suppress">
-                <file name="lib/Params/functions.php"/>
+                <file name="lib/TypeSpec/functions.php"/>
+                <file name="lib/TypeSpec/Value/Ordering.php"/>
             </errorLevel>
         </MixedReturnStatement>
 
         <!-- TODO - this needs to be re-enabled -->
         <MixedInferredReturnType>
             <errorLevel type="suppress">
-                <file name="lib/Params/functions.php"/>
+                <file name="lib/TypeSpec/functions.php"/>
+                <file name="lib/TypeSpec/Value/Ordering.php"/>
             </errorLevel>
         </MixedInferredReturnType>
 
@@ -89,48 +77,46 @@
         <!-- TODO - this needs to be re-enabled -->
         <MixedOperand>
             <errorLevel type="suppress">
-                <file name="lib/Params/functions.php"/>
+                <file name="lib/TypeSpec/functions.php"/>
             </errorLevel>
         </MixedOperand>
 
-
-<!--        <MixedArrayOffset>-->
-<!--            <errorLevel type="suppress">-->
-<!--                <file name="lib/Params/InputStorage/DataStorage.php"/>-->
-<!--            </errorLevel>-->
-<!--        </MixedArrayOffset>-->
-
         <MixedArgument>
             <errorLevel type="suppress">
-                <file name="lib/Params/DataStorage/ArrayDataStorage.php"/>
-                <file name="lib/Params/functions.php"/>
+                <file name="lib/TypeSpec/DataStorage/ArrayDataStorage.php"/>
+                <file name="lib/TypeSpec/functions.php"/>
+                <file name="lib/TypeSpec/ProcessRule/SaneCharacters.php"/>
+                <file name="lib/TypeSpec/ProcessRule/ValidCharacters.php"/>
             </errorLevel>
         </MixedArgument>
 
         <MixedArrayAccess>
             <errorLevel type="suppress">
-                <file name="lib/Params/functions.php"/>
+                <file name="lib/TypeSpec/functions.php"/>
+                <file name="lib/TypeSpec/ProcessRule/SaneCharacters.php"/>
+                <file name="lib/TypeSpec/ProcessRule/ValidCharacters.php"/>
             </errorLevel>
         </MixedArrayAccess>
 
         <UndefinedInterfaceMethod>
             <errorLevel type="suppress">
-                <file name="lib/Params/ProcessRule/EarlierThanParam.php"/>
-                <file name="lib/Params/ProcessRule/LaterThanParam.php"/>
+                <file name="lib/TypeSpec/ProcessRule/EarlierThanParam.php"/>
+                <file name="lib/TypeSpec/ProcessRule/LaterThanParam.php"/>
             </errorLevel>
         </UndefinedInterfaceMethod>
 
         <RedundantConditionGivenDocblockType>
             <!-- psalm I have no idea why this is a problem -->
             <errorLevel type="suppress">
-                <file name="lib/Params/ExtractRule/GetDatetime.php"/>
+                <file name="lib/TypeSpec/ExtractRule/GetDatetime.php"/>
             </errorLevel>
         </RedundantConditionGivenDocblockType>
 
         <DocblockTypeContradiction>
             <!-- psalm I have no idea why this is a problem -->
             <errorLevel type="suppress">
-                <file name="lib/Params/ExtractRule/GetDatetime.php"/>
+                <file name="lib/TypeSpec/ExtractRule/GetDatetime.php"/>
+                <file name="lib/TypeSpec/ValidationResult.php"/>
             </errorLevel>
         </DocblockTypeContradiction>
     </issueHandlers>

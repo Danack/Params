@@ -51,7 +51,7 @@ function createArrayOfType(string $type, array $data): array
  * @param string $type
  * @psalm-param class-string<T> $type
  * @param array $data
- * @return array{null, \Type\ValidationProblem[]}|array{T[], null}
+ * @return array{0:null, 1:\TypeSpec\ValidationProblem[]}|array{0:T[], 1:null}
  */
 function createArrayOfTypeOrError(string $type, array $data): array
 {
