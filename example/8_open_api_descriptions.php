@@ -10,7 +10,7 @@ require __DIR__ . "/../vendor/autoload.php";
 
 $inputToParamRuleList = GetArticlesParams::getInputTypeSpecList();
 
-$descriptions = OpenApiV300ParamDescription::createFromRules($inputToParamRuleList);
+$descriptions = OpenApiV300ParamDescription::createFromInputTypeSpecList($inputToParamRuleList);
 
 echo json_encode($descriptions, JSON_PRETTY_PRINT);
 

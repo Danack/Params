@@ -6,7 +6,7 @@ namespace TypeSpec\Exception;
 
 use TypeSpec\Messages;
 
-class MissingClassException extends ParamsException
+class MissingClassException extends TypeSpecException
 {
     public static function fromClassname(string $classname): self
     {

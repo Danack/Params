@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TypeSpec\Exception;
 
-class OpenApiException extends ParamsException
+class OpenApiException extends TypeSpecException
 {
 
 }

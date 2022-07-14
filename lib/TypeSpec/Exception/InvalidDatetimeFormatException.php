@@ -6,7 +6,7 @@ namespace TypeSpec\Exception;
 
 use TypeSpec\Messages;
 
-class InvalidDatetimeFormatException extends \TypeSpec\Exception\ParamsException
+class InvalidDatetimeFormatException extends \TypeSpec\Exception\TypeSpecException
 {
     /**
      * Only strings are allowed datetime format.

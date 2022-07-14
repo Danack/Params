@@ -7,6 +7,9 @@ namespace TypeSpec\OpenApi;
 use TypeSpec\Exception\OpenApiException;
 use function TypeSpec\array_value_exists;
 
+/**
+ * Class that generates
+ */
 class OpenApiV300ParamDescription implements ParamDescription
 {
     private string $name;
@@ -64,21 +67,21 @@ class OpenApiV300ParamDescription implements ParamDescription
      * OpenApi 3.0.0 spec
      *
      * https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md
-     * @param \TypeSpec\InputTypeSpec[] $allRules
-     * @return self[]
+     * @param \TypeSpec\InputTypeSpec[] $inputTypeSpecList
+     * @return array
      * @throws OpenApiException
      */
-    public static function createFromRules($allRules)
+    public static function createFromInputTypeSpecList($inputTypeSpecList)
     {
         $ruleDescriptions = [];
 
-        foreach ($allRules as $rules) {
-            $description = new self($rules->getInputName());
+        foreach ($inputTypeSpecList as $inputTypeSpec) {
+            $description = new self($inputTypeSpec->getInputName());
 
-            $firstRule = $rules->getExtractRule();
+            $firstRule = $inputTypeSpec->getExtractRule();
             $firstRule->updateParamDescription($description);
 
-            foreach ($rules->getProcessRules() as $subsequentRules) {
+            foreach ($inputTypeSpec->getProcessRules() as $subsequentRules) {
                 $subsequentRules->updateParamDescription($description);
             }
 

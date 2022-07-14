@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace TypeSpec\DataStorage;
 
-use TypeSpec\Exception\InvalidLocationException;
-
 /**
  * When iterating over the input data, we need to be able to
  * store the current 'path' so that error messages can point
@@ -24,7 +22,7 @@ interface DataStorage
     /**
      * Get the value from the current position in the storage.
      * @return mixed
-     * @throw \Params\Exception\InvalidLocationException
+     * @throw \TypeSpec\Exception\InvalidLocationException
      */
     public function getCurrentValue(): mixed;
 

@@ -6,7 +6,7 @@ namespace TypeSpec\Exception;
 
 use TypeSpec\Messages;
 
-class InvalidRulesException extends \TypeSpec\Exception\ParamsException
+class InvalidRulesException extends \TypeSpec\Exception\TypeSpecException
 {
     /**
      * Only strings and ints are allowed as array key.

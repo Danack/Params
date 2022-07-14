@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace TypeSpec\Create;
 
 use TypeSpec\DataStorage\ArrayDataStorage;
-use VarMap\ArrayVarMap;
 use VarMap\VarMap;
 use function TypeSpec\create;
 use function TypeSpec\getInputTypeSpecListForClass;

@@ -6,11 +6,16 @@ namespace TypeSpec;
 
 use TypeSpec\DataStorage\DataStorage;
 
+/**
+ * Stores information about a problem when validating an object.
+ * Currently all problems are treated as errors.
+ */
 class ValidationProblem
 {
     /**
      * The inputStorage in the state when the parameter that has a validation
      * problem was being validated.
+     * This can be used to find the key/path that had the problem
      */
     private DataStorage $inputStorage;
 

@@ -4,10 +4,10 @@ declare(strict_types = 1);
 
 namespace TypeSpec\Exception;
 
-use TypeSpec\TypeSpec;
 use TypeSpec\Messages;
+use TypeSpec\TypeSpec;
 
-class TypeNotInputParameterListException extends ParamsException
+class TypeNotInputParameterListException extends TypeSpecException
 {
     public static function fromClassname(string $classname): self
     {

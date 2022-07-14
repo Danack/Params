@@ -26,6 +26,6 @@ class ProcessedValueTest extends BaseTestCase
         );
         $processedValues = new ProcessedValue($foo, $value);
         $this->assertSame($value, $processedValues->getValue());
-        $this->assertSame($foo, $processedValues->getParam());
+        $this->assertSame($foo, $processedValues->getInputTypeSpec());
     }
 }

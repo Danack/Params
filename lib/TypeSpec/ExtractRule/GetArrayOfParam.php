@@ -9,7 +9,6 @@ use TypeSpec\Messages;
 use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
 use TypeSpec\ValidationResult;
-use TypeSpec\TypeProperty;
 use function TypeSpec\createArrayOfTypeFromInputStorage;
 use function TypeSpec\getParamForClass;
 

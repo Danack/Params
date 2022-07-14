@@ -7,7 +7,7 @@ namespace TypeSpec\Exception;
 /**
  * Thrown when someone calls getValue DataStorage object
  */
-class InvalidLocationException extends ParamsException
+class InvalidLocationException extends TypeSpecException
 {
     private array $location;
 

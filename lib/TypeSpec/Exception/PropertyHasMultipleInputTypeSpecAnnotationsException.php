@@ -7,12 +7,12 @@ namespace TypeSpec\Exception;
 
 use TypeSpec\Messages;
 
-class PropertyHasMultipleParamAnnotationsException extends ParamsException
+class PropertyHasMultipleInputTypeSpecAnnotationsException extends TypeSpecException
 {
     public static function create(string $classname, string $property_name): self
     {
         $message = sprintf(
-            Messages::PROPERTY_MULTIPLE_PARAMS,
+            Messages::PROPERTY_MULTIPLE_INPUT_TYPE_SPEC,
             $property_name,
             $classname
         );

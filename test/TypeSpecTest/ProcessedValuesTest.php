@@ -68,7 +68,7 @@ class ProcessedValuesTest extends BaseTestCase
         $processedValue = new ProcessedValue($inputParameter, 'red');
         $processedValues = ProcessedValues::fromArray([$processedValue]);
 
-        [$value_for_target, $available] = $processedValues->getValueForTargetParam('backgroundColor');
+        [$value_for_target, $available] = $processedValues->getValueForTargetProperty('backgroundColor');
         $this->assertTrue($available);
         $this->assertSame('red', $value_for_target);
     }

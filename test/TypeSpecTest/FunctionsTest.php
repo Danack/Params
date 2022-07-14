@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace TypeSpecTest;
 
 use TypeSpec\Exception\AnnotationClassDoesNotExistException;
-use TypeSpec\Exception\IncorrectNumberOfParamsException;
+use TypeSpec\Exception\IncorrectNumberOfParametersException;
 use TypeSpec\Exception\MissingConstructorParameterNameException;
-use TypeSpec\Exception\PropertyHasMultipleParamAnnotationsException;
+use TypeSpec\Exception\PropertyHasMultipleInputTypeSpecAnnotationsException;
 use TypeSpec\ExtractRule\GetStringOrDefault;
 use TypeSpec\DataStorage\TestArrayDataStorage;
 use TypeSpec\DataStorage\DataStorage;
@@ -42,8 +42,8 @@ use function TypeSpec\normalise_order_parameter;
 use function TypeSpec\escapeJsonPointer;
 use function TypeSpec\getRawCharacters;
 use function TypeSpec\getInputTypeSpecListForClass;
-use function TypeSpec\processInputParameters;
-use function TypeSpec\processInputParameter;
+use function TypeSpec\processInputTypeSpecList;
+use function TypeSpec\processInputTypeSpec;
 use function TypeSpec\processProcessingRules;
 use function TypeSpec\createArrayOfTypeFromInputStorage;
 use function TypeSpec\createArrayOfType;
@@ -270,7 +270,7 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_CreateObjectFromParams_wrong_number_params()
     {
-        $this->expectException(IncorrectNumberOfParamsException::class);
+        $this->expectException(IncorrectNumberOfParametersException::class);
         createObjectFromProcessedValues(
             \NotActuallyAParam::class,
             createProcessedValuesFromArray([])
@@ -425,7 +425,7 @@ class FunctionsTest extends BaseTestCase
     }
 
     /**
-     * @covers ::\TypeSpec\processInputParameters
+     * @covers ::\TypeSpec\processInputTypeSpecList
      */
     public function test_processInputParameters()
     {
@@ -436,7 +436,7 @@ class FunctionsTest extends BaseTestCase
         ]);
 
         $paramValues  = new ProcessedValues();
-        $validationProblems = processInputParameters(
+        $validationProblems = processInputTypeSpecList(
             $inputParameters,
             $paramValues,
             $dataStorage
@@ -606,7 +606,7 @@ class FunctionsTest extends BaseTestCase
 
 
     /**
-     * @covers ::\TypeSpec\processInputParameter
+     * @covers ::\TypeSpec\processInputTypeSpec
      */
     public function test_processInputParameter_works()
     {
@@ -620,7 +620,7 @@ class FunctionsTest extends BaseTestCase
         ]);
 
         $paramValues  = new ProcessedValues();
-        $validationProblems = processInputParameter(
+        $validationProblems = processInputTypeSpec(
             $inputParameter,
             $paramValues,
             $dataStorage
@@ -634,7 +634,7 @@ class FunctionsTest extends BaseTestCase
 
 
     /**
-     * @covers ::\TypeSpec\processInputParameter
+     * @covers ::\TypeSpec\processInputTypeSpec
      */
     public function test_processInputParameter_errors_on_extract()
     {
@@ -649,7 +649,7 @@ class FunctionsTest extends BaseTestCase
         ]);
 
         $paramValues = new ProcessedValues();
-        $validationProblems = processInputParameter(
+        $validationProblems = processInputTypeSpec(
             $inputParameter,
             $paramValues,
             $dataStorage
@@ -664,7 +664,7 @@ class FunctionsTest extends BaseTestCase
     }
 
     /**
-     * @covers ::\TypeSpec\processInputParameter
+     * @covers ::\TypeSpec\processInputTypeSpec
      */
     public function test_processInputParameter_extract_ends_processing()
     {
@@ -702,7 +702,7 @@ class FunctionsTest extends BaseTestCase
         ]);
 
         $paramValues = new ProcessedValues();
-        $validationProblems = processInputParameter(
+        $validationProblems = processInputTypeSpec(
             $inputParameter,
             $paramValues,
             $dataStorage
@@ -716,7 +716,7 @@ class FunctionsTest extends BaseTestCase
 
 
     /**
-     * @covers ::\TypeSpec\processInputParameter
+     * @covers ::\TypeSpec\processInputTypeSpec
      */
     public function test_processInputParameter_errors()
     {
@@ -734,7 +734,7 @@ class FunctionsTest extends BaseTestCase
         ]);
 
         $paramValues  = new ProcessedValues();
-        $validationProblems = processInputParameter(
+        $validationProblems = processInputTypeSpec(
             $inputParameter,
             $paramValues,
             $dataStorage
@@ -928,7 +928,7 @@ class FunctionsTest extends BaseTestCase
                 \MultipleParamAnnotations::class
             );
         }
-        catch (PropertyHasMultipleParamAnnotationsException $acdnee) {
+        catch (PropertyHasMultipleInputTypeSpecAnnotationsException $acdnee) {
             $this->assertStringContainsString(
                 'background_color',
                 $acdnee->getMessage()

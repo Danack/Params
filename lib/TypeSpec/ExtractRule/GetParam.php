@@ -8,11 +8,10 @@ use TypeSpec\DataStorage\DataStorage;
 use TypeSpec\Messages;
 use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
+use TypeSpec\TypeProperty;
 use TypeSpec\ValidationResult;
 use function TypeSpec\createObjectFromProcessedValues;
-use function TypeSpec\getParamForClass;
 use function TypeSpec\processSingleInputParameter;
-use TypeSpec\TypeProperty;
 
 class GetParam implements ExtractPropertyRule
 {
@@ -36,26 +35,8 @@ class GetParam implements ExtractPropertyRule
      */
     public static function fromClass(string $classname): self
     {
-        throw new \Exception("Is this covered?");
-
-//        return new self(
-//            $classname,
-//            getParamForClass($classname)
-//        );
+        throw new \Exception("This code appears deadish. Is this covered?");
     }
-
-
-//    /**
-//     * @param class-string $className
-//     * @param \Params\InputParameter[] $inputParameterList
-//     */
-//    public static function fromClassAndRules(string $className, $inputParameterList): self
-//    {
-//        return new self(
-//            $className,
-//            $inputParameterList
-//        );
-//    }
 
 
     public function process(

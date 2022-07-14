@@ -7,7 +7,7 @@ namespace TypeSpec\Exception;
 
 use TypeSpec\Messages;
 
-class NoConstructorException extends ParamsException
+class NoConstructorException extends TypeSpecException
 {
     public static function noConstructor(string $classname): self
     {

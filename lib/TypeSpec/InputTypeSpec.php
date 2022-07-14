@@ -47,28 +47,28 @@ class InputTypeSpec // InputTypeSpec
         $this->processRules = $subsequent_rules;
     }
 
-    private static function withoutTargetName(
-        string              $input_name, // TODO - this should be a locator component...
-        ExtractPropertyRule $first_rule,
-        ProcessPropertyRule ...$subsequent_rules
-    ) {
-        $this->inputName = $input_name;
-        $this->extractRule = $first_rule;
-        $this->processRules = $subsequent_rules;
-    }
-
-    private static function createComplete(
-        string              $input_name, // TODO - this should be a locator component...
-        string              $target_parameter_name,
-        ExtractPropertyRule $first_rule,
-        ProcessPropertyRule ...$subsequent_rules
-    ) {
-        $this->inputName = $input_name;
-        $this->target_parameter_name = $target_parameter_name;
-        $this->extractRule = $first_rule;
-        $this->processRules = $subsequent_rules;
-        $this->target_parameter_name = $name;
-    }
+//    private static function withoutTargetName(
+//        string              $input_name, // TODO - this should be a locator component...
+//        ExtractPropertyRule $first_rule,
+//        ProcessPropertyRule ...$subsequent_rules
+//    ) {
+//        $this->inputName = $input_name;
+//        $this->extractRule = $first_rule;
+//        $this->processRules = $subsequent_rules;
+//    }
+//
+//    private static function createComplete(
+//        string              $input_name, // TODO - this should be a locator component...
+//        string              $target_parameter_name,
+//        ExtractPropertyRule $first_rule,
+//        ProcessPropertyRule ...$subsequent_rules
+//    ) {
+//        $this->inputName = $input_name;
+//        $this->target_parameter_name = $target_parameter_name;
+//        $this->extractRule = $first_rule;
+//        $this->processRules = $subsequent_rules;
+//        $this->target_parameter_name = $name;
+//    }
 
     public function setTargetParameterName(string $name): void
     {

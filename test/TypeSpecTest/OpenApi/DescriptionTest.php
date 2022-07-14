@@ -264,7 +264,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $this->expectException(OpenApiException::class);
-        OpenApiV300ParamDescription::createFromRules($rules);
+        OpenApiV300ParamDescription::createFromInputTypeSpecList($rules);
     }
 
 
@@ -288,7 +288,7 @@ class DescriptionTest extends BaseTestCase
         ];
 
         $this->expectException(OpenApiException::class);
-        OpenApiV300ParamDescription::createFromRules($rules);
+        OpenApiV300ParamDescription::createFromInputTypeSpecList($rules);
     }
 
     public function providesValidMaximumLength()
@@ -422,7 +422,7 @@ class DescriptionTest extends BaseTestCase
  */
     private function performSchemaTest($schemaExpectations, $rules)
     {
-        $paramDescription = OpenApiV300ParamDescription::createFromRules($rules);
+        $paramDescription = OpenApiV300ParamDescription::createFromInputTypeSpecList($rules);
 
         $this->assertCount(1, $paramDescription);
         $statusDescription = $paramDescription[0];
@@ -443,7 +443,7 @@ class DescriptionTest extends BaseTestCase
 
     private function performFullTest($schemaExpectations, $paramExpectations, $rules)
     {
-        $paramDescription = OpenApiV300ParamDescription::createFromRules($rules);
+        $paramDescription = OpenApiV300ParamDescription::createFromInputTypeSpecList($rules);
 
         $this->assertCount(1, $paramDescription);
         $openApiDescription = $paramDescription[0];

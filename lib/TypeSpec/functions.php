@@ -2,24 +2,24 @@
 
 namespace TypeSpec;
 
-use TypeSpec\Exception\InvalidDatetimeFormatException;
 use TypeSpec\DataStorage\ArrayDataStorage;
 use TypeSpec\DataStorage\ComplexDataStorage;
 use TypeSpec\DataStorage\DataStorage;
-use TypeSpec\Exception\TypeDefinitionException;
+use TypeSpec\Exception\AnnotationClassDoesNotExistException;
+use TypeSpec\Exception\IncorrectNumberOfParametersException;
+use TypeSpec\Exception\InvalidDatetimeFormatException;
 use TypeSpec\Exception\InvalidJsonPointerException;
 use TypeSpec\Exception\LogicException;
 use TypeSpec\Exception\MissingClassException;
+use TypeSpec\Exception\MissingConstructorParameterNameException;
+use TypeSpec\Exception\NoConstructorException;
+use TypeSpec\Exception\PropertyHasMultipleInputTypeSpecAnnotationsException;
+use TypeSpec\Exception\TypeDefinitionException;
 use TypeSpec\Exception\TypeNotInputParameterListException;
 use TypeSpec\Exception\ValidationException;
 use TypeSpec\ExtractRule\GetType;
 use TypeSpec\ProcessRule\ProcessPropertyRule;
 use TypeSpec\Value\Ordering;
-use TypeSpec\Exception\NoConstructorException;
-use TypeSpec\Exception\IncorrectNumberOfParamsException;
-use TypeSpec\Exception\MissingConstructorParameterNameException;
-use TypeSpec\Exception\PropertyHasMultipleParamAnnotationsException;
-use TypeSpec\Exception\AnnotationClassDoesNotExistException;
 
 /**
  * @template T
@@ -205,7 +205,7 @@ function createObjectFromProcessedValues(string $classname, ProcessedValues $pro
 
     $constructor_params = $r_constructor->getParameters();
     if (count($constructor_params) !== $processedValues->getCount()) {
-        throw IncorrectNumberOfParamsException::wrongNumber(
+        throw IncorrectNumberOfParametersException::wrongNumber(
             $classname,
             count($constructor_params),
             $processedValues->getCount()
@@ -216,7 +216,7 @@ function createObjectFromProcessedValues(string $classname, ProcessedValues $pro
 
     foreach ($constructor_params as $constructor_param) {
         $name = $constructor_param->getName();
-        [$value, $available] = $processedValues->getValueForTargetParam($name);
+        [$value, $available] = $processedValues->getValueForTargetProperty($name);
         if ($available !== true) {
             throw MissingConstructorParameterNameException::missingParam(
                 $classname,
@@ -249,7 +249,7 @@ function create(
 ) {
     $processedValues = new ProcessedValues();
 
-    $validationProblems = processInputParameters(
+    $validationProblems = processInputTypeSpecList(
         $params,
         $processedValues,
         $dataStorage
@@ -270,8 +270,8 @@ function create(
  * @param class-string<T> $classname
  * @param \TypeSpec\InputTypeSpec[] $params
  * @param DataStorage $dataStorage
- * @return array{0:?object, 1:\Params\ValidationProblem[]}
- * @throws Exception\ParamsException
+ * @return array{0:?object, 1:\TypeSpec\ValidationProblem[]}
+ * @throws Exception\TypeSpecException
  * @throws ValidationException
  *
  * The rules are passed separately to the classname so that we can
@@ -281,7 +281,7 @@ function createOrError($classname, $params, DataStorage $dataStorage)
 {
     $paramsValuesImpl = new ProcessedValues();
 
-    $validationProblems = processInputParameters(
+    $validationProblems = processInputTypeSpecList(
         $params,
         $paramsValuesImpl,
         $dataStorage
@@ -441,7 +441,7 @@ function normalise_order_parameter(string $part)
  * @param mixed $value
  * @param DataStorage $dataStorage
  * @param ProcessPropertyRule ...$processRules
- * @return array{0:\Params\ValidationProblem[], 1:?mixed}
+ * @return array{0:\TypeSpec\ValidationProblem[], 1:?mixed}
  * @throws Exception\ParamMissingException
  */
 function processProcessingRules(
@@ -473,8 +473,8 @@ function processProcessingRules(
  * @return ValidationProblem[]
  * @throws Exception\ParamMissingException
  */
-function processInputParameter(
-    InputTypeSpec $param,
+function processInputTypeSpec(
+    InputTypeSpec      $param,
     ProcessedValues    $paramValues,
     DataStorage        $dataStorage
 ) {
@@ -531,7 +531,7 @@ function processSingleInputParameter(
     $inputParameter = $param->getPropertyRules();
 
     $knownInputNames[] = $inputParameter->getInputName();
-    return processInputParameter(
+    return processInputTypeSpec(
         $inputParameter,
         $paramValues,
         $dataStorage
@@ -540,26 +540,26 @@ function processSingleInputParameter(
 
 
 /**
- * @param \TypeSpec\InputTypeSpec[] $inputParameters
- * @param ProcessedValues $paramValues
+ * @param \TypeSpec\InputTypeSpec[] $inputTypeSpecList
+ * @param ProcessedValues $processedValues
  * @param DataStorage $dataStorage
  * @return \TypeSpec\ValidationProblem[]
  * @throws Exception\ParamMissingException
  */
-function processInputParameters(
-    array $inputParameters,
-    ProcessedValues $paramValues,
+function processInputTypeSpecList(
+    array $inputTypeSpecList,
+    ProcessedValues $processedValues,
     DataStorage $dataStorage
 ) {
     $validationProblems = [];
 
     $knownInputNames = [];
 
-    foreach ($inputParameters as $inputParameter) {
+    foreach ($inputTypeSpecList as $inputParameter) {
         $knownInputNames[] = $inputParameter->getInputName();
-        $newValidationProblems = processInputParameter(
+        $newValidationProblems = processInputTypeSpec(
             $inputParameter,
-            $paramValues,
+            $processedValues,
             $dataStorage
         );
 
@@ -681,7 +681,7 @@ function getInputTypeSpecListFromAnnotations(string $class): array
 
     foreach ($rc->getProperties() as $property) {
         $attributes = $property->getAttributes();
-        $current_property_has_param = false;
+        $current_property_has_typespec = false;
         foreach ($attributes as $attribute) {
             $rc_of_attribute = getReflectionClassOfAttribute(
                 $class,
@@ -694,14 +694,14 @@ function getInputTypeSpecListFromAnnotations(string $class): array
                 continue;
             }
 
-            if ($current_property_has_param == true) {
-                throw PropertyHasMultipleParamAnnotationsException::create(
+            if ($current_property_has_typespec == true) {
+                throw PropertyHasMultipleInputTypeSpecAnnotationsException::create(
                     $class,
                     $property->getName()
                 );
             }
 
-            $current_property_has_param = true;
+            $current_property_has_typespec = true;
             $param = $attribute->newInstance();
 
             /** @var TypeProperty $param */
@@ -718,8 +718,8 @@ function getInputTypeSpecListFromAnnotations(string $class): array
 
 /**
  * @param object $dto
- * @return array{0:?object, 1:\Params\ValidationProblem[]}
- * @throws Exception\ParamsException
+ * @return array{0:?object, 1:\TypeSpec\ValidationProblem[]}
+ * @throws Exception\TypeSpecException
  * @throws TypeDefinitionException
  * @throws MissingClassException
  * @throws TypeNotInputParameterListException

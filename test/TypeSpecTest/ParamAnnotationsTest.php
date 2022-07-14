@@ -11,10 +11,10 @@ use TypeSpec\ProcessRule\ImagickIsRgbColor;
 use TypeSpecTest\Integration\IntArrayParams;
 use VarMap\ArrayVarMap;
 use TypeSpec\Exception\AnnotationClassDoesNotExistException;
-use TypeSpec\Exception\IncorrectNumberOfParamsException;
+use TypeSpec\Exception\IncorrectNumberOfParametersException;
 use TypeSpec\Exception\NoConstructorException;
 use TypeSpec\Exception\MissingConstructorParameterNameException;
-use TypeSpec\Exception\PropertyHasMultipleParamAnnotationsException;
+use TypeSpec\Exception\PropertyHasMultipleInputTypeSpecAnnotationsException;
 use function TypeSpec\createOrError;
 
 /**
@@ -115,7 +115,7 @@ class ParamAnnotationsTest extends BaseTestCase
 
         // \Params\Exception\IncorrectNumberOfParamsException::wrongNumber
         // TODO - set expected exception
-        $this->expectException(IncorrectNumberOfParamsException::class);
+        $this->expectException(IncorrectNumberOfParametersException::class);
         createTypeFromAnnotations($varMap, \ThreeColorsMissingConstructorParam::class);
     }
 
@@ -130,7 +130,7 @@ class ParamAnnotationsTest extends BaseTestCase
 //            'fill_color' => 'white',
         ]);
 
-        $this->expectException(IncorrectNumberOfParamsException::class);
+        $this->expectException(IncorrectNumberOfParametersException::class);
         $this->markTestSkipped("This test is needed.");
         createTypeFromAnnotations($varMap, \ThreeColorsMissingPropertyParam::class);
     }
@@ -252,7 +252,7 @@ class ParamAnnotationsTest extends BaseTestCase
             'background_color' => 'red',
         ]);
 
-        $this->expectException(PropertyHasMultipleParamAnnotationsException::class);
+        $this->expectException(PropertyHasMultipleInputTypeSpecAnnotationsException::class);
         $this->expectExceptionMessageMatches('#.*background_color.*#iu');
 
         createTypeFromAnnotations($varMap, \MultipleParamAnnotations::class);

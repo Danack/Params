@@ -23,13 +23,13 @@ class ValidationResult
     /**
      * ValidationResult constructor.
      * @param mixed $value
-     * @param \TypeSpec\ValidationProblem[] $problemMessages
+     * @param \TypeSpec\ValidationProblem[] $validationProblems
      * @param bool $isFinalResult
      */
-    private function __construct($value, array $problemMessages, bool $isFinalResult)
+    private function __construct($value, array $validationProblems, bool $isFinalResult)
     {
         $this->value = $value;
-        $this->validationProblems = $problemMessages;
+        $this->validationProblems = $validationProblems;
         $this->isFinalResult = $isFinalResult;
     }
 

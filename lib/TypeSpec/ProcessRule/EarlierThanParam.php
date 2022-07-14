@@ -5,11 +5,11 @@ declare(strict_types = 1);
 namespace TypeSpec\ProcessRule;
 
 use TypeSpec\DataStorage\DataStorage;
+use TypeSpec\Exception\LogicException;
 use TypeSpec\Messages;
 use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
 use TypeSpec\ValidationResult;
-use TypeSpec\Exception\LogicException;
 
 /**
  * Checks that one parameter represents an earlier time than another parameter
@@ -42,7 +42,7 @@ class EarlierThanParam implements ProcessPropertyRule
     ): ValidationResult {
         if ($processedValues->hasValue($this->paramToCompare) !== true) {
             $message = sprintf(
-                Messages::ERROR_NO_PREVIOUS_PARAM,
+                Messages::ERROR_NO_PREVIOUS_PARAMETER,
                 $this->paramToCompare
             );
 

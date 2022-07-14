@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace TypeSpec\Create;
 
-use TypeSpec\DataStorage\ArrayDataStorage;
 use Psr\Http\Message\ServerRequestInterface;
+use TypeSpec\DataStorage\ArrayDataStorage;
 use VarMap\Psr7VarMap;
 use function TypeSpec\create;
 use function TypeSpec\getInputTypeSpecListForClass;

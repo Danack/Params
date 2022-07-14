@@ -9,7 +9,7 @@ use TypeSpec\Messages;
 /**
  *
  */
-class InvalidJsonPointerException extends ParamsException
+class InvalidJsonPointerException extends TypeSpecException
 {
     public static function invalidFirstCharacter(): self
     {

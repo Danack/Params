@@ -8,7 +8,7 @@ namespace TypeSpec\Exception;
  * Class LogicException
  * You have called something that has no meaning.
  */
-class LogicException extends ParamsException
+class LogicException extends TypeSpecException
 {
     public const ONLY_KEYS = "Processed values must have string keys";
 

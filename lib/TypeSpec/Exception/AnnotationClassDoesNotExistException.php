@@ -7,7 +7,7 @@ namespace TypeSpec\Exception;
 
 use TypeSpec\Messages;
 
-class AnnotationClassDoesNotExistException extends ParamsException
+class AnnotationClassDoesNotExistException extends TypeSpecException
 {
     public static function create(
         string $classname,

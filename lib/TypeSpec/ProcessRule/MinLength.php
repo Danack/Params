@@ -5,10 +5,10 @@ declare(strict_types = 1);
 namespace TypeSpec\ProcessRule;
 
 use TypeSpec\DataStorage\DataStorage;
+use TypeSpec\Messages;
 use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
 use TypeSpec\ValidationResult;
-use TypeSpec\Messages;
 
 class MinLength implements ProcessPropertyRule
 {

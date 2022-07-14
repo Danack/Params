@@ -9,7 +9,6 @@ use TypeSpec\Messages;
 use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
 use TypeSpec\ValidationResult;
-use TypeSpec\Exception\InvalidDatetimeFormatException;
 use function TypeSpec\checkAllowedFormatsAreStrings;
 use function TypeSpec\getDefaultSupportedTimeFormats;
 

@@ -4,19 +4,20 @@ declare(strict_types = 1);
 
 namespace TypeSpec;
 
-use TypeSpec\InputTypeSpec;
-
+/**
+ *
+ */
 class ProcessedValue
 {
     public function __construct(
-        private \TypeSpec\InputTypeSpec $param,
-        private mixed                    $value
+        private InputTypeSpec $inputTypeSpec,
+        private mixed $value
     ) {
     }
 
-    public function getParam(): \TypeSpec\InputTypeSpec
+    public function getInputTypeSpec(): InputTypeSpec
     {
-        return $this->param;
+        return $this->inputTypeSpec;
     }
 
     public function getValue(): mixed

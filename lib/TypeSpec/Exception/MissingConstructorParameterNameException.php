@@ -7,12 +7,12 @@ namespace TypeSpec\Exception;
 
 use TypeSpec\Messages;
 
-class MissingConstructorParameterNameException extends ParamsException
+class MissingConstructorParameterNameException extends TypeSpecException
 {
     public static function missingParam(string $classname, string $param_name): self
     {
         $message = sprintf(
-            Messages::MISSING_PARAM_NAME,
+            Messages::MISSING_PARAMETER_NAME,
             $classname,
             $param_name
         );

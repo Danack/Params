@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace TypeSpec;
 
 use TypeSpec\Exception\LogicException;
-use TypeSpec\InputTypeSpec;
 
 /**
  * A class to stores the processed parameters, so that they can be accessed by subsequent rules.
@@ -47,7 +46,7 @@ class ProcessedValues
     {
         $values = [];
         foreach ($this->processedValues as $processedValue) {
-            $values[$processedValue->getParam()->getInputName()] = $processedValue->getValue();
+            $values[$processedValue->getInputTypeSpec()->getInputName()] = $processedValue->getValue();
         }
 
         return $values;
@@ -72,7 +71,7 @@ class ProcessedValues
     public function hasValue($name): bool
     {
         foreach ($this->processedValues as $processedValue) {
-            if ($name === $processedValue->getParam()->getInputName()) {
+            if ($name === $processedValue->getInputTypeSpec()->getInputName()) {
                 return true;
             }
         }
@@ -86,7 +85,7 @@ class ProcessedValues
     public function getValue(string $name): mixed
     {
         foreach ($this->processedValues as $processedValue) {
-            if ($name === $processedValue->getParam()->getInputName()) {
+            if ($name === $processedValue->getInputTypeSpec()->getInputName()) {
                 return $processedValue->getValue();
             }
         }
@@ -103,10 +102,17 @@ class ProcessedValues
         $this->processedValues[] = new ProcessedValue($param, $value);
     }
 
-    public function getValueForTargetParam(string $name): array
+    /**
+     * Gets the value to inject into an object for a particular
+     * property.
+     *
+     * @param string $name The name of the property to find the value for
+     * @return array{0:null, 1:false}|array{0:mixed, 1:true}
+     */
+    public function getValueForTargetProperty(string $name): array
     {
         foreach ($this->processedValues as $processedValue) {
-            if ($name === $processedValue->getParam()->getTargetParameterName()) {
+            if ($name === $processedValue->getInputTypeSpec()->getTargetParameterName()) {
                 return [$processedValue->getValue(), true];
             }
         }

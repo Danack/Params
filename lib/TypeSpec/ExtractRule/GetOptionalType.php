@@ -7,7 +7,6 @@ namespace TypeSpec\ExtractRule;
 use TypeSpec\DataStorage\DataStorage;
 use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
-use TypeSpec\ProcessRule\CastToInt;
 use TypeSpec\ValidationResult;
 
 /**

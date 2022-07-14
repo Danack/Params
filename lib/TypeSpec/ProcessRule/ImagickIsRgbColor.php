@@ -8,7 +8,6 @@ namespace TypeSpec\ProcessRule;
 use TypeSpec\DataStorage\DataStorage;
 use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
-use TypeSpec\ProcessRule\ProcessPropertyRule;
 use TypeSpec\ValidationResult;
 
 class ImagickIsRgbColor extends IsRgbColor

@@ -25,7 +25,7 @@ class MissingConstructorParameterNameExceptionTest extends BaseTestCase
         );
 
         $this->assertStringMatchesTemplateString(
-            Messages::MISSING_PARAM_NAME,
+            Messages::MISSING_PARAMETER_NAME,
             $exception->getMessage()
         );
         $this->assertStringContainsString('param_name', $exception->getMessage());

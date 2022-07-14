@@ -7,7 +7,7 @@ namespace TypeSpec\Exception;
 use TypeSpec\InputTypeSpec;
 use TypeSpec\Messages;
 
-class TypeDefinitionException extends ParamsException
+class TypeDefinitionException extends TypeSpecException
 {
     public static function foundNonPropertyDefinition(int $index, string $classname): self
     {

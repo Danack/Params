@@ -7,7 +7,7 @@ namespace TypeSpec\Exception;
 /**
  * Root class for all exceptions for this library.
  */
-class ParamsException extends \Exception
+class TypeSpecException extends \Exception
 {
 
 }

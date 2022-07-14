@@ -49,7 +49,7 @@ class PasswordDoubleCheckTest extends BaseTestCase
 
                 [
                     'password_repeat' => 'zyx12345',
-                    Messages::ERROR_NO_PREVIOUS_PARAM
+                    Messages::ERROR_NO_PREVIOUS_PARAMETER
                 ],
             ]
         ];
@@ -105,7 +105,7 @@ class PasswordDoubleCheckTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/password_repeat',
-            Messages::ERROR_NO_PREVIOUS_PARAM,
+            Messages::ERROR_NO_PREVIOUS_PARAMETER,
             $validationProblems
         );
     }

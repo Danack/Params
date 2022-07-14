@@ -9,7 +9,6 @@ use TypeSpec\Messages;
 use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
 use TypeSpec\ValidationResult;
-use TypeSpec\Exception\LogicException;
 
 /**
  * Checks that one parameter represents an earlier time than

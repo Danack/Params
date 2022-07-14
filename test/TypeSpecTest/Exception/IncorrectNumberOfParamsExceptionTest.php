@@ -6,7 +6,7 @@ namespace TypeSpecTest\Exception;
 
 use TypeSpec\Messages;
 use TypeSpecTest\BaseTestCase;
-use TypeSpec\Exception\IncorrectNumberOfParamsException;
+use TypeSpec\Exception\IncorrectNumberOfParametersException;
 
 /**
  * @coversNothing
@@ -15,18 +15,18 @@ class IncorrectNumberOfParamsExceptionTest extends BaseTestCase
 {
     /**
      * This test seems dumb.
-     * @covers \TypeSpec\Exception\IncorrectNumberOfParamsException
+     * @covers \TypeSpec\Exception\IncorrectNumberOfParametersException
      */
     public function testWorks()
     {
-        $exception = IncorrectNumberOfParamsException::wrongNumber(
+        $exception = IncorrectNumberOfParametersException::wrongNumber(
             self::class,
             3,
             4
         );
 
         $expected_message = sprintf(
-            Messages::INCORRECT_NUMBER_OF_PARAMS,
+            Messages::INCORRECT_NUMBER_OF_PARAMETERS,
             self::class,
             3,
             4

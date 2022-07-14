@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace TypeSpec\ExtractRule;
 
 use TypeSpec\DataStorage\DataStorage;
-use TypeSpec\Messages;
 use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
 use TypeSpec\ValidationResult;

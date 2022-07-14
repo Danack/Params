@@ -13,7 +13,7 @@ trait CreateOrErrorFromVarMap
 {
     /**
      * @param VarMap $variableMap
-     * @return array<?object, \TypeSpec\ValidationProblem[]>
+     * @return array{0:?object, 1:\TypeSpec\ValidationProblem[]}
      * @throws \TypeSpec\Exception\ValidationException
      */
     public static function createOrErrorFromVarMap(VarMap $variableMap)

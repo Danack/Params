@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace TypeSpec\DataStorage;
 
-use VarMap\VarMap;
-
 class TestArrayDataStorage extends ArrayDataStorage
 {
     /**

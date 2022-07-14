@@ -103,7 +103,7 @@ class LaterThanParamTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/foo',
-            Messages::ERROR_NO_PREVIOUS_PARAM,
+            Messages::ERROR_NO_PREVIOUS_PARAMETER,
             $validationResult->getValidationProblems()
         );
 

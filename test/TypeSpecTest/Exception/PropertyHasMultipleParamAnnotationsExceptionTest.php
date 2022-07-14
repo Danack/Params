@@ -6,7 +6,7 @@ namespace TypeSpecTest\Exception;
 
 use TypeSpec\Messages;
 use TypeSpecTest\BaseTestCase;
-use TypeSpec\Exception\PropertyHasMultipleParamAnnotationsException;
+use TypeSpec\Exception\PropertyHasMultipleInputTypeSpecAnnotationsException;
 
 /**
  * @coversNothing
@@ -15,17 +15,17 @@ class PropertyHasMultipleParamAnnotationsExceptionTest extends BaseTestCase
 {
     /**
      * This test seems dumb.
-     * @covers \TypeSpec\Exception\PropertyHasMultipleParamAnnotationsException
+     * @covers \TypeSpec\Exception\PropertyHasMultipleInputTypeSpecAnnotationsException
      */
     public function testWorks()
     {
-        $exception = PropertyHasMultipleParamAnnotationsException::create(
+        $exception = PropertyHasMultipleInputTypeSpecAnnotationsException::create(
             'class_name',
             'param_name'
         );
 
         $this->assertStringMatchesTemplateString(
-            Messages::PROPERTY_MULTIPLE_PARAMS,
+            Messages::PROPERTY_MULTIPLE_INPUT_TYPE_SPEC,
             $exception->getMessage()
         );
         $this->assertStringContainsString('param_name', $exception->getMessage());
