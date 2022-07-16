@@ -80,7 +80,7 @@ class GetFloatOrDefaultTest extends BaseTestCase
         $rule = new GetFloatOrDefault($default);
         $validationResult = $rule->process(
             $validator,
-            TestArrayDataStorage::fromSingleValue('foo', $inputValue)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $inputValue)
         );
 
         $this->assertValidationProblemRegexp(

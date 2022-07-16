@@ -6,17 +6,17 @@ namespace TypeSpecExample\PropertyTypes;
 use TypeSpec\ExtractRule\GetStringOrDefault;
 use TypeSpec\ProcessRule\Enum;
 use TypeSpec\InputTypeSpec;
-use TypeSpec\TypeProperty;
+use TypeSpec\PropertyInputTypeSpec;
 
 #[\Attribute]
-class KnownColors implements TypeProperty
+class KnownColors implements PropertyInputTypeSpec
 {
     public function __construct(
         private string $name
     ) {
     }
 
-    public function getPropertyRules(): InputTypeSpec
+    public function getInputTypeSpec(): InputTypeSpec
     {
         return new InputTypeSpec(
             $this->name,

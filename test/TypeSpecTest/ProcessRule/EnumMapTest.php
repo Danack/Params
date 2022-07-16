@@ -30,7 +30,7 @@ class EnumMapTest extends BaseTestCase
         $validationResult = $rule->process(
             'unknown value',
             $processedValues,
-            TestArrayDataStorage::fromSingleValue('foo', 'bar')
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', 'bar')
         );
 
         $problems = $validationResult->getValidationProblems();
@@ -109,7 +109,7 @@ class EnumMapTest extends BaseTestCase
         $validationResult = $rule->process(
             $testValue,
             $processedValues,
-            TestArrayDataStorage::fromSingleValue('foo', $testValue)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $testValue)
         );
 
         $this->assertValidationProblemRegexp(

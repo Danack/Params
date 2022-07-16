@@ -79,7 +79,7 @@ class ValidDatetimeTest extends BaseTestCase
         $rule = new ValidDatetime();
         $processedValues = new ProcessedValues();
 
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $input);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $input);
 
         $validationResult = $rule->process(
             $input, $processedValues, $dataStorage

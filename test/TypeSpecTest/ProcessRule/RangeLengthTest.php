@@ -7,7 +7,7 @@ namespace TypeSpecTest\ProcessRule;
 use TypeSpec\DataStorage\TestArrayDataStorage;
 use TypeSpec\Messages;
 use TypeSpecTest\BaseTestCase;
-use TypeSpec\ProcessRule\RangeLength;
+use TypeSpec\ProcessRule\RangeStringLength;
 use TypeSpec\ProcessedValues;
 
 /**
@@ -77,7 +77,7 @@ class RangeLengthTest extends BaseTestCase
 
     /**
      * @dataProvider provideMaxLengthCases
-     * @covers \TypeSpec\ProcessRule\RangeLength
+     * @covers \TypeSpec\ProcessRule\RangeStringLength
      */
     public function testValidation(
         int $minLength,
@@ -85,9 +85,9 @@ class RangeLengthTest extends BaseTestCase
         string $string,
         ?string $expectedError
     ) {
-        $rule = new RangeLength($minLength, $maxLength);
+        $rule = new RangeStringLength($minLength, $maxLength);
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $string);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $string);
         $validationResult = $rule->process(
             $string, $processedValues, $dataStorage
         );
@@ -106,11 +106,11 @@ class RangeLengthTest extends BaseTestCase
 
 
     /**
-     * @covers \TypeSpec\ProcessRule\RangeLength
+     * @covers \TypeSpec\ProcessRule\RangeStringLength
      */
     public function testDescription()
     {
-        $rule = new RangeLength(10, 20);
+        $rule = new RangeStringLength(10, 20);
         $description = $this->applyRuleToDescription($rule);
 
         $this->assertSame(10, $description->getMinLength());

@@ -60,7 +60,7 @@ class MultipleEnumTest extends BaseTestCase
         $validationResult = $rule->process(
             $badValue,
             $processedValues,
-            TestArrayDataStorage::fromSingleValue('foo', $badValue)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $badValue)
         );
 
         $this->assertValidationProblemRegexp(
@@ -141,7 +141,7 @@ class MultipleEnumTest extends BaseTestCase
 
         $rule = new MultipleEnum($values);
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $testValue);
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataStorage
         );

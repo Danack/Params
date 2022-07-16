@@ -68,7 +68,7 @@ class ValidDateTest extends BaseTestCase
         $validationResult = $rule->process(
             $input,
             $processedValues,
-            TestArrayDataStorage::fromSingleValue('foo', $input)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $input)
         );
 
         $this->assertValidationProblemRegexp(

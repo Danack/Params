@@ -8,7 +8,7 @@ use TypeSpec\DataStorage\DataStorage;
 use TypeSpec\Messages;
 use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
-use TypeSpec\TypeProperty;
+use TypeSpec\PropertyInputTypeSpec;
 use TypeSpec\ValidationResult;
 use function TypeSpec\createObjectFromProcessedValues;
 use function TypeSpec\processSingleInputParameter;
@@ -18,13 +18,13 @@ class GetParam implements ExtractPropertyRule
     /** @var class-string */
     private string $className;
 
-    private TypeProperty $param;
+    private PropertyInputTypeSpec $param;
 
     /**
      * @param class-string $className
-     * @param TypeProperty $param
+     * @param PropertyInputTypeSpec $param
      */
-    public function __construct(string $className, TypeProperty $param)
+    public function __construct(string $className, PropertyInputTypeSpec $param)
     {
         $this->className = $className;
         $this->param = $param;

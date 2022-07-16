@@ -59,7 +59,7 @@ class LaterThanParamTest extends BaseTestCase
         );
 
         $processedValues = createProcessedValuesFromArray(['foo' => $previousTime]);
-        $dataStorage = TestArrayDataStorage::fromSingleValue('bar', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('bar', $value);
 
         $rule = new LaterThanParam('foo', 0);
 
@@ -123,7 +123,7 @@ class LaterThanParamTest extends BaseTestCase
         );
 
         $processedValues = createProcessedValuesFromArray(['foo' => 'John']);
-        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('newtime', $value);
 
         $rule = new LaterThanParam('foo', 0);
 
@@ -154,7 +154,7 @@ class LaterThanParamTest extends BaseTestCase
         );
 
         $processedValues = createProcessedValuesFromArray(['foo' => $previousTime]);
-        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('newtime', $value);
 
         $rule = new LaterThanParam('foo', 0);
 
@@ -187,7 +187,7 @@ class LaterThanParamTest extends BaseTestCase
         );
 
         $processedValues = createProcessedValuesFromArray(['foo' => $afterTime]);
-        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('newtime', $value);
 
         $rule = new LaterThanParam('foo', 0);
 

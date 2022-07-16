@@ -5,18 +5,18 @@ namespace TypeSpecTest\PropertyTypes;
 
 use TypeSpec\ExtractRule\GetArrayOfType;
 use TypeSpec\InputTypeSpec;
-use TypeSpec\TypeProperty;
+use TypeSpec\PropertyInputTypeSpec;
 use TypeSpecTest\DTOTypes\BasicDTO;
 
 #[\Attribute]
-class MultipleBasicDTO implements TypeProperty
+class MultipleBasicDTO implements PropertyInputTypeSpec
 {
     public function __construct(
         private string $name
     ) {
     }
 
-    public function getPropertyRules(): InputTypeSpec
+    public function getInputTypeSpec(): InputTypeSpec
     {
         return new InputTypeSpec(
             $this->name,

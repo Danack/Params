@@ -90,7 +90,7 @@ class MaxLengthTest extends BaseTestCase
     {
         $rule = new MaxLength($maxLength);
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $string);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $string);
         $validationResult = $rule->process(
             $string,
             $processedValues,

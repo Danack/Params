@@ -77,7 +77,7 @@ class GetIntOrDefaultTest extends BaseTestCase
         $rule = new GetIntOrDefault($default);
         $validationResult = $rule->process(
             $validator,
-            TestArrayDataStorage::fromSingleValue('foo', $inputValue)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $inputValue)
         );
 
         $this->assertValidationProblemRegexp(

@@ -516,19 +516,19 @@ function processInputTypeSpec(
 }
 
 /**
- * @param TypeProperty $param
+ * @param PropertyInputTypeSpec $param
  * @param ProcessedValues $paramValues
  * @param DataStorage $dataStorage
  * @return ValidationProblem[]
  * @throws Exception\ParamMissingException
  */
 function processSingleInputParameter(
-    TypeProperty    $param,
+    PropertyInputTypeSpec    $param,
     ProcessedValues $paramValues,
     DataStorage     $dataStorage
 ): array {
     $knownInputNames = [];
-    $inputParameter = $param->getPropertyRules();
+    $inputParameter = $param->getInputTypeSpec();
 
     $knownInputNames[] = $inputParameter->getInputName();
     return processInputTypeSpec(
@@ -688,7 +688,7 @@ function getInputTypeSpecListFromAnnotations(string $class): array
                 $attribute->getName(),
                 $property
             );
-            $is_a_param = $rc_of_attribute->implementsInterface(TypeProperty::class);
+            $is_a_param = $rc_of_attribute->implementsInterface(PropertyInputTypeSpec::class);
 
             if ($is_a_param !== true) {
                 continue;
@@ -702,10 +702,10 @@ function getInputTypeSpecListFromAnnotations(string $class): array
             }
 
             $current_property_has_typespec = true;
-            $param = $attribute->newInstance();
+            $typeProperty = $attribute->newInstance();
 
-            /** @var TypeProperty $param */
-            $inputParameter = $param->getPropertyRules();
+            /** @var PropertyInputTypeSpec $typeProperty */
+            $inputParameter = $typeProperty->getInputTypeSpec();
             $inputParameter->setTargetParameterName($property->getName());
 
             $inputParameters[] = $inputParameter;

@@ -48,7 +48,7 @@ class GetIntTest extends BaseTestCase
     {
         $validator = new ProcessedValues();
         $rule = new GetInt();
-        $dataStorage  = TestArrayDataStorage::fromSingleValue('foo', $input);
+        $dataStorage  = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $input);
 
         $validationResult = $rule->process(
             $validator, $dataStorage
@@ -75,7 +75,7 @@ class GetIntTest extends BaseTestCase
     {
         $rule = new GetInt();
         $validator = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $input);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $input);
 
         $validationResult = $rule->process(
             $validator,

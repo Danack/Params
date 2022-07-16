@@ -40,7 +40,7 @@ class GetOptionalBoolTest extends BaseTestCase
         $rule = new GetOptionalBool();
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
-            $validator, TestArrayDataStorage::fromSingleValue('foo', $input)
+            $validator, TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $input)
         );
 
         $this->assertNoProblems($validationResult);
@@ -81,7 +81,7 @@ class GetOptionalBoolTest extends BaseTestCase
         $rule = new GetOptionalBool();
         $validationResult = $rule->process(
             $validator,
-            TestArrayDataStorage::fromSingleValue('foo', $inputValue)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $inputValue)
         );
 
         $this->assertValidationProblemRegexp(

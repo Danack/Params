@@ -17,7 +17,7 @@ class TestArrayDataStorageTest extends BaseTestCase
 {
     public function test_fromSingleValue()
     {
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', 'bar');
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', 'bar');
 
         $this->assertSame('/foo', $dataStorage->getPath());
         $this->assertSame('bar', $dataStorage->getCurrentValue());

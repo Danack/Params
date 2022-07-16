@@ -258,10 +258,6 @@ class ParamAnnotationsTest extends BaseTestCase
         createTypeFromAnnotations($varMap, \MultipleParamAnnotations::class);
     }
 
-
-    /**
-     * @group wip
-     */
     public function testCorrectSpellingIsUsed()
     {
         $this->markTestSkipped("Preferred behaviour is not known for this feature.");

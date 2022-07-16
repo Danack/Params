@@ -62,7 +62,7 @@ class EnumTest extends BaseTestCase
 
         $rule = new Enum($enumValues);
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $testValue);
         $validationResult = $rule->process(
             $testValue,
             $processedValues,

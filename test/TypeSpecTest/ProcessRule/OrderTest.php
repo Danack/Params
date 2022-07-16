@@ -64,7 +64,7 @@ class OrderTest extends BaseTestCase
 
         $rule = new Order($orderParams);
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $testValue);
 
         $validationResult = $rule->process(
             $testValue,

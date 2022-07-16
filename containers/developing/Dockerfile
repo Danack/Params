@@ -18,7 +18,9 @@ RUN  apt-get update -qq \
     php8.0-mysql php8.0-curl php8.0-xml php8.0-mbstring \
     php8.0-intl php8.0-redis php8.0-zip php8.0-xdebug
 
-RUN echo "xdebug.mode=coverage,debug" >> /etc/php/8.0/cli/conf.d/20-xdebug.ini
+COPY xdebug.ini /etc/php/8.0/fpm/conf.d/20-xdebug.ini
+
+# RUN echo "xdebug.mode=coverage,debug" >> /etc/php/8.0/cli/conf.d/20-xdebug.ini
 
 # Make the default directory be where your code is.
 WORKDIR /var/app

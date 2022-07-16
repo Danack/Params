@@ -93,7 +93,7 @@ class EarlierThanParamTest extends BaseTestCase
 
 //        $processedValues = ProcessedValues::fromArray(['foo' => 'John']);
         $processedValues = createProcessedValuesFromArray(['foo' => 'John']);
-        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('newtime', $value);
 
         $rule = new EarlierThanParam('foo', 0);
 
@@ -124,7 +124,7 @@ class EarlierThanParamTest extends BaseTestCase
         );
 
         $processedValues = createProcessedValuesFromArray(['foo' => $previousTime]);
-        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('newtime', $value);
 
         $rule = new EarlierThanParam('foo', 0);
 
@@ -156,7 +156,7 @@ class EarlierThanParamTest extends BaseTestCase
         );
 
         $processedValues = createProcessedValuesFromArray(['foo' => $afterTime]);
-        $dataStorage = TestArrayDataStorage::fromSingleValue('newtime', $value);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('newtime', $value);
 
         $rule = new EarlierThanParam('foo', 0);
 

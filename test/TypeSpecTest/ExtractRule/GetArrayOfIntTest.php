@@ -71,7 +71,7 @@ class GetArrayOfIntTest extends BaseTestCase
 
         $validationResult = $rule->process(
             $validator,
-            $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $input)
+            $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $input)
         );
 
         $this->assertProblems(

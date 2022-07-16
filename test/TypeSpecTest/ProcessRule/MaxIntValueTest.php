@@ -77,7 +77,7 @@ class MaxIntValueTest extends BaseTestCase
     {
         $rule = new MaxIntValue($maxValue);
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $inputValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $inputValue);
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,

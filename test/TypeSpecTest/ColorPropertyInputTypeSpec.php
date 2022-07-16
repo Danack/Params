@@ -5,12 +5,12 @@ declare(strict_types=1);
 
 namespace TypeSpecTest;
 
-use TypeSpec\TypeProperty;
+use TypeSpec\PropertyInputTypeSpec;
 use TypeSpec\InputTypeSpec;
 use TypeSpec\ExtractRule\GetStringOrDefault;
 use TypeSpec\ProcessRule\IsRgbColor;
 
-class ColorTypeProperty implements TypeProperty
+class ColorPropertyInputTypeSpec implements PropertyInputTypeSpec
 {
     public function __construct(
         private string $name,
@@ -18,7 +18,7 @@ class ColorTypeProperty implements TypeProperty
     ) {
     }
 
-    public function getPropertyRules(): InputTypeSpec
+    public function getInputTypeSpec(): InputTypeSpec
     {
         return new InputTypeSpec(
             $this->name,

@@ -19,6 +19,7 @@ use TypeSpec\ProcessRule\SkipIfNull;
 use TypeSpec\Value\Ordering;
 use TypeSpec\TypeSpec;
 
+// TODO - change to type?
 class GetArticlesParams implements TypeSpec
 {
     use SafeAccess;

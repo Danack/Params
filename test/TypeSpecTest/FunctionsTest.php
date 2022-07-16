@@ -18,7 +18,7 @@ use TypeSpec\ExtractRule\GetInt;
 use TypeSpec\ExtractRule\GetString;
 use TypeSpec\InputTypeSpec;
 use TypeSpec\Messages;
-use TypeSpec\TypeProperty;
+use TypeSpec\PropertyInputTypeSpec;
 use TypeSpec\ProcessedValue;
 use TypeSpec\ProcessedValues;
 use TypeSpec\ProcessRule\AlwaysEndsRule;
@@ -395,10 +395,6 @@ class FunctionsTest extends BaseTestCase
     }
 
 
-
-    /**
-     * @group wip
-     */
     public function test_processSingleInputParameter()
     {
         $inputValue = 5;
@@ -586,7 +582,7 @@ class FunctionsTest extends BaseTestCase
      */
     public function test_createArrayOfType_not_array_data()
     {
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', 'bar');
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', 'bar');
         $getType = GetType::fromClass(\TestParams::class);
 
         $result = createArrayOfTypeFromInputStorage(

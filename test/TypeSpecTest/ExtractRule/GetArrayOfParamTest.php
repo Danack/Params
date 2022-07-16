@@ -19,7 +19,6 @@ use TypeSpecTest\PropertyTypes\Quantity;
 class GetArrayOfParamTest extends BaseTestCase
 {
     /**
-     * @group wip
      * @covers \TypeSpec\ExtractRule\GetArrayOfParam
      */
     public function testWorksForComplexType()

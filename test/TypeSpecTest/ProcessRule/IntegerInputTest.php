@@ -68,7 +68,7 @@ class IntegerInputTest extends BaseTestCase
         $validationResult = $rule->process(
             $inputValue,
             $processedValues,
-            TestArrayDataStorage::fromSingleValue('foo', $inputValue)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $inputValue)
         );
 
         $this->assertValidationProblemRegexp(

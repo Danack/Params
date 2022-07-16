@@ -60,7 +60,7 @@ class GetBoolOrDefaultTest extends BaseTestCase
         $rule = new GetBoolOrDefault(false);
         $validationResult = $rule->process(
             $validator,
-            TestArrayDataStorage::fromSingleValue('foo', $input)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $input)
         );
 
         $this->assertNoProblems($validationResult);

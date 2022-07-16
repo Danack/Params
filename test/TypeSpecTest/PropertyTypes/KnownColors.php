@@ -6,10 +6,10 @@ namespace TypeSpecTest\PropertyTypes;
 use TypeSpec\ExtractRule\GetStringOrDefault;
 use TypeSpec\ProcessRule\Enum;
 use TypeSpec\InputTypeSpec;
-use TypeSpec\TypeProperty;
+use TypeSpec\PropertyInputTypeSpec;
 
 #[\Attribute]
-class KnownColors implements TypeProperty
+class KnownColors implements PropertyInputTypeSpec
 {
     const KNOWN_COLORS = ['red', 'green', 'blue'];
 
@@ -18,7 +18,7 @@ class KnownColors implements TypeProperty
     ) {
     }
 
-    public function getPropertyRules(): InputTypeSpec
+    public function getInputTypeSpec(): InputTypeSpec
     {
         return new InputTypeSpec(
             $this->name,

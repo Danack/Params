@@ -43,7 +43,7 @@ class GetOptionalFloatTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            TestArrayDataStorage::fromSingleValue('foo', $input)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $input)
         );
 
         $this->assertNoProblems($validationResult);
@@ -71,7 +71,7 @@ class GetOptionalFloatTest extends BaseTestCase
         $rule = new GetOptionalFloat();
         $validationResult = $rule->process(
             $validator,
-            TestArrayDataStorage::fromSingleValue('foo', $inputValue)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $inputValue)
         );
 
         $this->assertValidationProblemRegexp(

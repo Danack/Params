@@ -73,7 +73,7 @@ class MinIntValueTest extends BaseTestCase
     {
         $rule = new MinIntValue($minValue);
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $inputValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $inputValue);
         $validationResult = $rule->process(
             $inputValue, $processedValues, $dataStorage
         );

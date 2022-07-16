@@ -22,7 +22,7 @@ class NotNullTest extends BaseTestCase
     {
         $rule1 = new NotNull();
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', null);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', null);
         $validationResult = $rule1->process(
             null,
             $processedValues,

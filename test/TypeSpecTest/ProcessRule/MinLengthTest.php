@@ -91,7 +91,7 @@ class MinLengthTest extends BaseTestCase
     {
         $rule = new MinLength($minLength);
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $string);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $string);
         $validationResult = $rule->process(
             $string, $processedValues, $dataStorage
         );

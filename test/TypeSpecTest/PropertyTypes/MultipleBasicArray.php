@@ -5,19 +5,19 @@ namespace TypeSpecTest\PropertyTypes;
 
 use TypeSpec\ExtractRule\GetArrayOfParam;
 use TypeSpec\InputTypeSpec;
-use TypeSpec\TypeProperty;
+use TypeSpec\PropertyInputTypeSpec;
 //use ParamsTest\DTOTypes\BasicDTO;
 use TypeSpecTest\PropertyTypes\Quantity;
 
 #[\Attribute]
-class MultipleBasicArray implements TypeProperty
+class MultipleBasicArray implements PropertyInputTypeSpec
 {
     public function __construct(
         private string $name
     ) {
     }
 
-    public function getPropertyRules(): InputTypeSpec
+    public function getInputTypeSpec(): InputTypeSpec
     {
         return new InputTypeSpec(
             $this->name,

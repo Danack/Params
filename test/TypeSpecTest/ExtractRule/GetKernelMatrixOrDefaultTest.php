@@ -38,7 +38,7 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
         $rule = new GetKernelMatrixOrDefault($default);
         $validator = new ProcessedValues();
 
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $input);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $input);
 
         $validationResult = $rule->process(
             $validator,
@@ -144,7 +144,7 @@ class GetKernelMatrixOrDefaultTest extends BaseTestCase
 
         $rule = new GetKernelMatrixOrDefault($default);
         $validator = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', 123);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', 123);
 
         $this->expectExceptionMessageMatchesTemplateString(
             Messages::BAD_TYPE_FOR_KERNEL_MATRIX_PROCESS_RULE

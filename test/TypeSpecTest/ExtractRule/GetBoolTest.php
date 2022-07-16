@@ -56,7 +56,7 @@ class GetBoolTest extends BaseTestCase
         $rule = new GetBool();
         $validationResult = $rule->process(
             $validator,
-            TestArrayDataStorage::fromSingleValue('foo', $input)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $input)
         );
 
         $this->assertNoProblems($validationResult);

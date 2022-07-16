@@ -103,7 +103,7 @@ class GetDatetimeTest extends BaseTestCase
     {
         $allowedFormats = [\DateTime::RFC3339];
         $rule = new GetDatetime($allowedFormats);
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', 'Some invalid string');
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', 'Some invalid string');
 
         $validationResult = $rule->process(
             new ProcessedValues(),

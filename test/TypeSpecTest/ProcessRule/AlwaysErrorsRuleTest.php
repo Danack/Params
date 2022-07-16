@@ -23,7 +23,7 @@ class AlwaysErrorsRuleTest extends BaseTestCase
         $message = 'test message';
         $rule = new AlwaysErrorsRule($message);
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', 'bar');
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', 'bar');
         $result = $rule->process(
             $unused_input = 5,
             $processedValues,

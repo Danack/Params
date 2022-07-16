@@ -10,7 +10,7 @@ use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
 use TypeSpec\ValidationResult;
 
-class RangeLength implements ProcessPropertyRule
+class RangeStringLength implements ProcessPropertyRule
 {
     use CheckString;
 

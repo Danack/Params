@@ -113,7 +113,7 @@ class IsRgbColorTest extends BaseTestCase
         $rule = new IsRgbColor();
         $processedValues = new ProcessedValues();
 
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $testValue);
 
         $validationResult = $rule->process(
             $testValue, $processedValues, $dataStorage
@@ -131,7 +131,7 @@ class IsRgbColorTest extends BaseTestCase
         $rule = new IsRgbColor();
         $processedValues = new ProcessedValues();
 
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $testValue);
 
         $this->expectException(InvalidRulesException::class);
         $this->expectExceptionMessageMatchesTemplateString(
@@ -158,7 +158,7 @@ class IsRgbColorTest extends BaseTestCase
     {
         $rule = new IsRgbColor();
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $testValue);
 
         $validationResult = $rule->process(
             $testValue,

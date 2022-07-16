@@ -2,6 +2,8 @@ version: "3"
 services:
   developing:
     build: containers/developing
+    environment:
+      - PHP_IDE_CONFIG=serverName=typespecdebug
     volumes:
       - .:/var/app
   php_test:
@@ -13,4 +15,3 @@ services:
     build: containers/run_php_codesniffer
     volumes:
       - .:/var/app
-

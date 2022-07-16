@@ -69,7 +69,7 @@ class SaneCharactersTest extends BaseTestCase
     {
         $rule = new SaneCharacters();
         $processedValues = new ProcessedValues();
-        $dataStorage = TestArrayDataStorage::fromSingleValue('foo', $testValue);
+        $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $testValue);
         $validationResult = $rule->process(
             $testValue,
             $processedValues,

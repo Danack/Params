@@ -76,7 +76,7 @@ class GetFloatTest extends BaseTestCase
         $validator = new ProcessedValues();
         $validationResult = $rule->process(
             $validator,
-            TestArrayDataStorage::fromSingleValue('foo', $value)
+            TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $value)
         );
 
         $this->assertValidationProblemRegexp(
