@@ -168,7 +168,7 @@ class IsRgbColorTest extends BaseTestCase
 
         $this->assertValidationProblemRegexp(
             '/foo',
-            IsRgbColor::BAD_COLOR_STRING,
+            Messages::BAD_COLOR_STRING,
             $validationResult->getValidationProblems()
         );
     }

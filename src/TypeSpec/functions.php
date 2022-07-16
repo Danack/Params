@@ -178,6 +178,34 @@ function getInputTypeSpecListForClass(string $className): array
     return $inputParameterList;
 }
 
+/**
+ * @template T
+ * @param class-string<T> $classname
+ * @param \ReflectionParameter[] $constructor_params,
+ * @param ProcessedValues $processedValues
+ * @return T of object
+ * @throws \ReflectionException
+ * @throws NoConstructorException
+ */
+function get_all_constructor_params(
+    string $classname,
+    array $constructor_params,
+    ProcessedValues $processedValues
+) {
+    foreach ($constructor_params as $constructor_param) {
+        $name = $constructor_param->getName();
+        [$value, $available] = $processedValues->getValueForTargetProperty($name);
+        if ($available !== true) {
+            throw MissingConstructorParameterNameException::missingParam(
+                $classname,
+                $name
+            );
+        }
+        $built_params[] = $value;
+    }
+
+    return $built_params;
+}
 
 /**
  * @template T
@@ -193,8 +221,8 @@ function createObjectFromProcessedValues(string $classname, ProcessedValues $pro
 
     $r_constructor = $reflection_class->getConstructor();
 
-    // TODO - why do we forbid this? Although a class without constructor
-    // is probably a mistake, it's not necessarily a mistake.
+    // No constructor, can't create the object with params.
+    // Yes this is an arbitrary choice, but it seems sensible.
     if ($r_constructor === null) {
         throw NoConstructorException::noConstructor($classname);
     }
@@ -212,19 +240,11 @@ function createObjectFromProcessedValues(string $classname, ProcessedValues $pro
         );
     }
 
-    $built_params = [];
-
-    foreach ($constructor_params as $constructor_param) {
-        $name = $constructor_param->getName();
-        [$value, $available] = $processedValues->getValueForTargetProperty($name);
-        if ($available !== true) {
-            throw MissingConstructorParameterNameException::missingParam(
-                $classname,
-                $name
-            );
-        }
-        $built_params[] = $value;
-    }
+    $built_params = get_all_constructor_params(
+        $classname,
+        $constructor_params,
+        $processedValues
+    );
 
     $object = $reflection_class->newInstanceArgs($built_params);
 
@@ -236,7 +256,7 @@ function createObjectFromProcessedValues(string $classname, ProcessedValues $pro
 /**
  * @template T
  * @param class-string<T> $classname
- * @param \TypeSpec\InputTypeSpec[] $params
+ * @param \TypeSpec\InputTypeSpec[] $inputTypeSpecList
  * @param DataStorage $dataStorage
  * @return T of object
  * @throws ValidationException
@@ -244,13 +264,13 @@ function createObjectFromProcessedValues(string $classname, ProcessedValues $pro
  */
 function create(
     $classname,
-    $params,
+    $inputTypeSpecList,
     DataStorage $dataStorage
 ) {
     $processedValues = new ProcessedValues();
 
     $validationProblems = processInputTypeSpecList(
-        $params,
+        $inputTypeSpecList,
         $processedValues,
         $dataStorage
     );
@@ -268,7 +288,7 @@ function create(
 /**
  * @template T
  * @param class-string<T> $classname
- * @param \TypeSpec\InputTypeSpec[] $params
+ * @param \TypeSpec\InputTypeSpec[] $inputTypeSpecList
  * @param DataStorage $dataStorage
  * @return array{0:?object, 1:\TypeSpec\ValidationProblem[]}
  * @throws Exception\TypeSpecException
@@ -277,12 +297,12 @@ function create(
  * The rules are passed separately to the classname so that we can
  * support rules coming both from static info and from factory objects.
  */
-function createOrError($classname, $params, DataStorage $dataStorage)
+function createOrError($classname, $inputTypeSpecList, DataStorage $dataStorage)
 {
     $paramsValuesImpl = new ProcessedValues();
 
     $validationProblems = processInputTypeSpecList(
-        $params,
+        $inputTypeSpecList,
         $paramsValuesImpl,
         $dataStorage
     );
@@ -293,8 +313,95 @@ function createOrError($classname, $params, DataStorage $dataStorage)
 
     $object = createObjectFromProcessedValues($classname, $paramsValuesImpl);
 
-    // TODO - wrap this in an ResultObject.
     return [$object, []];
+}
+
+
+/**
+ * @template T
+ * @param class-string<T> $classname
+ * @param \TypeSpec\PropertyInputTypeSpec $inputTypeSpec
+ * @param DataStorage $dataStorage
+ * @return mixed
+ * @throws Exception\TypeSpecException
+ * @throws ValidationException
+ *
+ * Validates and creates a single value according to the PropertyInputTypeSpec
+ * rules.
+ *
+ * The name part of PropertyInputTypeSpec is needed, to be able to generate
+ * appropriate error messages.
+ */
+function createSingleValue(PropertyInputTypeSpec $propertyInputTypeSpec, mixed $inputValue)
+{
+    $inputTypeSpec = $propertyInputTypeSpec->getInputTypeSpec();
+
+    $dataStorage = ArrayDataStorage::fromArray([
+        $inputTypeSpec->getInputName() => $inputValue
+    ]);
+
+    $processedValues = new ProcessedValues();
+    $inputTypeSpecList = [$inputTypeSpec];
+
+    $validationProblems = processInputTypeSpecList(
+        $inputTypeSpecList,
+        $processedValues,
+        $dataStorage
+    );
+
+    if (count($validationProblems) !== 0) {
+        throw new ValidationException(
+            "Validation problems",
+            $validationProblems
+        );
+    }
+
+    $value = $processedValues->getValue($inputTypeSpec->getInputName());
+
+    return $value;
+}
+
+
+
+/**
+ * @template T
+ * @param class-string<T> $classname
+ * @param \TypeSpec\PropertyInputTypeSpec $inputTypeSpec
+ * @param DataStorage $dataStorage
+ * @return array{0:?object, 1:\TypeSpec\ValidationProblem[]}
+ * @throws Exception\TypeSpecException
+ * @throws ValidationException
+ *
+ * Validates and creates a single value according to the PropertyInputTypeSpec
+ * rules.
+ *
+ * The name part of PropertyInputTypeSpec is needed, to be able to generate
+ * appropriate error messages.
+ */
+function createSingleValueOrError(PropertyInputTypeSpec $propertyInputTypeSpec, mixed $inputValue)
+{
+    $inputTypeSpec = $propertyInputTypeSpec->getInputTypeSpec();
+
+    $dataStorage = ArrayDataStorage::fromArray([
+        $inputTypeSpec->getInputName() => $inputValue
+    ]);
+
+    $processedValues = new ProcessedValues();
+    $inputTypeSpecList = [$inputTypeSpec];
+
+    $validationProblems = processInputTypeSpecList(
+        $inputTypeSpecList,
+        $processedValues,
+        $dataStorage
+    );
+
+    if (count($validationProblems) !== 0) {
+        return [null, $validationProblems];
+    }
+
+    $value = $processedValues->getValue($inputTypeSpec->getInputName());
+
+    return [$value, []];
 }
 
 
@@ -507,8 +614,10 @@ function processInputTypeSpec(
         ...$param->getProcessRules()
     );
 
+    // There were no validation problems, so store the value
+    // so other parameter validators can reference it and it can
+    // be used later.
     if (count($validationProblems) === 0) {
-        // TODO - modify here
         $paramValues->setValue($param, $value);
     }
 
@@ -527,10 +636,8 @@ function processSingleInputParameter(
     ProcessedValues $paramValues,
     DataStorage     $dataStorage
 ): array {
-    $knownInputNames = [];
-    $inputParameter = $param->getInputTypeSpec();
 
-    $knownInputNames[] = $inputParameter->getInputName();
+    $inputParameter = $param->getInputTypeSpec();
     return processInputTypeSpec(
         $inputParameter,
         $paramValues,
@@ -552,11 +659,11 @@ function processInputTypeSpecList(
     DataStorage $dataStorage
 ) {
     $validationProblems = [];
-
-    $knownInputNames = [];
+    //  $knownInputNames = [];
 
     foreach ($inputTypeSpecList as $inputParameter) {
-        $knownInputNames[] = $inputParameter->getInputName();
+        // See below.
+        // $knownInputNames[] = $inputParameter->getInputName();
         $newValidationProblems = processInputTypeSpec(
             $inputParameter,
             $processedValues,
@@ -569,27 +676,29 @@ function processInputTypeSpecList(
         }
     }
 
-    // TODO - figure out what to do about unknown input parameters
-    // See https://github.com/Danack/Params/issues/13
-    /** @phpstan-ignore-next-line
-     *  @psalm-suppress TypeDoesNotContainType
-     */
-    if (false) {
-        $current_values = $dataStorage->getCurrentValue();
-        foreach ($current_values as $key => $value) {
-            if (in_array($key, $knownInputNames, true) === false) {
-                $message = sprintf(
-                    Messages::UNKNOWN_INPUT_PARAMETER,
-                    $key
-                );
-
-                $validationProblems[] = new ValidationProblem(
-                    $dataStorage,
-                    $message
-                );
-            }
-        }
-    }
+    // The code below is appropriate code for checking that there are no
+    // extra unused parameters. Although this might be appropriate in some
+    // scenarios, it is annoying in the main use of this library, as extra
+    // GET parameters happen for various reasons (e.g. cache-busting).
+    //
+    // Code is commented out as there is a good chance it could be needed.
+    //
+    //    if (false) {
+    //        $current_values = $dataStorage->getCurrentValue();
+    //        foreach ($current_values as $key => $value) {
+    //            if (in_array($key, $knownInputNames, true) === false) {
+    //                $message = sprintf(
+    //                    Messages::UNKNOWN_INPUT_PARAMETER,
+    //                    $key
+    //                );
+    //
+    //                $validationProblems[] = new ValidationProblem(
+    //                    $dataStorage,
+    //                    $message
+    //                );
+    //            }
+    //        }
+    //    }
 
     return $validationProblems;
 }

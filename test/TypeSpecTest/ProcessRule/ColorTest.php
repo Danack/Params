@@ -43,7 +43,7 @@ class ColorTest extends BaseTestCase
     public function provideRgbColorErrors()
     {
         return [
-            ['rgb(255, 255, )', IsRgbColor::BAD_COLOR_STRING],
+            ['rgb(255, 255, )', Messages::BAD_COLOR_STRING],
         ];
     }
 

@@ -11,6 +11,9 @@ use TypeSpec\InputTypeSpec;
 use TypeSpec\ExtractRule\GetStringOrDefault;
 use TypeSpec\ProcessRule\ImagickIsRgbColor;
 
+// This InputTypeSpec is repeatable, so that it can be used more
+// than once solely for testing purposes. It is not expected for
+// people to use Attribute::IS_REPEATABLE normally.
 #[Attribute(Attribute::TARGET_PROPERTY|Attribute::IS_REPEATABLE)]
 class ImagickColorPropertyInputTypeSpec implements PropertyInputTypeSpec
 {

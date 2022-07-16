@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace TypeSpec\ProcessRule;
 
 use TypeSpec\DataStorage\DataStorage;
+use TypeSpec\Messages;
 use TypeSpec\OpenApi\ParamDescription;
 use TypeSpec\ProcessedValues;
 use TypeSpec\ValidationResult;
@@ -17,8 +18,6 @@ use TypeSpec\ValidationResult;
 class IsRgbColor implements ProcessPropertyRule
 {
     use CheckString;
-
-    public const BAD_COLOR_STRING = "Input [%s] does not look like a valid color string.";
 
     // TODO - support these https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
     // properly
@@ -59,7 +58,7 @@ class IsRgbColor implements ProcessPropertyRule
         $string_start = substr(var_export($value, true), 0, 50);
 
         $message = sprintf(
-            self::BAD_COLOR_STRING,
+            Messages::BAD_COLOR_STRING,
             $string_start
         );
 

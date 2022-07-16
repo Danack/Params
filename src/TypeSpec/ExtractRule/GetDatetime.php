@@ -61,7 +61,7 @@ class GetDatetime implements ExtractPropertyRule
         foreach ($this->allowedFormats as $allowedFormat) {
             $dateTime = \DateTimeImmutable::createFromFormat($allowedFormat, $value);
 
-            if ($dateTime instanceof \DateTimeImmutable) {
+            if ($dateTime instanceof \DateTimeInterface) {
                 return ValidationResult::valueResult($dateTime);
             }
         }

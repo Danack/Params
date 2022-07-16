@@ -18,16 +18,16 @@ class GetParam implements ExtractPropertyRule
     /** @var class-string */
     private string $className;
 
-    private PropertyInputTypeSpec $param;
+    private PropertyInputTypeSpec $propertyInputTypeSpec;
 
     /**
      * @param class-string $className
-     * @param PropertyInputTypeSpec $param
+     * @param PropertyInputTypeSpec $propertyInputTypeSpec
      */
-    public function __construct(string $className, PropertyInputTypeSpec $param)
+    public function __construct(string $className, PropertyInputTypeSpec $propertyInputTypeSpec)
     {
         $this->className = $className;
-        $this->param = $param;
+        $this->propertyInputTypeSpec = $propertyInputTypeSpec;
     }
 
     /**
@@ -49,7 +49,7 @@ class GetParam implements ExtractPropertyRule
 
         $paramsValuesImpl = new ProcessedValues();
         $validationProblems = processSingleInputParameter(
-            $this->param,
+            $this->propertyInputTypeSpec,
             $paramsValuesImpl,
             $dataStorage
         );

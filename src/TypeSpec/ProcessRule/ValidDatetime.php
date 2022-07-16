@@ -22,23 +22,12 @@ class ValidDatetime implements ProcessPropertyRule
 
         $value  = $this->checkString($value);
 
-        $dateTime = \DateTime::createFromFormat(\DateTime::RFC3339, $value);
-        if ($dateTime instanceof \DateTime) {
+        // TODO - Change this to \DateTime::RFC3339_EXTENDED when
+        // someone complains.
+        $dateTime = \DateTimeImmutable::createFromFormat(\DateTime::RFC3339, $value);
+        if ($dateTime instanceof \DateTimeInterface) {
             return ValidationResult::valueResult($dateTime);
         }
-
-//        $dateTime = \DateTime::createFromFormat(\DateTime::RFC3339_EXTENDED, $value);
-//        if ($dateTime instanceof \DateTime) {
-//            return ValidationResult::valueResult($dateTime);
-//        }
-
-// todo - is there any value in returning these errors?
-//            if (count($lastErrors['warnings']) !== 0 || count($lastErrors['errors']) !== 0) {
-//                //$errorsArray = array_merge($lastErrors['warnings'], $lastErrors['errors']);
-//                return ValidationResult::errorResult(
-//                    self::ERROR_INVALID_DATETIME // . implode(". ", $errorsArray)
-//                );
-//            }
 
         return ValidationResult::errorResult($inputStorage, Messages::ERROR_INVALID_DATETIME);
     }

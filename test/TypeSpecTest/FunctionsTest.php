@@ -31,6 +31,7 @@ use TypeSpec\ProcessRule\AlwaysErrorsRule;
 use TypeSpec\ExtractRule\GetType;
 use TypeSpec\ValidationResult;
 use TypeSpec\Exception\ValidationException;
+use TypeSpecTest\ImagickColorPropertyInputTypeSpec;
 use VarMap\ArrayVarMap;
 use TypeSpecTest\Integration\FooParams;
 use TypeSpec\Exception\NoConstructorException;
@@ -55,6 +56,8 @@ use function TypeSpec\getReflectionClassOfAttribute;
 use function TypeSpec\createObjectFromProcessedValues;
 use function TypeSpec\processSingleInputParameter;
 use function TypeSpec\getParamForClass;
+use function TypeSpec\createSingleValue;
+use function TypeSpec\createSingleValueOrError;
 
 /**
  * @coversNothing
@@ -1066,4 +1069,58 @@ class FunctionsTest extends BaseTestCase
 //
 //        $this->assertSame('default_name', $result->getName());
 //    }
+
+    /**
+     * @covers ::\TypeSpec\createSingleValueOrError
+     * @throws ValidationException
+     * @throws \TypeSpec\Exception\TypeSpecException
+     */
+    public function testCreateSingleValue()
+    {
+        $colorInputTypeSpec = new ImagickColorPropertyInputTypeSpec(
+            'rgb(225, 225, 225)',
+            'background_color'
+        );
+
+        $inputString = 'red';
+        $value = createSingleValue($colorInputTypeSpec, $inputString);
+        $this->assertSame($value, $inputString);
+
+        $errorInputString = 'I am not a color.';
+        try {
+            $value = createSingleValue($colorInputTypeSpec, $errorInputString);
+        }
+        catch (\TypeSpec\Exception\ValidationException $ve) {
+            $this->assertCount(1, $ve->getValidationProblems());
+            $this->assertValidationProblemRegexp(
+                '/background_color',
+                Messages::BAD_COLOR_STRING,
+                $ve->getValidationProblems()
+            );
+        }
+    }
+
+
+    /**
+     * @covers ::\TypeSpec\createSingleValueOrError
+     * @throws ValidationException
+     * @throws \TypeSpec\Exception\TypeSpecException
+     */
+    public function testCreateSingleValueOrError()
+    {
+        $colorInputTypeSpec = new ImagickColorPropertyInputTypeSpec(
+            'rgb(225, 225, 225)',
+            'background_color'
+        );
+
+        $inputString = 'red';
+        [$value, $validationErrors] = createSingleValueOrError($colorInputTypeSpec, $inputString);
+        $this->assertCount(0, $validationErrors);
+        $this->assertSame($value, $inputString);
+
+        $errorInputString = 'I am not a color.';
+        [$value, $validationErrors] = createSingleValueOrError($colorInputTypeSpec, $errorInputString);
+        $this->assertCount(1, $validationErrors);
+        $this->assertNull($value);
+    }
 }

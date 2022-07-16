@@ -22,7 +22,7 @@ class ValidDate implements ProcessPropertyRule
         $value = $this->checkString($value);
 
         $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d', $value);
-        if ($dateTime instanceof \DateTimeImmutable) {
+        if ($dateTime instanceof \DateTimeInterface) {
             $dateTime = $dateTime->setTime(0, 0, 0, 0);
             return ValidationResult::valueResult($dateTime);
         }
