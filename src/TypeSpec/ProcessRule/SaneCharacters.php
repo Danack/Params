@@ -69,9 +69,9 @@ class SaneCharacters implements ProcessPropertyRule
     // \X an extended Unicode sequence
 
     /**
-     * @var ValidCharacters
+     * @var CheckOnlyAllowedCharacters
      */
-    private \TypeSpec\ProcessRule\ValidCharacters $validCharacters;
+    private \TypeSpec\ProcessRule\CheckOnlyAllowedCharacters $validCharacters;
 
     /**
      * SaneCharacters constructor.
@@ -80,7 +80,7 @@ class SaneCharacters implements ProcessPropertyRule
     {
         $pattern = implode(self::ALLOWED_CHAR_TYPES);
 
-        $this->validCharacters = new ValidCharacters($pattern);
+        $this->validCharacters = new CheckOnlyAllowedCharacters($pattern);
     }
 
     public function process(

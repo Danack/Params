@@ -12,13 +12,13 @@ use TypeSpec\ProcessedValues;
 use TypeSpec\ValidationResult;
 
 /**
- * Class ValidCharacters
+ * Class CheckOnlyAllowedCharacters
  *
- * Checks that an input string contains only valid characters.
+ * Checks that an input string contains only allowed characters.
  * Flags used for preg_match are xu
  *
  */
-class ValidCharacters implements ProcessPropertyRule
+class CheckOnlyAllowedCharacters implements ProcessPropertyRule
 {
     use CheckString;
 

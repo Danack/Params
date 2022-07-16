@@ -7,14 +7,14 @@ namespace TypeSpecTest\ProcessRule;
 use TypeSpec\DataStorage\TestArrayDataStorage;
 use TypeSpec\OpenApi\OpenApiV300ParamDescription;
 use TypeSpecTest\BaseTestCase;
-use TypeSpec\ProcessRule\ValidCharacters;
+use TypeSpec\ProcessRule\CheckOnlyAllowedCharacters;
 use TypeSpec\ProcessRule\SaneCharacters;
 use TypeSpec\ProcessedValues;
 
 /**
  * @coversNothing
  */
-class ValidCharactersTest extends BaseTestCase
+class CheckOnlyAllowedCharactersTest extends BaseTestCase
 {
     public function provideTestCases()
     {
@@ -29,11 +29,11 @@ class ValidCharactersTest extends BaseTestCase
 
     /**
      * @dataProvider provideTestCases
-     * @covers \TypeSpec\ProcessRule\ValidCharacters
+     * @covers \TypeSpec\ProcessRule\CheckOnlyAllowedCharacters
      */
     public function testValidation($validCharactersPattern, $testValue, $expectedErrorPosition)
     {
-        $rule = new ValidCharacters($validCharactersPattern);
+        $rule = new CheckOnlyAllowedCharacters($validCharactersPattern);
         $processedValues = new ProcessedValues();
         $dataStorage = TestArrayDataStorage::fromSingleValueAndSetCurrentPosition('foo', $testValue);
 
@@ -67,11 +67,11 @@ class ValidCharactersTest extends BaseTestCase
     }
 
     /**
-     * @covers \TypeSpec\ProcessRule\ValidCharacters
+     * @covers \TypeSpec\ProcessRule\CheckOnlyAllowedCharacters
      */
     public function testDescription()
     {
-        $rule = new ValidCharacters('a-zA-Z');
+        $rule = new CheckOnlyAllowedCharacters('a-zA-Z');
         $description = $this->applyRuleToDescription($rule);
 
 //        $schema = $description->toArray();

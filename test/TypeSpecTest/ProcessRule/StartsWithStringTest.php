@@ -8,7 +8,7 @@ use TypeSpec\DataStorage\TestArrayDataStorage;
 use TypeSpec\Messages;
 use TypeSpec\OpenApi\OpenApiV300ParamDescription;
 use TypeSpec\ProcessRule\MultipleEnum;
-use TypeSpec\ProcessRule\ValidCharacters;
+use TypeSpec\ProcessRule\CheckOnlyAllowedCharacters;
 use TypeSpecTest\BaseTestCase;
 use TypeSpec\ProcessRule\StartsWithString;
 use TypeSpec\ProcessedValues;

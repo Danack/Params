@@ -53,7 +53,7 @@
         <MixedArgumentTypeCoercion>
             <errorLevel type="suppress">
                 <file name="src/TypeSpec/functions.php"/>
-                <file name="src/TypeSpec/ProcessRule/ValidCharacters.php"/>
+                <file name="src/TypeSpec/ProcessRule/CheckOnlyAllowedCharacters.php"/>
             </errorLevel>
         </MixedArgumentTypeCoercion>
 
@@ -86,7 +86,7 @@
                 <file name="src/TypeSpec/DataStorage/ArrayDataStorage.php"/>
                 <file name="src/TypeSpec/functions.php"/>
                 <file name="src/TypeSpec/ProcessRule/SaneCharacters.php"/>
-                <file name="src/TypeSpec/ProcessRule/ValidCharacters.php"/>
+                <file name="src/TypeSpec/ProcessRule/CheckOnlyAllowedCharacters.php"/>
             </errorLevel>
         </MixedArgument>
 
@@ -94,7 +94,7 @@
             <errorLevel type="suppress">
                 <file name="src/TypeSpec/functions.php"/>
                 <file name="src/TypeSpec/ProcessRule/SaneCharacters.php"/>
-                <file name="src/TypeSpec/ProcessRule/ValidCharacters.php"/>
+                <file name="src/TypeSpec/ProcessRule/CheckOnlyAllowedCharacters.php"/>
             </errorLevel>
         </MixedArrayAccess>
 

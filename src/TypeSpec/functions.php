@@ -183,7 +183,7 @@ function getInputTypeSpecListForClass(string $className): array
  * @param class-string<T> $classname
  * @param \ReflectionParameter[] $constructor_params,
  * @param ProcessedValues $processedValues
- * @return T of object
+ * @return mixed[]
  * @throws \ReflectionException
  * @throws NoConstructorException
  */
@@ -192,6 +192,7 @@ function get_all_constructor_params(
     array $constructor_params,
     ProcessedValues $processedValues
 ) {
+    $built_params = [];
     foreach ($constructor_params as $constructor_param) {
         $name = $constructor_param->getName();
         [$value, $available] = $processedValues->getValueForTargetProperty($name);
@@ -318,10 +319,9 @@ function createOrError($classname, $inputTypeSpecList, DataStorage $dataStorage)
 
 
 /**
- * @template T
- * @param class-string<T> $classname
- * @param \TypeSpec\PropertyInputTypeSpec $inputTypeSpec
- * @param DataStorage $dataStorage
+
+ * @param \TypeSpec\PropertyInputTypeSpec $propertyInputTypeSpec
+ * @param mixed $inputValue
  * @return mixed
  * @throws Exception\TypeSpecException
  * @throws ValidationException
@@ -364,11 +364,9 @@ function createSingleValue(PropertyInputTypeSpec $propertyInputTypeSpec, mixed $
 
 
 /**
- * @template T
- * @param class-string<T> $classname
- * @param \TypeSpec\PropertyInputTypeSpec $inputTypeSpec
- * @param DataStorage $dataStorage
- * @return array{0:?object, 1:\TypeSpec\ValidationProblem[]}
+ * @param \TypeSpec\PropertyInputTypeSpec $propertyInputTypeSpec
+ * @param mixed $inputValue
+ * @return array{0:mixed, 1:\TypeSpec\ValidationProblem[]}
  * @throws Exception\TypeSpecException
  * @throws ValidationException
  *
