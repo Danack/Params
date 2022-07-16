@@ -33,7 +33,7 @@ class ProcessedValuesTest extends BaseTestCase
         $this->assertFalse($processedValues->hasValue('bad_name'));
     }
 
-        /**
+    /**
      * @covers \TypeSpec\ProcessedValues
      */
     public function testMissingGivesException()
@@ -45,18 +45,20 @@ class ProcessedValuesTest extends BaseTestCase
         $processedValues->getValue('john');
     }
 
+    /**
+     * @covers \TypeSpec\ProcessedValues
+     */
+    public function testBadArrayException()
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessageMatchesTemplateString(LogicException::ONLY_PROCESSED_VALUES);
+        $processedValues = ProcessedValues::fromArray(['foo']);
+    }
 
-//    /**
-//     * @covers \Params\ProcessedValues
-//     */
-//    public function testBadArrayException()
-//    {
-//        $this->expectException(LogicException::class);
-//        $this->expectExceptionMessageMatchesTemplateString(LogicException::ONLY_KEYS);
-//        $processedValues = ProcessedValues::fromArray(['foo']);
-//    }
 
-
+    /**
+     * @covers \TypeSpec\ProcessedValues
+     */
     public function testGetCorrectTarget()
     {
         $inputParameter = new InputTypeSpec(
@@ -71,5 +73,19 @@ class ProcessedValuesTest extends BaseTestCase
         [$value_for_target, $available] = $processedValues->getValueForTargetProperty('backgroundColor');
         $this->assertTrue($available);
         $this->assertSame('red', $value_for_target);
+    }
+
+    /**
+     * @covers \TypeSpec\ProcessedValues
+     */
+    public function testCoverage()
+    {
+        $processedValues = ProcessedValues::fromArray([]);
+        $this->assertSame(0, $processedValues->getCount());
+
+        [$value, $found] = $processedValues->getValueForTargetProperty('foo');
+        $this->assertNull($value);
+        $this->assertFalse($found);
+        $this->assertEmpty($processedValues->getProcessedValues());
     }
 }

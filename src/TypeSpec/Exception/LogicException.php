@@ -18,9 +18,16 @@ class LogicException extends TypeSpecException
 
     public const NOT_VALIDATION_PROBLEM = "Array must contain only 'ValidationProblem's instead got [%s]";
 
+    public const ONLY_PROCESSED_VALUES = "Processed values must all be instances of ProcessedValue.";
+
     public static function keysMustBeStrings(): self
     {
         return new self(self::ONLY_KEYS);
+    }
+
+    public static function onlyProcessedValues()
+    {
+        return new self(self::ONLY_PROCESSED_VALUES);
     }
 
     /**

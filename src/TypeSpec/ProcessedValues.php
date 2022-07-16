@@ -27,7 +27,7 @@ class ProcessedValues
         foreach ($processedValues as $processedValue) {
             /** @psalm-suppress DocblockTypeContradiction */
             if (!($processedValue instanceof ProcessedValue)) {
-                throw new LogicException("Processed values must all be instances of ProcessedValue.");
+                throw  LogicException::onlyProcessedValues();
             }
         }
 

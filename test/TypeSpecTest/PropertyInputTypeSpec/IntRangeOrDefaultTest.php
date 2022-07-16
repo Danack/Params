@@ -27,7 +27,7 @@ class IntRangeOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \TypeSpec\PropertyInputTypeSpec\IntRange
+     * @covers \TypeSpec\PropertyInputTypeSpec\IntRangeOrDefault
      * @dataProvider provideTestWorks
      */
     public function testWorks(int $minimum, int $maximum, $expected_value)
@@ -57,7 +57,7 @@ class IntRangeOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \TypeSpec\PropertyInputTypeSpec\IntRange
+     * @covers \TypeSpec\PropertyInputTypeSpec\IntRangeOrDefault
      */
     public function testWorksWithDefault()
     {
@@ -96,7 +96,7 @@ class IntRangeOrDefaultTest extends BaseTestCase
     }
 
     /**
-     * @covers \TypeSpec\PropertyInputTypeSpec\IntRange
+     * @covers \TypeSpec\PropertyInputTypeSpec\IntRangeOrDefault
      * @dataProvider provideTestErrors
      */
     public function testErrors(int $minimum, int $maximum, $expected_value, $expected_message)
