@@ -25,7 +25,7 @@ class LogicException extends TypeSpecException
         return new self(self::ONLY_KEYS);
     }
 
-    public static function onlyProcessedValues()
+    public static function onlyProcessedValues(): self
     {
         return new self(self::ONLY_PROCESSED_VALUES);
     }
