@@ -1,3 +1,7 @@
+# Library renamed to TypeSpec
+
+So won't be any activity here.
+
 # Params
 
 A framework agnostic library for validating input parameters.
